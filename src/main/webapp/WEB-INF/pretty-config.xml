@@ -1,0 +1,52 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces" 
+			   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			   xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces&amp;http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+		
+	<url-mapping id="inicio">
+        <pattern value="/" />
+        <view-id value="/publico/inicio.jsf" />
+    </url-mapping>	  
+    
+    <url-mapping id="inicio0">
+        <pattern value="/inicio" />
+        <view-id value="/publico/inicio.jsf" />
+    </url-mapping>	    
+    
+    <url-mapping id="login">
+        <pattern value="/login" />
+        <view-id value="/publico/login.jsf" />
+    </url-mapping>	 
+    
+    <url-mapping id="crie_sua_conta">
+        <pattern value="/crie_sua_conta" />
+        <view-id value="/publico/crie_sua_conta.jsf" />
+    </url-mapping>  
+    
+    <url-mapping id="admin">
+        <pattern value="/admin" />
+        <view-id value="/sistema/admin.jsf" />
+    </url-mapping>  
+    
+     <url-mapping id="cad-ligas">
+        <pattern value="/cad-ligas" />
+        <view-id value="/sistema/cadastro/cad-ligas.jsf" />
+    </url-mapping>   
+        
+    <url-mapping id="cad-times">
+        <pattern value="/cad-times" />
+        <view-id value="/sistema/cadastro/cad-times.jsf" />
+    </url-mapping>      
+    
+    
+    
+    
+    
+    
+              
+              
+   	<url-mapping id="logoff">
+	  	<pattern value="/logoff" />
+	  	<view-id value="/logoff.jsp" />
+    </url-mapping>    
+   
+</pretty-config>

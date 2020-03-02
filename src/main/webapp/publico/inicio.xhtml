@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://java.sun.com/jsf/passthrough"
+	xmlns:c="http://java.sun.com/jstl/core" class="gt-ie8 gt-ie9 not-ie">
+
+<h:head>
+
+	<meta charset="utf-8"/>
+	
+	<link rel="shortcut icon" href="publico/estilo/images/cartola00.png" />
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<title>Reis da Resenha</title>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+	
+	<link href="publico/estilo/stylesheets/bootstrap.css" rel="stylesheet" type="text/css"/>
+	<link href="publico/estilo/stylesheets/pixel-admin.css" rel="stylesheet" type="text/css"/>
+	<link href="publico/estilo/stylesheets/pages.css" rel="stylesheet" type="text/css"/>
+	<link href="publico/estilo/stylesheets/rtl.css" rel="stylesheet" type="text/css"/>
+	<link href="publico/estilo/stylesheets/themes.css" rel="stylesheet" type="text/css"/>
+
+	<!--[if lt IE 9]>
+		<script src="publico/estilo/javascripts/ie.min.js"></script>
+	<![endif]-->
+
+</h:head>
+
+<h:body class="theme-default page-signin">
+
+	<div id="page-signin-bg">			
+		<div class="overlay"></div>
+	</div>	
+	
+	<div style="display: block;	position: relative; z-index: 999; margin-top: 10px;
+		 font-weight: bold; font-size: 16px; margin-left: 20px; margin-right: 20px;">							
+		
+		<a href="login">
+			<img src="publico/estilo/images/cartola00.png" alt="" style="width: 50px;"/> 
+		</a>	
+		
+		<label  style="font-weight: bold; font-size: 20px; color: #000000; margin-bottom: 5px; color: #003A70;">
+			Reis da Resenha
+		</label>		
+				
+		<div class="signin-text" style="margin-bottom: 5px !important;">				
+			<span style="font-size: 10px !important;"></span>
+		</div> 
+			 				
+		<!-- Form -->
+		<h:form id="signin-form_id">				
+								
+			<p:messages id="messages1" closable="true" showDetail="false" />
+			
+			<table style="width: 100%;">
+				<tr>
+					<td>
+						<p:panel header="Rodadas" toggleable="true" toggleableHeader="true" style="font-size: 13px;">	
+							
+						</p:panel>	
+					</td>						
+				</tr>				
+			</table>
+			
+			<br/>
+			
+			<table style="width: 100%;">
+				<tr>
+					<td>
+						<p:panel header="Liga Principal" toggleable="true" toggleableHeader="true" style="font-size: 13px;">	
+													
+						</p:panel>
+					</td>
+				</tr>
+			</table>
+			
+			<br/>	
+				
+			<table style="width: 100%;">
+				<tr>					
+					<td>
+						<p:panel header="Copa do Mundo" toggleable="true" toggleableHeader="true" style="font-size: 13px; ">	
+					
+						</p:panel>
+					</td>	
+				</tr>				
+			</table>
+			
+			<br/>	
+			
+			<table style="width: 100%;">
+				<tr>					
+					<td>
+						<p:panel header="Times Cadastrados" toggleable="true" toggleableHeader="true" style="font-size: 13px; ">	
+					
+						</p:panel>
+					</td>	
+				</tr>				
+			</table>			
+																		
+			<p:dialog widgetVar="dialogProcessando" modal="true" 
+					  resizable="false;" draggable="false" 
+				      closable="false" id="dialogProcessando" 					      
+				      style="z-index: 9999; font-size: 14px; border: 0px; background-color: #D3E6FF !important;">	
+				     
+			    <f:facet name="header">
+			     	<h:outputText value="Processando" style="font-size: 14px;" />
+			    </f:facet> 				
+				<center>
+					<h:outputText value="Por favor, aguarde..." style="font-weight: bold; font-size: 14px;" />
+					<br/>
+					<img src="publico/estilo/images/loading.gif"/> 
+				</center>
+				
+			</p:dialog>			
+							
+		</h:form>
+		
+		<!-- / Form -->	
+				
+	</div>		
+	
+	
+	
+	
+	<div class="not-a-member" style="text-align: center; font-size: 10px; color: #000000; 
+		 font-family: Gill Sans, sans-serif; margin-top: 12%;">	
+		 				
+		<h:outputText value="#{applicationControl.versao}" />
+		
+		<br/>
+		<br/>
+		<br/>
+		
+		<a href="login" style="border: none; border-radius: 999999px;
+	       font-size: 13px; font-weight: 600;line-height: 20px;
+	 	   outline: 0 !important; padding: 10px 0;text-align: center;
+	 	   width: 100%;-webkit-transition: all 0.3s;
+	   	   transition: all 0.3s;padding-left: 40px;
+	   	   padding-right: 40px; width: auto; color: #2177AF;
+		   background-color: #F4F4F4;">Administrar</a>
+		   
+	</div>		
+		
+	<script src="publico/estilo/javascripts/bootstrap.min.js"></script>
+	<script src="publico/estilo/javascripts/pixel-admin.js"></script>
+	
+	<script type="text/javascript">			
+		var init = [];		
+		
+		window.PixelAdmin.start(init);
+	</script>
+
+</h:body>
+
+</html>
