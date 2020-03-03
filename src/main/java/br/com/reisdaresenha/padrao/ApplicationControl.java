@@ -3,6 +3,7 @@ package br.com.reisdaresenha.padrao;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -24,7 +25,7 @@ import org.apache.log4j.PropertyConfigurator;
 @SuppressWarnings("deprecation")
 @ManagedBean(name = "applicationControl")
 @ApplicationScoped
-public class ApplicationControl {
+public class ApplicationControl implements Serializable {
 
 	private static final long serialVersionUID = 3102335277951787470L;
 	

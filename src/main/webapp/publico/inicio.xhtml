@@ -39,7 +39,7 @@
 	<div style="display: block;	position: relative; z-index: 999; margin-top: 10px;
 		 font-weight: bold; font-size: 16px; margin-left: 20px; margin-right: 20px;">							
 		
-		<a href="login">
+		<a href="/">
 			<img src="publico/estilo/images/cartola00.png" alt="" style="width: 50px;"/> 
 		</a>	
 		
@@ -55,52 +55,94 @@
 		<h:form id="signin-form_id">				
 								
 			<p:messages id="messages1" closable="true" showDetail="false" />
-			
-			<table style="width: 100%;">
-				<tr>
-					<td>
-						<p:panel header="Rodadas" toggleable="true" toggleableHeader="true" style="font-size: 13px;">	
-							
-						</p:panel>	
-					</td>						
-				</tr>				
-			</table>
-			
-			<br/>
-			
-			<table style="width: 100%;">
-				<tr>
-					<td>
-						<p:panel header="Liga Principal" toggleable="true" toggleableHeader="true" style="font-size: 13px;">	
-													
-						</p:panel>
-					</td>
-				</tr>
-			</table>
-			
-			<br/>	
+						
+				<p:tabView dynamic="true" cache="true" effect="fold" style="font-size: 13px;">
 				
-			<table style="width: 100%;">
-				<tr>					
-					<td>
-						<p:panel header="Copa do Mundo" toggleable="true" toggleableHeader="true" style="font-size: 13px; ">	
-					
-						</p:panel>
-					</td>	
-				</tr>				
-			</table>
-			
-			<br/>	
-			
-			<table style="width: 100%;">
-				<tr>					
-					<td>
-						<p:panel header="Times Cadastrados" toggleable="true" toggleableHeader="true" style="font-size: 13px; ">	
-					
-						</p:panel>
-					</td>	
-				</tr>				
-			</table>			
+					<p:tab title="Inicio">
+						<p:panel style="min-width: 600px;">
+			       			Texto de Boas vindas e explicativo sobre o que é o Reis da Resenha e como deverá funcionar.
+			       		</p:panel>	        		           
+			        </p:tab>
+			        
+			        <p:tab title="Regulamento">
+			       		<p:tabView orientation="left" dynamic="true" cache="true" effect="fold" style="font-size: 13px;">
+			       		
+			       			 <p:tab title="Liga Principal">		
+			       				<center>	       			 	
+		       			 			<img src="publico/estilo/images/liga-principal.jpg" style="width: 60px;"/> 		
+		       			 		</center>	
+		       			 				       			 		
+		       			 		<p:panel header="Regras da Liga Principal">	               
+				               		
+				                </p:panel>					           
+			       			 </p:tab>
+			       			 
+			       			 <p:tab title="Copa do Mundo">	
+			       				<center>	       			 	
+		       			 			<img src="publico/estilo/images/copa-do-mundo.jpg" style="width: 60px;"/>	
+		       			 		</center>
+		       			 			
+		       			 		<p:panel header="Regras da Copa do Mundo" style="margin-top: 5px;">            
+				                
+				                </p:panel>					           
+			       			 </p:tab>		
+			       			 	       			 
+			       		</p:tabView>			        			           
+			        </p:tab>
+			        
+			        <p:tab title="Premiações">
+			            <p:tabView orientation="left" dynamic="true" cache="true" effect="fold" style="font-size: 13px;">
+			       		
+			       			 <p:tab title="Liga Principal">		
+			       				<center>	       			 	
+		       			 			<img src="publico/estilo/images/liga-principal.jpg" style="width: 60px;"/> 		
+		       			 		</center>	
+		       			 				       			 		
+		       			 		<p:panel header="Premiações da Liga Principal">	               
+				               		
+				                </p:panel>					           
+			       			 </p:tab>
+			       			 
+			       			 <p:tab title="Copa do Mundo">	
+			       				<center>	       			 	
+		       			 			<img src="publico/estilo/images/copa-do-mundo.jpg" style="width: 60px;"/>	
+		       			 		</center>
+		       			 			
+		       			 		<p:panel header="Premiações da Copa do Mundo" style="margin-top: 5px;">            
+				                	
+				                </p:panel>					           
+			       			 </p:tab>		
+			       			 	       			 
+			       		</p:tabView>	
+			        </p:tab>
+			        
+			        <p:tab title="Classificação">
+			        	 <p:tabView dynamic="true" cache="true" effect="fold" style="font-size: 13px;">
+			       		
+			       			 <p:tab title="Liga Principal">	
+			       				<center>				       					       			 	
+		       			 			<img src="publico/estilo/images/liga-principal.jpg" style="width: 60px;"/> 			       			 				       			 		
+		       			 		</center>
+		       			 		
+		       			 		<p:panel header="Classificação da Liga Principal">	               
+				               		
+				                </p:panel>					                				           
+			       			 </p:tab>
+			       			 
+			       			 <p:tab title="Copa do Mundo">		
+			       				<center>		       							 	
+		       			 			<img src="publico/estilo/images/copa-do-mundo.jpg" style="width: 60px;"/>			       			 		
+		       			 		</center>	
+		       			 		
+		       			 		<p:panel header="Classificação da Copa do Mundo" style="margin-top: 5px;">            
+				                	
+				                </p:panel>					           
+			       			 </p:tab>		
+			       			 	       			 
+			       		</p:tabView>
+			        </p:tab>
+			        
+			   </p:tabView>			
 																		
 			<p:dialog widgetVar="dialogProcessando" modal="true" 
 					  resizable="false;" draggable="false" 
