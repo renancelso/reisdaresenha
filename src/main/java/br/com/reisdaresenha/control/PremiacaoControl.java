@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.primefaces.event.SelectEvent;
 
 import br.com.reisdaresenha.model.Liga;
 import br.com.reisdaresenha.model.Premiacao;
@@ -37,6 +38,8 @@ public class PremiacaoControl extends BaseControl {
 	
 	private Premiacao premiacaoCadastrar;
 	
+	private Premiacao premiacaoSelecionada;
+	
 	private List<Premiacao> listaPremiacoes;
 	
 	private List<Liga> listaLigas;
@@ -46,11 +49,21 @@ public class PremiacaoControl extends BaseControl {
 		try {			
 			buscarLigasCadastradas();
 			buscarPremiacoesCadastradas();
-			premiacaoCadastrar = new Premiacao();	
+			premiacaoCadastrar = new Premiacao();			
 			premiacaoCadastrar.setLiga(new Liga());
+			premiacaoSelecionada = null;
 		} catch (Exception e) {
 			log.error("Erro no método init "+e.getMessage());			
 		}
+	}
+	
+	public String btLimpar() {
+		try {			
+			init();
+		} catch (Exception e) {
+			log.error(e.getMessage());			
+		}		
+		return null;
 	}
 	
 	public String cadastrarPremiacao() {		
@@ -95,6 +108,7 @@ public class PremiacaoControl extends BaseControl {
 			
 			premiacaoCadastrar = new Premiacao();	
 			premiacaoCadastrar.setLiga(new Liga());
+			premiacaoSelecionada = null;
 			
 			return null;
 			
@@ -104,6 +118,68 @@ public class PremiacaoControl extends BaseControl {
 			return null;
 		}
 	}
+	
+	
+	public String alterarPremiacao() {		
+		try {		
+			
+			if(premiacaoSelecionada.getLiga() == null) {
+				addErrorMessage("É necessário vincular uma Liga ao prêmio '"+premiacaoSelecionada.getDescricaoPremio()+"' para alterá-lo");
+				return null;
+			}
+			
+			if(premiacaoSelecionada.getDescricaoPremio() == null || "".equalsIgnoreCase(premiacaoSelecionada.getDescricaoPremio())) {				
+				addErrorMessage("A descrição do premio é um campo obrigatório");
+				return null;
+			}	
+			
+			premiacaoSelecionada.setAno(premiacaoSelecionada.getLiga().getAno());		
+						
+			if(premiacaoSelecionada.getVrPremio() == null) {
+				addErrorMessage("É necessário vincular definir um valor para a prêmio '"+premiacaoSelecionada.getDescricaoPremio()+"' da liga "+premiacaoSelecionada.getLiga().getNomeLiga());
+				return null;
+			}
+												
+			HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+			Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");						
+						
+			premiacaoSelecionada.setIdUserAtu(usuarioLogado.getId().toString());
+			premiacaoSelecionada.setLoginUserAtu(usuarioLogado.getLogin());
+			premiacaoSelecionada.setDhAtu(new Date());	
+			
+			if(premiacaoSelecionada.getOrdem() == null) {
+				if(listaPremiacoes != null && !listaPremiacoes.isEmpty()) {
+					premiacaoSelecionada.setOrdem(listaPremiacoes.get(listaPremiacoes.size()-1).getId().intValue()+1);	
+				} else {
+					premiacaoSelecionada.setOrdem(1);				
+				}
+			}
+			
+			premiacaoSelecionada = (Premiacao) inicioService.atualizar(premiacaoSelecionada);			
+							
+			buscarLigasCadastradas();
+			buscarPremiacoesCadastradas();
+			
+			addInfoMessage("Premiação '"+premiacaoSelecionada.getDescricaoPremio()+"' alterada com sucesso para a liga '"+premiacaoSelecionada.getLiga().getNomeLiga()+"'");
+			
+			premiacaoCadastrar = new Premiacao();	
+			premiacaoCadastrar.setLiga(new Liga());
+			premiacaoSelecionada = null;
+			
+			return null;
+			
+		} catch (Exception e) {
+			log.error("Erro ao cadastrar Premiação "+e.getMessage());
+			addErrorMessage("Erro ao cadastrar Premiação "+e.getMessage());
+			return null;
+		}
+	}
+	
+	public void onRowSelect(SelectEvent event) {
+		premiacaoCadastrar = null;
+		premiacaoSelecionada = new Premiacao();
+		premiacaoSelecionada = (Premiacao) event.getObject();  	
+    }
 	
 	@SuppressWarnings("unchecked")
 	private void buscarLigasCadastradas() {
@@ -140,5 +216,13 @@ public class PremiacaoControl extends BaseControl {
 
 	public void setListaLigas(List<Liga> listaLigas) {
 		this.listaLigas = listaLigas;
+	}
+
+	public Premiacao getPremiacaoSelecionada() {
+		return premiacaoSelecionada;
+	}
+
+	public void setPremiacaoSelecionada(Premiacao premiacaoSelecionada) {
+		this.premiacaoSelecionada = premiacaoSelecionada;
 	}		
 }

@@ -22,24 +22,46 @@
           		</p:messages>	
           		          		          	            				  
                	<p:panel header="Cadastro de Premiações" style="min-width: 250px;">
-               		
-               		<h:panelGrid columns="1" columnClasses="coluna1, coluna2">	               		
-               		
-	               		<p:selectOneMenu value="#{premiacaoControl.premiacaoCadastrar.liga}" converter="LigaConverter">
-							<f:selectItem itemValue="" itemLabel="SELECIONE UMA LIGA" noSelectionOption="true"/>
-							<f:selectItems value="#{premiacaoControl.listaLigas}" var="liga" 
-										   itemLabel="#{liga.nomeLiga} (#{liga.ano.id})"/>	
-						</p:selectOneMenu>	        			
-	        			
-	        			<h:outputText value="Descrição " class="required"/>	        			
-	        			<h:inputText size="25" value="#{premiacaoControl.premiacaoCadastrar.descricaoPremio}"/>	
-	        				        			
-	        			<h:outputText value="Valor " class="required"/>	
-	        			<h:inputText value="#{premiacaoControl.premiacaoCadastrar.vrPremio}" 
-									 converter="decimal" maxlength="12" size="15"
-									 onkeypress="return(MascaraMoeda(this, '.', ',', event));"/>	
-	        			     			        						 
-	        		</h:panelGrid>   
+               	
+               		<h:panelGroup rendered="#{premiacaoControl.premiacaoCadastrar != null and premiacaoControl.premiacaoSelecionada == null}">
+	               		<h:panelGrid columns="1" columnClasses="coluna1, coluna2">	               		
+	               		
+		               		<p:selectOneMenu value="#{premiacaoControl.premiacaoCadastrar.liga}" converter="LigaConverter">
+								<f:selectItem itemValue="" itemLabel="SELECIONE UMA LIGA" noSelectionOption="true"/>
+								<f:selectItems value="#{premiacaoControl.listaLigas}" var="liga" 
+											   itemLabel="#{liga.nomeLiga} (#{liga.ano.id})"/>	
+							</p:selectOneMenu>	        			
+		        			
+		        			<h:outputText value="Descrição " class="required"/>	        			
+		        			<h:inputText size="25" value="#{premiacaoControl.premiacaoCadastrar.descricaoPremio}"/>	
+		        				        			
+		        			<h:outputText value="Valor " class="required"/>	
+		        			<h:inputText value="#{premiacaoControl.premiacaoCadastrar.vrPremio}" 
+										 converter="decimal" maxlength="12" size="15"
+										 onkeypress="return(MascaraMoeda(this, '.', ',', event));"/>	
+		        			     			        						 
+		        		</h:panelGrid> 
+	        		</h:panelGroup>  
+	        		
+	        		<h:panelGroup rendered="#{premiacaoControl.premiacaoCadastrar == null and premiacaoControl.premiacaoSelecionada != null}">
+	               		<h:panelGrid columns="1" columnClasses="coluna1, coluna2">	               		
+	               		
+		               		<p:selectOneMenu value="#{premiacaoControl.premiacaoSelecionada.liga}" converter="LigaConverter">
+								<f:selectItem itemValue="" itemLabel="SELECIONE UMA LIGA" noSelectionOption="true"/>
+								<f:selectItems value="#{premiacaoControl.listaLigas}" var="liga" 
+											   itemLabel="#{liga.nomeLiga} (#{liga.ano.id})"/>	
+							</p:selectOneMenu>	        			
+		        			
+		        			<h:outputText value="Descrição " class="required"/>	        			
+		        			<h:inputText size="25" value="#{premiacaoControl.premiacaoSelecionada.descricaoPremio}"/>	
+		        				        			
+		        			<h:outputText value="Valor " class="required"/>	
+		        			<h:inputText value="#{premiacaoControl.premiacaoSelecionada.vrPremio}" 
+										 converter="decimal" maxlength="12" size="15"
+										 onkeypress="return(MascaraMoeda(this, '.', ',', event));"/>	
+		        			     			        						 
+		        		</h:panelGrid> 
+	        		</h:panelGroup>  
 	        		
 	        		<br/>	
 				    															    	
@@ -49,26 +71,63 @@
 	               					 oncomplete="PF('dialogProcessando').hide();"									
 								     onsuccess="PF('dialogProcessando').hide();"
 							 		 onerror="PF('dialogProcessando').hide();"
-							 		 update="@form" id="btnCadastrarLiga"
-							 		 action="#{premiacaoControl.cadastrarPremiacao}"/>
-					<br/>	                	
+							 		 update="@form" id="btnCadastrarPremiacao"
+							 		 action="#{premiacaoControl.cadastrarPremiacao}"
+							 		 rendered="#{premiacaoControl.premiacaoCadastrar != null and premiacaoControl.premiacaoSelecionada == null}"/>
+							 		 							 		 
+					<p:commandButton value="Alterar" 			    					
+	               					 onstart="PF('dialogProcessando').show();" 
+	               					 onclick="PF('dialogProcessando').show();"                					 
+	               					 oncomplete="PF('dialogProcessando').hide();"									
+								     onsuccess="PF('dialogProcessando').hide();"
+							 		 onerror="PF('dialogProcessando').hide();"
+							 		 update="@form" id="btnAlterarPremiacao"
+							 		 action="#{premiacaoControl.alterarPremiacao}"
+							 		 rendered="#{premiacaoControl.premiacaoCadastrar == null and premiacaoControl.premiacaoSelecionada != null}"/>
+							 		 
+					<p:commandButton value="Limpar" style="margin-left: 15px; margin-top: 15px;"			    					
+	               					 onstart="PF('dialogProcessando').show();" 
+	               					 onclick="PF('dialogProcessando').show();"                					 
+	               					 oncomplete="PF('dialogProcessando').hide();"									
+								     onsuccess="PF('dialogProcessando').hide();"
+							 		 onerror="PF('dialogProcessando').hide();"
+							 		 update="@form" id="btnLimpar"
+							 		 action="#{premiacaoControl.btLimpar}"/>
 										
 	            </p:panel>	 
 	            
 	            <br/>	            
 	            
-	            <p:dataTable var="item" value="#{premiacaoControl.listaPremiacoes}" style="min-width: 250px;"
+	            <p:dataTable var="item" value="#{premiacaoControl.listaPremiacoes}" 
+	            			 selectionMode="single" rowKey="#{item.id}"
+	            			 reflow="true" id="listaPremiacoesCadastradas"	   
+	            			 style="min-width: 250px;"
+	            			 paginator="true" widgetVar="listaPremiacoesCadastradas"
+	            			 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+	            			 currentPageReportTemplate="Exibindo de {startRecord} a {endRecord} de um total de {totalRecords} registros"  
 	       			 		 emptyMessage="Não existem dados cadastrados">
-	       			 		 
-	       			<p:column headerText="Liga" style="text-align: center; width: 30%">
+	       			
+	       			<p:ajax event="rowDblselect" update="@form" 
+	       					listener="#{premiacaoControl.onRowSelect}" />  
+	       					 
+	       			<p:column headerText="Liga" style="width: 40%"
+	       					  filterBy="#{item.liga.nomeLiga}" filterMatchMode="exact">
+				       	<f:facet name="filter">
+			                <p:selectOneMenu onchange="PF('listaPremiacoesCadastradas').filter()" styleClass="custom-filter">
+			                    <f:selectItem itemLabel="" itemValue="#{null}" noSelectionOption="true" />
+			                    <f:selectItems value="#{premiacaoControl.listaLigas}" var="liga" 
+											   itemLabel="#{liga.nomeLiga}"
+											   itemValue="#{liga.nomeLiga}"/>	
+			                </p:selectOneMenu>
+			            </f:facet>
 				        <h:outputText value="#{item.liga.nomeLiga}" />
 				    </p:column>
 								   
-				    <p:column headerText="Prêmio" style="text-align: center; width: 40%">
+				    <p:column headerText="Prêmio" style="width: 40%">
 				        <h:outputText value="#{item.descricaoPremio}" />
 				    </p:column>
 				    
-				    <p:column headerText="Valor" style="width: 65%;">
+				    <p:column headerText="Valor" style="text-align: right; width: 20%;">
 				        R$ <h:outputText value="#{item.vrPremio}" converter="decimal"/>
 				    </p:column>
 				    								   

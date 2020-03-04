@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.primefaces.event.SelectEvent;
 
 import br.com.reisdaresenha.model.Ano;
 import br.com.reisdaresenha.model.Usuario;
@@ -36,17 +37,28 @@ public class AnoControl extends BaseControl {
 	
 	private Ano anoCadastrar;
 	
-	private List<Ano> listaAno;
+	private Ano anoSelecionado;
 	
+	private List<Ano> listaAno;	
 	
 	@PostConstruct
 	public void init() {
 		try {			
 			buscarAnosCadastrados();
 			anoCadastrar = new Ano();	
+			anoSelecionado = null;
 		} catch (Exception e) {
 			log.error("Erro no método init "+e.getMessage());			
 		}
+	}
+	
+	public String btLimpar() {
+		try {			
+			init();
+		} catch (Exception e) {
+			log.error(e.getMessage());			
+		}		
+		return null;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -76,6 +88,7 @@ public class AnoControl extends BaseControl {
 			addInfoMessage("Ano "+anoCadastrar.getId()+" cadastrado com Sucesso");
 			
 			anoCadastrar = new Ano();
+			anoSelecionado = null;
 			
 			return null;
 		} catch (Exception e) {
@@ -84,6 +97,45 @@ public class AnoControl extends BaseControl {
 			return null;
 		}
 	}
+	
+	
+	public String alterarAno() {		
+		try {					
+			if(anoSelecionado.getId() == null || (anoSelecionado.getId() != null && anoSelecionado.getId() == 0)) {
+				addErrorMessage("Ano inválido");
+				return null;
+			}		
+			
+			HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+			Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
+			
+			anoSelecionado.setIdUserAtu(usuarioLogado.getId().toString());
+			anoSelecionado.setLoginUserAtu(usuarioLogado.getLogin());
+			anoSelecionado.setDhAtu(new Date());		
+			
+			anoSelecionado = (Ano) inicioService.atualizar(anoSelecionado);				
+			
+			buscarAnosCadastrados();
+			
+			addInfoMessage("Ano "+anoSelecionado.getId()+" alterado com Sucesso");
+			
+			anoCadastrar = new Ano();
+			anoSelecionado = null;
+			
+			return null;
+			
+		} catch (Exception e) {
+			log.error("Erro ao cadastrar ano "+e.getMessage());
+			addErrorMessage("Erro ao cadastrar ano "+e.getMessage());
+			return null;
+		}
+	}
+	
+	public void onRowSelect(SelectEvent event) {
+		anoCadastrar = null;
+		anoSelecionado = new Ano();
+		anoSelecionado = (Ano) event.getObject();  	
+    }
 		
 	public Ano getAnoCadastrar() {
 		return anoCadastrar;
@@ -99,6 +151,14 @@ public class AnoControl extends BaseControl {
 
 	public void setListaAno(List<Ano> listaAno) {
 		this.listaAno = listaAno;
+	}
+
+	public Ano getAnoSelecionado() {
+		return anoSelecionado;
+	}
+
+	public void setAnoSelecionado(Ano anoSelecionado) {
+		this.anoSelecionado = anoSelecionado;
 	}
 	
 	

@@ -6,7 +6,7 @@ import java.util.List;
 public class GeradorPartidas {
     public static void main(String[] args) {  
     	
-    	int nrEquipes = 32;
+    	int nrEquipes = 16;
     	
         List<String> clubes = new ArrayList<String>();
         

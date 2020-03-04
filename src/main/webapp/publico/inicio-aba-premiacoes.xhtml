@@ -19,37 +19,38 @@
        		
        			 <p:tab title="Liga Principal">	 	
        			 	
-      			 		<p:panel style="text-align: justify; text-justify: inter-word;">	
+      			 		<p:panel>	
       			 			
       			 			<f:facet name="header">	     
       			 				<h:outputText value="Premiação da Liga Principal"/>
       			 				<img src="publico/estilo/images/trofeu.png" style="height: 14px; float:right;"/> 
       			 			</f:facet> 
       			 			
-      			 			<p:dataTable var="item" value="#{inicioControl.listaPremiacaoLigaPrincipal}"
-      			 						 emptyMessage="Não existem dados cadastrados">
-						   
-						    <p:column headerText="Premio" style="width: 50%;">
-						        <h:outputText value="#{item.descricaoPremio}" />
-						    </p:column>								   
-						 
-						    <p:column headerText="R$" style="width: 25%; text-align: center;">
-						        R$ <h:outputText value="#{item.vrPremio}" converter="decimal"/>
-						    </p:column>
-						    
-<!-- 								    <p:column headerText="%" style="width: 25%;"> -->
-<!-- 								        <h:outputText value="#{item.vrPercentualPremio}" converter="decimal"/> -->
-<!-- 								    </p:column> -->
-						    								   
-						</p:dataTable>
+	      			 		<p:dataTable var="item" value="#{inicioControl.listaPremiacaoLigaPrincipal}"
+	      			 						 emptyMessage="Não existem dados cadastrados">
+							   
+							    <p:column headerText="Premio" style="width: 50%;">
+							        <h:outputText value="#{item.descricaoPremio}" />
+							    </p:column>								   
+							 
+							    <p:column headerText="R$" style="width: 25%; text-align: right;;">
+							        R$ <h:outputText value="#{item.vrPremio}" converter="decimal"/>
+							    </p:column>
+							    
+	<!-- 								    <p:column headerText="%" style="width: 25%;"> -->
+	<!-- 								        <h:outputText value="#{item.vrPercentualPremio}" converter="decimal"/> -->
+	<!-- 								    </p:column> -->
+							    								   
+							</p:dataTable>
       			 				       			 			
-	                </p:panel>	
+	                	</p:panel>	
 	                				           
        			 </p:tab>
        			 
        			 <p:tab title="Liga 'Reis da Resenha'">	
        					       			 			       			 			
-      			 		<p:panel style="text-align: justify; text-justify: inter-word;">  
+      			 		<p:panel>  
+      			 		
       			 			<f:facet name="header">	     
       			 				<h:outputText value="Premiação da Liga 'Reis da Resenha'"/>
       			 				<img src="publico/estilo/images/trofeu.png" style="height: 14px; float:right;"/> 
@@ -58,47 +59,48 @@
       			 			<p:dataTable var="item" value="#{inicioControl.listaPremiacaoLigaReisResenha}"
       			 						 emptyMessage="Não existem dados cadastrados">
 						   
-						    <p:column headerText="Premio" style="width: 50%;">
-						        <h:outputText value="#{item.descricaoPremio}" />
-						    </p:column>								   
-						 
-						    <p:column headerText="R$" style="width: 25%; text-align: center;">
-						        R$ <h:outputText value="#{item.vrPremio}" converter="decimal"/>
-						    </p:column>
-						    
-<!-- 								    <p:column headerText="%" style="width: 25%;"> -->
-<!-- 								        <h:outputText value="#{item.vrPercentualPremio}" converter="decimal"/> -->
-<!-- 								    </p:column> -->
+							    <p:column headerText="Premio" style="width: 50%;">
+							        <h:outputText value="#{item.descricaoPremio}" />
+							    </p:column>								   
+							 
+							    <p:column headerText="R$" style="width: 25%; text-align: right;">
+							        R$ <h:outputText value="#{item.vrPremio}" converter="decimal"/>
+							    </p:column>
+							    
+	<!-- 								    <p:column headerText="%" style="width: 25%;"> -->
+	<!-- 								        <h:outputText value="#{item.vrPercentualPremio}" converter="decimal"/> -->
+	<!-- 								    </p:column> -->
 						    								   
-						</p:dataTable> 
+							</p:dataTable> 
 						
-	                </p:panel>		
+	               		</p:panel>		
 	                			           
        			 </p:tab>		
        			 
        			  <p:tab title="O Sobrevivente">	
-      			 		<p:panel style="text-align: justify; text-justify: inter-word;">            
-	                	<f:facet name="header">	     
+      			 	<p:panel>         
+      			 		   
+	                		<f:facet name="header">	     
       			 				<h:outputText value="Premiação da Liga 'O Sobrevivente'"/>
       			 				<img src="publico/estilo/images/bola-em-chamas.png" style="height: 14px; float:right;"/> 
       			 			</f:facet> 
       			 			
-      			 			<p:dataTable var="item" value="#{inicioControl.listaPremiacaoLigaOsobrevivente}"
-      			 						 emptyMessage="Não existem dados cadastrados">
-						   
-						    <p:column headerText="Premio" style="width: 50%;">
-						        <h:outputText value="#{item.descricaoPremio}" />
-						    </p:column>
-						 
-						    <p:column headerText="R$" style="width: 25%; text-align: center;">
-						        R$ <h:outputText value="#{item.vrPremio}" converter="decimal"/>
-						    </p:column>
-						    
-<!-- 								    <p:column headerText="%" style="width: 25%;"> -->
-<!-- 								        <h:outputText value="#{item.vrPercentualPremio}" converter="decimal"/> -->
-<!-- 								    </p:column> -->
+	      			 		<p:dataTable var="item" value="#{inicioControl.listaPremiacaoLigaOsobrevivente}"
+	      			 					 emptyMessage="Não existem dados cadastrados">
+							   
+							    <p:column headerText="Premio" style="width: 50%;">
+							        <h:outputText value="#{item.descricaoPremio}" />
+							    </p:column>
+							 
+							    <p:column headerText="R$" style="width: 25%; text-align: right;;">
+							        R$ <h:outputText value="#{item.vrPremio}" converter="decimal"/>
+							    </p:column>
+							    
+	<!-- 								    <p:column headerText="%" style="width: 25%;"> -->
+	<!-- 								        <h:outputText value="#{item.vrPercentualPremio}" converter="decimal"/> -->
+	<!-- 								    </p:column> -->
 						    								   
-						</p:dataTable>
+							</p:dataTable>
 						
 	                </p:panel>					           
        			 </p:tab>	

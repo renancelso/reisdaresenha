@@ -29,9 +29,16 @@
                		<h:panelGrid columns="2" columnClasses="coluna1,coluna2">
 	        			
 	        			<h:outputText value="Ano: " class="required"/>	        			
+	        			
 	        			<h:inputText size="5" value="#{anoControl.anoCadastrar.id}"
 		        					 onkeypress="mascaraInteiro(this);"
-		        					 maxlength="4"/>	        						 
+		        					 maxlength="4"
+		        					 rendered="#{anoControl.anoCadastrar != null and anoControl.anoSelecionado == null}"/>
+		        		
+		        		<h:inputText size="5" value="#{anoControl.anoSelecionado.id}"
+		        					 onkeypress="mascaraInteiro(this);"
+		        					 maxlength="4"
+		        					 rendered="#{anoControl.anoCadastrar == null and anoControl.anoSelecionado != null}"/>	        						 
 	        		</h:panelGrid>   
 	        		
 	        		<br/>	
@@ -43,23 +50,48 @@
 								     onsuccess="PF('dialogProcessando').hide();"
 							 		 onerror="PF('dialogProcessando').hide();"
 							 		 update="@form" id="btnCadastrarAno"
-							 		 action="#{anoControl.cadastrarAno}"/>
+							 		 action="#{anoControl.cadastrarAno}"
+							 		 rendered="#{anoControl.anoCadastrar != null and anoControl.anoSelecionado == null}"/>
+							 		 							 		 
+					<p:commandButton value="ALTERAR" 			    					
+	               					 onstart="PF('dialogProcessando').show();" 
+	               					 onclick="PF('dialogProcessando').show();"                					 
+	               					 oncomplete="PF('dialogProcessando').hide();"									
+								     onsuccess="PF('dialogProcessando').hide();"
+							 		 onerror="PF('dialogProcessando').hide();"
+							 		 update="@form" id="btnAlterarAno"
+							 		 action="#{anoControl.alterarAno}"
+							 		 rendered="#{anoControl.anoCadastrar == null and anoControl.anoSelecionado != null}"/>
+							 		 
+							 		 
+					<p:commandButton value="Limpar" style="margin-left: 15px; margin-top: 15px;"			    					
+	               					 onstart="PF('dialogProcessando').show();" 
+	               					 onclick="PF('dialogProcessando').show();"                					 
+	               					 oncomplete="PF('dialogProcessando').hide();"									
+								     onsuccess="PF('dialogProcessando').hide();"
+							 		 onerror="PF('dialogProcessando').hide();"
+							 		 update="@form" id="btnLimpar"
+							 		 action="#{anoControl.btLimpar}"/>
 					<br/>							    	
 										
 	            </p:panel>
 	            
 	            <br/>
 	            
-	            <p:dataTable var="item" value="#{anoControl.listaAno}" style="min-width: 150px;"
+	            <p:dataTable var="item" value="#{anoControl.listaAno}" 
+	            			 selectionMode="single" rowKey="#{item.id}"
+	            			 reflow="true" id="listaAnosCadastrados"
+	            			 style="min-width: 150px;"
 	       			 		 emptyMessage="Não existem dados cadastrados">
+	       			 		 
+	       			<p:ajax event="rowDblselect" update="@form" 
+	       					listener="#{anoControl.onRowSelect}" />  
 								   
 				    <p:column headerText="Ano" style="text-align: center;">
 				        <h:outputText value="#{item.id}" />
-				    </p:column>
+				    </p:column>				    
 				    								   
-				</p:dataTable>
-	            
-	                        		                	
+				</p:dataTable>	                        		                	
 	                             
 	            <p:dialog widgetVar="dialogProcessando" modal="true" 
 						  resizable="false;" draggable="false"

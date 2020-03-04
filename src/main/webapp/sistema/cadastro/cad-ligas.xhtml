@@ -28,7 +28,11 @@
                		
                		<h:panelGrid columns="1" columnClasses="coluna1, coluna2">	        			
 	        			<h:outputText value="Nome da Liga: " class="required"/>	        			
-	        			<h:inputText size="25" value="#{ligaControl.ligaCadastrar.nomeLiga}" maxlength="255"/>	        						 
+	        			<h:inputText size="25" value="#{ligaControl.ligaCadastrar.nomeLiga}" maxlength="255"
+	        				         rendered="#{ligaControl.ligaCadastrar != null and ligaControl.ligaSelecionada == null}"/>	 
+	        			
+	        			<h:inputText size="25" value="#{ligaControl.ligaSelecionada.nomeLiga}" maxlength="255"
+	        						 rendered="#{ligaControl.ligaCadastrar == null and ligaControl.ligaSelecionada != null}"/>	        						 
 	        		</h:panelGrid>   
 	        		
 	        		<br/>	
@@ -40,17 +44,43 @@
 								     onsuccess="PF('dialogProcessando').hide();"
 							 		 onerror="PF('dialogProcessando').hide();"
 							 		 update="@form" id="btnCadastrarLiga"
-							 		 action="#{ligaControl.cadastrarLiga}"/>
+							 		 action="#{ligaControl.cadastrarLiga}"
+							 		 rendered="#{ligaControl.ligaCadastrar != null and ligaControl.ligaSelecionada == null}"/>
+							 		 							 		 
+					<p:commandButton value="ALTERAR" 			    					
+	               					 onstart="PF('dialogProcessando').show();" 
+	               					 onclick="PF('dialogProcessando').show();"                					 
+	               					 oncomplete="PF('dialogProcessando').hide();"									
+								     onsuccess="PF('dialogProcessando').hide();"
+							 		 onerror="PF('dialogProcessando').hide();"
+							 		 update="@form" id="btnAlterarLiga"
+							 		 action="#{ligaControl.alterarLiga}"
+							 		 rendered="#{ligaControl.ligaCadastrar == null and ligaControl.ligaSelecionada != null}"/>
+							 		 
+					<p:commandButton value="Limpar" style="margin-left: 15px; margin-top: 15px;"			    					
+	               					 onstart="PF('dialogProcessando').show();" 
+	               					 onclick="PF('dialogProcessando').show();"                					 
+	               					 oncomplete="PF('dialogProcessando').hide();"									
+								     onsuccess="PF('dialogProcessando').hide();"
+							 		 onerror="PF('dialogProcessando').hide();"
+							 		 update="@form" id="btnLimpar"
+							 		 action="#{ligaControl.btLimpar}"/>
 					<br/>	             	
 										
 	            </p:panel>	
 	            
 	            <br/>
 	            
-	            <p:dataTable var="item" value="#{ligaControl.listaLigas}" style="min-width: 250px;"
+	            <p:dataTable var="item" value="#{ligaControl.listaLigas}" 
+	           				 selectionMode="single" rowKey="#{item.id}"
+	            			 reflow="true" id="listaLigasCadastradas"	            
+	            			 style="min-width: 250px;"
 	       			 		 emptyMessage="Não existem dados cadastrados">
+	       			
+	       			<p:ajax event="rowDblselect" update="@form" 
+	       					listener="#{ligaControl.onRowSelect}" />  
 	       			 		 
-	       			 <p:column headerText="Id" style="text-align: center; width: 15%">
+	       			<p:column headerText="Id" style="text-align: center; width: 15%">
 				        <h:outputText value="#{item.id}" />
 				    </p:column>
 								   
