@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:pt="http://java.sun.com/jsf/passthrough"
+	  xmlns:c="http://java.sun.com/jstl/core" class="gt-ie8 gt-ie9 not-ie">
+	  
+<h:body>
+
+	<ui:composition>
+		<p:tabView dynamic="true" cache="true" effect="fold" style="font-size: 12px;">
+		       		
+      			<p:tab title="Liga Principal">	 		
+     			 	 <p:panel>	
+   			 			<f:facet name="header">	     
+   			 				<h:outputText value="Classificação da Liga Principal"/>
+   			 				<img src="publico/estilo/images/trofeu.png" style="height: 14px; float:right;"/> 
+   			 			</f:facet> 
+               		 </p:panel>					           
+      			</p:tab>
+      			 
+      			<p:tab title="Liga 'Reis da Resenha'">	
+      					       			 			       			 			
+    			 	<p:panel>  
+    			 		<f:facet name="header">	     
+    			 			<h:outputText value="Classificação da Liga 'Reis da Resenha'"/>
+    			 			<img src="publico/estilo/images/trofeu.png" style="height: 14px; float:right;"/> 
+    			 		</f:facet>  
+               		</p:panel>		
+                			           
+      			 </p:tab>		
+      			 
+      			 <p:tab title="O Sobrevivente">	
+     			 	<p:panel header="">            
+               			<f:facet name="header">	     
+    			 			<h:outputText value="Classificação da Liga 'O Sobrevivente'"/>
+    			 			<img src="publico/estilo/images/bola-em-chamas.png" style="height: 14px; float:right;"/> 
+    			 		</f:facet> 
+               	 	</p:panel>					           
+      			 </p:tab>	
+      			 	       			 
+      	</p:tabView>
+
+	</ui:composition>
+	
+</h:body>
+
+</html>
