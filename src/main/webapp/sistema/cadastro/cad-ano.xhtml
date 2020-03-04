@@ -20,15 +20,18 @@
 	  			<p:messages id="messages" closable="true" showDetail="false">
           			<p:autoUpdate />
           		</p:messages>	
-          		
-          		<br/>	 
+          	    
+          	    <br/>	 
           	    <br/>
-          	            				  
-               	<p:panel header="Cadastro de Ligas" style="min-width: 250px;">
+          	     
+               	<p:panel header="Cadastro de Ano" style="font-size: 12px; min-width: 150px;">
                		
-               		<h:panelGrid columns="1" columnClasses="coluna1, coluna2">	        			
-	        			<h:outputText value="Nome da Liga: " class="required"/>	        			
-	        			<h:inputText size="25" value="#{ligaControl.ligaCadastrar.nomeLiga}" maxlength="255"/>	        						 
+               		<h:panelGrid columns="2" columnClasses="coluna1,coluna2">
+	        			
+	        			<h:outputText value="Ano: " class="required"/>	        			
+	        			<h:inputText size="5" value="#{anoControl.anoCadastrar.id}"
+		        					 onkeypress="mascaraInteiro(this);"
+		        					 maxlength="4"/>	        						 
 	        		</h:panelGrid>   
 	        		
 	        		<br/>	
@@ -39,30 +42,24 @@
 	               					 oncomplete="PF('dialogProcessando').hide();"									
 								     onsuccess="PF('dialogProcessando').hide();"
 							 		 onerror="PF('dialogProcessando').hide();"
-							 		 update="@form" id="btnCadastrarLiga"
-							 		 action="#{ligaControl.cadastrarLiga}"/>
-					<br/>	             	
+							 		 update="@form" id="btnCadastrarAno"
+							 		 action="#{anoControl.cadastrarAno}"/>
+					<br/>							    	
 										
-	            </p:panel>	
+	            </p:panel>
 	            
 	            <br/>
 	            
-	            <p:dataTable var="item" value="#{ligaControl.listaLigas}" style="min-width: 250px;"
+	            <p:dataTable var="item" value="#{anoControl.listaAno}" style="min-width: 150px;"
 	       			 		 emptyMessage="Não existem dados cadastrados">
-	       			 		 
-	       			 <p:column headerText="Id" style="text-align: center; width: 15%">
+								   
+				    <p:column headerText="Ano" style="text-align: center;">
 				        <h:outputText value="#{item.id}" />
 				    </p:column>
-								   
-				    <p:column headerText="Ano" style="text-align: center; width: 20%">
-				        <h:outputText value="#{item.ano.id}" />
-				    </p:column>
-				    
-				    <p:column headerText="Nome" style="width: 65%;">
-				        <h:outputText value="#{item.nomeLiga}" />
-				    </p:column>
 				    								   
-				</p:dataTable>             		                	
+				</p:dataTable>
+	            
+	                        		                	
 	                             
 	            <p:dialog widgetVar="dialogProcessando" modal="true" 
 						  resizable="false;" draggable="false"

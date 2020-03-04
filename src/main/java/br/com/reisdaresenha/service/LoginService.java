@@ -13,10 +13,9 @@ import br.com.reisdaresenha.padrao.GenericService;
  */
 @Stateless
 public class LoginService extends GenericService implements LoginServiceLocal {
+	
+	private static final long serialVersionUID = 7243814857333623422L;
 
-    private static final long serialVersionUID = 1L;
-	
-	
 	@SuppressWarnings("unchecked")
 	@Override
     public List<Usuario> buscarUsuarioPorLogin(String login) {		

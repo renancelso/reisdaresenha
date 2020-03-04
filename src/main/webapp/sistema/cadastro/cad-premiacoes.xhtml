@@ -20,15 +20,25 @@
 	  			<p:messages id="messages" closable="true" showDetail="false">
           			<p:autoUpdate />
           		</p:messages>	
-          		
-          		<br/>	 
-          	    <br/>
-          	            				  
-               	<p:panel header="Cadastro de Ligas" style="min-width: 250px;">
+          		          		          	            				  
+               	<p:panel header="Cadastro de Premiações" style="min-width: 250px;">
                		
-               		<h:panelGrid columns="1" columnClasses="coluna1, coluna2">	        			
-	        			<h:outputText value="Nome da Liga: " class="required"/>	        			
-	        			<h:inputText size="25" value="#{ligaControl.ligaCadastrar.nomeLiga}" maxlength="255"/>	        						 
+               		<h:panelGrid columns="1" columnClasses="coluna1, coluna2">	               		
+               		
+	               		<p:selectOneMenu value="#{premiacaoControl.premiacaoCadastrar.liga}" converter="LigaConverter">
+							<f:selectItem itemValue="" itemLabel="SELECIONE UMA LIGA" noSelectionOption="true"/>
+							<f:selectItems value="#{premiacaoControl.listaLigas}" var="liga" 
+										   itemLabel="#{liga.nomeLiga} (#{liga.ano.id})"/>	
+						</p:selectOneMenu>	        			
+	        			
+	        			<h:outputText value="Descrição " class="required"/>	        			
+	        			<h:inputText size="25" value="#{premiacaoControl.premiacaoCadastrar.descricaoPremio}"/>	
+	        				        			
+	        			<h:outputText value="Valor " class="required"/>	
+	        			<h:inputText value="#{premiacaoControl.premiacaoCadastrar.vrPremio}" 
+									 converter="decimal" maxlength="12" size="15"
+									 onkeypress="return(MascaraMoeda(this, '.', ',', event));"/>	
+	        			     			        						 
 	        		</h:panelGrid>   
 	        		
 	        		<br/>	
@@ -40,29 +50,29 @@
 								     onsuccess="PF('dialogProcessando').hide();"
 							 		 onerror="PF('dialogProcessando').hide();"
 							 		 update="@form" id="btnCadastrarLiga"
-							 		 action="#{ligaControl.cadastrarLiga}"/>
-					<br/>	             	
+							 		 action="#{premiacaoControl.cadastrarPremiacao}"/>
+					<br/>	                	
 										
-	            </p:panel>	
+	            </p:panel>	 
 	            
-	            <br/>
+	            <br/>	            
 	            
-	            <p:dataTable var="item" value="#{ligaControl.listaLigas}" style="min-width: 250px;"
+	            <p:dataTable var="item" value="#{premiacaoControl.listaPremiacoes}" style="min-width: 250px;"
 	       			 		 emptyMessage="Não existem dados cadastrados">
 	       			 		 
-	       			 <p:column headerText="Id" style="text-align: center; width: 15%">
-				        <h:outputText value="#{item.id}" />
+	       			<p:column headerText="Liga" style="text-align: center; width: 30%">
+				        <h:outputText value="#{item.liga.nomeLiga}" />
 				    </p:column>
 								   
-				    <p:column headerText="Ano" style="text-align: center; width: 20%">
-				        <h:outputText value="#{item.ano.id}" />
+				    <p:column headerText="Prêmio" style="text-align: center; width: 40%">
+				        <h:outputText value="#{item.descricaoPremio}" />
 				    </p:column>
 				    
-				    <p:column headerText="Nome" style="width: 65%;">
-				        <h:outputText value="#{item.nomeLiga}" />
+				    <p:column headerText="Valor" style="width: 65%;">
+				        R$ <h:outputText value="#{item.vrPremio}" converter="decimal"/>
 				    </p:column>
 				    								   
-				</p:dataTable>             		                	
+				</p:dataTable>                		                	
 	                             
 	            <p:dialog widgetVar="dialogProcessando" modal="true" 
 						  resizable="false;" draggable="false"

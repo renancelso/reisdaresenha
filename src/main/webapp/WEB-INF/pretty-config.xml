@@ -27,7 +27,12 @@
         <view-id value="/sistema/admin.jsf" />
     </url-mapping>  
     
-     <url-mapping id="cad-ligas">
+    <url-mapping id="cad-ano">
+        <pattern value="/cad-ano" />
+        <view-id value="/sistema/cadastro/cad-ano.jsf" />
+    </url-mapping> 
+    
+    <url-mapping id="cad-ligas">
         <pattern value="/cad-ligas" />
         <view-id value="/sistema/cadastro/cad-ligas.jsf" />
     </url-mapping>   
@@ -35,14 +40,24 @@
     <url-mapping id="cad-times">
         <pattern value="/cad-times" />
         <view-id value="/sistema/cadastro/cad-times.jsf" />
+    </url-mapping>     
+    
+    <url-mapping id="cad-rodadas">
+        <pattern value="/cad-rodadas" />
+        <view-id value="/sistema/cadastro/cad-rodadas.jsf" />
     </url-mapping>      
     
+    <url-mapping id="cad-pontuacoes">
+        <pattern value="/cad-pontuacoes" />
+        <view-id value="/sistema/cadastro/cad-pontuacoes.jsf" />
+    </url-mapping>  
     
+    <url-mapping id="cad-premiacoes">
+        <pattern value="/cad-premiacoes" />
+        <view-id value="/sistema/cadastro/cad-premiacoes.jsf" />
+    </url-mapping>      
     
-    
-    
-    
-              
+                      
               
    	<url-mapping id="logoff">
 	  	<pattern value="/logoff" />

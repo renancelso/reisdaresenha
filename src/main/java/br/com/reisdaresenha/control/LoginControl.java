@@ -38,7 +38,6 @@ public class LoginControl extends BaseControl {
 
 	private String senhaConfirmacao;
 	
-
 	private String loginLogar;
 
 	private String senhaLogar;
@@ -49,7 +48,6 @@ public class LoginControl extends BaseControl {
 		senhaConfirmacao = "";		
 		loginLogar = "";
 		senhaLogar = "";
-
 	}
 
 	public String cadastrarNovoUsuario() {

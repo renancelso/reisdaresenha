@@ -96,6 +96,15 @@ public class SessionControl extends BaseControl {
 		url.append(FacesContext.getCurrentInstance().getExternalContext().getRequestServletPath());
 		return url.toString();
 	}
+	
+	
+	public String getUrlApresentacao() {
+		StringBuilder url = new StringBuilder();
+		url.append(FacesContext.getCurrentInstance().getExternalContext().getRequestServerName()).append(":");
+		url.append(FacesContext.getCurrentInstance().getExternalContext().getRequestServerPort()).append("/");
+		url.append(FacesContext.getCurrentInstance().getExternalContext().getRequestServletPath());
+		return url.toString().replace("inicio.jsf", "apresentacao.html");
+	}
 
 	public Logger getLogger() {
 		return log;
