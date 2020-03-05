@@ -30,7 +30,10 @@ public class Time implements Serializable {
 	private Long id;
 	
 	@Column(name = "nome_time", nullable = false, length=255)
-	private String nometime;
+	private String nomeTime;
+	
+	@Column(name = "nome_dono_time", nullable = false, length=255)
+	private String nomeDonoTime;
 	
 	@Column(name = "slug_time", length=255)
 	private String slugTime;
@@ -55,17 +58,20 @@ public class Time implements Serializable {
 	@ManyToOne
 	private Liga liga;
 	
+	/**
+	 * P  = Pago
+	 * NP = Nao Pago
+	 * PP = Pagamento Parcial
+	 */
+	@Column(name="status_pagamento")
+	private String statusPagamento; 
+	
+	@Column(name="valor_pago")
+	private Double valorPago; 
+	
 	@Transient
 	private List<Pontuacao> listaPontuacao;
 	
-	public List<Pontuacao> getListaPontuacao() {
-		return listaPontuacao;
-	}
-
-	public void setListaPontuacao(List<Pontuacao> listaPontuacao) {
-		this.listaPontuacao = listaPontuacao;
-	}	
-
 	public Long getId() {
 		return id;
 	}
@@ -74,12 +80,20 @@ public class Time implements Serializable {
 		this.id = id;
 	}
 
-	public String getNometime() {
-		return nometime;
+	public String getNomeTime() {
+		return nomeTime;
 	}
 
-	public void setNometime(String nometime) {
-		this.nometime = nometime;
+	public void setNomeTime(String nomeTime) {
+		this.nomeTime = nomeTime;
+	}
+
+	public String getNomeDonoTime() {
+		return nomeDonoTime;
+	}
+
+	public void setNomeDonoTime(String nomeDonoTime) {
+		this.nomeDonoTime = nomeDonoTime;
 	}
 
 	public String getSlugTime() {
@@ -96,6 +110,14 @@ public class Time implements Serializable {
 
 	public void setBrasaoTime(String brasaoTime) {
 		this.brasaoTime = brasaoTime;
+	}
+
+	public Double getVrCartoletasAtuais() {
+		return vrCartoletasAtuais;
+	}
+
+	public void setVrCartoletasAtuais(Double vrCartoletasAtuais) {
+		this.vrCartoletasAtuais = vrCartoletasAtuais;
 	}
 
 	public String getIdUserAtu() {
@@ -128,6 +150,30 @@ public class Time implements Serializable {
 
 	public void setLiga(Liga liga) {
 		this.liga = liga;
+	}
+
+	public List<Pontuacao> getListaPontuacao() {
+		return listaPontuacao;
+	}
+
+	public void setListaPontuacao(List<Pontuacao> listaPontuacao) {
+		this.listaPontuacao = listaPontuacao;
+	}
+		
+	public String getStatusPagamento() {
+		return statusPagamento;
+	}
+
+	public void setStatusPagamento(String statusPagamento) {
+		this.statusPagamento = statusPagamento;
+	}
+	
+	public Double getValorPago() {
+		return valorPago;
+	}
+
+	public void setValorPago(Double valorPago) {
+		this.valorPago = valorPago;
 	}
 
 	@Override

@@ -18,7 +18,6 @@ import br.com.reisdaresenha.padrao.BaseControl;
 import br.com.reisdaresenha.service.LoginServiceLocal;
 import br.com.reisdaresenha.util.Md5;
 
-
 /**
  * @author Renan Celso
  */
@@ -26,18 +25,18 @@ import br.com.reisdaresenha.util.Md5;
 @ManagedBean(name = "loginControl")
 @ViewScoped
 public class LoginControl extends BaseControl {
-	
+
 	private static final long serialVersionUID = -4636428633761387291L;
 
 	private transient Logger log = Logger.getLogger(LoginControl.class.getName());
-	
+
 	@EJB
 	private LoginServiceLocal loginService;
 
 	private Usuario novoUsuario;
 
 	private String senhaConfirmacao;
-	
+
 	private String loginLogar;
 
 	private String senhaLogar;
@@ -45,14 +44,14 @@ public class LoginControl extends BaseControl {
 	@PostConstruct
 	public void init() {
 		novoUsuario = new Usuario();
-		senhaConfirmacao = "";		
+		senhaConfirmacao = "";
 		loginLogar = "";
 		senhaLogar = "";
 	}
 
 	public String cadastrarNovoUsuario() {
 		try {
-			
+
 			if (novoUsuario.getTipoUsuario() == null || "".equalsIgnoreCase(novoUsuario.getTipoUsuario())) {
 				addErrorMessage("É necessário informar o tipo de usuário.");
 				novoUsuario.setSenha("");
@@ -85,7 +84,7 @@ public class LoginControl extends BaseControl {
 				senhaConfirmacao = "";
 				return null;
 			}
-			
+
 			novoUsuario.setDhAtu(new Date());
 			novoUsuario = (Usuario) loginService.atualizar(novoUsuario);
 
@@ -100,7 +99,7 @@ public class LoginControl extends BaseControl {
 			return null;
 		}
 	}
-	
+
 	public String logar() {
 
 		try {
@@ -142,7 +141,7 @@ public class LoginControl extends BaseControl {
 
 						sessao.setAttribute("usuarioLogado", usuarioBase);
 
-						log.info("Usuário validado. Vai redirecionar aplicação para '/admin'");
+						log.info("Usuario validado. Vai redirecionar aplicacao para '/admin'");
 						redirect("/admin");
 						return null;
 					}
@@ -156,7 +155,7 @@ public class LoginControl extends BaseControl {
 
 						sessao.setAttribute("usuarioLogado", usuarioBase);
 
-						log.info("Usuário validado. Vai redirecionar aplicação para /admin");
+						log.info("Usuario validado. Vai redirecionar aplicacao para /admin");
 						redirect("/admin");
 						return null;
 					}
@@ -188,8 +187,7 @@ public class LoginControl extends BaseControl {
 	public void setSenhaConfirmacao(String senhaConfirmacao) {
 		this.senhaConfirmacao = senhaConfirmacao;
 	}
-	
-	
+
 	public String getSenhaLogar() {
 		return senhaLogar;
 	}
@@ -205,7 +203,5 @@ public class LoginControl extends BaseControl {
 	public void setLoginLogar(String loginLogar) {
 		this.loginLogar = loginLogar;
 	}
-	
-	
 
 }

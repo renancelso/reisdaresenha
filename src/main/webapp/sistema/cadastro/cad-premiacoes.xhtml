@@ -65,7 +65,7 @@
 	        		
 	        		<br/>	
 				    															    	
-			    	<p:commandButton value="CADASTRAR" 			    					
+			    	<p:commandButton value="Cadastrar" 			    					
 	               					 onstart="PF('dialogProcessando').show();" 
 	               					 onclick="PF('dialogProcessando').show();"                					 
 	               					 oncomplete="PF('dialogProcessando').hide();"									
@@ -107,7 +107,8 @@
 	            			 currentPageReportTemplate="Exibindo de {startRecord} a {endRecord} de um total de {totalRecords} registros"  
 	       			 		 emptyMessage="Não existem dados cadastrados">
 	       			
-	       			<p:ajax event="rowDblselect" update="@form" oncomplete="window.scrollTo(0,0);"
+	       			<p:ajax event="rowDblselect" update="@form" 
+	       					oncomplete="window.scrollTo(0,0);"
 	       					listener="#{premiacaoControl.onRowSelect}" />  
 	       					 
 	       			<p:column headerText="Liga" style="width: 40%"

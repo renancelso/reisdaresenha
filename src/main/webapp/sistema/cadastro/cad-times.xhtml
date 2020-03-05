@@ -8,6 +8,7 @@
 	  xmlns:c="http://java.sun.com/jstl/core" class="gt-ie8 gt-ie9 not-ie"
       xmlns:s="http://jboss.com/products/seam/taglib"
       xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+      
 <h:head/>  
  
 <h:body>
@@ -20,11 +21,160 @@
 	  			<p:messages id="messages" closable="true" showDetail="false">
           			<p:autoUpdate />
           		</p:messages>	
-          	            				  
-               	<p:panel header="Cadastro de Times" toggleable="true" toggleableHeader="true">
-               				                	
-										
-	            </p:panel>	             		                	
+          		          		          	            				  
+               	<p:panel header="Cadastro de Times" style="min-width: 250px;">
+               	
+               		<h:panelGroup rendered="#{timeControl.timeCadastrar != null and timeControl.timeSelecionado == null}">
+	               		
+	               		<h:panelGrid columns="1" columnClasses="coluna1, coluna2">	               		
+	               		
+		               		<h:outputText value="Ligas " class="required"/>	        			
+		        			<h:inputText size="10" value="TODAS" readonly="true"/>   	
+		        			
+		        			<h:outputText value="Nome do Time " class="required"/>	        			
+		        			<h:inputText size="25" value="#{timeControl.timeCadastrar.nomeTime}"/>	
+							
+							<h:outputText value="Dono do Time " class="required"/>	        			
+		        			<h:inputText size="25" value="#{timeControl.timeCadastrar.nomeDonoTime}"/>   			
+		        					        			
+		        			<h:outputText value="Situação Pagamento " />	        				        			
+		        			<p:selectOneMenu value="#{timeControl.timeCadastrar.statusPagamento}" >		        				
+								<f:selectItem itemValue="NP" itemLabel="NÃO PAGO"/>
+								<f:selectItem itemValue="PP" itemLabel="P. PARCIAL"/>
+								<f:selectItem itemValue="P" itemLabel="PAGO"/>							
+							</p:selectOneMenu>								
+							
+							<h:outputText value="Valor Pago " class="required"/>	
+		        			<h:inputText value="#{timeControl.timeCadastrar.valorPago}" 
+										 converter="decimal" maxlength="12" size="15"
+										 onkeypress="return(MascaraMoeda(this, '.', ',', event));"/>	
+		        					        										
+							<h:outputText value="Slug do Time " />	        			
+		        			<h:inputText size="25" value="#{timeControl.timeCadastrar.slugTime}"/>		        					        			
+		        					        			     			        						 
+		        		</h:panelGrid> 
+		        		
+	        		</h:panelGroup>  
+	        		
+	        		<h:panelGroup rendered="#{timeControl.timeCadastrar == null and timeControl.timeSelecionado != null}">
+	               		<h:panelGrid columns="1" columnClasses="coluna1, coluna2">	               		
+	               		
+		               		<h:outputText value="Ligas " class="required"/>	        			
+		        			<h:inputText size="10" value="TODAS" readonly="true"/>  
+		        					        			
+		        			<h:outputText value="Nome do Time " class="required"/>	        			
+		        			<h:inputText size="25" value="#{timeControl.timeSelecionado.nomeTime}"/>	 	
+							
+							<h:outputText value="Dono do Time " class="required"/>	        			
+		        			<h:inputText size="25" value="#{timeControl.timeSelecionado.nomeDonoTime}"/> 
+		        			
+		        			<h:outputText value="Situação Pagamento " />	        				        			
+		        			<p:selectOneMenu value="#{timeControl.timeSelecionado.statusPagamento}" >		        				
+								<f:selectItem itemValue="NP" itemLabel="NÃO PAGO"/>
+								<f:selectItem itemValue="PP" itemLabel="P. PARCIAL"/>
+								<f:selectItem itemValue="P" itemLabel="PAGO"/>							
+							</p:selectOneMenu>								
+							
+							<h:outputText value="Valor Pago "/>	
+		        			<h:inputText value="#{timeControl.timeSelecionado.valorPago}" 
+										 converter="decimal" maxlength="12" size="15"
+										 onkeypress="return(MascaraMoeda(this, '.', ',', event));"/>	  			
+		        										
+							<h:outputText value="Slug do Time " />	        			
+		        			<h:inputText size="25" value="#{timeControl.timeSelecionado.slugTime}"/>
+		        						        					        			     			        						 
+		        		</h:panelGrid>  
+	        		</h:panelGroup>  
+	        		
+	        		<br/>	
+				    															    	
+			    	<p:commandButton value="Cadastrar" 			    					
+	               					 onstart="PF('dialogProcessando').show();" 
+	               					 onclick="PF('dialogProcessando').show();"                					 
+	               					 oncomplete="PF('dialogProcessando').hide();"									
+								     onsuccess="PF('dialogProcessando').hide();"
+							 		 onerror="PF('dialogProcessando').hide();"
+							 		 update="@form" id="btnCadastrarTime"
+							 		 action="#{timeControl.cadastrarTime}"
+							 		 rendered="#{timeControl.timeCadastrar != null and timeControl.timeSelecionado == null}"/>
+							 		 							 		 
+					<p:commandButton value="Alterar" 			    					
+	               					 onstart="PF('dialogProcessando').show();" 
+	               					 onclick="PF('dialogProcessando').show();"                					 
+	               					 oncomplete="PF('dialogProcessando').hide();"									
+								     onsuccess="PF('dialogProcessando').hide();"
+							 		 onerror="PF('dialogProcessando').hide();"
+							 		 update="@form" id="btnAlterarTime"
+							 		 action="#{timeControl.alterarTime}"
+							 		 rendered="#{timeControl.timeCadastrar == null and timeControl.timeSelecionado != null}"/>
+							 		 
+					<p:commandButton value="Limpar" style="margin-left: 15px; margin-top: 15px;"			    					
+	               					 onstart="PF('dialogProcessando').show();" 
+	               					 onclick="PF('dialogProcessando').show();"                					 
+	               					 oncomplete="PF('dialogProcessando').hide();"									
+								     onsuccess="PF('dialogProcessando').hide();"
+							 		 onerror="PF('dialogProcessando').hide();"
+							 		 update="@form" id="btnLimpar"
+							 		 action="#{timeControl.btLimpar}"/>
+					
+					<br/>
+					<br/>				
+					<br/>			
+							
+					<p:commandButton value="EXCLUIR '#{timeControl.timeSelecionado.nomeTime}'" 	
+	               					 onstart="PF('dialogProcessando').show();" 
+	               					 onclick="PF('dialogProcessando').show();"                					 
+	               					 oncomplete="PF('dialogProcessando').hide();"									
+								     onsuccess="PF('dialogProcessando').hide();"
+							 		 onerror="PF('dialogProcessando').hide();"
+							 		 update="@form" id="btnExcluir"
+							 		 action="#{timeControl.excluirTime}"
+							 		 rendered="#{timeControl.timeCadastrar == null and timeControl.timeSelecionado != null}"/>
+	            </p:panel>	 
+	            
+	            <br/>	            
+	            
+	            <p:dataTable var="item" value="#{timeControl.listaTimes}" 
+	            			 selectionMode="single" rowKey="#{item.id}"
+	            			 reflow="true" id="listaTimesCadastrados"	   
+	            			 style="min-width: 250px;"
+	            			 paginator="true" widgetVar="listaTimesCadastrados"
+	            			 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+	            			 currentPageReportTemplate="Exibindo de {startRecord} a {endRecord} de um total de {totalRecords} registros"  
+	       			 		 emptyMessage="Não existem dados cadastrados">
+	       			
+	       			<p:ajax event="rowDblselect" update="@form" 
+	       					oncomplete="window.scrollTo(0,0);"
+	       					listener="#{timeControl.onRowSelect}" />  
+	       					 
+	       			<p:column headerText="Nome Time" style="width: 30%">				       
+				        <h:outputText value="#{item.nomeTime}" />
+				    </p:column>
+								   
+				    <p:column headerText="Dono Time" style="width: 30%">
+				        <h:outputText value="#{item.nomeDonoTime}" />
+				    </p:column>	
+				    
+				    <p:column headerText="Status R$" style="width: 20%; text-align: center;"
+				    		  filterBy="#{item.statusPagamento}" filterMatchMode="exact">
+			    		<f:facet name="filter">
+			                <p:selectOneMenu onchange="PF('listaTimesCadastrados').filter()" styleClass="custom-filter">
+			                    <f:selectItem itemLabel="TODOS" itemValue="#{null}" noSelectionOption="true" />
+			                    <f:selectItem itemValue="NP" itemLabel="NÃO PAGO"/>
+								<f:selectItem itemValue="PP" itemLabel="P. PARCIAL"/>
+								<f:selectItem itemValue="P" itemLabel="PAGO"/>		
+			                </p:selectOneMenu>
+			            </f:facet>				    		  
+				        <h:outputText value="NAO PAGO" rendered="#{item.statusPagamento == 'NP'}" style="background-color: red; color: white;"/>
+				        <h:outputText value="P. PARCIAL" rendered="#{item.statusPagamento == 'PP'}" style="background-color: blue; color: white;"/>
+				        <h:outputText value="PAGO" rendered="#{item.statusPagamento == 'P'}" style="background-color: green; color: white;"/>
+				    </p:column>	
+				    
+				    <p:column headerText="R$" style="text-align: right; width: 20%;">	
+				        <h:outputText value="#{item.valorPago}" converter="decimal"/>
+				    </p:column>
+				    								   
+				</p:dataTable>                		                	
 	                             
 	            <p:dialog widgetVar="dialogProcessando" modal="true" 
 						  resizable="false;" draggable="false"
@@ -41,8 +191,8 @@
             </h:form>
         </ui:define>
     </ui:composition>
+    
 </h:body>
-
 
 
 </html>
