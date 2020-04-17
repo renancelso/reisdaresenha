@@ -15,16 +15,147 @@
     <ui:composition template="/template/layout.xhtml">		
         <ui:define name="conteudo">        
         
-            <h:form id="formPrincipal" style="font-size: 12px;">     
+            <h:form id="formPrincipal" style="font-size: 12px;"> 
+            
+           		<p:commandButton value="Nova Rodada" 			    					
+               					 onstart="PF('dialogProcessando').show();" 
+               					 onclick="PF('dialogProcessando').show();"                					 
+               					 oncomplete="PF('dialogProcessando').hide();"									
+							     onsuccess="PF('dialogProcessando').hide();"
+						 		 onerror="PF('dialogProcessando').hide();"
+						 		 update="@form" id="btnNovaRodada"
+						 		 action="#{rodadaControl.btnNovaRodada}"/>
+							 		 
+				<br/>   
+				<br/>    
                  
 	  			<p:messages id="messages" closable="true" showDetail="false">
           			<p:autoUpdate />
           		</p:messages>	
           	            				  
-               	<p:panel header="Cadastro de Rodadas" toggleable="true" toggleableHeader="true">
-               				                	
-										
-	            </p:panel>	             		                	
+               	<p:panel header="#{rodadaControl.novaRodada.nrRodada}ª Rodada em Andamento" rendered="#{rodadaControl.novaRodada != null}" toggleable="true" toggleableHeader="true">               			
+					 			 					 		  	
+		 		  	<hr style="height: 5px; background-color: red; color: red;"/>	  
+		 		  
+	 		  		<p:commandButton value="Salvar Rodada" 			    					
+	               					 onstart="PF('dialogProcessando').show();" 
+	               					 onclick="PF('dialogProcessando').show();"                					 
+	               					 oncomplete="PF('dialogProcessando').hide();"									
+								     onsuccess="PF('dialogProcessando').hide();"
+							 		 onerror="PF('dialogProcessando').hide();"
+							 		 update="@form" id="btnSalvarRodada"
+							 		 action="#{rodadaControl.btnSalvarRodada}"/>
+					 
+					<hr style="height: 5px; background-color: navy; color: navy;"/> 
+								 		  
+	 		  		<p:repeat var="pontuacao" value="#{rodadaControl.novaRodada.listaPontuacao}">
+	 		  		
+	 		  			<h:panelGrid columns="2" style="width:100%" columnClasses="coluna1,coluna2">
+				           
+				            <p:outputPanel>
+				            	<h:outputText value="#{pontuacao.time.nomeTime} - #{pontuacao.time.nomeDonoTime}" />					            						            	
+				 			</p:outputPanel>
+				 			
+				            <p:outputPanel>
+				                <h:panelGrid columns="2" cellpadding="5" columnClasses="coluna1,coluna2">
+				                    <h:outputText value="Pontuação: "  style="font-weight: bold"/>
+				                    <h:inputText value="#{pontuacao.vrPontuacao}" 
+				                    			 converter="decimal" maxlength="12" size="15"
+									             onkeypress="return(MascaraMoeda(this, '.', ',', event));"/>
+				 
+				                    <h:outputText value="Cartoletas:"  style="font-weight: bold"/>
+				                    <h:inputText value="#{pontuacao.vrCartoletas}"
+				                    			 converter="decimal" maxlength="12" size="15"
+									             onkeypress="return(MascaraMoeda(this, '.', ',', event));"/>					                  
+				                </h:panelGrid>
+				            </p:outputPanel>
+				            
+				        </h:panelGrid>
+				        
+				        <hr style="height: 5px; background-color: navy; color: navy;"/>
+	 		  		
+	 		  		</p:repeat>	
+	 		  		
+	 		  		<p:commandButton value="Salvar Rodada" 			    					
+	               					 onstart="PF('dialogProcessando').show();" 
+	               					 onclick="PF('dialogProcessando').show();"                					 
+	               					 oncomplete="PF('dialogProcessando').hide();"									
+								     onsuccess="PF('dialogProcessando').hide();"
+							 		 onerror="PF('dialogProcessando').hide();"
+							 		 update="@form" id="btnSalvarRodada2"
+							 		 action="#{rodadaControl.btnSalvarRodada}"/>	
+							 		 
+			 		 <br/>				 		
+			 		 
+			 		 <hr style="height: 5px; background-color: red; color: red;"/>	  
+	 		  		
+	 		  		 <center>
+		 		  		<p:commandButton value="FINALIZAR RODADA" 			    					
+		               					 onstart="PF('dialogProcessando').show();" 
+		               					 onclick="PF('dialogProcessando').show();"                					 
+		               					 oncomplete="PF('dialogProcessando').hide();"									
+									     onsuccess="PF('dialogProcessando').hide();"
+								 		 onerror="PF('dialogProcessando').hide();"
+								 		 update="@form" id="btnFinalizarRodada"
+								 		 action="#{rodadaControl.btnFinalizarRodada}"
+								 		 style="width: 400px;"/>
+					 </center>
+			 		 
+			 	
+               	               		               							
+	            </p:panel>	   
+	            	            
+	            <p:panel header="Rodadas Anteriores" toggleable="true" toggleableHeader="true">
+	            	
+		            <p:dataTable var="item" value="#{rodadaControl.listaRodadas}" 
+		            			 selectionMode="single" rowKey="#{item.id}"
+		            			 reflow="true" id="listaRodadas"	   
+		            			 style="min-width: 250px;"
+		            			 paginator="true" widgetVar="listaRodadas"
+		            			 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		            			 currentPageReportTemplate="Exibindo de {startRecord} a {endRecord} de um total de {totalRecords} registros"  
+		       			 		 emptyMessage="Não existem dados cadastrados">
+		       			 		 
+		       			<p:column style="width:16px">
+				            <p:rowToggler />
+				        </p:column>
+		       			 		 
+		       			<p:column headerText="Liga" style="width: 30%">
+					        <h:outputText value="#{item.liga.nomeLiga}" />
+					    </p:column>	
+		       					       					       					 
+		       			<p:column headerText="Rodada" style="width: 30%; text-align: center;">				       
+					        <h:outputText value="#{item.nrRodada}" />
+					    </p:column>		
+					    
+					    <p:rowExpansion>
+					    
+						    <p:repeat var="pontuacao" value="#{item.listaPontuacao}">
+		 		  		
+			 		  			<h:panelGrid columns="2" style="width:100%" columnClasses="coluna1,coluna2">
+						           
+						            <p:outputPanel>
+						            	<h:outputText value="#{pontuacao.time.nomeTime} - #{pontuacao.time.nomeDonoTime}" />					            						            	
+						 			</p:outputPanel>
+						 			
+						            <p:outputPanel>
+						                <h:panelGrid columns="2" cellpadding="5" columnClasses="coluna1,coluna2">
+						                    <h:outputText value="Pontuação: "  style="font-weight: bold"/>
+						                    <h:outputText value="#{pontuacao.vrPontuacao}" />						 
+						                    <h:outputText value="Cartoletas:"  style="font-weight: bold"/>
+						                    <h:outputText value="#{pontuacao.vrCartoletas}"/>					                  
+						                </h:panelGrid>
+						            </p:outputPanel>
+						            
+						        </h:panelGrid>						       
+			 		  		
+			 		  		</p:repeat>	
+					    
+					    </p:rowExpansion>					
+					    								   
+					</p:dataTable>    	            
+	            
+	            </p:panel>	                      		                	
 	                             
 	            <p:dialog widgetVar="dialogProcessando" modal="true" 
 						  resizable="false;" draggable="false"

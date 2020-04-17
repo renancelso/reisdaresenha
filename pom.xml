@@ -164,6 +164,13 @@
 			<version>2.3.1</version>
 		</dependency>
 
+<!-- 		<dependency> -->
+<!--             <groupId>com.googlecode.json-simple</groupId> -->
+<!--             <artifactId>json-simple</artifactId> -->
+<!--             <version>1.1.1</version> -->
+<!--         </dependency> -->
+
+    
 		<!-- https://mvnrepository.com/artifact/com.microsoft.ews-java-api/ews-java-api -->
 		<dependency>
 			<groupId>com.microsoft.ews-java-api</groupId>
