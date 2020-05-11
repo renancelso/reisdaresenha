@@ -6,8 +6,10 @@ import java.util.List;
 import javax.ejb.Stateless;
 
 import br.com.reisdaresenha.model.Liga;
+import br.com.reisdaresenha.model.Pontuacao;
 import br.com.reisdaresenha.model.Premiacao;
 import br.com.reisdaresenha.padrao.GenericService;
+import br.com.reisdaresenha.view.ClassificacaoLigaPrincipalDTO;
 
 /**
  * @author Renan Celso
@@ -67,6 +69,50 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     		listaPremiacao = (List<Premiacao>) consultarPorQuery(sql.toString(), 0, 0);
     		
 	    	return listaPremiacao; 	
+	    	
+    	} catch(Exception e) {
+    		log.error(e);
+    		return null;
+    	}
+    }	
+		
+	@Override
+    public List<ClassificacaoLigaPrincipalDTO> buscarClassificacaoLigaPrincipal(Integer ano) {		
+    	try {
+    		
+    		List<Object[]> listaClassificacaoLigaPrincipalObject = new ArrayList<>();
+    		
+    		StringBuilder sql = new StringBuilder();
+    		
+    		sql.append(" SELECT t.nome_time time, ");   		  // 1 		    	
+    		sql.append(" count(r.nr_rodada) jogos, "); 			  // 2
+    		sql.append(" t.vr_cartoletasAtuais cartoletas, ");    // 3
+    		sql.append(" round(sum(vr_pontuacao),2) pontuacao "); // 4    		
+    		sql.append(" FROM pontuacao p inner join time t on p.time = t.id ");
+    		sql.append(" inner join liga l on p.liga = l.id ");
+    		sql.append(" inner join rodada r on p.rodada = r.id ");
+    		sql.append(" where l.ano = ").append(ano);
+    		sql.append(" group by t.nome_time ");
+    		sql.append(" order by sum(vr_pontuacao) desc ");
+    		    		
+    		listaClassificacaoLigaPrincipalObject = (List<Object[]>) consultarPorQueryNativa(sql.toString(), 0, 0);    		
+    		    		
+    		List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO = new ArrayList<>();
+    	    
+    		Integer colocacao = 1;
+    		for (Object[] obj : listaClassificacaoLigaPrincipalObject) {
+    			
+    			ClassificacaoLigaPrincipalDTO classificacao = new ClassificacaoLigaPrincipalDTO();
+    			classificacao.setTime(String.valueOf(obj[0]));
+    			classificacao.setJogos(Integer.parseInt(String.valueOf(obj[1])));
+    			classificacao.setCartoletas(Double.parseDouble(String.valueOf(obj[2])));
+    			classificacao.setPontuacao(Double.parseDouble(String.valueOf(obj[3])));  
+    			
+    			classificacao.setColocacao(colocacao++);    			
+    			listaClassificacaoLigaPrincipalDTO.add(classificacao);    			
+			}
+    		    	
+	    	return listaClassificacaoLigaPrincipalDTO;
 	    	
     	} catch(Exception e) {
     		log.error(e);

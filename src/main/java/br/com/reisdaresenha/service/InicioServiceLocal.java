@@ -7,6 +7,7 @@ import javax.ejb.Local;
 import br.com.reisdaresenha.model.Liga;
 import br.com.reisdaresenha.model.Premiacao;
 import br.com.reisdaresenha.padrao.GenericServiceInterface;
+import br.com.reisdaresenha.view.ClassificacaoLigaPrincipalDTO;
 
 /**
  * @author Renan Celso
@@ -17,5 +18,7 @@ public interface InicioServiceLocal extends GenericServiceInterface{
 	public List<Premiacao> buscarPremiacoes(Integer ano, Liga liga);
 
 	public List<Liga> buscarLigas(Integer ano);
+
+	public List<ClassificacaoLigaPrincipalDTO> buscarClassificacaoLigaPrincipal(Integer ano);
 	
 }

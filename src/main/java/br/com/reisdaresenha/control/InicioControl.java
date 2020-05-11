@@ -15,6 +15,7 @@ import br.com.reisdaresenha.model.Liga;
 import br.com.reisdaresenha.model.Premiacao;
 import br.com.reisdaresenha.padrao.BaseControl;
 import br.com.reisdaresenha.service.InicioServiceLocal;
+import br.com.reisdaresenha.view.ClassificacaoLigaPrincipalDTO;
 
 
 /**
@@ -36,19 +37,28 @@ public class InicioControl extends BaseControl {
 	private List<Premiacao> listaPremiacaoLigaPrincipal;	
 	private List<Premiacao> listaPremiacaoLigaReisResenha;	
 	private List<Premiacao> listaPremiacaoLigaOsobrevivente;
+	
+	private List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO;
 		
 	@PostConstruct
 	public void init() {
 		try {
 			listarPremiacoes();
+			listarClassificacaoLigaPrincipal();
 		} catch (Exception e) {
 			log.error("Erro no método init "+e.getMessage());			
 		}
 	}
 	
+	public void listarClassificacaoLigaPrincipal() {		
+		listaClassificacaoLigaPrincipalDTO = new ArrayList<>();
+		Integer anoAtual = Calendar.getInstance().get(Calendar.YEAR);			
+		listaClassificacaoLigaPrincipalDTO = inicioService.buscarClassificacaoLigaPrincipal(anoAtual);		
+	}
+
 	private void listarPremiacoes() {		
 		
-		Integer anoAtual = Calendar.getInstance().get(Calendar.YEAR);
+		Integer anoAtual = Calendar.getInstance().get(Calendar.YEAR);	
 		
 		listaLigas =  new ArrayList<>();
 		listaPremiacaoLigaPrincipal = new ArrayList<>();
@@ -109,6 +119,14 @@ public class InicioControl extends BaseControl {
 
 	public void setListaLigas(List<Liga> listaLigas) {
 		this.listaLigas = listaLigas;
+	}
+
+	public List<ClassificacaoLigaPrincipalDTO> getListaClassificacaoLigaPrincipalDTO() {
+		return listaClassificacaoLigaPrincipalDTO;
+	}
+
+	public void setListaClassificacaoLigaPrincipalDTO(List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO) {
+		this.listaClassificacaoLigaPrincipalDTO = listaClassificacaoLigaPrincipalDTO;
 	}
 	
 }

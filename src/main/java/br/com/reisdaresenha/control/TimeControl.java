@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
 import org.primefaces.event.SelectEvent;
 
 import br.com.reisdaresenha.model.Liga;
-import br.com.reisdaresenha.model.Premiacao;
 import br.com.reisdaresenha.model.Time;
 import br.com.reisdaresenha.model.Usuario;
 import br.com.reisdaresenha.padrao.BaseControl;

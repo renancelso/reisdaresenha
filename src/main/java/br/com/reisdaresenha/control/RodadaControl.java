@@ -166,7 +166,7 @@ public class RodadaControl extends BaseControl {
 									
 			for (Pontuacao pontuacao : lista) {
 				pontuacao.setRodada(novaRodada);
-				rodadaService.atualizar(pontuacao);
+				rodadaService.atualizar(pontuacao);				
 			}	
 			
 			if(novaRodada != null) {
@@ -191,7 +191,9 @@ public class RodadaControl extends BaseControl {
 		
 		Long nrRodada = new Long(0);
 		
-		try {			
+		try {	
+					
+			/** Finalizar **/
 			
 			List<Pontuacao> lista = novaRodada.getListaPontuacao();
 			
@@ -205,7 +207,9 @@ public class RodadaControl extends BaseControl {
 						
 			for (Pontuacao pontuacao : lista) {
 				pontuacao.setRodada(novaRodada);
-				rodadaService.atualizar(pontuacao);
+				rodadaService.atualizar(pontuacao);				
+				pontuacao.getTime().setVrCartoletasAtuais(pontuacao.getVrCartoletas());				
+				rodadaService.atualizar(pontuacao.getTime());				
 			}				
 			
 			init();
