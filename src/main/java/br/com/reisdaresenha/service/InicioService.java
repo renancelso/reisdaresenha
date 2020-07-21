@@ -6,7 +6,6 @@ import java.util.List;
 import javax.ejb.Stateless;
 
 import br.com.reisdaresenha.model.Liga;
-import br.com.reisdaresenha.model.Pontuacao;
 import br.com.reisdaresenha.model.Premiacao;
 import br.com.reisdaresenha.padrao.GenericService;
 import br.com.reisdaresenha.view.ClassificacaoLigaPrincipalDTO;
@@ -76,6 +75,7 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     	}
     }	
 		
+	@SuppressWarnings("unchecked")
 	@Override
     public List<ClassificacaoLigaPrincipalDTO> buscarClassificacaoLigaPrincipal(Integer ano) {		
     	try {

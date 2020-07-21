@@ -36,26 +36,18 @@
                	<p:panel header="#{rodadaControl.novaRodada.nrRodada}ª Rodada em Andamento" rendered="#{rodadaControl.novaRodada != null}" toggleable="true" toggleableHeader="true">               			
 					 			 					 		  	
 		 		  	<hr style="height: 5px; background-color: red; color: red;"/>	  
-		 		  
-	 		  		<p:commandButton value="Salvar Rodada" 			    					
-	               					 onstart="PF('dialogProcessando').show();" 
-	               					 onclick="PF('dialogProcessando').show();"                					 
-	               					 oncomplete="PF('dialogProcessando').hide();"									
-								     onsuccess="PF('dialogProcessando').hide();"
-							 		 onerror="PF('dialogProcessando').hide();"
-							 		 update="@form" id="btnSalvarRodada"
-							 		 action="#{rodadaControl.btnSalvarRodada}"/>
-					 
+		 		  	 		  							 
 					<hr style="height: 5px; background-color: navy; color: navy;"/> 
 								 		  
 	 		  		<p:repeat var="pontuacao" value="#{rodadaControl.novaRodada.listaPontuacao}">
 	 		  		
-	 		  			<h:panelGrid columns="2" style="width:100%" columnClasses="coluna1,coluna2">
+	 		  			<h:panelGrid columns="3" columnClasses="coluna1,coluna2">
 				           
-				            <p:outputPanel>
+				            <p:outputPanel style="background-color: ">
+				            	<img src="#{pontuacao.time.urlEscudoSvg}" alt="" style="width: 25px;"/> 
 				            	<h:outputText value="#{pontuacao.time.nomeTime} - #{pontuacao.time.nomeDonoTime}" />					            						            	
 				 			</p:outputPanel>
-				 			
+				 			<p:spacer width="10"/>
 				            <p:outputPanel>
 				                <h:panelGrid columns="2" cellpadding="5" columnClasses="coluna1,coluna2">
 				                    <h:outputText value="Pontuação: "  style="font-weight: bold"/>

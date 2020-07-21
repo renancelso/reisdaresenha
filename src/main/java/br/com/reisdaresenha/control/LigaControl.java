@@ -25,7 +25,6 @@ import br.com.reisdaresenha.service.InicioServiceLocal;
 /**
  * @author Renan Celso
  */
-@SuppressWarnings("deprecation")
 @ManagedBean(name = "ligaControl")
 @ViewScoped
 public class LigaControl extends BaseControl {

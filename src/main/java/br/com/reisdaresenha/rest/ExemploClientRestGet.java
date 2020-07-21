@@ -1,14 +1,13 @@
 package br.com.reisdaresenha.rest;
 
-import java.security.cert.X509Certificate;
+import java.io.IOException;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 //https://api.cartolafc.globo.com/mercado/status
 //http://localhost:8080/rest/exemplo/get
@@ -18,46 +17,60 @@ import javax.ws.rs.core.Response;
 public class ExemploClientRestGet {
 
 	public static void main(String[] args) {
-				
+		
 		try {
+			
+			String time = "GagoShow%20FR";			
+				
+			String endPoint = "https://api.cartolafc.globo.com/times?q="+time;
+			
+			HttpClient client = new HttpClient();
 
-			TrustManager[] trustManager = new X509TrustManager[]{new X509TrustManager() {
-                @Override
-                public X509Certificate[] getAcceptedIssuers() {
-                    return null;
-                }
+			GetMethod method = new GetMethod(endPoint);
+			method.setRequestHeader("Connection", "keep-alive");
+			method.setRequestHeader("Accept", "*/*");
+			method.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				
+			try {
+			
+				System.out.println("Inicializando chamada a: " + endPoint);
+				System.out.println("-----------------------------------------------------");
 
-                @Override
-                public void checkClientTrusted(X509Certificate[] certs, String authType) {
+				int statusCode = client.executeMethod(method);
 
-                }
+				System.out.println("Status Code = " + statusCode);
+				System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));
 
-                @Override
-                public void checkServerTrusted(X509Certificate[] certs, String authType) {
+				// System.out.println("Retorno: "+method.getResponseBodyAsString());
 
-                }
-            }};
+				String jsonResponse = method.getResponseBodyAsString();
 
-            SSLContext sslContext = SSLContext.getInstance("SSL");
-            sslContext.init(null, trustManager, null);
-            
-            Client client = ClientBuilder.newBuilder().sslContext(sslContext).build();
-            WebTarget target = client.target("https://reisdaresenha.com.br/rest/exemplo/get");
-           
-            Response response = target.request().get();
-            
-            String value = response.readEntity(String.class);
-            
-            System.out.println("RETORNO: "+value);
-            
-            response.close();  
+				JSONParser parser = new JSONParser();
+				
+				JSONArray jsonArray = (JSONArray) parser.parse(jsonResponse);		
+				
+				JSONObject jsonObject = (JSONObject) jsonArray.get(0);
+				
+				String nomeCartola = (String) jsonObject.get("nome_cartola");				
+				Long timeIdCartola = (Long) jsonObject.get("time_id");				
+				String fotoPerfil = (String) jsonObject.get("foto_perfil");
+				String urlEscudoPng = (String) jsonObject.get("url_escudo_png");				
+				String urlEscudoSvg = (String) jsonObject.get("url_escudo_svg");				
+				Boolean assinante = (Boolean) jsonObject.get("assinante");
+				String slug = (String) jsonObject.get("slug");
+				Long facebookId = (Long) jsonObject.get("facebook_id");				
+				
+								
+				method.releaseConnection();
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
 		} catch (Exception e) {
-
-			e.printStackTrace();
-
+			
+			e.printStackTrace();			
 		}
-
 	}
 
 }

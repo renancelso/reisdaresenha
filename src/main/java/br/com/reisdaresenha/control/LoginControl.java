@@ -21,7 +21,7 @@ import br.com.reisdaresenha.util.Md5;
 /**
  * @author Renan Celso
  */
-@SuppressWarnings("deprecation")
+
 @ManagedBean(name = "loginControl")
 @ViewScoped
 public class LoginControl extends BaseControl {

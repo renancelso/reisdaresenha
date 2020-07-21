@@ -23,7 +23,6 @@ import br.com.reisdaresenha.service.InicioServiceLocal;
 /**
  * @author Renan Celso
  */
-@SuppressWarnings("deprecation")
 @ManagedBean(name = "anoControl")
 @ViewScoped
 public class AnoControl extends BaseControl {

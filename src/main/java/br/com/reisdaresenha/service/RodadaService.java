@@ -17,6 +17,7 @@ public class RodadaService extends GenericService implements RodadaServiceLocal 
 
 	private static final long serialVersionUID = 8475703620320469907L;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Rodada> listarRodadasDesc(Liga liga) {
 

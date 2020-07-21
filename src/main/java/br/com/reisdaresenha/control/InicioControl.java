@@ -21,7 +21,6 @@ import br.com.reisdaresenha.view.ClassificacaoLigaPrincipalDTO;
 /**
  * @author Renan Celso
  */
-@SuppressWarnings("deprecation")
 @ManagedBean(name = "inicioControl")
 @ViewScoped
 public class InicioControl extends BaseControl {

@@ -16,7 +16,7 @@ import br.com.reisdaresenha.model.Usuario;
  * @author Renan Celso
  *
  */
-@SuppressWarnings("deprecation")
+
 @ManagedBean(name = "sessionControl")
 @SessionScoped
 public class SessionControl extends BaseControl {

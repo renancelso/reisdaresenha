@@ -32,10 +32,7 @@
 		        			<h:inputText size="10" value="TODAS" readonly="true"/>   	
 		        			
 		        			<h:outputText value="Nome do Time " class="required"/>	        			
-		        			<h:inputText size="25" value="#{timeControl.timeCadastrar.nomeTime}"/>	
-							
-							<h:outputText value="Dono do Time " class="required"/>	        			
-		        			<h:inputText size="25" value="#{timeControl.timeCadastrar.nomeDonoTime}"/>   			
+		        			<h:inputText size="25" value="#{timeControl.timeCadastrar.nomeTime}"/>														
 		        					        			
 		        			<h:outputText value="Situação Pagamento " />	        				        			
 		        			<p:selectOneMenu value="#{timeControl.timeCadastrar.statusPagamento}" >		        				
@@ -47,11 +44,7 @@
 							<h:outputText value="Valor Pago " class="required"/>	
 		        			<h:inputText value="#{timeControl.timeCadastrar.valorPago}" 
 										 converter="decimal" maxlength="12" size="15"
-										 onkeypress="return(MascaraMoeda(this, '.', ',', event));"/>	
-		        					        										
-							<h:outputText value="Slug do Time " />	        			
-		        			<h:inputText size="25" value="#{timeControl.timeCadastrar.slugTime}"/>		        					        			
-		        					        			     			        						 
+										 onkeypress="return(MascaraMoeda(this, '.', ',', event));"/>	 
 		        		</h:panelGrid> 
 		        		
 	        		</h:panelGroup>  
@@ -64,10 +57,7 @@
 		        					        			
 		        			<h:outputText value="Nome do Time " class="required"/>	        			
 		        			<h:inputText size="25" value="#{timeControl.timeSelecionado.nomeTime}"/>	 	
-							
-							<h:outputText value="Dono do Time " class="required"/>	        			
-		        			<h:inputText size="25" value="#{timeControl.timeSelecionado.nomeDonoTime}"/> 
-		        			
+															        			
 		        			<h:outputText value="Situação Pagamento " />	        				        			
 		        			<p:selectOneMenu value="#{timeControl.timeSelecionado.statusPagamento}" >		        				
 								<f:selectItem itemValue="NP" itemLabel="NÃO PAGO"/>
@@ -78,11 +68,8 @@
 							<h:outputText value="Valor Pago "/>	
 		        			<h:inputText value="#{timeControl.timeSelecionado.valorPago}" 
 										 converter="decimal" maxlength="12" size="15"
-										 onkeypress="return(MascaraMoeda(this, '.', ',', event));"/>	  			
-		        										
-							<h:outputText value="Slug do Time " />	        			
-		        			<h:inputText size="25" value="#{timeControl.timeSelecionado.slugTime}"/>
-		        						        					        			     			        						 
+										 onkeypress="return(MascaraMoeda(this, '.', ',', event));"/>	 
+									        						        					        			     			        						 
 		        		</h:panelGrid>  
 	        		</h:panelGroup>  
 	        		
@@ -145,7 +132,11 @@
 	       			
 	       			<p:ajax event="rowDblselect" update="@form" 
 	       					oncomplete="window.scrollTo(0,0);"
-	       					listener="#{timeControl.onRowSelect}" />  
+	       					listener="#{timeControl.onRowSelect}" /> 
+	       					
+	       			<p:column headerText="" style="width: 50px; text-align: center;">	
+				        <img src="#{item.urlEscudoSvg}" alt="" style="width: 25px;"/> 
+				    </p:column> 
 	       					 
 	       			<p:column headerText="Nome Time" style="width: 30%">				       
 				        <h:outputText value="#{item.nomeTime}" />
@@ -155,19 +146,10 @@
 				        <h:outputText value="#{item.nomeDonoTime}" />
 				    </p:column>	
 				    
-				    <p:column headerText="Status R$" style="width: 20%; text-align: center;"
-				    		  filterBy="#{item.statusPagamento}" filterMatchMode="exact">
-			    		<f:facet name="filter">
-			                <p:selectOneMenu onchange="PF('listaTimesCadastrados').filter()" styleClass="custom-filter">
-			                    <f:selectItem itemLabel="TODOS" itemValue="#{null}" noSelectionOption="true" />
-			                    <f:selectItem itemValue="NP" itemLabel="NÃO PAGO"/>
-								<f:selectItem itemValue="PP" itemLabel="P. PARCIAL"/>
-								<f:selectItem itemValue="P" itemLabel="PAGO"/>		
-			                </p:selectOneMenu>
-			            </f:facet>				    		  
-				        <h:outputText value="NAO PAGO" rendered="#{item.statusPagamento == 'NP'}" style="background-color: red; color: white;"/>
-				        <h:outputText value="P. PARCIAL" rendered="#{item.statusPagamento == 'PP'}" style="background-color: blue; color: white;"/>
-				        <h:outputText value="PAGO" rendered="#{item.statusPagamento == 'P'}" style="background-color: green; color: white;"/>
+				    <p:column headerText="Status R$" style="width: 20%; text-align: center; font-weight: bold;">			    					    		  
+				        <h:outputText value="NAO PAGO" rendered="#{item.statusPagamento == 'NP'}" style="color: red;"/>
+				        <h:outputText value="P. PARCIAL" rendered="#{item.statusPagamento == 'PP'}" style="color: red;"/>
+				        <h:outputText value="PAGO" rendered="#{item.statusPagamento == 'P'}" style="color: green;"/>
 				    </p:column>	
 				    
 				    <p:column headerText="R$" style="text-align: right; width: 20%;">	

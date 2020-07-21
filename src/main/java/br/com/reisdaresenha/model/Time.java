@@ -28,6 +28,9 @@ public class Time implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
+		
+	@Column(name = "id_cartola")
+	private Long idCartola;
 	
 	@Column(name = "nome_time", nullable = false, length=255)
 	private String nomeTime;
@@ -35,11 +38,23 @@ public class Time implements Serializable {
 	@Column(name = "nome_dono_time", nullable = false, length=255)
 	private String nomeDonoTime;
 	
+	@Column(name = "foto_perfil")
+	private String fotoPerfil;
+	
+	@Column(name = "url_escudo_png")
+	private String urlEscudoPng;	
+	
+	@Column(name = "url_escudo_svg")
+	private String urlEscudoSvg;	
+	
+	@Column(name = "assinante")
+	private String assinante;
+			
+	@Column(name = "facebook_id")
+	private Long facebookId;
+	
 	@Column(name = "slug_time", length=255)
-	private String slugTime;
-		
-	@Column(name = "brasao_time", length=255)
-	private String brasaoTime;
+	private String slugTime;		
 	
 	@Column(name = "vr_cartoletasAtuais")
 	private Double vrCartoletasAtuais;
@@ -104,14 +119,6 @@ public class Time implements Serializable {
 		this.slugTime = slugTime;
 	}
 
-	public String getBrasaoTime() {
-		return brasaoTime;
-	}
-
-	public void setBrasaoTime(String brasaoTime) {
-		this.brasaoTime = brasaoTime;
-	}
-
 	public Double getVrCartoletasAtuais() {
 		return vrCartoletasAtuais;
 	}
@@ -174,6 +181,55 @@ public class Time implements Serializable {
 
 	public void setValorPago(Double valorPago) {
 		this.valorPago = valorPago;
+	}	
+			
+	public Long getIdCartola() {
+		return idCartola;
+	}
+
+	public void setIdCartola(Long idCartola) {
+		this.idCartola = idCartola;
+	}
+
+	public String getFotoPerfil() {
+		return fotoPerfil;
+	}
+
+	public void setFotoPerfil(String fotoPerfil) {
+		this.fotoPerfil = fotoPerfil;
+	}
+
+	public String getUrlEscudoPng() {
+		return urlEscudoPng;
+	}
+
+	public void setUrlEscudoPng(String urlEscudoPng) {
+		this.urlEscudoPng = urlEscudoPng;
+	}
+
+	public String getUrlEscudoSvg() {
+		return urlEscudoSvg;
+	}
+
+	public void setUrlEscudoSvg(String urlEscudoSvg) {
+		this.urlEscudoSvg = urlEscudoSvg;
+	}
+
+
+	public String getAssinante() {
+		return assinante;
+	}
+
+	public void setAssinante(String assinante) {
+		this.assinante = assinante;
+	}
+
+	public Long getFacebookId() {
+		return facebookId;
+	}
+
+	public void setFacebookId(Long facebookId) {
+		this.facebookId = facebookId;
 	}
 
 	@Override

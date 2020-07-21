@@ -18,13 +18,14 @@ import br.com.reisdaresenha.model.Liga;
 import br.com.reisdaresenha.model.Time;
 import br.com.reisdaresenha.model.Usuario;
 import br.com.reisdaresenha.padrao.BaseControl;
+import br.com.reisdaresenha.rest.CartolaRestFulClient;
 import br.com.reisdaresenha.service.InicioServiceLocal;
 
 
 /**
  * @author Renan Celso
  */
-@SuppressWarnings("deprecation")
+
 @ManagedBean(name = "timeControl")
 @ViewScoped
 public class TimeControl extends BaseControl {
@@ -32,6 +33,8 @@ public class TimeControl extends BaseControl {
 	private static final long serialVersionUID = 2232607681331474877L;
 
 	private transient Logger log = Logger.getLogger(TimeControl.class.getName());
+	
+	private CartolaRestFulClient servicoCartola;
 	
 	@EJB
 	private InicioServiceLocal inicioService; 
@@ -63,6 +66,31 @@ public class TimeControl extends BaseControl {
 		return null;
 	}
 	
+	public Time buscarTimeNoCartola(Time time, String nomeTime) {		
+		try {			
+			servicoCartola = new CartolaRestFulClient();
+			
+			Time timeCartola = new Time();
+			timeCartola = servicoCartola.buscarTime(nomeTime);		
+						
+			time.setNomeDonoTime(timeCartola.getNomeDonoTime());
+			time.setIdCartola(timeCartola.getIdCartola());
+			time.setFotoPerfil(timeCartola.getFotoPerfil());
+			time.setUrlEscudoPng(timeCartola.getUrlEscudoPng());
+			time.setUrlEscudoSvg(timeCartola.getUrlEscudoSvg());
+			time.setAssinante(timeCartola.getAssinante());
+			time.setSlugTime(timeCartola.getSlugTime());
+			time.setFacebookId(timeCartola.getFacebookId());	
+			
+			return time;
+			
+		} catch (Exception e) {
+			log.error(e);
+			addErrorMessage("Nao foi possivel encontrar o time "+nomeTime+" no Cartola");			
+			return null;
+		}		
+	}
+	
 	public String cadastrarTime() {		
 		try {	
 			
@@ -78,17 +106,7 @@ public class TimeControl extends BaseControl {
 						} 					
 					}
 				}
-			}
-			
-			if(timeCadastrar.getNomeDonoTime() == null) {
-				addErrorMessage("Dono do time é um campo obrigatório");
-				return null;
-			}
-			
-			if(timeCadastrar.getNomeTime() == null) {
-				addErrorMessage("Nome do time é um campo orbigatório");
-				return null;
-			}			
+			}				
 												
 			HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 			Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");						
@@ -96,13 +114,29 @@ public class TimeControl extends BaseControl {
 			timeCadastrar.setIdUserAtu(usuarioLogado.getId().toString());
 			timeCadastrar.setLoginUserAtu(usuarioLogado.getLogin());
 			timeCadastrar.setDhAtu(new Date());		
+						
+			/** Buscar no restful do Cartola **/
+			timeCadastrar = buscarTimeNoCartola(timeCadastrar, timeCadastrar.getNomeTime());
 			
+			if(timeCadastrar == null) {
+				return null;
+			}
+			
+			if(timeCadastrar.getNomeTime() == null) {
+				addErrorMessage("Nome do time é um campo obrigatório");
+				return null;
+			}	
+			
+			if(timeCadastrar.getNomeDonoTime() == null) {
+				addErrorMessage("Dono do time é um campo obrigatório");
+				return null;
+			}				
 			
 			timeCadastrar = (Time) inicioService.atualizar(timeCadastrar);			
 						
 			buscarTimesCadastrados();
 			
-			addInfoMessage("Time '"+timeCadastrar.getNomeTime()+"("+timeCadastrar.getNomeDonoTime()+")' cadastrado com sucesso.");
+			addInfoMessage("Time '"+timeCadastrar.getNomeTime()+" ("+timeCadastrar.getNomeDonoTime()+")' cadastrado com sucesso.");
 			
 			timeCadastrar = new Time();	
 			timeCadastrar.setLiga(new Liga());
@@ -135,8 +169,7 @@ public class TimeControl extends BaseControl {
 		
 		return null;
 	}
-	
-	
+		
 	public String alterarTime() {		
 		try {	
 			
@@ -152,6 +185,19 @@ public class TimeControl extends BaseControl {
 						} 					
 					}
 				}
+			}				
+												
+			HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+			Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");						
+						
+			timeSelecionado.setIdUserAtu(usuarioLogado.getId().toString());
+			timeSelecionado.setLoginUserAtu(usuarioLogado.getLogin());
+			timeSelecionado.setDhAtu(new Date());	
+			
+			timeSelecionado = buscarTimeNoCartola(timeSelecionado, timeSelecionado.getNomeTime());
+			
+			if(timeSelecionado == null) {
+				return null;
 			}
 			
 			if(timeSelecionado.getNomeDonoTime() == null) {
@@ -160,17 +206,9 @@ public class TimeControl extends BaseControl {
 			}
 			
 			if(timeSelecionado.getNomeTime() == null) {
-				addErrorMessage("Nome do time é um campo orbigatório");
+				addErrorMessage("Nome do time é um campo obrigatório");
 				return null;
-			}			
-												
-			HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-			Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");						
-						
-			timeSelecionado.setIdUserAtu(usuarioLogado.getId().toString());
-			timeSelecionado.setLoginUserAtu(usuarioLogado.getLogin());
-			timeSelecionado.setDhAtu(new Date());		
-			
+			}		
 			
 			timeSelecionado = (Time) inicioService.atualizar(timeSelecionado);			
 						

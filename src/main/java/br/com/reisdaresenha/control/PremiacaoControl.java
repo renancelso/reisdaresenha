@@ -24,7 +24,7 @@ import br.com.reisdaresenha.service.InicioServiceLocal;
 /**
  * @author Renan Celso
  */
-@SuppressWarnings("deprecation")
+
 @ManagedBean(name = "premiacaoControl")
 @ViewScoped
 public class PremiacaoControl extends BaseControl {

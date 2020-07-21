@@ -22,7 +22,7 @@ import br.com.reisdaresenha.service.RodadaServiceLocal;
 /**
  * @author Renan Celso
  */
-@SuppressWarnings("deprecation")
+
 @ManagedBean(name = "rodadaControl")
 @ViewScoped
 public class RodadaControl extends BaseControl {
@@ -82,15 +82,23 @@ public class RodadaControl extends BaseControl {
 			listaTimes = (List<Time>) rodadaService.consultarTodos(Time.class, " order by o.nomeDonoTime, o.nomeTime ");	
 			
 			if(novaRodada != null && (novaRodada.getListaPontuacao() == null || novaRodada.getListaPontuacao().isEmpty())) {
+				
 				novaRodada.setListaPontuacao(new ArrayList<>());
+				
 				for (Time time : listaTimes) {
+					
 					Pontuacao pontuacao = new Pontuacao();
 					pontuacao.setAno(novaRodada.getLiga().getAno());
 					pontuacao.setLiga(novaRodada.getLiga());
 					pontuacao.setRodada(novaRodada);
 					pontuacao.setTime(time);
+					
+					//buscarPontuacaoECartoletasRodadasEmAndamento(); ---IMPLEMENTAR
+					
+					
 					//pontuacao.setVrCartoletas();
 					//pontuacao.setVrPontuacao();
+										
 					novaRodada.getListaPontuacao().add(pontuacao);
 				}	
 			}

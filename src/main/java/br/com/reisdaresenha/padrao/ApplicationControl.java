@@ -22,7 +22,6 @@ import org.apache.log4j.PropertyConfigurator;
 /** 
  * @author Renan Celso
  */
-@SuppressWarnings("deprecation")
 @ManagedBean(name = "applicationControl")
 @ApplicationScoped
 public class ApplicationControl implements Serializable {
