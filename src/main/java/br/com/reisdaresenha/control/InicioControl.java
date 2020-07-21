@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 
 import br.com.reisdaresenha.model.Liga;
 import br.com.reisdaresenha.model.Premiacao;
+import br.com.reisdaresenha.model.Time;
 import br.com.reisdaresenha.padrao.BaseControl;
 import br.com.reisdaresenha.service.InicioServiceLocal;
 import br.com.reisdaresenha.view.ClassificacaoLigaPrincipalDTO;
@@ -35,15 +36,21 @@ public class InicioControl extends BaseControl {
 	private List<Liga> listaLigas;
 	private List<Premiacao> listaPremiacaoLigaPrincipal;	
 	private List<Premiacao> listaPremiacaoLigaReisResenha;	
-	private List<Premiacao> listaPremiacaoLigaOsobrevivente;
+	private List<Premiacao> listaPremiacaoLigaOsobrevivente;		
+	private List<Time> listaTimesParticipantes;	
 	
 	private List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO;
 		
 	@PostConstruct
 	public void init() {
 		try {
+			
 			listarPremiacoes();
 			listarClassificacaoLigaPrincipal();
+			
+			listaTimesParticipantes = new ArrayList<>();
+			listaTimesParticipantes = (List<Time>) inicioService.consultarTodos(Time.class, " order by o.nomeDonoTime, o.nomeTime ");		
+			
 		} catch (Exception e) {
 			log.error("Erro no método init "+e.getMessage());			
 		}
@@ -126,6 +133,14 @@ public class InicioControl extends BaseControl {
 
 	public void setListaClassificacaoLigaPrincipalDTO(List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO) {
 		this.listaClassificacaoLigaPrincipalDTO = listaClassificacaoLigaPrincipalDTO;
+	}
+
+	public List<Time> getListaTimesParticipantes() {
+		return listaTimesParticipantes;
+	}
+
+	public void setListaTimesParticipantes(List<Time> listaTimesParticipantes) {
+		this.listaTimesParticipantes = listaTimesParticipantes;
 	}
 	
 }

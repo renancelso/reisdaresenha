@@ -241,7 +241,7 @@ public class TimeControl extends BaseControl {
 	
 	@SuppressWarnings("unchecked")
 	private void buscarTimesCadastrados() {
-		listaTimes= new ArrayList<>();
+		listaTimes = new ArrayList<>();
 		listaTimes = (List<Time>) inicioService.consultarTodos(Time.class, " order by o.nomeDonoTime, o.nomeTime ");		
 	}
 

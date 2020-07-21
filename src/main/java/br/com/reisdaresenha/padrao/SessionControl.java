@@ -9,7 +9,9 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.primefaces.PrimeFaces;
 
+import br.com.reisdaresenha.control.RestFulTestServicesControl;
 import br.com.reisdaresenha.model.Usuario;
+import br.com.reisdaresenha.rest.CartolaRestFulClient;
 
 /**
  *
@@ -97,13 +99,13 @@ public class SessionControl extends BaseControl {
 		return url.toString();
 	}
 	
-	
-	public String getUrlApresentacao() {
-		StringBuilder url = new StringBuilder();
-		url.append(FacesContext.getCurrentInstance().getExternalContext().getRequestServerName()).append(":");
-		url.append(FacesContext.getCurrentInstance().getExternalContext().getRequestServerPort()).append("/");
-		url.append(FacesContext.getCurrentInstance().getExternalContext().getRequestServletPath());
-		return url.toString().replace("inicio.jsf", "apresentacao.html");
+	public String getLogoLiga() {
+		try {
+			CartolaRestFulClient servicoCartola = new CartolaRestFulClient();			
+			return servicoCartola.buscarLogoDaLiga("RDR 2020");			
+		} catch (Exception e) {
+			return "publico/estilo/images/cartola00.png";
+		}
 	}
 
 	public Logger getLogger() {

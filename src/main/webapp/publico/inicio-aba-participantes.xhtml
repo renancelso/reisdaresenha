@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:pt="http://java.sun.com/jsf/passthrough"
+	  xmlns:c="http://java.sun.com/jstl/core" class="gt-ie8 gt-ie9 not-ie">
+	  
+<h:body>
+
+	<ui:composition>		
+		<p:panel style="text-align: justify; text-justify: inter-word; font-size: 13px; border: 0px; padding: 0px; margin: 0px;">	
+			<h:form id="formPrincipal" style="font-size: 12px;">     
+				
+				<p:dataTable var="item" value="#{inicioControl.listaTimesParticipantes}" 
+	            			 rowKey="#{item.id}"
+	            			 reflow="true" id="listaTimesParticipantes"	   
+	            			 style="min-width: 250px;"
+	            			 paginator="true" widgetVar="listaTimesParticipantes"
+	            			 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+	            			 currentPageReportTemplate="Exibindo de {startRecord} a {endRecord} de um total de {totalRecords} registros"  
+	       			 		 emptyMessage="Não existem dados cadastrados">
+	       			       					 
+	       			<p:column headerText="Nome Time" style="width: 30%">				       
+				        <img src="#{item.urlEscudoSvg}" alt="" style="width: 25px;"/> <h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />
+				    </p:column>
+				    
+				    <p:column headerText="Status R$" style="width: 20%; text-align: center; font-weight: bold;">			    					    		  
+				        <h:outputText value="NAO PAGO" rendered="#{item.statusPagamento == 'NP'}" style="color: red;"/>
+				        <h:outputText value="P. PARCIAL" rendered="#{item.statusPagamento == 'PP'}" style="color: red;"/>
+				        <h:outputText value="PAGO" rendered="#{item.statusPagamento == 'P'}" style="color: green;"/>
+				    </p:column>	
+				    								   
+				</p:dataTable>  
+		
+			</h:form>
+		
+		</p:panel>
+	</ui:composition>
+	
+</h:body>
+
+</html>

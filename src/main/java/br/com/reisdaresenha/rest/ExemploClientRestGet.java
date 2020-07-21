@@ -10,19 +10,16 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 //https://api.cartolafc.globo.com/mercado/status
-//http://localhost:8080/rest/exemplo/get
 //https://api.cartolafc.globo.com/atletas/mercado
 //https://api.cartolafc.globo.com/patrocinadores
-//https://reisdaresenha.com.br/rest/exemplo/get
+//https://api.cartolafc.globo.com/time/id/[id_time_cartola]/[rodada]
 public class ExemploClientRestGet {
 
 	public static void main(String[] args) {
 		
-		try {
+		try {						
 			
-			String time = "GagoShow%20FR";			
-				
-			String endPoint = "https://api.cartolafc.globo.com/times?q="+time;
+			String endPoint = "https://api.cartolafc.globo.com/ligas?q=RDR%202020";
 			
 			HttpClient client = new HttpClient();
 
@@ -39,9 +36,7 @@ public class ExemploClientRestGet {
 				int statusCode = client.executeMethod(method);
 
 				System.out.println("Status Code = " + statusCode);
-				System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));
-
-				// System.out.println("Retorno: "+method.getResponseBodyAsString());
+				System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));				
 
 				String jsonResponse = method.getResponseBodyAsString();
 
@@ -49,18 +44,10 @@ public class ExemploClientRestGet {
 				
 				JSONArray jsonArray = (JSONArray) parser.parse(jsonResponse);		
 				
-				JSONObject jsonObject = (JSONObject) jsonArray.get(0);
+				JSONObject jsonObject = (JSONObject) jsonArray.get(0);		
 				
-				String nomeCartola = (String) jsonObject.get("nome_cartola");				
-				Long timeIdCartola = (Long) jsonObject.get("time_id");				
-				String fotoPerfil = (String) jsonObject.get("foto_perfil");
-				String urlEscudoPng = (String) jsonObject.get("url_escudo_png");				
-				String urlEscudoSvg = (String) jsonObject.get("url_escudo_svg");				
-				Boolean assinante = (Boolean) jsonObject.get("assinante");
-				String slug = (String) jsonObject.get("slug");
-				Long facebookId = (Long) jsonObject.get("facebook_id");				
-				
-								
+				String imagem = (String) jsonObject.get("imagem");
+															
 				method.releaseConnection();
 
 			} catch (IOException e) {

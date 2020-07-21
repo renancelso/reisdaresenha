@@ -11,6 +11,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import br.com.reisdaresenha.model.Time;
+import br.com.reisdaresenha.view.TimeRodadaDTO;
 
 /**
  * 
@@ -18,7 +19,6 @@ import br.com.reisdaresenha.model.Time;
  *
  */
 public class CartolaRestFulClient {
-
 	
 	public Time buscarTime(String nomeTimeNoCartola) {
 		
@@ -83,6 +83,104 @@ public class CartolaRestFulClient {
 		}		
 		
 		return time;		
+	}
+	
+	public TimeRodadaDTO buscarTimeRodadaPorIDCartola(Time time, Long rodada) {
+		
+		TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();		
+				
+		try {				
+			
+			String endPoint = "https://api.cartolafc.globo.com/time/id/"+time.getIdCartola()+"/"+rodada;		
+						
+			HttpClient client = new HttpClient();
+	
+			GetMethod method = new GetMethod(endPoint);
+			method.setRequestHeader("Connection", "keep-alive");
+			method.setRequestHeader("Accept", "*/*");
+			method.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			
+			System.out.println("Inicializando chamada a: " + endPoint);
+			System.out.println("-----------------------------------------------------");
+
+			int statusCode = client.executeMethod(method);
+
+			System.out.println("Status Code = " + statusCode);
+			System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));			
+
+			String jsonResponse = method.getResponseBodyAsString();
+
+			JSONParser parser = new JSONParser();
+			
+			JSONObject jsonObject = (JSONObject) parser.parse(jsonResponse);		
+				
+			Double patrimonio = (Double) jsonObject.get("patrimonio");				
+			Double pontos = (Double) jsonObject.get("pontos");				
+			Double pontosCampeonato = (Double) jsonObject.get("pontos_campeonato");				
+			Double valorTime = (Double) jsonObject.get("valor_time");
+			
+			timeRodadaDTO.setTime(time);
+			timeRodadaDTO.setRodadaAtual(rodada);
+			timeRodadaDTO.setPatrimonio(patrimonio);
+			timeRodadaDTO.setPontos(pontos);
+			timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
+			timeRodadaDTO.setValorTime(valorTime);
+					
+			method.releaseConnection();
+			
+			return timeRodadaDTO;		
+
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} catch (ParseException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}		
+		
+		return timeRodadaDTO;		
+	}
+		
+	public String buscarLogoDaLiga(String nomeLiga) {
+										
+		try {				
+			
+			nomeLiga = nomeLiga.replace(" ", "%20");
+			
+			String endPoint = "https://api.cartolafc.globo.com/ligas?q="+nomeLiga;		
+						
+			HttpClient client = new HttpClient();
+	
+			GetMethod method = new GetMethod(endPoint);
+			method.setRequestHeader("Connection", "keep-alive");
+			method.setRequestHeader("Accept", "*/*");
+			method.setRequestHeader("Content-type", "application/x-www-form-urlencoded");				
+
+			client.executeMethod(method);
+
+			String jsonResponse = method.getResponseBodyAsString();
+
+			JSONParser parser = new JSONParser();
+			
+			JSONArray jsonArray = (JSONArray) parser.parse(jsonResponse);		
+			
+			JSONObject jsonObject = (JSONObject) jsonArray.get(0);		
+			
+			String imagem = (String) jsonObject.get("imagem");
+														
+			method.releaseConnection();
+			
+			return imagem;
+
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} catch (ParseException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}		
+		
+		return null;		
 	}
 	
 }

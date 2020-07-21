@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:pt="http://java.sun.com/jsf/passthrough"
+	  xmlns:c="http://java.sun.com/jstl/core" class="gt-ie8 gt-ie9 not-ie">
+	  
+<h:body>
+
+	<ui:composition>
+		<p:panel style="text-align: justify; text-justify: inter-word; font-size: 13px; border: 0px; padding: 0px; margin: 0px;">							
+		
+			<p:dataTable var="item" value="#{restFulTestServicesControl.listaTimesParticipantes}" 
+            			 rowKey="#{item.id}"
+            			 reflow="true" id="listaTimesParticipantes"	   
+            			 style="min-width: 250px;"
+            			 paginator="true" widgetVar="listaTimesParticipantes"
+            			 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+            			 currentPageReportTemplate="Exibindo de {startRecord} a {endRecord} de um total de {totalRecords} registros"  
+       			 		 emptyMessage="Não existem dados cadastrados">       			 		 	      					
+       			       					 
+       			<p:column headerText="Time" style="width: 30%">				       
+			        <img src="#{item.urlEscudoSvg}" alt="" style="width: 25px;"/> <h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />
+			    </p:column>
+			   
+			    <p:column headerText="Id Cartola" style="width: 30%; text-align: center;">
+			        <h:outputText value="#{item.idCartola}" />
+			    </p:column>	
+			    
+			    <p:column headerText="Slug" style="width: 30%; text-align: center;">
+			        <h:outputText value="#{item.slugTime}" />
+			    </p:column>	
+			    
+			    <p:column headerText="Assinante" style="width: 30%; text-align: center;">
+			        <h:outputText value="#{item.assinante}" />
+			    </p:column>
+			    
+			    <p:column headerText="Status" style="width: 20%; text-align: center; font-weight: bold;">			    					    		  
+			        <h:outputText value="NAO PAGO" rendered="#{item.statusPagamento == 'NP'}" style="color: red;"/>
+			        <h:outputText value="P. PARCIAL" rendered="#{item.statusPagamento == 'PP'}" style="color: red;"/>
+			        <h:outputText value="PAGO" rendered="#{item.statusPagamento == 'P'}" style="color: green;"/>
+			    </p:column>	
+			    
+			    <p:column headerText="R$" style="text-align: right; width: 20%;">	
+			        <h:outputText value="#{item.valorPago}" converter="decimal"/>
+			    </p:column>
+			    								   
+			</p:dataTable>  
+						
+			<br/>
+			
+			
+				
+			<p:commandButton value="BUSCAR E SINCRONIZAR INFORMACOES BÁSICAS COM O CARTOLA FC" 			    					
+            				 onstart="PF('dialogProcessando').show();" 
+            				 onclick="PF('dialogProcessando').show();"                					 
+            				 oncomplete="PF('dialogProcessando').hide();"									
+						     onsuccess="PF('dialogProcessando').hide();"
+					 		 onerror="PF('dialogProcessando').hide();"
+					 		 update="@form" id="btnAtualizarTimes"
+					 		 action="#{restFulTestServicesControl.atualizarInfosTimesCartola}"/>
+			
+		
+		
+		
+		</p:panel>
+	</ui:composition>
+	
+</h:body>
+
+</html>
