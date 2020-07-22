@@ -4,23 +4,67 @@ import java.io.IOException;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-
-import com.google.gson.Gson;
 
 //https://api.cartolafc.globo.com/mercado/status
 //https://api.cartolafc.globo.com/atletas/mercado
 //https://api.cartolafc.globo.com/patrocinadores
 //https://api.cartolafc.globo.com/time/id/[id_time_cartola]/[rodada]
-public class ExemploClientRestGet {
+public class TesteConsultarLigaEspecificaComToken {
 
 	public static void main(String[] args) {
+		
+		try {						
+			
+			String slugLiga = "remosos-futebol-clube";
+			
+			String endPoint = "https://api.cartolafc.globo.com/auth/liga/"+slugLiga;			
+			
+			String token = gerarTokenLoginCartola("renancelso@globo.com", "04162003");
+			
+			HttpClient client = new HttpClient();
+
+			GetMethod method = new GetMethod(endPoint);
+			method.setRequestHeader("Connection", "keep-alive");
+			method.setRequestHeader("Accept", "*/*");					
+			method.setRequestHeader("X-GLB-Token", token);		
+				
+			try {
+			
+				System.out.println("Inicializando chamada a: " + endPoint);
+				System.out.println("-----------------------------------------------------");
+
+				int statusCode = client.executeMethod(method);
+
+				System.out.println("Status Code = " + statusCode);
+				System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));				
+
+				String jsonResponse = method.getResponseBodyAsString();
+
+				JSONParser parser = new JSONParser();
+				
+				JSONObject jsonObject = (JSONObject) parser.parse(jsonResponse);
+				
+				System.out.println(jsonObject.toString());				
+											
+				method.releaseConnection();
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		} catch (Exception e) {
+			
+			e.printStackTrace();			
+		}
+	}
+	
+	
+	public static String gerarTokenLoginCartola(String email, String senha) {
 		
 		try {						
 			
@@ -32,7 +76,7 @@ public class ExemploClientRestGet {
 			method.setRequestHeader("Connection", "keep-alive");
 			method.setRequestHeader("Accept", "*/*");
 				
-			String payload= "{\"payload\": {\"email\":\"renancelso@globo.com\",\"password\":\"04162003\",\"serviceId\":4728}}";
+			String payload= "{\"payload\": {\"email\":\""+email+"\",\"password\":\""+senha+"\",\"serviceId\":4728}}";
 			
 			method.setRequestEntity(new StringRequestEntity(payload, "application/json", "UTF-8"));
 					
@@ -60,7 +104,10 @@ public class ExemploClientRestGet {
 						&& userMessage.contains("autenticado com sucesso") 
 						&& "Authenticated".equalsIgnoreCase(id)) {
 					String token = glbId;
-					System.out.println("token: \n"+token);					
+					System.out.println("userMessage: "+userMessage);
+					System.out.println("token: \n"+token);		
+					System.out.println("id: "+id);
+					return token;
 				}
 											
 				method.releaseConnection();
@@ -72,6 +119,8 @@ public class ExemploClientRestGet {
 		} catch (Exception e) {			
 			e.printStackTrace();			
 		}
+		
+		return null;
 	}
 
 }
