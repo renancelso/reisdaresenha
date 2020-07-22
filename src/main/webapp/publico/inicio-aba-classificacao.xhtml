@@ -10,44 +10,43 @@
 <h:body>
 
 	<ui:composition>
-		<p:tabView dynamic="true" cache="true" effect="fold" style="font-size: 12px;">
+		<p:tabView dynamic="true" cache="true" style="font-size: 12px;" orientation="left">
 		       		
-      			<p:tab title="Liga Principal">	 		
-     			 	 <p:panel style="border: 0px;">	
-   			 			<f:facet name="header">	     
-   			 				<h:outputText value="Classificação da Liga Principal"/>
-   			 				<img src="publico/estilo/images/trofeu.png" style="height: 14px; float:right;"/> 
-   			 			</f:facet>      			 			
+      			<p:tab title="Principal">	 		
+     			 		 			
       			 			
-      			 		<p:dataTable var="item" value="#{inicioControl.listaClassificacaoLigaPrincipalDTO}"
-      			 					 emptyMessage="Não existem dados">
+      			 	<p:dataTable var="item" value="#{inicioControl.listaClassificacaoLigaPrincipalDTO}"
+      			 				 emptyMessage="Não existem dados"  >
       			 					 
-      			 			<p:column headerText="#" style="text-align: center; width: 75px;" sortBy="#{item.colocacao}">
-						        <h:outputText value="#{item.colocacao}" />
-						    </p:column>	
-						   
-						    <p:column headerText="Time" style="width: 50%">
-						        <h:outputText value="#{item.time}" />
-						    </p:column>	
-						    
-						    <p:column headerText="J" style="text-align: center; width: 75px;" sortBy="#{item.jogos}">
-						        <h:outputText value="#{item.jogos}" />
-						    </p:column>			
-						    
-						    <p:column headerText="PG" style="text-align: center; width: 75px;" sortBy="#{item.pontuacao}">
-						        <h:outputText value="#{item.pontuacao}" converter="decimal"/>
-						    </p:column>								   
-						 
-						    <p:column headerText="$" style="text-align: center; width: 75px;" sortBy="#{item.cartoletas}">
-						        <h:outputText value="#{item.cartoletas}" converter="decimal"/>
-						    </p:column>						    
-						    								   
-						</p:dataTable>   			 			
-   			 			
-               		 </p:panel>					           
+	      			 	<f:facet name="header">	     
+	 			 			<h:outputText value="Classificação da Liga Principal"/>	 			 		 
+	 			 		</f:facet>    
+	      			 					 
+     			 		<p:column headerText="#" style="text-align: center; width: 75px;" sortBy="#{item.colocacao}">
+					        <h:outputText value="#{item.colocacao}" />
+					    </p:column>	
+					   
+					    <p:column headerText="Time" style="width: 50%">
+					        <h:outputText value="#{item.time}" />
+					    </p:column>	
+					    
+					    <p:column headerText="J" style="text-align: center; width: 75px;" sortBy="#{item.jogos}">
+					        <h:outputText value="#{item.jogos}" />
+					    </p:column>			
+					    
+					    <p:column headerText="PG" style="text-align: center; width: 75px;" sortBy="#{item.pontuacao}">
+					        <h:outputText value="#{item.pontuacao}" converter="decimal"/>
+					    </p:column>								   
+					 
+					    <p:column headerText="$" style="text-align: center; width: 75px;" sortBy="#{item.cartoletas}">
+					        <h:outputText value="#{item.cartoletas}" converter="decimal"/>
+					    </p:column>						    
+					    								   
+					</p:dataTable>   
+               					           
       			</p:tab>
       			 
-      			<p:tab title="Liga 'Reis da Resenha'">	
+      			<p:tab title="Reis da Resenha">	
       					       			 			       			 			
     			 	<p:panel>  
     			 		<f:facet name="header">	     

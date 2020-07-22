@@ -33,21 +33,35 @@
           			<p:autoUpdate />
           		</p:messages>	
           	            				  
-               	<p:panel header="#{rodadaControl.novaRodada.nrRodada}ª Rodada em Andamento" rendered="#{rodadaControl.novaRodada != null}" toggleable="true" toggleableHeader="true">               			
-					 			 					 		  	
-		 		  	<hr style="height: 5px; background-color: red; color: red;"/>	  
-		 		  	 		  							 
-					<hr style="height: 5px; background-color: navy; color: navy;"/> 
+               	<p:panel header="#{rodadaControl.novaRodada.nrRodada}ª Rodada em Andamento" rendered="#{rodadaControl.novaRodada != null}" 
+               			 toggleable="true" toggleableHeader="true" id="painelRodadaAtual" style="min-width: 470px;">      
+		 		  		 		  	 		  							 
+					<hr/> 
 								 		  
 	 		  		<p:repeat var="pontuacao" value="#{rodadaControl.novaRodada.listaPontuacao}">
 	 		  		
 	 		  			<h:panelGrid columns="3" columnClasses="coluna1,coluna2">
 				           
-				            <p:outputPanel style="background-color: ">
-				            	<img src="#{pontuacao.time.urlEscudoSvg}" alt="" style="width: 25px;"/> 
-				            	<h:outputText value="#{pontuacao.time.nomeTime} - #{pontuacao.time.nomeDonoTime}" />					            						            	
+				            <p:outputPanel style="width: 200px;">
+				            	<center>
+					            	<img src="#{pontuacao.time.urlEscudoSvg}" alt="" style="width: 20px;"/> 
+					            	<br/>
+					            	<h:outputText value="#{pontuacao.time.nomeTime} - #{pontuacao.time.nomeDonoTime}" />	
+					            	<br/>				            	
+					            	<p:commandLink value="Atualizar Pontuacao" 			    					
+				               					   onstart="PF('dialogProcessando').show();" 
+				               					   onclick="PF('dialogProcessando').show();"                					 
+				               					   oncomplete="PF('dialogProcessando').hide();"									
+											       onsuccess="PF('dialogProcessando').hide();"
+										 		   onerror="PF('dialogProcessando').hide();"
+										 		   update="@form"
+										 		   action="#{rodadaControl.atualizarPontuacaoTimeRodada(pontuacao)}"
+										 		   style="text-decoration: underline;"/>	
+							 	</center>			            						            	
 				 			</p:outputPanel>
-				 			<p:spacer width="10"/>
+				 			
+				 			<p:spacer width="5"/>
+				            
 				            <p:outputPanel>
 				                <h:panelGrid columns="2" cellpadding="5" columnClasses="coluna1,coluna2">
 				                    <h:outputText value="Pontuação: "  style="font-weight: bold"/>
@@ -64,45 +78,50 @@
 				            
 				        </h:panelGrid>
 				        
-				        <hr style="height: 5px; background-color: navy; color: navy;"/>
+				        <hr/>
 	 		  		
 	 		  		</p:repeat>	
 	 		  		
-	 		  		<p:commandButton value="Salvar Rodada" 			    					
+	 		  		<p:commandLink value="Atualizar Todas as Pontuacoes da Rodada" 			    					
+               					   onstart="PF('dialogProcessando').show();" 
+               					   onclick="PF('dialogProcessando').show();"                					 
+               					   oncomplete="PF('dialogProcessando').hide();"									
+							       onsuccess="PF('dialogProcessando').hide();"
+						 		   onerror="PF('dialogProcessando').hide();"
+						 		   update="@form"
+						 		   action="#{rodadaControl.atualizarTodasPontuacoesRodadaEmAndamento}"
+						 		   style="text-align: center; font-weight: bold; text-decoration: underline;"/>	
+	 		  		<br/>
+	 		  	    <hr/>
+	 		  		
+	 		  		<p:commandButton value="SALVAR RODADA" 			    					
 	               					 onstart="PF('dialogProcessando').show();" 
 	               					 onclick="PF('dialogProcessando').show();"                					 
 	               					 oncomplete="PF('dialogProcessando').hide();"									
 								     onsuccess="PF('dialogProcessando').hide();"
 							 		 onerror="PF('dialogProcessando').hide();"
-							 		 update="@form" id="btnSalvarRodada2"
-							 		 action="#{rodadaControl.btnSalvarRodada}"/>	
+							 		 update="@form" id="btnSalvarRodada"
+							 		 action="#{rodadaControl.btnSalvarRodada}"
+							 		 style="float: right;"/>	
+						 		 
 							 		 
-			 		 <br/>				 		
+			 		<br/>				 		
 			 		 
-			 		 <hr style="height: 5px; background-color: red; color: red;"/>	  
+			 		<hr style="height: 5px; background-color: red; color: red;"/>	  
 	 		  		
-	 		  		 <center>
-		 		  		<p:commandButton value="FINALIZAR RODADA" 			    					
-		               					 onstart="PF('dialogProcessando').show();" 
-		               					 onclick="PF('dialogProcessando').show();"                					 
-		               					 oncomplete="PF('dialogProcessando').hide();"									
-									     onsuccess="PF('dialogProcessando').hide();"
-								 		 onerror="PF('dialogProcessando').hide();"
-								 		 update="@form" id="btnFinalizarRodada"
-								 		 action="#{rodadaControl.btnFinalizarRodada}"
-								 		 style="width: 400px;"/>
-					 </center>
-			 		 
-			 	
-               	               		               							
+		 		  	<p:commandButton value="FINALIZAR RODADA" 	
+							 		 id="btnFinalizarRodada"
+							 		 onclick="PF('dialogFinalizarRodada').show();"/>		
+					
+               	    <hr/>           		               							
 	            </p:panel>	   
 	            	            
-	            <p:panel header="Rodadas Anteriores" toggleable="true" toggleableHeader="true">
+	            <p:panel header="Rodadas Anteriores" toggleable="true" toggleableHeader="true" style="min-width: 470px;">
 	            	
 		            <p:dataTable var="item" value="#{rodadaControl.listaRodadas}" 
 		            			 selectionMode="single" rowKey="#{item.id}"
 		            			 reflow="true" id="listaRodadas"	   
-		            			 style="min-width: 250px;"
+		            			 style="min-width: 450px;"
 		            			 paginator="true" widgetVar="listaRodadas"
 		            			 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 		            			 currentPageReportTemplate="Exibindo de {startRecord} a {endRecord} de um total de {totalRecords} registros"  
@@ -127,7 +146,12 @@
 			 		  			<h:panelGrid columns="2" style="width:100%" columnClasses="coluna1,coluna2">
 						           
 						            <p:outputPanel>
-						            	<h:outputText value="#{pontuacao.time.nomeTime} - #{pontuacao.time.nomeDonoTime}" />					            						            	
+						            	<center>
+								            <img src="#{pontuacao.time.urlEscudoSvg}" alt="" style="width: 20px;"/> 
+							            	<br/>
+							            	<h:outputText value="#{pontuacao.time.nomeTime} - #{pontuacao.time.nomeDonoTime}" />	
+							            	<br/> 
+						            	</center>      						            	
 						 			</p:outputPanel>
 						 			
 						            <p:outputPanel>
@@ -160,6 +184,33 @@
 						<br/>
 					</center>						
 				</p:dialog>
+				
+				<p:dialog widgetVar="dialogFinalizarRodada"
+						  modal="true" height="110" closable="true"
+						  width="320" resizable="false;" id="dialogFinalizarRodada" 
+						  style="z-index: 9999; font-size: 14px; border: 0px; background-color: #D3E6FF !important;">		
+							  
+					<center>					
+						
+						<br />
+						<h:outputText value="Deseja realmente finalizar a rodada?" 
+									  style="font-size: 14px; font-weight: bold;"/>
+						<br />		
+																
+						<p:commandButton value="Sim" type="success" title="Sim"
+							styleClass="btn btn-success" update="@(form)"
+							style="margin-top: 10px;"
+							onclick="PF('dialogFinalizarRodada').hide();" 
+							action="#{rodadaControl.btnFinalizarRodada}"/>							
+		
+						<p:commandButton value="Não" type="success" title="Não"
+							styleClass="btn btn-success" update="@(form)"
+							style="margin-top: 10px; margin-left: 30px;"
+							onclick="PF('dialogFinalizarRodada').hide();" />
+							
+					</center>
+			
+				</p:dialog>	
 				
             </h:form>
         </ui:define>

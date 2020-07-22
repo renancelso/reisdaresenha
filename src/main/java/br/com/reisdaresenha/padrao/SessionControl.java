@@ -1,5 +1,6 @@
 package br.com.reisdaresenha.padrao;
 
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -9,9 +10,10 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.primefaces.PrimeFaces;
 
-import br.com.reisdaresenha.control.RestFulTestServicesControl;
+import br.com.reisdaresenha.model.Parametro;
 import br.com.reisdaresenha.model.Usuario;
 import br.com.reisdaresenha.rest.CartolaRestFulClient;
+import br.com.reisdaresenha.service.ParametroServiceLocal;
 
 /**
  *
@@ -26,6 +28,9 @@ public class SessionControl extends BaseControl {
 	private static final long serialVersionUID = 7314625690695764468L;
 
 	private transient Logger log = Logger.getLogger(SessionControl.class.getName());
+	
+	@EJB
+	private ParametroServiceLocal parametroService;
 
 	/**
 	 *
@@ -101,8 +106,12 @@ public class SessionControl extends BaseControl {
 	
 	public String getLogoLiga() {
 		try {
+			
 			CartolaRestFulClient servicoCartola = new CartolaRestFulClient();			
-			return servicoCartola.buscarLogoDaLiga("RDR 2020");			
+			Parametro param = parametroService.buscarParametroPorChave("nome_liga");			
+			
+			return servicoCartola.buscarLogoDaLiga(param.getValor().trim());		
+			
 		} catch (Exception e) {
 			return "publico/estilo/images/cartola00.png";
 		}

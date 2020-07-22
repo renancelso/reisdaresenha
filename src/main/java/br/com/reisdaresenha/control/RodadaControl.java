@@ -16,8 +16,10 @@ import br.com.reisdaresenha.model.Pontuacao;
 import br.com.reisdaresenha.model.Rodada;
 import br.com.reisdaresenha.model.Time;
 import br.com.reisdaresenha.padrao.BaseControl;
+import br.com.reisdaresenha.rest.CartolaRestFulClient;
 import br.com.reisdaresenha.service.InicioServiceLocal;
 import br.com.reisdaresenha.service.RodadaServiceLocal;
+import br.com.reisdaresenha.view.TimeRodadaDTO;
 
 /**
  * @author Renan Celso
@@ -30,6 +32,8 @@ public class RodadaControl extends BaseControl {
 	private static final long serialVersionUID = -7487285227083712357L;
 
 	private transient Logger log = Logger.getLogger(RodadaControl.class.getName());
+	
+	private CartolaRestFulClient servicoCartola;
 	
 	@EJB
 	private RodadaServiceLocal rodadaService; 
@@ -50,7 +54,9 @@ public class RodadaControl extends BaseControl {
 	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {
-		try {			
+		try {
+			
+			servicoCartola = new CartolaRestFulClient();		
 			
 			listaRodadas = new ArrayList<>();		
 			
@@ -121,6 +127,49 @@ public class RodadaControl extends BaseControl {
 		return null;			
 	}
 	
+	public String atualizarPontuacaoTimeRodada(Pontuacao pontuacao) {
+		
+		try {			
+			servicoCartola = new CartolaRestFulClient();
+			
+			TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();
+			
+			timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());		
+			
+			pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);			
+			pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);
+			
+		} catch (Exception e) {
+			addErrorMessage("Erro ao atualizar pontuacao do time");			
+			log.error("Erro ao atualizar pontuacao do time \n"+e);
+		}
+		
+		btnSalvarRodada();
+		
+		return null;
+	}
+	
+	
+	public String atualizarTodasPontuacoesRodadaEmAndamento() {		
+		try {				
+			servicoCartola = new CartolaRestFulClient();			
+			for (Pontuacao pontuacao : novaRodada.getListaPontuacao()) {
+				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();			
+				timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
+				pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);			
+				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);
+			}	
+			
+		} catch (Exception e) {
+			addErrorMessage("Erro ao atualizar pontuacao do time");			
+			log.error("Erro ao atualizar pontuacao do time \n"+e);
+		}
+		
+		btnSalvarRodada();
+		
+		return null;
+	}
+	
 	
 	public String btnNovaRodada() {	
 		
@@ -186,7 +235,7 @@ public class RodadaControl extends BaseControl {
 				novaRodada.setListaPontuacao(listaPontuacao);
 			}		
 			
-			addInfoMessage(novaRodada.getNrRodada()+"ª Rodada Salva com Sucesso!");
+			addInfoMessage(novaRodada.getNrRodada()+"ª Rodada atualizada com sucesso!");
 			
 		} catch (Exception e) {
 			log.error(e);

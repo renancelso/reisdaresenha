@@ -119,6 +119,7 @@ public class TimeControl extends BaseControl {
 			timeCadastrar = buscarTimeNoCartola(timeCadastrar, timeCadastrar.getNomeTime());
 			
 			if(timeCadastrar == null) {
+				timeCadastrar = new Time();
 				return null;
 			}
 			

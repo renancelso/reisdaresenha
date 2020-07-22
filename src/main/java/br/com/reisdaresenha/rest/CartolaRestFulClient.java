@@ -22,23 +22,22 @@ public class CartolaRestFulClient {
 	
 	public Time buscarTime(String nomeTimeNoCartola) {
 		
-		Time time = new Time();
+		nomeTimeNoCartola = nomeTimeNoCartola.replace(" ", "%20");
+		
+		Time time = new Time();		
+		String endPoint = "https://api.cartolafc.globo.com/times?q="+nomeTimeNoCartola;		
+		HttpClient client = new HttpClient();
+		GetMethod method = new GetMethod(endPoint);
 		
 		try {	
-			nomeTimeNoCartola = nomeTimeNoCartola.replace(" ", "%20");
 			
-			String endPoint = "https://api.cartolafc.globo.com/times?q="+nomeTimeNoCartola;		
-						
-			HttpClient client = new HttpClient();
-	
-			GetMethod method = new GetMethod(endPoint);
+							
 			method.setRequestHeader("Connection", "keep-alive");
 			method.setRequestHeader("Accept", "*/*");
 			method.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			
 			System.out.println("Inicializando chamada a: " + endPoint);
-			System.out.println("-----------------------------------------------------");
-
+			
 			int statusCode = client.executeMethod(method);
 
 			System.out.println("Status Code = " + statusCode);
@@ -70,7 +69,7 @@ public class CartolaRestFulClient {
 			time.setSlugTime(slug);
 			time.setFacebookId(facebookId);		
 			
-			method.releaseConnection();
+			
 			
 			return time;		
 
@@ -80,28 +79,27 @@ public class CartolaRestFulClient {
 		} catch (ParseException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
-		}		
+		} finally {
+			method.releaseConnection();
+		}	
 		
 		return time;		
 	}
 	
-	public TimeRodadaDTO buscarTimeRodadaPorIDCartola(Time time, Long rodada) {
+	public TimeRodadaDTO buscarTimeRodadaPorIDCartola(Time time, Long nrRodada) {
 		
-		TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();		
+		TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();				
+		String endPoint = "https://api.cartolafc.globo.com/time/id/"+time.getIdCartola()+"/"+nrRodada;			
+		HttpClient client = new HttpClient();		
+		GetMethod method = new GetMethod(endPoint);
+		
+		try {			
 				
-		try {				
-			
-			String endPoint = "https://api.cartolafc.globo.com/time/id/"+time.getIdCartola()+"/"+rodada;		
-						
-			HttpClient client = new HttpClient();
-	
-			GetMethod method = new GetMethod(endPoint);
 			method.setRequestHeader("Connection", "keep-alive");
 			method.setRequestHeader("Accept", "*/*");
 			method.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			
 			System.out.println("Inicializando chamada a: " + endPoint);
-			System.out.println("-----------------------------------------------------");
 
 			int statusCode = client.executeMethod(method);
 
@@ -114,19 +112,35 @@ public class CartolaRestFulClient {
 			
 			JSONObject jsonObject = (JSONObject) parser.parse(jsonResponse);		
 				
-			Double patrimonio = (Double) jsonObject.get("patrimonio");				
-			Double pontos = (Double) jsonObject.get("pontos");				
-			Double pontosCampeonato = (Double) jsonObject.get("pontos_campeonato");				
-			Double valorTime = (Double) jsonObject.get("valor_time");
-			
-			timeRodadaDTO.setTime(time);
-			timeRodadaDTO.setRodadaAtual(rodada);
-			timeRodadaDTO.setPatrimonio(patrimonio);
-			timeRodadaDTO.setPontos(pontos);
-			timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
-			timeRodadaDTO.setValorTime(valorTime);
-					
-			method.releaseConnection();
+			try {
+				
+				Double patrimonio = (Double) jsonObject.get("patrimonio");				
+				Double pontos = (Double) jsonObject.get("pontos");				
+				Double pontosCampeonato = (Double) jsonObject.get("pontos_campeonato");				
+				Double valorTime = (Double) jsonObject.get("valor_time");
+				
+				timeRodadaDTO.setTime(time);
+				timeRodadaDTO.setRodadaAtual(nrRodada);
+				timeRodadaDTO.setPatrimonio(Double.parseDouble(String.valueOf(patrimonio)));
+				timeRodadaDTO.setPontos(pontos);
+				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
+				timeRodadaDTO.setValorTime(valorTime);		
+				
+			} catch (Exception e) {				
+				
+				Long patrimonio = (Long) jsonObject.get("patrimonio");				
+				Double pontos = (Double) jsonObject.get("pontos");				
+				Double pontosCampeonato = (Double) jsonObject.get("pontos_campeonato");				
+				Long valorTime = (Long) jsonObject.get("valor_time");
+				
+				timeRodadaDTO.setTime(time);
+				timeRodadaDTO.setRodadaAtual(nrRodada);
+				timeRodadaDTO.setPatrimonio(Double.parseDouble(String.valueOf(patrimonio)));
+				timeRodadaDTO.setPontos(pontos);
+				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
+				timeRodadaDTO.setValorTime(Double.parseDouble(String.valueOf(valorTime)));
+				
+			}	
 			
 			return timeRodadaDTO;		
 
@@ -136,22 +150,23 @@ public class CartolaRestFulClient {
 		} catch (ParseException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
-		}		
+		} finally {
+			method.releaseConnection();
+		}	
 		
 		return timeRodadaDTO;		
 	}
 		
 	public String buscarLogoDaLiga(String nomeLiga) {
-										
+		
+		nomeLiga = nomeLiga.replace(" ", "%20");
+					
+		String endPoint = "https://api.cartolafc.globo.com/ligas?q="+nomeLiga;		
+		HttpClient client = new HttpClient();
+		GetMethod method = new GetMethod(endPoint);
+		
 		try {				
-			
-			nomeLiga = nomeLiga.replace(" ", "%20");
-			
-			String endPoint = "https://api.cartolafc.globo.com/ligas?q="+nomeLiga;		
 						
-			HttpClient client = new HttpClient();
-	
-			GetMethod method = new GetMethod(endPoint);
 			method.setRequestHeader("Connection", "keep-alive");
 			method.setRequestHeader("Accept", "*/*");
 			method.setRequestHeader("Content-type", "application/x-www-form-urlencoded");				
@@ -168,8 +183,7 @@ public class CartolaRestFulClient {
 			
 			String imagem = (String) jsonObject.get("imagem");
 														
-			method.releaseConnection();
-			
+						
 			return imagem;
 
 		} catch (IOException e) {
@@ -178,6 +192,8 @@ public class CartolaRestFulClient {
 		} catch (ParseException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
+		} finally {
+			method.releaseConnection();
 		}		
 		
 		return null;		
