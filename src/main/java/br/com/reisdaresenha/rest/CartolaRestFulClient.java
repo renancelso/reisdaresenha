@@ -121,7 +121,7 @@ public class CartolaRestFulClient {
 				
 				timeRodadaDTO.setTime(time);
 				timeRodadaDTO.setRodadaAtual(nrRodada);
-				timeRodadaDTO.setPatrimonio(Double.parseDouble(String.valueOf(patrimonio)));
+				timeRodadaDTO.setPatrimonio(patrimonio);
 				timeRodadaDTO.setPontos(pontos);
 				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
 				timeRodadaDTO.setValorTime(valorTime);		
@@ -135,10 +135,10 @@ public class CartolaRestFulClient {
 				
 				timeRodadaDTO.setTime(time);
 				timeRodadaDTO.setRodadaAtual(nrRodada);
-				timeRodadaDTO.setPatrimonio(Double.parseDouble(String.valueOf(patrimonio)));
+				timeRodadaDTO.setPatrimonio(patrimonio != null ? Double.parseDouble(String.valueOf(patrimonio)) : 0.0);
 				timeRodadaDTO.setPontos(pontos);
 				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
-				timeRodadaDTO.setValorTime(Double.parseDouble(String.valueOf(valorTime)));
+				timeRodadaDTO.setValorTime(valorTime != null ? Double.parseDouble(String.valueOf(valorTime)) : 0.0);
 				
 			}	
 			

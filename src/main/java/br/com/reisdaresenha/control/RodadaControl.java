@@ -115,7 +115,7 @@ public class RodadaControl extends BaseControl {
 	}
 	
 	public Liga buscarLigaPrincipal() {		
-		Integer anoAtual = Calendar.getInstance().get(Calendar.YEAR);	
+		Integer anoAtual = 2020;//Calendar.getInstance().get(Calendar.YEAR);	
 		listaLigas = inicioService.buscarLigas(anoAtual);		
 		if(listaLigas != null && !listaLigas.isEmpty()) {			
 			for (Liga liga : listaLigas) {	

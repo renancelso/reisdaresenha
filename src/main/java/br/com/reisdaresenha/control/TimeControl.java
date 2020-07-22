@@ -20,6 +20,7 @@ import br.com.reisdaresenha.model.Usuario;
 import br.com.reisdaresenha.padrao.BaseControl;
 import br.com.reisdaresenha.rest.CartolaRestFulClient;
 import br.com.reisdaresenha.service.InicioServiceLocal;
+import br.com.reisdaresenha.service.TimeServiceLocal;
 
 
 /**
@@ -38,6 +39,9 @@ public class TimeControl extends BaseControl {
 	
 	@EJB
 	private InicioServiceLocal inicioService; 
+	
+	@EJB
+	private TimeServiceLocal timeService; 
 	
 	private Time timeCadastrar;
 	
@@ -93,6 +97,12 @@ public class TimeControl extends BaseControl {
 	
 	public String cadastrarTime() {		
 		try {	
+			
+			if(timeService.buscarTimePorNome(timeCadastrar.getNomeTime()) != null) {
+				addErrorMessage("Time "+timeCadastrar.getNomeTime()+" já existe na base de dados.");				
+				timeCadastrar = new Time();
+				return null;
+			}
 			
 			if(timeCadastrar.getLiga() == null || (timeCadastrar.getLiga() != null && timeCadastrar.getLiga().getId() == null)) {
 				List<Liga>listaLigas = new ArrayList<>();

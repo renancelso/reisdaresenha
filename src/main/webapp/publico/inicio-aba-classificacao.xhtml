@@ -10,11 +10,10 @@
 <h:body>
 
 	<ui:composition>
-		<p:tabView dynamic="true" cache="true" style="font-size: 12px;" orientation="left">
+		<p:tabView dynamic="true" cache="true" style="font-size: 12px;" >
 		       		
-      			<p:tab title="Principal">	 		
-     			 		 			
-      			 			
+      			<p:tab title="LIGA PRINCIPAL">			
+     			 		 		      			 			
       			 	<p:dataTable var="item" value="#{inicioControl.listaClassificacaoLigaPrincipalDTO}"
       			 				 emptyMessage="Não existem dados"  >
       			 					 
@@ -22,15 +21,15 @@
 	 			 			<h:outputText value="Classificação da Liga Principal"/>	 			 		 
 	 			 		</f:facet>    
 	      			 					 
-     			 		<p:column headerText="#" style="text-align: center; width: 75px;" sortBy="#{item.colocacao}">
+     			 		<p:column headerText="#" style="text-align: center; width: 50px;" sortBy="#{item.colocacao}">
 					        <h:outputText value="#{item.colocacao}" />
 					    </p:column>	
 					   
 					    <p:column headerText="Time" style="width: 50%">
-					        <h:outputText value="#{item.time}" />
+					        <img src="#{item.escudoTime}" alt="" style="width: 20px;"/> <h:outputText value="#{item.time}" />
 					    </p:column>	
 					    
-					    <p:column headerText="J" style="text-align: center; width: 75px;" sortBy="#{item.jogos}">
+					    <p:column headerText="J" style="text-align: center; width: 50px;" sortBy="#{item.jogos}">
 					        <h:outputText value="#{item.jogos}" />
 					    </p:column>			
 					    
@@ -44,28 +43,82 @@
 					    								   
 					</p:dataTable>   
                					           
-      			</p:tab>
-      			 
-      			<p:tab title="Reis da Resenha">	
-      					       			 			       			 			
-    			 	<p:panel>  
-    			 		<f:facet name="header">	     
-    			 			<h:outputText value="Classificação da Liga 'Reis da Resenha'"/>
-    			 			<img src="publico/estilo/images/trofeu.png" style="height: 14px; float:right;"/> 
-    			 		</f:facet>  
-               		</p:panel>		
-                			           
-      			 </p:tab>		
-      			 
-      			 <p:tab title="O Sobrevivente">	
-     			 	<p:panel header="">            
-               			<f:facet name="header">	     
-    			 			<h:outputText value="Classificação da Liga 'O Sobrevivente'"/>
-    			 			<img src="publico/estilo/images/bola-em-chamas.png" style="height: 14px; float:right;"/> 
-    			 		</f:facet> 
-               	 	</p:panel>					           
-      			 </p:tab>	
+      			</p:tab>      			       				
       			 	       			 
+      	</p:tabView>
+      	
+      	<hr/>
+      	
+      	<p:tabView dynamic="true" cache="true" style="font-size: 12px;">
+      	
+      		<p:tab title="LIGA REIS DA RESENHA">	      					       			 			       			 			
+   			 	
+   			 	<p:dataTable var="item" emptyMessage="Não existem dados"  >
+      			 					 
+      			 	<f:facet name="header">	     
+ 			 			<h:outputText value="Classificação da Liga Reis da Resenha"/>	 			 		 
+ 			 		</f:facet>    
+      			 					 
+    			 		<p:column headerText="#" style="text-align: center; width: 50px;" sortBy="">
+				        <h:outputText value="" />
+				    </p:column>	
+				   
+				    <p:column headerText="Time" style="width: 50%">
+				        <img src="" alt="" style="width: 20px;"/> <h:outputText value="" />
+				    </p:column>	
+				    
+				    <p:column headerText="J" style="text-align: center; width: 50px;" sortBy="">
+				        <h:outputText value="" />
+				    </p:column>			
+				    
+				    <p:column headerText="PG" style="text-align: center; width: 75px;" sortBy="">
+				        <h:outputText value="" converter="decimal"/>
+				    </p:column>								   
+				 
+				    <p:column headerText="$" style="text-align: center; width: 75px;" sortBy="">
+				        <h:outputText value="" converter="decimal"/>
+				    </p:column>						    
+				    								   
+				</p:dataTable>   
+               			           
+     		</p:tab>
+     			
+      	</p:tabView>
+      	
+      	<hr/>
+      	
+      	<p:tabView dynamic="true" cache="true" style="font-size: 12px;">
+      		 <p:tab title="O SOBREVIVENTE">	
+   			 	
+   			 	<p:dataTable var="item" emptyMessage="Não existem dados"  >
+      			 					 
+      			 	<f:facet name="header">	     
+ 			 			<h:outputText value="Classificação da Liga O Sobrevivente"/>	 			 		 
+ 			 		</f:facet>    
+      			 					 
+    			 	<p:column headerText="#" style="text-align: center; width: 50px;" sortBy="">
+				        <h:outputText value="" />
+				    </p:column>	
+				   
+				    <p:column headerText="Time" style="width: 50%">
+				        <img src="" alt="" style="width: 20px;"/> <h:outputText value="" />
+				    </p:column>	
+				    
+				    <p:column headerText="J" style="text-align: center; width: 50px;" sortBy="">
+				        <h:outputText value="" />
+				    </p:column>			
+				    
+				    <p:column headerText="PG" style="text-align: center; width: 75px;" sortBy="">
+				        <h:outputText value="" converter="decimal"/>
+				    </p:column>								   
+				 
+				    <p:column headerText="$" style="text-align: center; width: 75px;" sortBy="">
+				        <h:outputText value="" converter="decimal"/>
+				    </p:column>						    
+				    								   
+				</p:dataTable>   
+									           
+     		</p:tab>
       	</p:tabView>
 
 	</ui:composition>

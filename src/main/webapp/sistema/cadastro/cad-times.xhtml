@@ -59,10 +59,10 @@
 		        			<h:inputText size="25" value="#{timeControl.timeSelecionado.nomeTime}"/>	 	
 															        			
 		        			<h:outputText value="Situação Pagamento " />	        				        			
-		        			<p:selectOneMenu value="#{timeControl.timeSelecionado.statusPagamento}" >		        				
+		        			<p:selectOneMenu value="#{timeControl.timeSelecionado.statusPagamento}" >	
+		        				<f:selectItem itemValue="P" itemLabel="PAGO"/>		        				
 								<f:selectItem itemValue="NP" itemLabel="NÃO PAGO"/>
-								<f:selectItem itemValue="PP" itemLabel="P. PARCIAL"/>
-								<f:selectItem itemValue="P" itemLabel="PAGO"/>							
+								<f:selectItem itemValue="PP" itemLabel="P. PARCIAL"/>														
 							</p:selectOneMenu>								
 							
 							<h:outputText value="Valor Pago "/>	
@@ -85,7 +85,7 @@
 							 		 action="#{timeControl.cadastrarTime}"
 							 		 rendered="#{timeControl.timeCadastrar != null and timeControl.timeSelecionado == null}"/>
 							 		 							 		 
-					<p:commandButton value="Alterar" 			    					
+					<p:commandButton value="Atualizar" 			    					
 	               					 onstart="PF('dialogProcessando').show();" 
 	               					 onclick="PF('dialogProcessando').show();"                					 
 	               					 oncomplete="PF('dialogProcessando').hide();"									

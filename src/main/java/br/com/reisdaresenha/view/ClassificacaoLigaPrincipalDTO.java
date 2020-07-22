@@ -4,6 +4,8 @@ public class ClassificacaoLigaPrincipalDTO {
 		
 	private Integer colocacao;
 	
+	private String escudoTime;
+	
 	private String time;
 	
 	private Integer jogos;
@@ -42,7 +44,24 @@ public class ClassificacaoLigaPrincipalDTO {
 
 	public void setPontuacao(Double pontuacao) {
 		this.pontuacao = pontuacao;
+	}	
+
+	public Integer getColocacao() {
+		return colocacao;
 	}
+
+	public void setColocacao(Integer colocacao) {
+		this.colocacao = colocacao;
+	}
+
+	public String getEscudoTime() {
+		return escudoTime;
+	}
+
+	public void setEscudoTime(String escudoTime) {
+		this.escudoTime = escudoTime;
+	}
+
 
 	@Override
 	public int hashCode() {
@@ -67,14 +86,6 @@ public class ClassificacaoLigaPrincipalDTO {
 		} else if (!time.equals(other.time))
 			return false;
 		return true;
-	}
-
-	public Integer getColocacao() {
-		return colocacao;
-	}
-
-	public void setColocacao(Integer colocacao) {
-		this.colocacao = colocacao;
 	}
 
 }

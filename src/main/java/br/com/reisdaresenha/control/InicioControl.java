@@ -58,13 +58,13 @@ public class InicioControl extends BaseControl {
 	
 	public void listarClassificacaoLigaPrincipal() {		
 		listaClassificacaoLigaPrincipalDTO = new ArrayList<>();
-		Integer anoAtual = Calendar.getInstance().get(Calendar.YEAR);			
+		Integer anoAtual = 2020;//Calendar.getInstance().get(Calendar.YEAR);			
 		listaClassificacaoLigaPrincipalDTO = inicioService.buscarClassificacaoLigaPrincipal(anoAtual);		
 	}
 
 	private void listarPremiacoes() {		
 		
-		Integer anoAtual = Calendar.getInstance().get(Calendar.YEAR);	
+		Integer anoAtual = 2020;//Calendar.getInstance().get(Calendar.YEAR);	
 		
 		listaLigas =  new ArrayList<>();
 		listaPremiacaoLigaPrincipal = new ArrayList<>();

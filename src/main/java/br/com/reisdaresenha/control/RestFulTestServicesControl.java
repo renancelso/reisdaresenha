@@ -11,11 +11,13 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
+import br.com.reisdaresenha.model.Rodada;
 import br.com.reisdaresenha.model.Time;
 import br.com.reisdaresenha.model.Usuario;
 import br.com.reisdaresenha.padrao.BaseControl;
 import br.com.reisdaresenha.rest.CartolaRestFulClient;
 import br.com.reisdaresenha.service.InicioServiceLocal;
+import br.com.reisdaresenha.view.ClassificacaoLigaPrincipalDTO;
 
 @ManagedBean(name = "restFulTestServicesControl")
 @ViewScoped
@@ -30,11 +32,18 @@ public class RestFulTestServicesControl  extends BaseControl {
 	
 	private List<Time> listaTimesParticipantes;	
 	
+	private List<Rodada> listaHistoricoRodadas;
+	
 	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {		
+		
 		listaTimesParticipantes = new ArrayList<>();
-		listaTimesParticipantes = (List<Time>) inicioService.consultarTodos(Time.class, " order by o.nomeDonoTime, o.nomeTime ");	
+		listaTimesParticipantes = (List<Time>) inicioService.consultarTodos(Time.class, " order by o.nomeDonoTime, o.nomeTime ");			
+		
+		listaHistoricoRodadas = new ArrayList<Rodada>();
+		listaHistoricoRodadas = (List<Rodada>) inicioService.consultarTodos(Rodada.class, " order by o.nrRodada desc");
+		
 	}	
 	
 	public String atualizarInfosTimesCartola() {
@@ -76,6 +85,22 @@ public class RestFulTestServicesControl  extends BaseControl {
 		
 		return null;
 	}
+	
+	public List<ClassificacaoLigaPrincipalDTO> listarClassificacaoHistoricoRodadas(Long nrRodada){
+		
+		try {		
+			List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO = new ArrayList<ClassificacaoLigaPrincipalDTO>();
+			
+			Integer anoAtual = 2020;//Calendar.getInstance().get(Calendar.YEAR);	
+			
+			listaClassificacaoLigaPrincipalDTO = inicioService.buscarHistoricoClassificacaoRodadas(anoAtual, nrRodada);		
+			
+			return listaClassificacaoLigaPrincipalDTO;	
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<ClassificacaoLigaPrincipalDTO>();
+		}
+	}
 
 	public List<Time> getListaTimesParticipantes() {
 		return listaTimesParticipantes;
@@ -83,5 +108,13 @@ public class RestFulTestServicesControl  extends BaseControl {
 
 	public void setListaTimesParticipantes(List<Time> listaTimesParticipantes) {
 		this.listaTimesParticipantes = listaTimesParticipantes;
+	}
+
+	public List<Rodada> getListaHistoricoRodadas() {
+		return listaHistoricoRodadas;
+	}
+
+	public void setListaHistoricoRodadas(List<Rodada> listaHistoricoRodadas) {
+		this.listaHistoricoRodadas = listaHistoricoRodadas;
 	}
 }

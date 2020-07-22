@@ -20,5 +20,7 @@ public interface InicioServiceLocal extends GenericServiceInterface{
 	public List<Liga> buscarLigas(Integer ano);
 
 	public List<ClassificacaoLigaPrincipalDTO> buscarClassificacaoLigaPrincipal(Integer ano);
+
+	public List<ClassificacaoLigaPrincipalDTO> buscarHistoricoClassificacaoRodadas(Integer ano, Long nrRodada);
 	
 }
