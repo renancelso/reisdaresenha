@@ -24,7 +24,7 @@
 		 			 			<h:outputText value="Classificação da #{item.nrRodada}ª rodada"/>	 			 		 
 		 			 		</f:facet>    
 		      			 					 
-	     			 		<p:column headerText="#" style="text-align: center; width: 50px;" sortBy="#{item.colocacao}">
+	     			 		<p:column headerText="#" style="text-align: center; width: 50px;">
 						        <h:outputText value="#{item.colocacao}" />
 						    </p:column>	
 						   
@@ -32,11 +32,11 @@
 						        <img src="#{item.escudoTime}" alt="" style="width: 20px;"/> <h:outputText value="#{item.time}" />
 						    </p:column>							    						
 						    
-						    <p:column headerText="PG" style="text-align: center; width: 75px;" sortBy="#{item.pontuacao}">
+						    <p:column headerText="PG" style="text-align: center; width: 75px;">
 						        <h:outputText value="#{item.pontuacao}" converter="decimal"/>
 						    </p:column>								   
 						 
-						    <p:column headerText="$" style="text-align: center; width: 75px;" sortBy="#{item.cartoletas}">
+						    <p:column headerText="$" style="text-align: center; width: 75px;">
 						        <h:outputText value="#{item.cartoletas}" converter="decimal"/>
 						    </p:column>						    
 						    								   

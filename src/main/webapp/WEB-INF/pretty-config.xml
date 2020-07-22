@@ -55,9 +55,24 @@
     <url-mapping id="cad-premiacoes">
         <pattern value="/cad-premiacoes" />
         <view-id value="/sistema/cadastro/cad-premiacoes.jsf" />
-    </url-mapping>      
+    </url-mapping>   
     
-                      
+    <url-mapping id="class-liga-principal">
+        <pattern value="/class-liga-principal" />
+        <view-id value="/publico/classificacao-principal-nova-aba.jsf" />
+    </url-mapping>   
+    
+    
+    <url-mapping id="class-reis-da-resenha">
+        <pattern value="/class-reis-da-resenha" />
+        <view-id value="/publico/classificacao-reis-da-resenha-nova-aba.jsf" />
+    </url-mapping> 
+    
+    <url-mapping id="class-o-sobrevivente">
+        <pattern value="/class-o-sobrevivente" />
+        <view-id value="/publico/classificacao-o-sobrevivente-nova-aba.jsf" />
+    </url-mapping>
+                     
               
    	<url-mapping id="logoff">
 	  	<pattern value="/logoff" />

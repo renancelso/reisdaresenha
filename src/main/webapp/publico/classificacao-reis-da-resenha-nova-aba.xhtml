@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://java.sun.com/jsf/passthrough"
+	xmlns:c="http://java.sun.com/jstl/core" class="gt-ie8 gt-ie9 not-ie">
+
+<h:head>
+
+	<meta charset="utf-8"/>
+	
+	<link rel="shortcut icon" href="#{sessionControl.logoLiga}" />
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<title>Classif. Reis da Resenha</title>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+	
+	<link href="publico/estilo/stylesheets/bootstrap.css" rel="stylesheet" type="text/css"/>
+	<link href="publico/estilo/stylesheets/pixel-admin.css" rel="stylesheet" type="text/css"/>
+	<link href="publico/estilo/stylesheets/pages.css" rel="stylesheet" type="text/css"/>
+	<link href="publico/estilo/stylesheets/rtl.css" rel="stylesheet" type="text/css"/>
+	<link href="publico/estilo/stylesheets/themes.css" rel="stylesheet" type="text/css"/>
+
+	<!--[if lt IE 9]>
+		<script src="publico/estilo/javascripts/ie.min.js"></script>
+	<![endif]-->
+
+</h:head>
+
+<h:body class="theme-default page-signin">
+
+	<div id="page-signin-bg">			
+		<div class="overlay"></div>
+	</div>	
+	
+	<div style="display: block;	position: relative; z-index: 999; margin-top: 10px;
+		 font-weight: bold; font-size: 16px; margin-left: 20px; margin-right: 20px;">							
+		
+		<a href="/">
+			<img src="#{sessionControl.logoLiga}" alt="" style="width: 50px;"/> 
+		</a>	
+		
+		<label  style="font-weight: bold; font-size: 20px; color: #000000; margin-bottom: 5px; color: #003A70;">
+			Reis da Resenha
+		</label>		
+				
+		<div class="signin-text" style="margin-bottom: 5px !important;">				
+			<span style="font-size: 10px !important;"></span>
+		</div> 
+			 				
+		<!-- Form -->
+		<h:form id="signin-form_id" style="font-size: 12px;">				
+								
+			<p:messages id="messages1" closable="true" showDetail="false" />
+						
+		  	<p:dataTable var="item" emptyMessage="Não existem dados" >
+      			 					 
+    			<f:facet name="header">	     
+		 			<h:outputText value="CLASSIFICAÇÃO DA LIGA 'REIS DA RESENHA'"/>	 			 		 
+		 		</f:facet>    
+    			 					 
+  			 	<p:column headerText="#" style="text-align: center; width: 50px;" sortBy="">
+		        	<h:outputText value="" />
+			    </p:column>	
+			   
+			    <p:column headerText="Time" style="width: 50%">
+			        <img src="" alt="" style="width: 20px;"/> <h:outputText value="" />
+			    </p:column>	
+			    
+			    <p:column headerText="J" style="text-align: center; width: 50px;" sortBy="">
+			        <h:outputText value="" />
+			    </p:column>			
+			    
+			    <p:column headerText="PG" style="text-align: center; width: 75px;" sortBy="">
+			        <h:outputText value="" converter="decimal"/>
+			    </p:column>								   
+			 
+			    <p:column headerText="$" style="text-align: center; width: 75px;" sortBy="">
+			        <h:outputText value="" converter="decimal"/>
+			    </p:column>						    
+			    								   
+			</p:dataTable>   	
+							
+		</h:form>
+		
+		<!-- / Form -->	
+				
+	</div>		
+		
+	<div class="not-a-member" style="text-align: center; font-size: 10px; color: #000000; 
+		 font-family: Gill Sans, sans-serif; margin-top: 12%;">	
+		 				
+<!-- 		<h:outputText value="#{applicationControl.versao}" /> -->
+		
+		<br/>
+		<br/>
+		<br/>
+		   
+	</div>		
+		
+	<script src="publico/estilo/javascripts/bootstrap.min.js"></script>
+	<script src="publico/estilo/javascripts/pixel-admin.js"></script>
+	
+	<script type="text/javascript">			
+		var init = [];		
+		
+		window.PixelAdmin.start(init);
+	</script>
+
+</h:body>
+
+</html>
