@@ -4,10 +4,13 @@ import java.io.IOException;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import com.google.gson.Gson;
 
 //https://api.cartolafc.globo.com/mercado/status
 //https://api.cartolafc.globo.com/atletas/mercado
@@ -19,14 +22,20 @@ public class ExemploClientRestGet {
 		
 		try {						
 			
-			String endPoint = "https://api.cartolafc.globo.com/ligas?q=RDR%202020";
+			String endPoint = "https://login.globo.com/api/authentication";
 			
 			HttpClient client = new HttpClient();
 
-			GetMethod method = new GetMethod(endPoint);
+			PostMethod method = new PostMethod(endPoint);
 			method.setRequestHeader("Connection", "keep-alive");
 			method.setRequestHeader("Accept", "*/*");
-			method.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			method.setRequestHeader("Content-type", "application/x-www-form-urlencoded");							  
+			
+			NameValuePair nvp1 = new NameValuePair("payload", "{\"payload\": {\"email\":\"renancelso@globo.com\",\"password\":\"04162003\",\"serviceId\":4728}}");						
+			
+			method.setRequestBody(new NameValuePair[]{nvp1});
+			
+			//{\"payload\": {\"email\":\"renancelso@globo.com\",\"password\":\"04162003\",\"serviceId\":4728}}
 				
 			try {
 			
@@ -45,9 +54,7 @@ public class ExemploClientRestGet {
 				JSONArray jsonArray = (JSONArray) parser.parse(jsonResponse);		
 				
 				JSONObject jsonObject = (JSONObject) jsonArray.get(0);		
-				
-				String imagem = (String) jsonObject.get("imagem");
-															
+											
 				method.releaseConnection();
 
 			} catch (IOException e) {
