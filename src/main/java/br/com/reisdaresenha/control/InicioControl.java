@@ -41,6 +41,7 @@ public class InicioControl extends BaseControl {
 	
 	private List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO;
 		
+	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {
 		try {
@@ -49,7 +50,7 @@ public class InicioControl extends BaseControl {
 			listarClassificacaoLigaPrincipal();
 			
 			listaTimesParticipantes = new ArrayList<>();
-			listaTimesParticipantes = (List<Time>) inicioService.consultarTodos(Time.class, " order by o.nomeDonoTime, o.nomeTime ");		
+			listaTimesParticipantes = (List<Time>) inicioService.consultarTodos(Time.class, " order by o.nomeTime, o.nomeDonoTime ");		
 			
 		} catch (Exception e) {
 			log.error("Erro no método init "+e.getMessage());			

@@ -32,7 +32,6 @@ public class CartolaRestFulClient {
 		GetMethod method = new GetMethod(endPoint);
 		
 		try {	
-			
 							
 			method.setRequestHeader("Connection", "keep-alive");
 			method.setRequestHeader("Accept", "*/*");
@@ -51,28 +50,28 @@ public class CartolaRestFulClient {
 			
 			JSONArray jsonArray = (JSONArray) parser.parse(jsonResponse);		
 			
-			JSONObject jsonObject = (JSONObject) jsonArray.get(0);
-			
-			String nomeDonoTimeCartola = (String) jsonObject.get("nome_cartola");				
-			Long timeIdCartola = (Long) jsonObject.get("time_id");				
-			String fotoPerfil = (String) jsonObject.get("foto_perfil");
-			String urlEscudoPng = (String) jsonObject.get("url_escudo_png");				
-			String urlEscudoSvg = (String) jsonObject.get("url_escudo_svg");				
-			Boolean assinante = (Boolean) jsonObject.get("assinante");
-			String slug = (String) jsonObject.get("slug");
-			Long facebookId = (Long) jsonObject.get("facebook_id");
-			
-			time.setNomeDonoTime(nomeDonoTimeCartola);
-			time.setIdCartola(timeIdCartola);
-			time.setFotoPerfil(fotoPerfil);
-			time.setUrlEscudoPng(urlEscudoPng);
-			time.setUrlEscudoSvg(urlEscudoSvg);
-			time.setAssinante(assinante ? "sim" : "nao");
-			time.setSlugTime(slug);
-			time.setFacebookId(facebookId);		
-			
-			
-			
+			if(jsonArray != null && !jsonArray.isEmpty()) {		
+				
+				JSONObject jsonObject = (JSONObject) jsonArray.get(0);			
+				String nomeDonoTimeCartola = (String) jsonObject.get("nome_cartola");				
+				Long timeIdCartola = (Long) jsonObject.get("time_id");				
+				String fotoPerfil = (String) jsonObject.get("foto_perfil");
+				String urlEscudoPng = (String) jsonObject.get("url_escudo_png");				
+				String urlEscudoSvg = (String) jsonObject.get("url_escudo_svg");				
+				Boolean assinante = (Boolean) jsonObject.get("assinante");
+				String slug = (String) jsonObject.get("slug");
+				Long facebookId = (Long) jsonObject.get("facebook_id");
+				
+				time.setNomeDonoTime(nomeDonoTimeCartola);
+				time.setIdCartola(timeIdCartola);
+				time.setFotoPerfil(fotoPerfil);
+				time.setUrlEscudoPng(urlEscudoPng);
+				time.setUrlEscudoSvg(urlEscudoSvg);
+				time.setAssinante(assinante ? "sim" : "nao");
+				time.setSlugTime(slug);
+				time.setFacebookId(facebookId);		
+			}
+						
 			return time;		
 
 		} catch (IOException e) {
@@ -181,12 +180,13 @@ public class CartolaRestFulClient {
 			
 			JSONArray jsonArray = (JSONArray) parser.parse(jsonResponse);		
 			
-			JSONObject jsonObject = (JSONObject) jsonArray.get(0);		
-			
-			String imagem = (String) jsonObject.get("imagem");
-														
-						
-			return imagem;
+			if(jsonArray != null && !jsonArray.isEmpty()) {				
+				JSONObject jsonObject = (JSONObject) jsonArray.get(0);		
+				
+				String imagem = (String) jsonObject.get("imagem");
+							
+				return imagem;
+			}
 
 		} catch (IOException e) {
 			System.out.println(e.getMessage());

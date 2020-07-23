@@ -31,14 +31,25 @@
 		               		<h:outputText value="Ligas " class="required"/>	        			
 		        			<h:inputText size="10" value="TODAS" readonly="true"/>   	
 		        			
-		        			<h:outputText value="Nome do Time " class="required"/>	        			
-		        			<h:inputText size="25" value="#{timeControl.timeCadastrar.nomeTime}"/>														
+		        			<h:outputText value="Nome do Time " class="required"/>	 
+		        			<h:panelGrid columns="2" columnClasses="coluna2, coluna1">	       			
+		        				<h:inputText size="25" value="#{timeControl.timeCadastrar.nomeTime}"/>	
+		        				
+		        				<p:commandButton value="Consultar no Cartola"	    					
+				               					 onstart="PF('dialogProcessando').show();" 
+				               					 onclick="PF('dialogProcessando').show();"                					 
+				               					 oncomplete="PF('dialogProcessando').hide();"									
+											     onsuccess="PF('dialogProcessando').hide();"
+										 		 onerror="PF('dialogProcessando').hide();"
+										 		 update="@form" id="btnConsultarTimeCartola"
+										 		 action="#{timeControl.btnConsultarTimeCartola(timeControl.timeCadastrar.nomeTime)}"/>
+		        			</h:panelGrid>													
 		        					        			
 		        			<h:outputText value="Situação Pagamento " />	        				        			
-		        			<p:selectOneMenu value="#{timeControl.timeCadastrar.statusPagamento}" >		        				
+		        			<p:selectOneMenu value="#{timeControl.timeCadastrar.statusPagamento}" >		
+		        				<f:selectItem itemValue="P" itemLabel="PAGO"/>	        				
 								<f:selectItem itemValue="NP" itemLabel="NÃO PAGO"/>
-								<f:selectItem itemValue="PP" itemLabel="P. PARCIAL"/>
-								<f:selectItem itemValue="P" itemLabel="PAGO"/>							
+								<f:selectItem itemValue="PP" itemLabel="P. PARCIAL"/>														
 							</p:selectOneMenu>								
 							
 							<h:outputText value="Valor Pago " class="required"/>	
@@ -139,13 +150,10 @@
 				    </p:column> 
 	       					 
 	       			<p:column headerText="Nome Time" style="width: 30%">				       
-				        <h:outputText value="#{item.nomeTime}" />
+				        <h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />
 				    </p:column>
 								   
-				    <p:column headerText="Dono Time" style="width: 30%">
-				        <h:outputText value="#{item.nomeDonoTime}" />
-				    </p:column>	
-				    
+				   				    
 				    <p:column headerText="Status R$" style="width: 20%; text-align: center; font-weight: bold;">			    					    		  
 				        <h:outputText value="NAO PAGO" rendered="#{item.statusPagamento == 'NP'}" style="color: red;"/>
 				        <h:outputText value="P. PARCIAL" rendered="#{item.statusPagamento == 'PP'}" style="color: red;"/>

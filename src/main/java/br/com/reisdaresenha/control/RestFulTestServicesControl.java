@@ -39,7 +39,7 @@ public class RestFulTestServicesControl  extends BaseControl {
 	public void init() {		
 		
 		listaTimesParticipantes = new ArrayList<>();
-		listaTimesParticipantes = (List<Time>) inicioService.consultarTodos(Time.class, " order by o.nomeDonoTime, o.nomeTime ");			
+		listaTimesParticipantes = (List<Time>) inicioService.consultarTodos(Time.class, " order by o.nomeTime, o.nomeDonoTime ");			
 		
 		listaHistoricoRodadas = new ArrayList<Rodada>();
 		listaHistoricoRodadas = (List<Rodada>) inicioService.consultarTodos(Rodada.class, " order by o.nrRodada desc");

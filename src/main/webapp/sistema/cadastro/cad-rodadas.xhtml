@@ -35,15 +35,20 @@
           	            				  
                	<p:panel header="#{rodadaControl.novaRodada.nrRodada}ª Rodada em Andamento" rendered="#{rodadaControl.novaRodada != null}" 
                			 toggleable="true" toggleableHeader="true" id="painelRodadaAtual" style="min-width: 470px;">      
+               			 
+               		<h:outputText value="Total de #{rodadaControl.novaRodada.listaPontuacao.size()} times" style="font-weight: bold;"/>	
 		 		  		 		  	 		  							 
-					<hr/> 
+					<hr/> 					
 								 		  
-	 		  		<p:repeat var="pontuacao" value="#{rodadaControl.novaRodada.listaPontuacao}">
-	 		  		
+	 		  		<p:repeat var="pontuacao" value="#{rodadaControl.novaRodada.listaPontuacao}" varStatus="item">
+	 		  			
+	 		  			<h:outputText value="#{item.index+1}" style="font-weight: bold;"/>			  		
+	 		  			
 	 		  			<h:panelGrid columns="3" columnClasses="coluna1,coluna2">
 				           
 				            <p:outputPanel style="width: 200px;">
-				            	<center>
+				            	<center>				            		
+				            		
 					            	<img src="#{pontuacao.time.urlEscudoSvg}" alt="" style="width: 20px;"/> 
 					            	<br/>
 					            	<h:outputText value="#{pontuacao.time.nomeTime} - #{pontuacao.time.nomeDonoTime}" />	
@@ -66,12 +71,12 @@
 				                <h:panelGrid columns="2" cellpadding="5" columnClasses="coluna1,coluna2">
 				                    <h:outputText value="Pontuação: "  style="font-weight: bold"/>
 				                    <h:inputText value="#{pontuacao.vrPontuacao}" 
-				                    			 converter="decimal" maxlength="12" size="15"
+				                    			 converter="decimal" maxlength="12" size="10"
 									             onkeypress="return(MascaraMoeda(this, '.', ',', event));"/>
 				 
 				                    <h:outputText value="Cartoletas:"  style="font-weight: bold"/>
 				                    <h:inputText value="#{pontuacao.vrCartoletas}"
-				                    			 converter="decimal" maxlength="12" size="15"
+				                    			 converter="decimal" maxlength="12" size="10"
 									             onkeypress="return(MascaraMoeda(this, '.', ',', event));"/>					                  
 				                </h:panelGrid>
 				            </p:outputPanel>
@@ -141,7 +146,7 @@
 					    
 					    <p:rowExpansion>
 					    
-						    <p:repeat var="pontuacao" value="#{item.listaPontuacao}">
+						    <p:repeat var="pontuacao" value="#{item.listaPontuacao}">		 		  				
 		 		  		
 			 		  			<h:panelGrid columns="2" style="width:100%" columnClasses="coluna1,coluna2">
 						           

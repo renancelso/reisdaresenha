@@ -110,7 +110,9 @@ public class SessionControl extends BaseControl {
 			CartolaRestFulClient servicoCartola = new CartolaRestFulClient();			
 			Parametro param = parametroService.buscarParametroPorChave("nome_liga");			
 			
-			return servicoCartola.buscarLogoDaLiga(param.getValor().trim());		
+			String logo = servicoCartola.buscarLogoDaLiga(param.getValor().trim());
+			
+			return logo != null ? logo : "publico/estilo/images/cartola00.png";		
 			
 		} catch (Exception e) {
 			return "publico/estilo/images/cartola00.png";

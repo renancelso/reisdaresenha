@@ -1,8 +1,8 @@
 package br.com.reisdaresenha.control;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -69,7 +69,7 @@ public class RodadaControl extends BaseControl {
 				List<Pontuacao> listaPontuacao = (List<Pontuacao>) 
 						rodadaService.consultarPorQuery("select o from Pontuacao o where o.liga.id = "+ligaPrincipal.getId()+
 														" and o.rodada.id = "+rodada.getId()+
-														" order by o.time.nomeDonoTime, o.time.nomeTime", 0, 0);				
+														" order by o.time.nomeTime, o.time.nomeDonoTime", 0, 0);				
 				rodada.setListaPontuacao(listaPontuacao);
 			}
 			
@@ -80,12 +80,12 @@ public class RodadaControl extends BaseControl {
 				List<Pontuacao> listaPontuacao = (List<Pontuacao>) 
 						rodadaService.consultarPorQuery("select o from Pontuacao o where o.liga.id = "+ligaPrincipal.getId()+
 														" and o.rodada.id = "+novaRodada.getId()+
-														" order by o.time.nomeDonoTime, o.time.nomeTime", 0, 0);				
+														" order by o.time.nomeTime, o.time.nomeDonoTime", 0, 0);				
 				novaRodada.setListaPontuacao(listaPontuacao);
 			}
 						
 			listaTimes = new ArrayList<>();
-			listaTimes = (List<Time>) rodadaService.consultarTodos(Time.class, " order by o.nomeDonoTime, o.nomeTime ");	
+			listaTimes = (List<Time>) rodadaService.consultarTodos(Time.class, " order by o.nomeTime, o.nomeDonoTime ");	
 			
 			if(novaRodada != null && (novaRodada.getListaPontuacao() == null || novaRodada.getListaPontuacao().isEmpty())) {
 				
@@ -153,12 +153,36 @@ public class RodadaControl extends BaseControl {
 	public String atualizarTodasPontuacoesRodadaEmAndamento() {		
 		try {				
 			servicoCartola = new CartolaRestFulClient();			
+			
 			for (Pontuacao pontuacao : novaRodada.getListaPontuacao()) {
 				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();			
 				timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
 				pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);			
 				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);
 			}	
+			
+			//MOCK
+//			for (Pontuacao pontuacao : novaRodada.getListaPontuacao()) {
+//				
+//				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();					
+//				
+//				Random gerador = new Random();
+//				
+//				Double patrimonio = Double.parseDouble(String.valueOf(gerador.nextInt(300)));			
+//				Double pontos = Double.parseDouble(String.valueOf(gerador.nextInt(300)));		
+//				Double pontosCampeonato = Double.parseDouble(String.valueOf(gerador.nextInt(300)));			
+//				Double valorTime = Double.parseDouble(String.valueOf(gerador.nextInt(300)));	
+//				
+//				timeRodadaDTO.setTime(pontuacao.getTime());
+//				timeRodadaDTO.setRodadaAtual(pontuacao.getRodada().getNrRodada());
+//				timeRodadaDTO.setPatrimonio(patrimonio);
+//				timeRodadaDTO.setPontos(pontos);
+//				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
+//				timeRodadaDTO.setValorTime(valorTime);					
+//				pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);			
+//				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);				
+//			}	
+			
 			
 		} catch (Exception e) {
 			addErrorMessage("Erro ao atualizar pontuacao do time");			

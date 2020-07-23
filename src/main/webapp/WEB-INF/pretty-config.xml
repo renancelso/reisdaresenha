@@ -72,6 +72,12 @@
         <pattern value="/class-o-sobrevivente" />
         <view-id value="/publico/classificacao-o-sobrevivente-nova-aba.jsf" />
     </url-mapping>
+    
+    
+    <url-mapping id="osb-pontuacao">
+        <pattern value="/osb-pontuacao" />
+        <view-id value="/sistema/osb/osb-pontuacao.jsf" />
+    </url-mapping> 
                      
               
    	<url-mapping id="logoff">

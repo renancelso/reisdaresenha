@@ -105,6 +105,28 @@
 							</ul>
 							
 						</h:column>
+												
+						<h:column>
+							
+							<li data-toggle="collapse" onclick="modificarIcone(this,'/osobrevivente');"
+							    data-target="#osobrevivente" class="collapsed active" id="/osobrevivente0">								    
+								
+								<a href="#" onclick="modificarIcone(this, '/osobrevivente');">O SOBREVIVENTE									
+									<span class="glyphicon glyphicon-plus"  
+										  id="/osobrevivente"
+									      style="float: right; padding: 10px 10px;">
+									</span>									      
+								</a>
+							</li>
+	
+							<ul class="sub-menu collapse" id="osobrevivente">	
+								<li onclick="location.href='#{sessionControl.contexto}/osb-pontuacao'" id="/osb-pontuacao">											
+									<a href="#{sessionControl.contexto}/osb-pontuacao">PONTUACAO</a>
+								</li>													
+							</ul>
+							
+						</h:column>
+						
 					</ul>
 					
 				</div>

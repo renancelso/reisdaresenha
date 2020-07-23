@@ -6,6 +6,8 @@ import java.util.List;
 import javax.ejb.Stateless;
 
 import br.com.reisdaresenha.model.Liga;
+import br.com.reisdaresenha.model.OSBPontuacao;
+import br.com.reisdaresenha.model.OSBRodada;
 import br.com.reisdaresenha.model.Premiacao;
 import br.com.reisdaresenha.padrao.GenericService;
 import br.com.reisdaresenha.view.ClassificacaoLigaPrincipalDTO;
@@ -172,6 +174,25 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     		log.error(e);
     		return null;
     	}
-    }	
+    }	 
+	
+	@SuppressWarnings("unchecked")
+	@Override
+    public List<OSBPontuacao> buscarHistoricoClassificacaoOsbRodadas(OSBRodada osbRodada) {		
+		try {
+			StringBuilder sql = new StringBuilder();			
+			sql.append("select o from ").append(OSBPontuacao.class.getSimpleName()).append(" o where 1 = 1 ");
+			sql.append(" and o.osbRodada.id =" ).append(osbRodada.getId());		
+			sql.append(" order by o.vrPontuacao desc ");		
+			
+			List<OSBPontuacao> listaOSBPontuacao = new ArrayList<>();		
+			listaOSBPontuacao = (List<OSBPontuacao>) consultarPorQuery(sql.toString(), 0, 0);
+			
+			return listaOSBPontuacao;
+		} catch(Exception e) {
+    		log.error(e);
+    		return null;
+    	}
+	}	
 
 }

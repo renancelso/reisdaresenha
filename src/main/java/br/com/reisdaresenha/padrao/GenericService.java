@@ -32,10 +32,10 @@ public class GenericService implements GenericServiceInterface {
 			return obj;
 		} catch (Exception e) {
 			System.out.println("ERRO ao salvar: " + e.getMessage());
-			e.printStackTrace();
+			e.printStackTrace();			
 			em.flush();
 			return null;
-		} finally {
+		} finally {			
 			em.flush();
 		}
 	}
@@ -48,14 +48,14 @@ public class GenericService implements GenericServiceInterface {
 	 */
 	public Object atualizar(Object obj) {
 		try {
-			em.merge(obj);
+			obj = em.merge(obj);
 			return obj;
 		} catch (Exception e) {
 			System.out.println("ERRO ao atualizar: " + e.getMessage());
-			e.printStackTrace();
+			e.printStackTrace();			
 			em.flush();
 			return null;
-		} finally{
+		} finally{					
 			em.flush();
 		}
 	}

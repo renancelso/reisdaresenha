@@ -55,14 +55,16 @@
 		<h:form id="signin-form_id" style="font-size: 12px;">				
 								
 			<p:messages id="messages1" closable="true" showDetail="false" />
-						
+			
+			<center>
+				<h:outputText value="CLASSIFICACAO GERAL DA LIGA PRINCIPAL" style="color: red; font-size: 14px; font-weight: bold;"/>	 
+			</center>
+			
+			<br/>
+												
 		  	<p:dataTable var="item" value="#{inicioControl.listaClassificacaoLigaPrincipalDTO}"
       			 		 emptyMessage="Não existem dados" >
-      			 					 
-    			 <f:facet name="header">	     
-		 			<h:outputText value="CLASSIFICACAO DA LIGA PRINCIPAL"/>	 			 		 
-		 		</f:facet>    
-    			 					 
+      			 					     		    			 					 
   			 	<p:column headerText="#" style="text-align: center; width: 50px;" sortBy="#{item.colocacao}">
 		        	<h:outputText value="#{item.colocacao}" />
 			    </p:column>	
@@ -83,7 +85,52 @@
 			        <h:outputText value="#{item.cartoletas}" converter="decimal"/>
 			    </p:column>						    
 			    								   
-			</p:dataTable>		
+			</p:dataTable>	
+			
+			<br/>
+			
+			<hr/>
+			
+			<center>
+				<h:outputText value="HISTÓRICO DE RODADAS" style="color: red; font-size: 14px; font-weight: bold;"/>	 
+			</center>
+			
+			<br/>
+			
+			<p:panel toggleable="true">
+				<p:repeat var="item" value="#{restFulTestServicesControl.listaHistoricoRodadas}">	 
+					    
+				    <p:panel header="#{item.nrRodada}ª rodada" toggleable="true">
+				    
+						<p:dataTable var="item" value="#{restFulTestServicesControl.listarClassificacaoHistoricoRodadas(item.nrRodada)}"
+	      			 				 emptyMessage="Não existem dados"  >
+	      			 					 
+		      			 	<f:facet name="header">	     
+		 			 			<h:outputText value="Classificação da #{item.nrRodada}ª rodada"/>	 			 		 
+		 			 		</f:facet>    
+		      			 					 
+	     			 		<p:column headerText="#" style="text-align: center; width: 50px;">
+						        <h:outputText value="#{item.colocacao}" />
+						    </p:column>	
+						   
+						    <p:column headerText="Time" style="width: 50%">
+						        <img src="#{item.escudoTime}" alt="" style="width: 20px;"/> <h:outputText value="#{item.time}" />
+						    </p:column>							    						
+						    
+						    <p:column headerText="PG" style="text-align: center; width: 75px;">
+						        <h:outputText value="#{item.pontuacao}" converter="decimal"/>
+						    </p:column>								   
+						 
+						    <p:column headerText="$" style="text-align: center; width: 75px;">
+						        <h:outputText value="#{item.cartoletas}" converter="decimal"/>
+						    </p:column>						    
+						    								   
+						</p:dataTable> 
+				    </p:panel>
+				    <hr/>			    
+			  	</p:repeat>	
+		  	
+		  	</p:panel>	
 							
 		</h:form>
 		

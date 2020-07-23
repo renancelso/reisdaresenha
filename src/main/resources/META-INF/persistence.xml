@@ -12,7 +12,11 @@
 		<class>br.com.reisdaresenha.model.Rodada</class>
 		<class>br.com.reisdaresenha.model.Time</class>	
 		<class>br.com.reisdaresenha.model.Premiacao</class>	
-		<class>br.com.reisdaresenha.model.Parametro</class>			
+		<class>br.com.reisdaresenha.model.Parametro</class>	
+		
+		<class>br.com.reisdaresenha.model.OSBRodada</class>
+		<class>br.com.reisdaresenha.model.OSBRodadaTimeParticipante</class>
+		<class>br.com.reisdaresenha.model.OSBPontuacao</class>
 		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<shared-cache-mode>NONE</shared-cache-mode>			

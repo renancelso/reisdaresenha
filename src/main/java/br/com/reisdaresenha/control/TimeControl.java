@@ -95,6 +95,33 @@ public class TimeControl extends BaseControl {
 		}		
 	}
 	
+	public String btnConsultarTimeCartola(String nomeTime) {
+		try {
+				
+			if(nomeTime == null || "".equalsIgnoreCase(nomeTime)) {
+				addErrorMessage("Informe o nome do time para consultar no cartola.");
+				return null;
+			}
+			
+			servicoCartola = new CartolaRestFulClient();
+			
+			Time timeAux = new Time();
+			timeAux = servicoCartola.buscarTime(nomeTime);	
+			
+			if(timeAux != null && timeAux.getIdCartola() != null) {						
+				addInfoMessage("Time EXISTE: "+nomeTime+" ("+timeAux.getNomeDonoTime()+"). ID Cartola: "+timeAux.getIdCartola()+". Slug: "+timeAux.getSlugTime());				
+				//return timeAux.getUrlEscudoSvg();						
+			} else {
+				addErrorMessage("Time "+nomeTime+" NAO EXISTE no cartola");
+			}
+			
+		} catch (Exception e) {
+			addErrorMessage("Time "+nomeTime+" NAO EXISTE no cartola");
+		}
+		
+		return null;
+	}
+	
 	public String cadastrarTime() {		
 		try {	
 			
@@ -142,6 +169,11 @@ public class TimeControl extends BaseControl {
 				addErrorMessage("Dono do time é um campo obrigatório");
 				return null;
 			}				
+			
+			if("P".equalsIgnoreCase(timeCadastrar.getStatusPagamento()) 
+					&& (timeCadastrar.getValorPago() == null || timeCadastrar.getValorPago() <= 0.0)) {
+				timeCadastrar.setValorPago(250.0);
+			}
 			
 			timeCadastrar = (Time) inicioService.atualizar(timeCadastrar);			
 						
@@ -253,7 +285,7 @@ public class TimeControl extends BaseControl {
 	@SuppressWarnings("unchecked")
 	private void buscarTimesCadastrados() {
 		listaTimes = new ArrayList<>();
-		listaTimes = (List<Time>) inicioService.consultarTodos(Time.class, " order by o.nomeDonoTime, o.nomeTime ");		
+		listaTimes = (List<Time>) inicioService.consultarTodos(Time.class, " order by o.nomeTime, o.nomeDonoTime ");		
 	}
 
 	public Time getTimeCadastrar() {
