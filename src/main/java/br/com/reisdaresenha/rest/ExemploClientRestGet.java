@@ -32,7 +32,7 @@ public class ExemploClientRestGet {
 			method.setRequestHeader("Connection", "keep-alive");
 			method.setRequestHeader("Accept", "*/*");
 				
-			String payload= "{\"payload\": {\"email\":\"renancelso@globo.com\",\"password\":\"04162003\",\"serviceId\":4728}}";
+			String payload= "{\"payload\": {\"email\":\"email\",\"password\":\"senha\",\"serviceId\":4728}}";
 			
 			method.setRequestEntity(new StringRequestEntity(payload, "application/json", "UTF-8"));
 					

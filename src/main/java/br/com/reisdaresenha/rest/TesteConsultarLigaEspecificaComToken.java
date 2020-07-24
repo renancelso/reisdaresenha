@@ -24,7 +24,7 @@ public class TesteConsultarLigaEspecificaComToken {
 			
 			String endPoint = "https://api.cartolafc.globo.com/auth/liga/"+slugLiga;			
 			
-			String token = gerarTokenLoginCartola("renancelso@globo.com", "04162003");
+			String token = gerarTokenLoginCartola("email", "senha");
 			
 			HttpClient client = new HttpClient();
 
