@@ -15,8 +15,10 @@
 				<hr/>
 				<p:repeat var="item" value="#{inicioControl.listaTimesParticipantes}" varStatus="var">	 						  		
 	 		  		<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> <img src="#{item.urlEscudoSvg}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />
-	 		  		<hr/>
+	 		  		<br/>
+	 		  		<br/>
  		  		</p:repeat>	
+ 		  		<hr/>
 			</h:form>
 		</p:panel>
 	</ui:composition>

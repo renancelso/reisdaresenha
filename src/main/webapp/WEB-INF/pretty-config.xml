@@ -22,6 +22,11 @@
         <view-id value="/publico/crie_sua_conta.jsf" />
     </url-mapping>  
     
+    <url-mapping id="liga-rdr">
+        <pattern value="/liga-rdr" />
+        <view-id value="/sistema/liga-rdr.jsf" />
+    </url-mapping>
+    
     <url-mapping id="admin">
         <pattern value="/admin" />
         <view-id value="/sistema/admin.jsf" />

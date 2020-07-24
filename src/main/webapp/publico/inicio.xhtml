@@ -83,18 +83,18 @@
 		  	<hr/>
 		  	
 		  	<p:tabView dynamic="true" cache="true" style="font-size: 12px;">
-		  	 	<p:tab title="Atuais Participantes (#{inicioControl.listaTimesParticipantes.size()})">
-		        	 <ui:include src="inicio-aba-participantes.xhtml" />
-		        </p:tab>
-		  	</p:tabView>
+		  		<p:tab title="Classificação">
+		        	<ui:include src="inicio-aba-classificacao.xhtml" />
+		        </p:tab>	
+		  	</p:tabView>	
 		  	
 		  	<hr/>
 		  	
 		  	<p:tabView dynamic="true" cache="true" style="font-size: 12px;">
-		  		<p:tab title="Classificação">
-		        	 <ui:include src="inicio-aba-classificacao.xhtml" />
-		        </p:tab>	
-		  	</p:tabView>		
+		  	 	<p:tab title="Atuais Participantes (#{inicioControl.listaTimesParticipantes.size()})">
+		        	 <ui:include src="inicio-aba-participantes.xhtml" />
+		        </p:tab>
+		  	</p:tabView>		  			  		
 																	
 			<p:dialog widgetVar="dialogProcessando" modal="true" 
 					  resizable="false;" draggable="false" 

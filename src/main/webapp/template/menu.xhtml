@@ -72,7 +72,13 @@
 								</a>
 							</li>
 	
-							<ul class="sub-menu collapse" id="cadastro">			
+							<ul class="sub-menu collapse" id="cadastro">	
+							
+								<h:panelGroup rendered="#{sessionScope['usuarioLogado'].login == 'renancelso'}">
+									<li onclick="location.href='#{sessionControl.contexto}/liga-rdr'" id="/liga-rdr">											
+										<a href="#{sessionControl.contexto}/liga-rdr">Liga RDR</a>
+									</li>
+								</h:panelGroup>		
 							
 								<h:panelGroup rendered="#{sessionScope['usuarioLogado'].login == 'renancelso'}">
 									<li onclick="location.href='#{sessionControl.contexto}/cad-ano'" id="/cad-ano">											
