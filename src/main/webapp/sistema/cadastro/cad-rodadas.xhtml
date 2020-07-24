@@ -31,10 +31,22 @@
                  
 	  			<p:messages id="messages" closable="true" showDetail="false">
           			<p:autoUpdate />
-          		</p:messages>	
-          	            				  
+          		</p:messages>
+          		          		          	            				  
                	<p:panel header="#{rodadaControl.novaRodada.nrRodada}ª Rodada em Andamento" rendered="#{rodadaControl.novaRodada != null}" 
-               			 toggleable="true" toggleableHeader="true" id="painelRodadaAtual" style="min-width: 470px;">      
+               			 toggleable="true" toggleableHeader="true" id="painelRodadaAtual" style="min-width: 470px;">    
+               			 
+               		<p:commandLink value="Atualizar Todas as Pontuacoes da Rodada" 			    					
+               					   onstart="PF('dialogProcessando').show();" 
+               					   onclick="PF('dialogProcessando').show();"                					 
+               					   oncomplete="PF('dialogProcessando').hide();"									
+							       onsuccess="PF('dialogProcessando').hide();"
+						 		   onerror="PF('dialogProcessando').hide();"
+						 		   update="@form"
+						 		   action="#{rodadaControl.atualizarTodasPontuacoesRodadaEmAndamento}"
+						 		   style="text-align: center; font-weight: bold; text-decoration: underline;"/>	
+ 		  		
+ 		  	   		<hr/>	  
                			 
                		<h:outputText value="Total de #{rodadaControl.novaRodada.listaPontuacao.size()} times" style="font-weight: bold;"/>	
 		 		  		 		  	 		  							 

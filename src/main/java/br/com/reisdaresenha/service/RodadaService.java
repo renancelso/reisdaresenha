@@ -106,6 +106,35 @@ public class RodadaService extends GenericService implements RodadaServiceLocal 
 
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<OSBRodada> listarTODASOsbRodadasDesc(Liga liga) {
+
+		List<OSBRodada> lista = new ArrayList<>();
+
+		try {
+
+			StringBuilder sql = new StringBuilder();
+			sql.append("select o from ").append(OSBRodada.class.getSimpleName()).append(" o where 1=1 ");
+
+			if (liga != null) {
+				sql.append(" and o.liga.id = ").append(liga.getId());
+			}
+
+			sql.append(" and statusRodada in ('PS','EA') "); // PS = PASSADA, EA = EM ANDAMENTO
+			sql.append(" order by o.nrRodada desc");
+			
+			lista = (List<OSBRodada>) consultarPorQuery(sql.toString(), 0, 0);
+
+			return lista;
+
+		} catch (Exception e) {
+			log.error(e);
+			return null;
+		}
+
+	}
+	
 
 	@Override
 	public Rodada buscarRodadaEmAndamento(Liga liga) {

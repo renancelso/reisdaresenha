@@ -123,7 +123,12 @@ public class CartolaRestFulClient {
 				timeRodadaDTO.setTime(time);
 				timeRodadaDTO.setRodadaAtual(nrRodada);
 				timeRodadaDTO.setPatrimonio(patrimonio);
-				timeRodadaDTO.setPontos(pontos);
+				
+				//Verificar a questao do capitao - Pro reis da resenha, nao tera capitao
+				
+				timeRodadaDTO.setPontos(pontos);				
+				
+				
 				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
 				timeRodadaDTO.setValorTime(valorTime);		
 				

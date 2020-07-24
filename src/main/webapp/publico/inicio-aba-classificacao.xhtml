@@ -100,38 +100,96 @@
       	<p:tabView dynamic="true" cache="true" style="font-size: 12px;">
       		 <p:tab title="O SOBREVIVENTE">	
       		 
-      		 	<a href="class-o-sobrevivente" target="_blank" style="color:red;">Abrir tabela da liga 'O SOBREVIVENTE'</a>
+      		 	<a href="class-o-sobrevivente" target="_blank" style="color:red;">Abrir tabela completa da liga 'O SOBREVIVENTE'</a>
      			 	
      			<br/>
      			<br/> 
+     			
+     			<h:outputText value="AINDA NAO EXISTEM DADOS" style="color: red; font-size: 14px; font-weight: bold; background-color: #D3E6FF; 
+																     border-left: 20px solid #D3E6FF; border-right: 20px solid #D3E6FF;
+																     border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;" 
+							  rendered="#{inicioControl.listaOsbRodadas.size() == 0}"/>	 
    			 	
-   			 	<p:dataTable var="item" emptyMessage="Não existem dados"  >
-      			 					 
-      			 	<f:facet name="header">	     
- 			 			<h:outputText value="Classificação da Liga O Sobrevivente"/>	 			 		 
- 			 		</f:facet>    
-      			 					 
-    			 	<p:column headerText="#" style="text-align: center; width: 50px;" sortBy="">
-				        <h:outputText value="" />
-				    </p:column>	
-				   
-				    <p:column headerText="Time" style="width: 50%">
-				        <img src="" alt="" style="width: 20px;"/> <h:outputText value="" />
-				    </p:column>	
-				    
-				    <p:column headerText="J" style="text-align: center; width: 50px;" sortBy="">
-				        <h:outputText value="" />
-				    </p:column>			
-				    
-				    <p:column headerText="PG" style="text-align: center; width: 75px;" sortBy="">
-				        <h:outputText value="" converter="decimal"/>
-				    </p:column>								   
-				 
-				    <p:column headerText="$" style="text-align: center; width: 75px;" sortBy="">
-				        <h:outputText value="" converter="decimal"/>
-				    </p:column>						    
-				    								   
-				</p:dataTable>   
+   			 	<p:repeat var="var" value="#{inicioControl.listaOsbRodadas}" varStatus="rodada">	
+   			 	
+   			 		<h:panelGroup rendered="#{rodada.index+1 &lt; 5}">
+   			 								
+						<p:panel header="#{var.nrRodada}ª rodada (#{'N'.equals(var.tipoRodada) ? 'PADRAO' : 'REPESCAGEM'}) #{'EA'.equals(var.statusRodada) ? 'EM ANDAMENTO' : ''}" toggleable="true" rendered="#{'N'.equals(var.tipoRodada)}">
+						
+							<p:dataTable var="item" value="#{var.listaOsbPontuacao}"
+										 emptyMessage="Não existem dados" rowIndexVar="rowIndex">
+											 
+								<f:facet name="header">	     
+									<h:outputText value="Classificação da #{var.nrRodada}ª rodada (PADRÃO)"/>	 			 		 
+								</f:facet>    						  
+			      			 					 
+		     			 		<p:column headerText="#" style="text-align: center; width: 45px; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 31 and var.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
+							        <h:outputText value="#{rowIndex+1}" />
+							    </p:column>	
+							   
+							    <p:column headerText="Time" style="width: 50%; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 31 and var.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
+							        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoSvg}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
+							    </p:column>							    						
+							    
+							    <p:column headerText="PG" style="text-align: center; width: 80px; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 31 and var.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
+							        <h:outputText value="#{item.vrPontuacao}" converter="decimal"/>
+							    </p:column>						
+							    
+							    <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
+							    		  rendered="#{(rowIndex+1 &lt; var.listaOsbPontuacao.size() and var.nrRodada &lt; 32) or (rowIndex+1 &lt; var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 31 and var.nrRodada &lt; 39)}">
+							        <h:outputText value="CAMPEÃO" rendered="#{var.nrRodada == 38}"/>	
+							        <h:outputText value="CLASSIFICADO" rendered="#{var.nrRodada &lt; 38}"/>
+							    </p:column>		
+							    
+							    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
+							   			  rendered="#{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 31 and var.nrRodada &lt; 39)}">
+							       <h:outputText value="ELIMINADO" rendered="#{var.nrRodada &lt; 38 or (var.nrRodada == 38 and rowIndex+1 == var.listaOsbPontuacao.size())}"/>	
+							       <h:outputText value="VICE-CAMPEÃO" rendered="#{var.nrRodada == 38 and rowIndex+1 == var.listaOsbPontuacao.size()-1}"/>	
+							    </p:column>					 				    
+																   
+							</p:dataTable> 
+						</p:panel>
+						
+						<p:panel header="#{var.nrRodada}ª rodada" toggleable="true" rendered="#{'R'.equals(var.tipoRodada)}">
+							
+							<p:dataTable var="item" value="#{var.listaOsbPontuacao}"
+										 emptyMessage="Não existem dados" rowIndexVar="rowIndex">
+	     			 					 
+			      			 	<f:facet name="header">	     
+			 			 			<h:outputText value="Classificação da #{var.nrRodada}ª rodada (REPESCAGEM)"/>				 		 
+			 			 		</f:facet>    
+			      			 					 
+		     			 		<p:column headerText="#" style="text-align: center; width: 45px; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">
+							        <h:outputText value="#{rowIndex+1}" />
+							    </p:column>	
+							   
+							    <p:column headerText="Time" style="width: 50%; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">
+							        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoSvg}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
+							    </p:column>							    						
+							    
+							    <p:column headerText="PG" style="text-align: center; width: 80px; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">
+							        <h:outputText value="#{item.vrPontuacao}" converter="decimal"/>
+							    </p:column>	
+							    
+							    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
+							   			  rendered="#{rowIndex+1 &gt; 1}">
+							       <h:outputText value="ELIMINADO" />	
+							    </p:column>							
+							    
+							    <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
+							    		  rendered="#{rowIndex+1 == 1}">
+							        <h:outputText value="CLASSIFICADO" />	
+							    </p:column>							   					   			    
+							    								   
+							</p:dataTable> 
+							
+						</p:panel>
+						
+						<hr/>
+						
+					</h:panelGroup>
+						
+				</p:repeat> 
 									           
      		</p:tab>
       	</p:tabView>

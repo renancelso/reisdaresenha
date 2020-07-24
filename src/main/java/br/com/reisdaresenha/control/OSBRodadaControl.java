@@ -53,10 +53,10 @@ public class OSBRodadaControl extends BaseControl {
 	
 	private List<OSBRodadaTimeParticipante> listaOSBRodadaTimeParticipante;
 		
-	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {			
-		try {							
+		try {	
+			
 			listaOsbRodadas = new ArrayList<>();				
 			
 			ligaOSobrevivente = buscarLigaOSobrevivente();			
@@ -126,7 +126,7 @@ public class OSBRodadaControl extends BaseControl {
 					osbPontuacao = (OSBPontuacao) rodadaService.atualizar(osbPontuacao);	
 				}	
 				
-				if(novaOsbRodada.getNrRodada().intValue() > 28 && novaOsbRodada.getNrRodada().intValue() < 38) { //RODADAS 29 a 37: os DOIS times com a piores pontuações de cada rodada, considerando apenas os que ainda não foram eliminados, são eliminados.					
+				if(novaOsbRodada.getNrRodada().intValue() > 31 && novaOsbRodada.getNrRodada().intValue() < 38) { //RODADAS 32 a 37: os DOIS times com a piores pontuações de cada rodada, considerando apenas os que ainda não foram eliminados, são eliminados.					
 					
 					OSBPontuacao osbPontuacaoEliminadoUltimo = novaOsbRodada.getListaOsbPontuacao().get(novaOsbRodada.getListaOsbPontuacao().size()-1);			
 					osbPontuacaoEliminadoUltimo.setSituacaoFinalRodada("ELIMINADO");				

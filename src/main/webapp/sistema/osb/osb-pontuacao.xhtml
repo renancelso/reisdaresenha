@@ -21,11 +21,11 @@
           			<p:autoUpdate />
           		</p:messages>		  			
           		
-          		<p:panel header="O Sobrevivente" style="min-width: 250px;">
+          		<p:panel header="O Sobrevivente" style="min-width: 300px;">
           		
-          			<br/> 
-          		
-	          		<p:commandButton value="GERAR NOVA RODADA 'O SOBREVIVENTE'" 			    					
+          			<br/>           			
+          			
+		          	<p:commandButton value="GERAR NOVA RODADA 'O SOBREVIVENTE'" 			    					
 	               					 onstart="PF('dialogProcessando').show();" 
 	               					 onclick="PF('dialogProcessando').show();"                					 
 	               					 oncomplete="PF('dialogProcessando').hide();"									
@@ -34,9 +34,10 @@
 							 		 update="@form" id="btnNovaRodada"
 							 		 rendered="#{osbRodadaControl.novaOsbRodada == null}"
 							 		 action="#{osbRodadaControl.btnOsbNovaRodada}"/>
+					
 							 		 
 							 		 
-					<p:commandButton value="ATUALIZAR PONTUACAO" 			    					
+					<p:commandButton value="ATUALIZAR PONTUACAO DA #{osbRodadaControl.novaOsbRodada.nrRodada}ª RODADA" 			    					
 	               					 onstart="PF('dialogProcessando').show();" 
 	               					 onclick="PF('dialogProcessando').show();"                					 
 	               					 oncomplete="PF('dialogProcessando').hide();"									
@@ -44,28 +45,29 @@
 							 		 onerror="PF('dialogProcessando').hide();"
 							 		 update="@form" id="btnAtualizarRodada"
 							 		 rendered="#{osbRodadaControl.novaOsbRodada != null}"
-							 		 action="#{osbRodadaControl.btnAtualizarRodadaEmAndamento}"/>		
-							 		 							 		 					
-					<p:commandButton value="EXCLUIR RODADA EM ANDAMENTO" 			    					
-	               					 onstart="PF('dialogProcessando').show();" 
-	               					 onclick="PF('dialogProcessando').show();"                					 
-	               					 oncomplete="PF('dialogProcessando').hide();"									
-								     onsuccess="PF('dialogProcessando').hide();"
-							 		 onerror="PF('dialogProcessando').hide();"
-							 		 update="@form" id="btnExcluirRodada"
-							 		 rendered="#{osbRodadaControl.novaOsbRodada != null}"
-							 		 action="#{osbRodadaControl.btnExcluirRodadaEmAndamento}"
-							 		 style="float: right;"/>	 		 
-					
-					<br/>	
-					
-					<hr/>	
+							 		 action="#{osbRodadaControl.btnAtualizarRodadaEmAndamento}"/>	
 										
-					<h:outputText value="RODADA EM ANDAMENTO" style="color: red; font-size: 14px; font-weight: bold;" rendered="#{osbRodadaControl.novaOsbRodada != null and 'N'.equals(osbRodadaControl.novaOsbRodada.tipoRodada)}"/>	 
+											
+					<hr/>	
+					
+					<center>
+						<p:commandButton value="FINALIZAR #{osbRodadaControl.novaOsbRodada.nrRodada}ª RODADA" 	
+								 		 id="btnFinalizarRodada0"
+								 		 rendered="#{osbRodadaControl.novaOsbRodada != null}"
+								 		 onclick="PF('dialogFinalizarRodada').show();"/> 
+					</center>						
 					
 					<hr/>
+					
+					<h:outputText value="#{osbRodadaControl.novaOsbRodada.nrRodada}ª RODADA EM ANDAMENTO (#{'N'.equals(osbRodadaControl.novaOsbRodada.tipoRodada) ? 'PADRAO' : 'REPESCAGEM'})" 
+								  style="color: red; font-size: 14px; font-weight: bold; background-color: #D3E6FF; 
+						 		  border-left: 20px solid #D3E6FF; border-right: 20px solid #D3E6FF;
+						  		  border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;" 
+								  rendered="#{osbRodadaControl.novaOsbRodada != null and 'N'.equals(osbRodadaControl.novaOsbRodada.tipoRodada)}"/>	 
+														
+					<hr/>
 					          		
-          			<p:panel header="#{osbRodadaControl.novaOsbRodada.nrRodada}ª Rodada em Andamento (RODADA PADRÃO)" 
+          			<p:panel header="#{osbRodadaControl.novaOsbRodada.nrRodada}ª Rodada em Andamento (PADRÃO)" 
           					 rendered="#{osbRodadaControl.novaOsbRodada != null and 'N'.equals(osbRodadaControl.novaOsbRodada.tipoRodada)}"
           					 style="min-width: 230px;">
           				
@@ -76,26 +78,30 @@
 		 			 			<h:outputText value="Classificação da #{osbRodadaControl.novaOsbRodada.nrRodada}ª rodada (RODADA PADRÃO)"/>	 			 		 
 		 			 		</f:facet>    
 		      			 					 
-	     			 		<p:column headerText="#" style="text-align: center; width: 45px; #{rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size() ? 'background-color: #FFC0CB; color: black;' : ''}">
+	     			 		<p:column headerText="#" style="text-align: center; width: 45px; #{rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size() or (rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-1 and osbRodadaControl.novaOsbRodada.nrRodada &gt; 31 and osbRodadaControl.novaOsbRodada.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
 						        <h:outputText value="#{rowIndex+1}" />
 						    </p:column>	
 						   
-						    <p:column headerText="Time" style="width: 50%; #{rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size() ? 'background-color: #FFC0CB; color: black;' : ''}">
+						    <p:column headerText="Time" style="width: 50%; #{rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size() or (rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-1 and osbRodadaControl.novaOsbRodada.nrRodada &gt; 31 and osbRodadaControl.novaOsbRodada.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
 						        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoSvg}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
 						    </p:column>							    						
 						    
-						    <p:column headerText="PG" style="text-align: center; width: 80px; #{rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size() ? 'background-color: #FFC0CB; color: black;' : ''}">
-						        <h:outputText value="#{item.vrPontuacao}" converter="decimal"/>
+						    <p:column headerText="PG" style="text-align: center; width: 80px; #{rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size() or (rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-1 and osbRodadaControl.novaOsbRodada.nrRodada &gt; 31 and osbRodadaControl.novaOsbRodada.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
+						        <h:outputText value="#{item.vrPontuacao}" converter="decimal"/>						        
 						    </p:column>						
 						    
 						    <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
-						    		  rendered="#{rowIndex+1 &lt; osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()}">
-						        <h:outputText value="CLASSIFICADO" />	
+						    		  rendered="#{(rowIndex+1 &lt; osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size() and osbRodadaControl.novaOsbRodada.nrRodada &lt; 32) or (rowIndex+1 &lt; osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-1 and osbRodadaControl.novaOsbRodada.nrRodada &gt; 31 and osbRodadaControl.novaOsbRodada.nrRodada &lt; 39)}">
+						       	<h:outputText value="CAMPEÃO" rendered="#{osbRodadaControl.novaOsbRodada.nrRodada == 38}"/>	
+								<h:outputText value="CLASSIFICADO" rendered="#{osbRodadaControl.novaOsbRodada.nrRodada &lt; 38}"/>
 						    </p:column>		
 						    
 						    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
-						   			  rendered="#{rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size() or (rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-1 and osbRodadaControl.novaOsbRodada.nrRodada &gt; 28 and osbRodadaControl.novaOsbRodada.nrRodada &lt; 38)}">
-						       <h:outputText value="ELIMINADO" />	
+						   			  rendered="#{rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size() or (rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-1 and osbRodadaControl.novaOsbRodada.nrRodada &gt; 31 and osbRodadaControl.novaOsbRodada.nrRodada &lt; 39)}">
+						      
+						       <h:outputText value="ELIMINADO" rendered="#{osbRodadaControl.novaOsbRodada.nrRodada &lt; 38 or (osbRodadaControl.novaOsbRodada.nrRodada == 38 and rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size())}"/>							       
+						       <h:outputText value="VICE-CAMPEÃO" rendered="#{osbRodadaControl.novaOsbRodada.nrRodada == 38 and rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-1}"/>
+						    
 						    </p:column>							   			    
 						    								   
 						</p:dataTable> 
@@ -135,108 +141,111 @@
 						        <h:outputText value="CLASSIFICADO" />	
 						    </p:column>							   					   			    
 						    								   
-						</p:dataTable> 
+						</p:dataTable> 																		
 						          			
           			</p:panel>
           			
-          			<hr/>    
-          			      			
+          			<hr/> 
+          			          			          			      			
 					<center>	 		 
-						<p:commandButton value="FINALIZAR RODADA EM ANDAMENTO" 			    					
-		               					 onstart="PF('dialogProcessando').show();" 
-		               					 onclick="PF('dialogProcessando').show();"                					 
-		               					 oncomplete="PF('dialogProcessando').hide();"									
-									     onsuccess="PF('dialogProcessando').hide();"
-								 		 onerror="PF('dialogProcessando').hide();"
-								 		 update="@form" id="btnFinalizarRodada"
+						<p:commandButton value="FINALIZAR RODADA EM ANDAMENTO" 	
+								 		 id="btnFinalizarRodada1"
 								 		 rendered="#{osbRodadaControl.novaOsbRodada != null}"
-								 		 action="#{osbRodadaControl.btnFinalizarRodadaEmAndamento}"/> 
+								 		 onclick="PF('dialogFinalizarRodada').show();"/> 
 					</center>	
 					
-					<hr/>          			
-          			
-          			<p:panel> 
+					<hr/>  
+					
+					<p:commandButton value="EXCLUIR RODADA EM ANDAMENTO" 
+							 		 id="btnExcluirRodada"
+							 		 rendered="#{osbRodadaControl.novaOsbRodada != null}"
+							 		 onclick="PF('dialogExcluirRodada').show();"/>          			
+					
+          			<hr style="height: 5px; background-color: red; color: red;"/>				 
           				          			
-						<h:outputText value="HISTÓRICO DE RODADAS" style="color: red; font-size: 14px; font-weight: bold;" rendered="#{osbRodadaControl.listaOsbRodadas.size() > 0}"/>	 
-												
-						<hr/>
-		          		          		
-						<p:repeat var="var" value="#{osbRodadaControl.listaOsbRodadas}" >	 
-											    
-							<p:panel header="#{var.nrRodada}ª rodada" toggleable="true" rendered="#{'N'.equals(var.tipoRodada)}">
-							
-								<p:dataTable var="item" value="#{var.listaOsbPontuacao}"
-											 emptyMessage="Não existem dados" rowIndexVar="rowIndex">
-												 
-									<f:facet name="header">	     
-										<h:outputText value="Classificação da #{var.nrRodada}ª rodada (RODADA PADRÃO)"/>	 			 		 
-									</f:facet>    						  
-				      			 					 
-			     			 		<p:column headerText="#" style="text-align: center; width: 45px; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 28 and var.nrRodada &lt; 38) ? 'background-color: #FFC0CB; color: black;' : ''}">
-								        <h:outputText value="#{rowIndex+1}" />
-								    </p:column>	
-								   
-								    <p:column headerText="Time" style="width: 50%; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 28 and var.nrRodada &lt; 38) ? 'background-color: #FFC0CB; color: black;' : ''}">
-								        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoSvg}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
-								    </p:column>							    						
-								    
-								    <p:column headerText="PG" style="text-align: center; width: 80px; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 28 and var.nrRodada &lt; 38) ? 'background-color: #FFC0CB; color: black;' : ''}">
-								        <h:outputText value="#{item.vrPontuacao}" converter="decimal"/>
-								    </p:column>						
-								    
-								    <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
-								    		  rendered="#{(rowIndex+1 &lt; var.listaOsbPontuacao.size() and var.nrRodada &lt; 29) or (rowIndex+1 &lt; var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 28 and var.nrRodada &lt; 38)}">
-								        <h:outputText value="CLASSIFICADO" />	
-								    </p:column>		
-								    
-								    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
-								   			  rendered="#{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 28 and var.nrRodada &lt; 38)}">
-								       <h:outputText value="ELIMINADO" />	
-								    </p:column>					 				    
-																	   
-								</p:dataTable> 
-							</p:panel>
-							
-							<p:panel header="#{var.nrRodada}ª rodada" toggleable="true" rendered="#{'R'.equals(var.tipoRodada)}">
-								
-								<p:dataTable var="item" value="#{var.listaOsbPontuacao}"
-											 emptyMessage="Não existem dados" rowIndexVar="rowIndex">
-	      			 					 
-				      			 	<f:facet name="header">	     
-				 			 			<h:outputText value="Classificação da #{var.nrRodada}ª rodada (REPESCAGEM)"/>				 		 
-				 			 		</f:facet>    
-				      			 					 
-			     			 		<p:column headerText="#" style="text-align: center; width: 45px; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">
-								        <h:outputText value="#{rowIndex+1}" />
-								    </p:column>	
-								   
-								    <p:column headerText="Time" style="width: 50%; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">
-								        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoSvg}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
-								    </p:column>							    						
-								    
-								    <p:column headerText="PG" style="text-align: center; width: 80px; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">
-								        <h:outputText value="#{item.vrPontuacao}" converter="decimal"/>
-								    </p:column>	
-								    
-								    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
-								   			  rendered="#{rowIndex+1 &gt; 1}">
-								       <h:outputText value="ELIMINADO" />	
-								    </p:column>							
-								    
-								    <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
-								    		  rendered="#{rowIndex+1 == 1}">
-								        <h:outputText value="CLASSIFICADO" />	
-								    </p:column>							   					   			    
-								    								   
-								</p:dataTable> 
-								
-							</p:panel>
-							
-							<hr/>
-								
-						</p:repeat>
+					<h:outputText value="HISTÓRICO DE RODADAS" style="color: red; font-size: 14px; font-weight: bold; background-color: #D3E6FF; 
+																	  border-left: 20px solid #D3E6FF; border-right: 20px solid #D3E6FF;
+																	  border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;" 
+							      rendered="#{osbRodadaControl.listaOsbRodadas.size() > 0}"/>	 
+											
+					<hr/>
+	          		          		
+					<p:repeat var="var" value="#{osbRodadaControl.listaOsbRodadas}" >	 
+										    
+						<p:panel header="#{var.nrRodada}ª rodada (#{'N'.equals(var.tipoRodada) ? 'PADRAO' : 'REPESCAGEM'})" toggleable="true" rendered="#{'N'.equals(var.tipoRodada)}">
 						
-					</p:panel>			          		
+							<p:dataTable var="item" value="#{var.listaOsbPontuacao}"
+										 emptyMessage="Não existem dados" rowIndexVar="rowIndex">
+											 
+								<f:facet name="header">	     
+									<h:outputText value="Classificação da #{var.nrRodada}ª rodada (PADRÃO)"/>	 			 		 
+								</f:facet>    						  
+			      			 					 
+		     			 		<p:column headerText="#" style="text-align: center; width: 45px; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 31 and var.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
+							        <h:outputText value="#{rowIndex+1}" />
+							    </p:column>	
+							   
+							    <p:column headerText="Time" style="width: 50%; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 31 and var.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
+							        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoSvg}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
+							    </p:column>							    						
+							    
+							    <p:column headerText="PG" style="text-align: center; width: 80px; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 31 and var.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
+							        <h:outputText value="#{item.vrPontuacao}" converter="decimal"/>
+							    </p:column>						
+							    
+							    <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
+							    		  rendered="#{(rowIndex+1 &lt; var.listaOsbPontuacao.size() and var.nrRodada &lt; 32) or (rowIndex+1 &lt; var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 31 and var.nrRodada &lt; 39)}">
+							        <h:outputText value="CAMPEÃO" rendered="#{var.nrRodada == 38}"/>	
+							        <h:outputText value="CLASSIFICADO" rendered="#{var.nrRodada &lt; 38}"/>
+							    </p:column>		
+							    
+							    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
+							   			  rendered="#{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 31 and var.nrRodada &lt; 39)}">
+							       <h:outputText value="ELIMINADO" rendered="#{var.nrRodada &lt; 38 or (var.nrRodada == 38 and rowIndex+1 == var.listaOsbPontuacao.size())}"/>	
+							       <h:outputText value="VICE-CAMPEÃO" rendered="#{var.nrRodada == 38 and rowIndex+1 == var.listaOsbPontuacao.size()-1}"/>	
+							    </p:column>					 				    
+																   
+							</p:dataTable> 
+						</p:panel>
+						
+						<p:panel header="#{var.nrRodada}ª rodada" toggleable="true" rendered="#{'R'.equals(var.tipoRodada)}">
+							
+							<p:dataTable var="item" value="#{var.listaOsbPontuacao}"
+										 emptyMessage="Não existem dados" rowIndexVar="rowIndex">
+      			 					 
+			      			 	<f:facet name="header">	     
+			 			 			<h:outputText value="Classificação da #{var.nrRodada}ª rodada (REPESCAGEM)"/>				 		 
+			 			 		</f:facet>    
+			      			 					 
+		     			 		<p:column headerText="#" style="text-align: center; width: 45px; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">
+							        <h:outputText value="#{rowIndex+1}" />
+							    </p:column>	
+							   
+							    <p:column headerText="Time" style="width: 50%; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">
+							        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoSvg}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
+							    </p:column>							    						
+							    
+							    <p:column headerText="PG" style="text-align: center; width: 80px; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">
+							        <h:outputText value="#{item.vrPontuacao}" converter="decimal"/>
+							    </p:column>	
+							    
+							    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
+							   			  rendered="#{rowIndex+1 &gt; 1}">
+							       <h:outputText value="ELIMINADO" />	
+							    </p:column>							
+							    
+							    <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
+							    		  rendered="#{rowIndex+1 == 1}">
+							        <h:outputText value="CLASSIFICADO" />	
+							    </p:column>							   					   			    
+							    								   
+							</p:dataTable> 
+							
+						</p:panel>
+						
+						<hr/>
+							
+					</p:repeat>							          		
           		          		
           		</p:panel>        		   		           		
 	                             
@@ -252,6 +261,62 @@
 					</center>						
 				</p:dialog>
 				
+				
+				<p:dialog widgetVar="dialogFinalizarRodada"
+						  modal="true" height="110" closable="true"
+						  width="320" resizable="false;" id="dialogFinalizarRodada" 
+						  style="z-index: 9999; font-size: 14px; border: 0px; background-color: #D3E6FF !important;">		
+							  
+					<center>					
+						
+						<br />
+						<h:outputText value="Deseja realmente finalizar a rodada?" 
+									  style="font-size: 14px; font-weight: bold;"/>
+						<br />		
+																
+						<p:commandButton value="Sim" type="success" title="Sim"
+							styleClass="btn btn-success" update="@(form)"
+							style="margin-top: 10px;"
+							onclick="PF('dialogFinalizarRodada').hide();" 
+							action="#{osbRodadaControl.btnFinalizarRodadaEmAndamento}"/>							
+		
+						<p:commandButton value="Não" type="success" title="Não"
+							styleClass="btn btn-success" update="@(form)"
+							style="margin-top: 10px; margin-left: 30px;"
+							onclick="PF('dialogFinalizarRodada').hide();" />
+							
+					</center>
+			
+				</p:dialog>	
+				
+				
+				<p:dialog widgetVar="dialogExcluirRodada"
+						  modal="true" height="110" closable="true"
+						  width="320" resizable="false;" id="dialogExcluirRodada" 
+						  style="z-index: 9999; font-size: 14px; border: 0px; background-color: #D3E6FF !important;">		
+							  
+					<center>					
+						
+						<br />
+						<h:outputText value="Deseja realmente EXCLUIR a rodada?" 
+									  style="font-size: 14px; font-weight: bold;"/>
+						<br />		
+																
+						<p:commandButton value="Sim" type="success" title="Sim"
+							styleClass="btn btn-success" update="@(form)"
+							style="margin-top: 10px;"
+							onclick="PF('dialogExcluirRodada').hide();" 
+							action="#{osbRodadaControl.btnExcluirRodadaEmAndamento}"/>							
+		
+						<p:commandButton value="Não" type="success" title="Não"
+							styleClass="btn btn-success" update="@(form)"
+							style="margin-top: 10px; margin-left: 30px;"
+							onclick="PF('dialogExcluirRodada').hide();" />
+							
+					</center>
+			
+				</p:dialog>	
+					 
             </h:form>
             
         </ui:define>

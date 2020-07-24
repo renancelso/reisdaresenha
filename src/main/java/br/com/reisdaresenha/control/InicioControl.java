@@ -12,10 +12,13 @@ import javax.faces.bean.ViewScoped;
 import org.apache.log4j.Logger;
 
 import br.com.reisdaresenha.model.Liga;
+import br.com.reisdaresenha.model.OSBPontuacao;
+import br.com.reisdaresenha.model.OSBRodada;
 import br.com.reisdaresenha.model.Premiacao;
 import br.com.reisdaresenha.model.Time;
 import br.com.reisdaresenha.padrao.BaseControl;
 import br.com.reisdaresenha.service.InicioServiceLocal;
+import br.com.reisdaresenha.service.RodadaServiceLocal;
 import br.com.reisdaresenha.view.ClassificacaoLigaPrincipalDTO;
 
 
@@ -33,6 +36,9 @@ public class InicioControl extends BaseControl {
 	@EJB
 	private InicioServiceLocal inicioService; 
 	
+	@EJB
+	private RodadaServiceLocal rodadaService; 
+	
 	private List<Liga> listaLigas;
 	private List<Premiacao> listaPremiacaoLigaPrincipal;	
 	private List<Premiacao> listaPremiacaoLigaReisResenha;	
@@ -40,6 +46,11 @@ public class InicioControl extends BaseControl {
 	private List<Time> listaTimesParticipantes;	
 	
 	private List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO;
+		
+	// O Sobrevivente	
+	private Liga ligaOSobrevivente;
+	private List<OSBRodada> listaOsbRodadas;
+	
 		
 	@SuppressWarnings("unchecked")
 	@PostConstruct
@@ -52,6 +63,14 @@ public class InicioControl extends BaseControl {
 			listaTimesParticipantes = new ArrayList<>();
 			listaTimesParticipantes = (List<Time>) inicioService.consultarTodos(Time.class, " order by o.nomeTime, o.nomeDonoTime ");		
 			
+			ligaOSobrevivente = buscarLigaOSobrevivente();	
+			listaOsbRodadas = rodadaService.listarTODASOsbRodadasDesc(ligaOSobrevivente);	
+			
+			for (OSBRodada osbRodada : listaOsbRodadas) {
+				osbRodada.setListaOsbPontuacao(new ArrayList<OSBPontuacao>());	
+				osbRodada.setListaOsbPontuacao(inicioService.buscarHistoricoClassificacaoOsbRodadas(osbRodada));
+			}	
+						
 		} catch (Exception e) {
 			log.error("Erro no método init "+e.getMessage());			
 		}
@@ -94,6 +113,19 @@ public class InicioControl extends BaseControl {
 			}
 		}
 		
+	}
+	
+	public Liga buscarLigaOSobrevivente() {		
+		Integer anoAtual = 2020;//Calendar.getInstance().get(Calendar.YEAR);	
+		List<Liga> listaLigas = inicioService.buscarLigas(anoAtual);		
+		if(listaLigas != null && !listaLigas.isEmpty()) {			
+			for (Liga liga : listaLigas) {	
+				if(liga.getNomeLiga().toUpperCase().contains("SOBREVIVENTE")) {
+					return liga;
+				}
+			}
+		}			
+		return null;			
 	}
 
 	public List<Premiacao> getListaPremiacaoLigaPrincipal() {
@@ -142,6 +174,22 @@ public class InicioControl extends BaseControl {
 
 	public void setListaTimesParticipantes(List<Time> listaTimesParticipantes) {
 		this.listaTimesParticipantes = listaTimesParticipantes;
+	}
+
+	public List<OSBRodada> getListaOsbRodadas() {
+		return listaOsbRodadas;
+	}
+
+	public void setListaOsbRodadas(List<OSBRodada> listaOsbRodadas) {
+		this.listaOsbRodadas = listaOsbRodadas;
+	}
+
+	public Liga getLigaOSobrevivente() {
+		return ligaOSobrevivente;
+	}
+
+	public void setLigaOSobrevivente(Liga ligaOSobrevivente) {
+		this.ligaOSobrevivente = ligaOSobrevivente;
 	}
 	
 }

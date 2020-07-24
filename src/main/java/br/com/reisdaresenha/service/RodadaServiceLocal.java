@@ -28,6 +28,8 @@ public interface RodadaServiceLocal extends GenericServiceInterface{
 	public List<OSBPontuacao> buscarEliminadosRodadasAnteriores(Long nrRodada);
 
 	public List<Rodada> listarTodasRodadasDesc(Liga liga);
+
+	public List<OSBRodada> listarTODASOsbRodadasDesc(Liga liga);
 	
 		
 }
