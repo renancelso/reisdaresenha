@@ -20,11 +20,11 @@ public class TesteConsultarLigaEspecificaComToken {
 		
 		try {						
 			
-			String slugLiga = "remosos-futebol-clube";
+			String slugLiga = "rdr-2020";
 			
 			String endPoint = "https://api.cartolafc.globo.com/auth/liga/"+slugLiga;			
 			
-			String token = gerarTokenLoginCartola("email", "senha");
+			String token = gerarTokenLoginCartola("renancelso@globo.com", "04162003");
 			
 			HttpClient client = new HttpClient();
 

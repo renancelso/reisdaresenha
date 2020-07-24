@@ -37,11 +37,11 @@ public class CartolaRestFulClient {
 			method.setRequestHeader("Accept", "*/*");
 			method.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			
-			System.out.println("Inicializando chamada a: " + endPoint);
+			//System.out.println("Inicializando chamada a: " + endPoint);
 			
 			int statusCode = client.executeMethod(method);
 
-			System.out.println("Status Code = " + statusCode);
+			////System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));
 			System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));			
 
 			String jsonResponse = method.getResponseBodyAsString();
@@ -100,11 +100,11 @@ public class CartolaRestFulClient {
 			method.setRequestHeader("Accept", "*/*");
 			method.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			
-			System.out.println("Inicializando chamada a: " + endPoint);
+			//System.out.println("Inicializando chamada a: " + endPoint);
 
 			int statusCode = client.executeMethod(method);
 
-			System.out.println("Status Code = " + statusCode);
+			////System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));
 			System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));			
 
 			String jsonResponse = method.getResponseBodyAsString();
@@ -122,12 +122,8 @@ public class CartolaRestFulClient {
 				
 				timeRodadaDTO.setTime(time);
 				timeRodadaDTO.setRodadaAtual(nrRodada);
-				timeRodadaDTO.setPatrimonio(patrimonio);
-				
-				//Verificar a questao do capitao - Pro reis da resenha, nao tera capitao
-				
-				timeRodadaDTO.setPontos(pontos);				
-				
+				timeRodadaDTO.setPatrimonio(patrimonio);				
+				timeRodadaDTO.setPontos(pontos);	
 				
 				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
 				timeRodadaDTO.setValorTime(valorTime);		
@@ -206,6 +202,50 @@ public class CartolaRestFulClient {
 		return null;		
 	}
 	
+	
+	public String buscarSlugDaLiga(String nomeLiga) {
+		
+		nomeLiga = nomeLiga.replace(" ", "%20");
+					
+		String endPoint = "https://api.cartolafc.globo.com/ligas?q="+nomeLiga;		
+		HttpClient client = new HttpClient();
+		GetMethod method = new GetMethod(endPoint);
+		
+		try {				
+						
+			method.setRequestHeader("Connection", "keep-alive");
+			method.setRequestHeader("Accept", "*/*");
+			method.setRequestHeader("Content-type", "application/x-www-form-urlencoded");				
+
+			client.executeMethod(method);
+
+			String jsonResponse = method.getResponseBodyAsString();
+
+			JSONParser parser = new JSONParser();
+			
+			JSONArray jsonArray = (JSONArray) parser.parse(jsonResponse);		
+			
+			if(jsonArray != null && !jsonArray.isEmpty()) {				
+				JSONObject jsonObject = (JSONObject) jsonArray.get(0);		
+				
+				String slug = (String) jsonObject.get("slug");
+							
+				return slug;
+			}
+
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} catch (ParseException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			method.releaseConnection();
+		}		
+		
+		return null;		
+	}
+	
 	public String gerarTokenLoginCartola(String email, String senha) {
 		
 		try {						
@@ -224,13 +264,13 @@ public class CartolaRestFulClient {
 					
 			try {
 			
-				System.out.println("Inicializando chamada a: " + endPoint);
-				System.out.println("-----------------------------------------------------");
+				//System.out.println("Inicializando chamada a: " + endPoint);
+				//System.out.println("-----------------------------------------------------");
 
 				int statusCode = client.executeMethod(method);
 
-				System.out.println("Status Code = " + statusCode);
-				System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));				
+//				////System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));
+//				System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));				
 
 				String jsonResponse = method.getResponseBodyAsString();
 
@@ -245,13 +285,10 @@ public class CartolaRestFulClient {
 				if(userMessage != null && id != null 
 						&& userMessage.contains("autenticado com sucesso") 
 						&& "Authenticated".equalsIgnoreCase(id)) {
-					
 					String token = glbId;
-					
 //					System.out.println("userMessage: "+userMessage);
 //					System.out.println("token: \n"+token);		
-//					System.out.println("id: "+id);	
-					
+//					System.out.println("id: "+id);
 					return token;
 				}
 											
@@ -262,6 +299,50 @@ public class CartolaRestFulClient {
 			}
 
 		} catch (Exception e) {			
+			e.printStackTrace();			
+		}
+		
+		return null;
+	}
+	
+	public JSONObject buscarInformacoesLigaEspecifica(String slugLiga, String token) {
+				
+		try {
+			String endPoint = "https://api.cartolafc.globo.com/auth/liga/"+slugLiga;			
+					
+			HttpClient client = new HttpClient();
+	
+			GetMethod method = new GetMethod(endPoint);
+			method.setRequestHeader("Connection", "keep-alive");
+			method.setRequestHeader("Accept", "*/*");					
+			method.setRequestHeader("X-GLB-Token", token);		
+					
+			try {
+			
+				//System.out.println("Inicializando chamada a: " + endPoint);
+				//System.out.println("-----------------------------------------------------");
+	
+				int statusCode = client.executeMethod(method);
+	
+				//System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));						
+	
+				String jsonResponse = method.getResponseBodyAsString();
+	
+				JSONParser parser = new JSONParser();
+				
+				JSONObject jsonObject = (JSONObject) parser.parse(jsonResponse);
+				
+				System.out.println(jsonObject.toString());				
+											
+				method.releaseConnection();
+				
+				return jsonObject;
+	
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		} catch (Exception e) {
 			e.printStackTrace();			
 		}
 		

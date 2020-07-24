@@ -9,6 +9,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import br.com.reisdaresenha.model.Liga;
 import br.com.reisdaresenha.model.Pontuacao;
@@ -17,7 +19,9 @@ import br.com.reisdaresenha.model.Time;
 import br.com.reisdaresenha.padrao.BaseControl;
 import br.com.reisdaresenha.rest.CartolaRestFulClient;
 import br.com.reisdaresenha.service.InicioServiceLocal;
+import br.com.reisdaresenha.service.ParametroServiceLocal;
 import br.com.reisdaresenha.service.RodadaServiceLocal;
+import br.com.reisdaresenha.view.TimeCartolaRestDTO;
 import br.com.reisdaresenha.view.TimeRodadaDTO;
 
 /**
@@ -49,6 +53,10 @@ public class RodadaControl extends BaseControl {
 	private Liga ligaPrincipal;
 	
 	private List<Time> listaTimes;
+	
+	@EJB
+	private ParametroServiceLocal parametroService;
+		
 	
 	@SuppressWarnings("unchecked")
 	@PostConstruct
@@ -133,11 +141,64 @@ public class RodadaControl extends BaseControl {
 			
 			TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();
 			
-			timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());		
+			timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
+							
+			String email = parametroService.buscarParametroPorChave("user_email").getValor();			
+			String senha = parametroService.buscarParametroPorChave("user_senha").getValor();				
+			String slugLiga = servicoCartola.buscarSlugDaLiga(parametroService.buscarParametroPorChave("nome_liga").getValor());							
+			String token = servicoCartola.gerarTokenLoginCartola(email, senha);	
 			
-			pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);			
+			JSONObject jsonObject = new JSONObject();				
+			
+			if(slugLiga != null && token != null) {
+				jsonObject = servicoCartola.buscarInformacoesLigaEspecifica(slugLiga, token);
+			}	
+			
+			if(jsonObject != null) {
+			
+				JSONObject jsonObjectLiga = (JSONObject) jsonObject.get("liga");	
+				boolean isLigaSemCapitao = false;					
+				isLigaSemCapitao = (boolean) jsonObjectLiga.get("sem_capitao");
+				
+				if(isLigaSemCapitao) {		
+					
+					//buscar pontuacao do capitacao	 de cada time	
+					
+					JSONArray jsonArrayTimesParticipantes = (JSONArray) jsonObject.get("times");						
+										
+					List<TimeCartolaRestDTO> listaTimeCartolaRestDTO = new ArrayList<TimeCartolaRestDTO>();
+					
+					for (int i = 0; i < jsonArrayTimesParticipantes.size(); i++) {				
+						JSONObject jsonObjectTime = (JSONObject) jsonArrayTimesParticipantes.get(i);		
+						
+						TimeCartolaRestDTO timeCartolaRestDTO = new TimeCartolaRestDTO();
+						
+						timeCartolaRestDTO.setIdCartola(new Long(String.valueOf(jsonObjectTime.get("time_id"))));
+						timeCartolaRestDTO.setNomeTime(String.valueOf(jsonObjectTime.get("nome")));
+						timeCartolaRestDTO.setSlug(String.valueOf(jsonObjectTime.get("slug")));								
+						JSONObject jsonObjectPontos = (JSONObject) jsonObjectTime.get("pontos");
+						timeCartolaRestDTO.setRodada(new Long(String.valueOf(jsonObjectPontos.get("rodada"))));				
+						timeCartolaRestDTO.setPontosCapitao(new Double(String.valueOf(jsonObjectPontos.get("capitao"))));	
+						
+						listaTimeCartolaRestDTO.add(timeCartolaRestDTO);
+					}	
+					
+					for (TimeCartolaRestDTO timeCartolaRestDTO : listaTimeCartolaRestDTO) {
+						
+						if(timeRodadaDTO.getTime().getIdCartola().equals(timeCartolaRestDTO.getIdCartola()) 
+								&& timeRodadaDTO.getRodadaAtual().equals(timeCartolaRestDTO.getRodada())) {		
+							
+							timeRodadaDTO.setPontos(timeRodadaDTO.getPontos() - (timeCartolaRestDTO.getPontosCapitao() / 2));
+							
+						}
+						
+					}						
+				} 						
+			}
+			
+			pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);					
 			pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);
-			
+						
 		} catch (Exception e) {
 			addErrorMessage("Erro ao atualizar pontuacao do time");			
 			log.error("Erro ao atualizar pontuacao do time \n"+e);
@@ -154,11 +215,70 @@ public class RodadaControl extends BaseControl {
 			servicoCartola = new CartolaRestFulClient();			
 			
 			for (Pontuacao pontuacao : novaRodada.getListaPontuacao()) {
+				
 				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();			
 				timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
-				pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);			
+								
+				String email = parametroService.buscarParametroPorChave("user_email").getValor();			
+				String senha = parametroService.buscarParametroPorChave("user_senha").getValor();				
+				String slugLiga = servicoCartola.buscarSlugDaLiga(parametroService.buscarParametroPorChave("nome_liga").getValor());							
+				String token = servicoCartola.gerarTokenLoginCartola(email, senha);	
+				
+				JSONObject jsonObject = new JSONObject();				
+				
+				if(slugLiga != null && token != null) {
+					jsonObject = servicoCartola.buscarInformacoesLigaEspecifica(slugLiga, token);
+				}	
+				
+				if(jsonObject != null) {
+				
+					JSONObject jsonObjectLiga = (JSONObject) jsonObject.get("liga");	
+					boolean isLigaSemCapitao = false;					
+					isLigaSemCapitao = (boolean) jsonObjectLiga.get("sem_capitao");
+					
+					if(isLigaSemCapitao) {		
+						
+						//buscar pontuacao do capitacao	 de cada time	
+						
+						JSONArray jsonArrayTimesParticipantes = (JSONArray) jsonObject.get("times");
+						
+						System.out.println("JSON: "+jsonArrayTimesParticipantes.toString());		
+											
+						List<TimeCartolaRestDTO> listaTimeCartolaRestDTO = new ArrayList<TimeCartolaRestDTO>();
+						
+						for (int i = 0; i < jsonArrayTimesParticipantes.size(); i++) {				
+							JSONObject jsonObjectTime = (JSONObject) jsonArrayTimesParticipantes.get(i);		
+							
+							TimeCartolaRestDTO timeCartolaRestDTO = new TimeCartolaRestDTO();
+							
+							timeCartolaRestDTO.setIdCartola(new Long(String.valueOf(jsonObjectTime.get("time_id"))));
+							timeCartolaRestDTO.setNomeTime(String.valueOf(jsonObjectTime.get("nome")));
+							timeCartolaRestDTO.setSlug(String.valueOf(jsonObjectTime.get("slug")));								
+							JSONObject jsonObjectPontos = (JSONObject) jsonObjectTime.get("pontos");
+							timeCartolaRestDTO.setRodada(new Long(String.valueOf(jsonObjectPontos.get("rodada"))));				
+							timeCartolaRestDTO.setPontosCapitao(new Double(String.valueOf(jsonObjectPontos.get("capitao"))));	
+							
+							listaTimeCartolaRestDTO.add(timeCartolaRestDTO);
+						}	
+						
+						for (TimeCartolaRestDTO timeCartolaRestDTO : listaTimeCartolaRestDTO) {
+							
+							if(timeRodadaDTO.getTime().getIdCartola().equals(timeCartolaRestDTO.getIdCartola()) 
+									&& timeRodadaDTO.getRodadaAtual().equals(timeCartolaRestDTO.getRodada())) {		
+								
+								timeRodadaDTO.setPontos(timeRodadaDTO.getPontos() - (timeCartolaRestDTO.getPontosCapitao() / 2));
+								
+							}
+							
+						}						
+					} 						
+				}
+				
+				pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);					
 				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);
-			}				
+				
+			}		
+			
 			btnSalvarRodada();
 			
 			//MOCK
@@ -189,8 +309,7 @@ public class RodadaControl extends BaseControl {
 		
 		return null;
 	}
-	
-	
+
 	public String btnNovaRodada() {	
 		
 		try {	
