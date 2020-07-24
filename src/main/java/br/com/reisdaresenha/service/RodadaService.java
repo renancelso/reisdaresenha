@@ -48,6 +48,34 @@ public class RodadaService extends GenericService implements RodadaServiceLocal 
 
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Rodada> listarTodasRodadasDesc(Liga liga) {
+
+		List<Rodada> lista = new ArrayList<>();
+
+		try {
+
+			StringBuilder sql = new StringBuilder();
+			sql.append("select o from ").append(Rodada.class.getSimpleName()).append(" o where 1=1 ");
+
+			if (liga != null) {
+				sql.append(" and o.liga.id = ").append(liga.getId());
+			}
+			sql.append(" and statusRodada in ('PS','EA') "); // PS = PASSADA . EA = Em Andamento
+			sql.append(" order by o.nrRodada desc");
+			
+			lista = (List<Rodada>) consultarPorQuery(sql.toString(), 0, 0);
+
+			return lista;
+
+		} catch (Exception e) {
+			log.error(e);
+			return null;
+		}
+
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -64,7 +92,7 @@ public class RodadaService extends GenericService implements RodadaServiceLocal 
 				sql.append(" and o.liga.id = ").append(liga.getId());
 			}
 
-			sql.append(" and statusRodada = 'PS' "); // PS = PASSADA
+			sql.append(" and statusRodada in ('PS') "); // PS = PASSADA
 			sql.append(" order by o.nrRodada desc");
 			
 			lista = (List<OSBRodada>) consultarPorQuery(sql.toString(), 0, 0);
@@ -153,6 +181,7 @@ public class RodadaService extends GenericService implements RodadaServiceLocal 
 			return null;
 		}
 	}
-
-
+	
+	
+	
 }

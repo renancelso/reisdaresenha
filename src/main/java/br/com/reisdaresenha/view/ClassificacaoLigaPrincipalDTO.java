@@ -87,5 +87,5 @@ public class ClassificacaoLigaPrincipalDTO {
 			return false;
 		return true;
 	}
-
+	
 }

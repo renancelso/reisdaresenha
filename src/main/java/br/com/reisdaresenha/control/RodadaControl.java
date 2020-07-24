@@ -154,34 +154,34 @@ public class RodadaControl extends BaseControl {
 		try {				
 			servicoCartola = new CartolaRestFulClient();			
 			
-			for (Pontuacao pontuacao : novaRodada.getListaPontuacao()) {
-				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();			
-				timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
-				pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);			
-				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);
-			}	
+//			for (Pontuacao pontuacao : novaRodada.getListaPontuacao()) {
+//				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();			
+//				timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
+//				pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);			
+//				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);
+//			}	
 			
 			//MOCK
-//			for (Pontuacao pontuacao : novaRodada.getListaPontuacao()) {
-//				
-//				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();					
-//				
-//				Random gerador = new Random();
-//				
-//				Double patrimonio = Double.parseDouble(String.valueOf(gerador.nextInt(300)));			
-//				Double pontos = Double.parseDouble(String.valueOf(gerador.nextInt(300)));		
-//				Double pontosCampeonato = Double.parseDouble(String.valueOf(gerador.nextInt(300)));			
-//				Double valorTime = Double.parseDouble(String.valueOf(gerador.nextInt(300)));	
-//				
-//				timeRodadaDTO.setTime(pontuacao.getTime());
-//				timeRodadaDTO.setRodadaAtual(pontuacao.getRodada().getNrRodada());
-//				timeRodadaDTO.setPatrimonio(patrimonio);
-//				timeRodadaDTO.setPontos(pontos);
-//				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
-//				timeRodadaDTO.setValorTime(valorTime);					
-//				pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);			
-//				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);				
-//			}	
+			for (Pontuacao pontuacao : novaRodada.getListaPontuacao()) {
+				
+				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();					
+				
+				Random gerador = new Random();
+				
+				Double patrimonio = Double.parseDouble(String.valueOf(gerador.nextInt(300)));			
+				Double pontos = Double.parseDouble(String.valueOf(gerador.nextInt(300)));		
+				Double pontosCampeonato = Double.parseDouble(String.valueOf(gerador.nextInt(300)));			
+				Double valorTime = Double.parseDouble(String.valueOf(gerador.nextInt(300)));	
+				
+				timeRodadaDTO.setTime(pontuacao.getTime());
+				timeRodadaDTO.setRodadaAtual(pontuacao.getRodada().getNrRodada());
+				timeRodadaDTO.setPatrimonio(patrimonio);
+				timeRodadaDTO.setPontos(pontos);
+				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
+				timeRodadaDTO.setValorTime(valorTime);					
+				pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);			
+				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);				
+			}	
 			
 			
 		} catch (Exception e) {

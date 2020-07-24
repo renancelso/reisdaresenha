@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="osbpontuacao")
-public class OSBPontuacao implements Serializable {
+public class OSBPontuacao implements Serializable, Comparable<OSBPontuacao>{
 
 	private static final long serialVersionUID = -5543199361380820801L;
 
@@ -113,6 +113,21 @@ public class OSBPontuacao implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}		
+	}	
+	
+	@Override
+	public int compareTo(OSBPontuacao other) {		
+		
+		if (this.vrPontuacao > other.getVrPontuacao()) { 
+			return -1; 
+		} 	
+		
+		if (this.vrPontuacao < other.getVrPontuacao()) { 
+			return 1; 
+		} 	
+		
+		return 0; 
+		 
+	}
 	
 }
