@@ -126,10 +126,24 @@ public class OSBRodadaControl extends BaseControl {
 					osbPontuacao = (OSBPontuacao) rodadaService.atualizar(osbPontuacao);	
 				}	
 				
-				OSBPontuacao osbPontuacaoEliminado = novaOsbRodada.getListaOsbPontuacao().get(novaOsbRodada.getListaOsbPontuacao().size()-1);			
-				osbPontuacaoEliminado.setSituacaoFinalRodada("ELIMINADO");				
-				osbPontuacaoEliminado = (OSBPontuacao) rodadaService.atualizar(osbPontuacaoEliminado);	
-							
+				if(novaOsbRodada.getNrRodada().intValue() > 28 && novaOsbRodada.getNrRodada().intValue() < 38) { //RODADAS 29 a 37: os DOIS times com a piores pontuações de cada rodada, considerando apenas os que ainda não foram eliminados, são eliminados.					
+					
+					OSBPontuacao osbPontuacaoEliminadoUltimo = novaOsbRodada.getListaOsbPontuacao().get(novaOsbRodada.getListaOsbPontuacao().size()-1);			
+					osbPontuacaoEliminadoUltimo.setSituacaoFinalRodada("ELIMINADO");				
+					osbPontuacaoEliminadoUltimo = (OSBPontuacao) rodadaService.atualizar(osbPontuacaoEliminadoUltimo);	
+					
+					OSBPontuacao osbPontuacaoEliminadoPenultimo = novaOsbRodada.getListaOsbPontuacao().get(novaOsbRodada.getListaOsbPontuacao().size()-2);			
+					osbPontuacaoEliminadoPenultimo.setSituacaoFinalRodada("ELIMINADO");				
+					osbPontuacaoEliminadoPenultimo = (OSBPontuacao) rodadaService.atualizar(osbPontuacaoEliminadoPenultimo);	
+					
+				} else { // APENAS 1 ELIMINADO
+					
+					OSBPontuacao osbPontuacaoEliminadoUltimo = novaOsbRodada.getListaOsbPontuacao().get(novaOsbRodada.getListaOsbPontuacao().size()-1);			
+					osbPontuacaoEliminadoUltimo.setSituacaoFinalRodada("ELIMINADO");				
+					osbPontuacaoEliminadoUltimo = (OSBPontuacao) rodadaService.atualizar(osbPontuacaoEliminadoUltimo);			
+					
+				}
+			
 				novaOsbRodada.setStatusRodada("PS");				
 				novaOsbRodada = (OSBRodada) rodadaService.atualizar(novaOsbRodada);								
 			
