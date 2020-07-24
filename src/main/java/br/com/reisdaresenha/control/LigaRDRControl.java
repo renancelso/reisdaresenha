@@ -22,6 +22,7 @@ import br.com.reisdaresenha.view.TimeCartolaRestDTO;
 
 /**
  * @author Renan Celso
+ * Classe criada para Testes
  */
 @ManagedBean(name = "ligaRDRControl")
 @ViewScoped
