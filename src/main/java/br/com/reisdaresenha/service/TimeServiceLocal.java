@@ -13,4 +13,6 @@ public interface TimeServiceLocal extends GenericServiceInterface {
 	
 	public Time buscarTimePorNome(String nomeTime);
 	
+	public Time buscarTimePorIdCartola(Long idCartola);
+	
 }

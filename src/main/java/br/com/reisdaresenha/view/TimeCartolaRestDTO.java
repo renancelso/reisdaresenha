@@ -1,16 +1,26 @@
 package br.com.reisdaresenha.view;
 
-public class TimeCartolaRestDTO {
+import java.io.Serializable;
+
+import br.com.reisdaresenha.model.OSBPontuacao;
+
+public class TimeCartolaRestDTO implements Serializable, Comparable<TimeCartolaRestDTO>{
+	
+	private static final long serialVersionUID = 1814635572420449643L;
 
 	private Long idCartola;
 	
 	private String nomeTime;
+	
+	private String nomeDonoTime;
 	
 	private String slug;
 	
 	private Double pontosCapitao; 
 	
 	private Long rodada;
+	
+	private String urlEscudoSvg;
 
 	public Long getIdCartola() {
 		return idCartola;
@@ -80,6 +90,27 @@ public class TimeCartolaRestDTO {
 		} else if (!rodada.equals(other.rodada))
 			return false;
 		return true;
+	}
+
+	public String getUrlEscudoSvg() {
+		return urlEscudoSvg;
+	}
+
+	public void setUrlEscudoSvg(String urlEscudoSvg) {
+		this.urlEscudoSvg = urlEscudoSvg;
+	}
+
+	@Override
+	public int compareTo(TimeCartolaRestDTO other) {	
+		return new Integer(this.nomeTime.compareTo(other.getNomeTime())).intValue();	
+	}
+
+	public String getNomeDonoTime() {
+		return nomeDonoTime;
+	}
+
+	public void setNomeDonoTime(String nomeDonoTime) {
+		this.nomeDonoTime = nomeDonoTime;
 	}
 	
 }

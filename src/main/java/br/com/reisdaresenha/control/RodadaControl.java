@@ -168,19 +168,22 @@ public class RodadaControl extends BaseControl {
 										
 					List<TimeCartolaRestDTO> listaTimeCartolaRestDTO = new ArrayList<TimeCartolaRestDTO>();
 					
-					for (int i = 0; i < jsonArrayTimesParticipantes.size(); i++) {				
-						JSONObject jsonObjectTime = (JSONObject) jsonArrayTimesParticipantes.get(i);		
+					for (int i = 0; i < jsonArrayTimesParticipantes.size(); i++) {							
+						
+						JSONObject jsonObjectTime = (JSONObject) jsonArrayTimesParticipantes.get(i);						
 						
 						TimeCartolaRestDTO timeCartolaRestDTO = new TimeCartolaRestDTO();
-						
 						timeCartolaRestDTO.setIdCartola(new Long(String.valueOf(jsonObjectTime.get("time_id"))));
 						timeCartolaRestDTO.setNomeTime(String.valueOf(jsonObjectTime.get("nome")));
-						timeCartolaRestDTO.setSlug(String.valueOf(jsonObjectTime.get("slug")));								
+						timeCartolaRestDTO.setSlug(String.valueOf(jsonObjectTime.get("slug")));	
+						timeCartolaRestDTO.setNomeDonoTime(String.valueOf(jsonObjectTime.get("nome_cartola")));				
+						timeCartolaRestDTO.setUrlEscudoSvg(String.valueOf(jsonObjectTime.get("url_escudo_svg")));
 						JSONObject jsonObjectPontos = (JSONObject) jsonObjectTime.get("pontos");
 						timeCartolaRestDTO.setRodada(new Long(String.valueOf(jsonObjectPontos.get("rodada"))));				
-						timeCartolaRestDTO.setPontosCapitao(new Double(String.valueOf(jsonObjectPontos.get("capitao"))));	
+						timeCartolaRestDTO.setPontosCapitao(new Double(String.valueOf(jsonObjectPontos.get("capitao"))));
 						
 						listaTimeCartolaRestDTO.add(timeCartolaRestDTO);
+						
 					}	
 					
 					for (TimeCartolaRestDTO timeCartolaRestDTO : listaTimeCartolaRestDTO) {
@@ -247,16 +250,17 @@ public class RodadaControl extends BaseControl {
 						List<TimeCartolaRestDTO> listaTimeCartolaRestDTO = new ArrayList<TimeCartolaRestDTO>();
 						
 						for (int i = 0; i < jsonArrayTimesParticipantes.size(); i++) {				
-							JSONObject jsonObjectTime = (JSONObject) jsonArrayTimesParticipantes.get(i);		
+							JSONObject jsonObjectTime = (JSONObject) jsonArrayTimesParticipantes.get(i);						
 							
 							TimeCartolaRestDTO timeCartolaRestDTO = new TimeCartolaRestDTO();
-							
 							timeCartolaRestDTO.setIdCartola(new Long(String.valueOf(jsonObjectTime.get("time_id"))));
 							timeCartolaRestDTO.setNomeTime(String.valueOf(jsonObjectTime.get("nome")));
-							timeCartolaRestDTO.setSlug(String.valueOf(jsonObjectTime.get("slug")));								
+							timeCartolaRestDTO.setSlug(String.valueOf(jsonObjectTime.get("slug")));	
+							timeCartolaRestDTO.setNomeDonoTime(String.valueOf(jsonObjectTime.get("nome_cartola")));				
+							timeCartolaRestDTO.setUrlEscudoSvg(String.valueOf(jsonObjectTime.get("url_escudo_svg")));
 							JSONObject jsonObjectPontos = (JSONObject) jsonObjectTime.get("pontos");
 							timeCartolaRestDTO.setRodada(new Long(String.valueOf(jsonObjectPontos.get("rodada"))));				
-							timeCartolaRestDTO.setPontosCapitao(new Double(String.valueOf(jsonObjectPontos.get("capitao"))));	
+							timeCartolaRestDTO.setPontosCapitao(new Double(String.valueOf(jsonObjectPontos.get("capitao"))));
 							
 							listaTimeCartolaRestDTO.add(timeCartolaRestDTO);
 						}	

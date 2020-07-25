@@ -125,6 +125,8 @@ public class TimeControl extends BaseControl {
 	public String cadastrarTime() {		
 		try {	
 			
+			timeCadastrar.setNomeDonoTime(removerAcentos(timeCadastrar.getNomeTime()));
+			
 			if(timeService.buscarTimePorNome(timeCadastrar.getNomeTime()) != null) {
 				addErrorMessage("Time "+timeCadastrar.getNomeTime()+" já existe na base de dados.");				
 				timeCadastrar = new Time();
@@ -151,7 +153,7 @@ public class TimeControl extends BaseControl {
 			timeCadastrar.setIdUserAtu(usuarioLogado.getId().toString());
 			timeCadastrar.setLoginUserAtu(usuarioLogado.getLogin());
 			timeCadastrar.setDhAtu(new Date());		
-						
+							
 			/** Buscar no restful do Cartola **/
 			timeCadastrar = buscarTimeNoCartola(timeCadastrar, timeCadastrar.getNomeTime());
 			
@@ -215,6 +217,8 @@ public class TimeControl extends BaseControl {
 		
 	public String alterarTime() {		
 		try {	
+			
+			timeSelecionado.setNomeTime(removerAcentos(timeSelecionado.getNomeTime()));
 			
 			if(timeSelecionado.getLiga() == null) {
 				List<Liga>listaLigas = new ArrayList<>();

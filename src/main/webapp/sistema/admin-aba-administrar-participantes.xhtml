@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:pt="http://java.sun.com/jsf/passthrough"
+	  xmlns:c="http://java.sun.com/jstl/core" class="gt-ie8 gt-ie9 not-ie">
+	  
+<h:body>
+
+	<ui:composition>
+		<p:panel style="text-align: justify; text-justify: inter-word; font-size: 12px; border: 0px; padding: 0px; margin: 0px;">	
+				
+          		
+	         		<div class="ui-g-12 ui-md-2">	
+	         				<h:outputText value="TIMES CADASTRADOS NO SISTEMA" 
+				     			  style="color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
+									     border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF;
+										 border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>	
+	 		  			<br/>
+	 		  			<br/>
+						<p:repeat var="item" value="#{ligaRDRControl.listaTimes}" varStatus="var">	 	
+			 		  		<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
+			 		  		<img src="#{item.urlEscudoSvg}" alt="" style="width: 20px;"/> 
+			 		  		<h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" style="#{ligaRDRControl.retornaEstiloDiferenteSeTimeAdicionarNoCartola(item)}"/>		
+			 		  		<br/>
+			 		  		<br/>
+		 		  		</p:repeat>	
+		 		  		<hr/>		 	
+		 		  	</div>	  		
+	 		  			         			  
+	       			<div class="ui-g-12 ui-md-2">  
+	       				<h:outputText value="TIMES CADASTRADOS NA #{ligaRDRControl.nomeLiga} NO CARTOLA" 
+				     			  	  style="color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
+										     border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF;
+											 border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
+	         			
+	          			<br/>
+	          			<br/>
+						<p:repeat var="item" value="#{ligaRDRControl.listaTimeCartolaRestDTO}" varStatus="var">	 	
+			 		  		<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
+			 		  		<img src="#{item.urlEscudoSvg}" alt="" style="width: 20px;"/> 
+			 		  		<h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" style="#{ligaRDRControl.retornaEstiloDiferenteSeTimeAdicionarNoSistema(item)}"/>		
+			 		  		<br/>
+			 		  		<br/>
+		 		  		</p:repeat>	
+		 		  		<hr/>
+	 		  		</div>	
+         	    		
+	         		<div class="ui-g-12 ui-md-2">	
+	 		  			<h:outputText value="FALTA ADICIONAR NO SISTEMA" 
+				     			  	  style="color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
+										     border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF;
+											 border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
+	 		  			<br/>  
+	 		  			<br/>   
+	 		  						
+	          			<p:commandButton value="Adicionar Times ao Sistemas" 			    					
+               					 onstart="PF('dialogProcessando').show();" 
+               					 onclick="PF('dialogProcessando').show();"                					 
+               					 oncomplete="PF('dialogProcessando').hide();"									
+							     onsuccess="PF('dialogProcessando').hide();"
+						 		 onerror="PF('dialogProcessando').hide();"
+						 		 update="@form" id="btnCadastrarTimesCartolaRestDTOQueNaoEstaoNoSistema"
+						 		 action="#{ligaRDRControl.btnCadastrarTimesCartolaRestDTOQueNaoEstaoNoSistema}"
+						 		 rendered="#{ligaRDRControl.listaTimesCartolaRestDTOQueNaoEstaoNoSistema != null and ligaRDRControl.listaTimesCartolaRestDTOQueNaoEstaoNoSistema.size() > 0}"/>		
+								 
+					    <hr/>						    
+						 
+						<p:repeat var="item" value="#{ligaRDRControl.listaTimesCartolaRestDTOQueNaoEstaoNoSistema}" varStatus="var">	 	
+			 		  		<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
+			 		  		<img src="#{item.urlEscudoSvg}" alt="" style="width: 20px;"/> 
+			 		  		<h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />		
+			 		  		<br/>
+			 		  		<br/>
+		 		  		</p:repeat>	
+		 		  		
+		 		  		<hr/>	
+		 		  	</div>	
+	 		  		
+	 		  		<div class="ui-g-12 ui-md-2">			 		  		
+	 		  		
+	 		  			<h:outputText value="ADICIONAR NO CARTOLA OU ACEITAR CONVITE" 
+				     			  	  style="color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
+										     border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF;
+											 border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
+	 		  			<br/> 
+	          			<br/>
+						<p:repeat var="item" value="#{ligaRDRControl.listaTimesQueEstaoNoSistemaENaoEstaoNaLigaNoCartola}" varStatus="var">	 	
+			 		  		<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
+			 		  		<img src="#{item.urlEscudoSvg}" alt="" style="width: 20px;"/> 
+			 		  		<h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />		
+			 		  		<br/>
+			 		  		<br/>
+		 		  		</p:repeat>	
+		 		  		<hr/>	 		  				 			 		  	  	 		  	
+		 		  	</div>	
+          		  		          			           		
+	                             
+	            <p:dialog widgetVar="dialogProcessando" modal="true" 
+						  resizable="false;" draggable="false"
+					      closable="false" id="dialogProcessando" 					      
+					      style="z-index: 9999; font-size: 14px; border: 0px; background-color: #D3E6FF !important;">						     				    				
+					<center>
+						<h:outputText value="Por favor, aguarde." style="font-weight: bold; font-size: 14px;" />
+						<br/>
+						<img src="publico/estilo/images/loading.gif"/> 
+						<br/>
+					</center>						
+				</p:dialog>			             		           		
+			
+		</p:panel>
+	</ui:composition>
+	
+</h:body>
+
+</html>

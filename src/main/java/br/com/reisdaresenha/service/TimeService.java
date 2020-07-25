@@ -30,8 +30,29 @@ public class TimeService extends GenericService implements TimeServiceLocal {
 			}
 			
 			return null;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception e) {			
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Time buscarTimePorIdCartola(Long idCartola) {
+		try {
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("select o from ").append(Time.class.getSimpleName()).append(" o ");
+			sql.append(" where o.idCartola = ").append(idCartola);  
+			
+			List<Time> listaTimes = (List<Time>) consultarPorQuery(sql.toString(), 0, 0);
+					
+			if(listaTimes != null && !listaTimes.isEmpty()) {
+				return listaTimes.get(0); 	 
+			}
+			
+			return null;
+			
+		} catch (Exception e) {			
 			return null;
 		}
 	}
