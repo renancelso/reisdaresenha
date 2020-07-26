@@ -97,6 +97,8 @@ public class TimeControl extends BaseControl {
 	
 	public String btnConsultarTimeCartola(String nomeTime) {
 		try {
+			
+			nomeTime = removerAcentos(nomeTime);
 				
 			if(nomeTime == null || "".equalsIgnoreCase(nomeTime)) {
 				addErrorMessage("Informe o nome do time para consultar no cartola.");

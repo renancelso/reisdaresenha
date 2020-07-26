@@ -28,10 +28,10 @@
 									 border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>	
  		  			<br/>
  		  			<br/>
-					<p:repeat var="item" value="#{ligaRDRControl.listaTimes}" varStatus="var">	 	
+					<p:repeat var="item" value="#{sincronizacaoControl.listaTimes}" varStatus="var">	 	
 		 		  		<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
 		 		  		<img src="#{item.urlEscudoSvg}" alt="" style="width: 20px;"/> 
-		 		  		<h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" style="#{ligaRDRControl.retornaEstiloDiferenteSeTimeAdicionarNoCartola(item)}"/>		
+		 		  		<h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" style="#{sincronizacaoControl.retornaEstiloDiferenteSeTimeAdicionarNoCartola(item)}"/>		
 		 		  		<br/>
 		 		  		<br/>
 	 		  		</p:repeat>	
@@ -39,17 +39,17 @@
 	 		  	</div>	  		
 	 		  			         			  
        			<div class="ui-g-12 ui-md-2">  
-       				<h:outputText value="CADASTRADOS NA '#{ligaRDRControl.nomeLiga}' NO CARTOLA" 
+       				<h:outputText value="CADASTRADOS NA '#{sincronizacaoControl.nomeLiga}' NO CARTOLA" 
 			     			  	  style="color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
 									     border-right: 10px solid #D3E6FF;
 										 border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
          			
           			<br/>
           			<br/>
-					<p:repeat var="item" value="#{ligaRDRControl.listaTimeCartolaRestDTO}" varStatus="var">	 	
+					<p:repeat var="item" value="#{sincronizacaoControl.listaTimeCartolaRestDTO}" varStatus="var">	 	
 		 		  		<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
 		 		  		<img src="#{item.urlEscudoSvg}" alt="" style="width: 20px;"/> 
-		 		  		<h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" style="#{ligaRDRControl.retornaEstiloDiferenteSeTimeAdicionarNoSistema(item)}"/>		
+		 		  		<h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" style="#{sincronizacaoControl.retornaEstiloDiferenteSeTimeAdicionarNoSistema(item)}"/>		
 		 		  		<br/>
 		 		  		<br/>
 	 		  		</p:repeat>	
@@ -71,12 +71,12 @@
 						     onsuccess="PF('dialogProcessando').hide();"
 					 		 onerror="PF('dialogProcessando').hide();"
 					 		 update="@form" id="btnCadastrarTimesCartolaRestDTOQueNaoEstaoNoSistema"
-					 		 action="#{ligaRDRControl.btnCadastrarTimesCartolaRestDTOQueNaoEstaoNoSistema}"
-					 		 rendered="#{ligaRDRControl.listaTimesCartolaRestDTOQueNaoEstaoNoSistema != null and ligaRDRControl.listaTimesCartolaRestDTOQueNaoEstaoNoSistema.size() > 0}"/>		
+					 		 action="#{sincronizacaoControl.btnCadastrarTimesCartolaRestDTOQueNaoEstaoNoSistema}"
+					 		 rendered="#{sincronizacaoControl.listaTimesCartolaRestDTOQueNaoEstaoNoSistema != null and sincronizacaoControl.listaTimesCartolaRestDTOQueNaoEstaoNoSistema.size() > 0}"/>		
 							 
 				    <hr/>						    
 					 
-					<p:repeat var="item" value="#{ligaRDRControl.listaTimesCartolaRestDTOQueNaoEstaoNoSistema}" varStatus="var">	 	
+					<p:repeat var="item" value="#{sincronizacaoControl.listaTimesCartolaRestDTOQueNaoEstaoNoSistema}" varStatus="var">	 	
 		 		  		<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
 		 		  		<img src="#{item.urlEscudoSvg}" alt="" style="width: 20px;"/> 
 		 		  		<h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />		
@@ -95,7 +95,7 @@
 										 border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
  		  			<br/> 
           			<br/>
-					<p:repeat var="item" value="#{ligaRDRControl.listaTimesQueEstaoNoSistemaENaoEstaoNaLigaNoCartola}" varStatus="var">	 	
+					<p:repeat var="item" value="#{sincronizacaoControl.listaTimesQueEstaoNoSistemaENaoEstaoNaLigaNoCartola}" varStatus="var">	 	
 		 		  		<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
 		 		  		<img src="#{item.urlEscudoSvg}" alt="" style="width: 20px;"/> 
 		 		  		<h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />		

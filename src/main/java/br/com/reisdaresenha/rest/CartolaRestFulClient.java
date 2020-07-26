@@ -41,8 +41,8 @@ public class CartolaRestFulClient {
 			
 			int statusCode = client.executeMethod(method);
 
-			////System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));
-			System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));			
+			//System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));
+			//System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));			
 
 			String jsonResponse = method.getResponseBodyAsString();
 
@@ -104,8 +104,7 @@ public class CartolaRestFulClient {
 
 			int statusCode = client.executeMethod(method);
 
-			////System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));
-			System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));			
+			//System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));					
 
 			String jsonResponse = method.getResponseBodyAsString();
 
@@ -269,8 +268,7 @@ public class CartolaRestFulClient {
 
 				int statusCode = client.executeMethod(method);
 
-//				////System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));
-//				System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));				
+				//System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));			
 
 				String jsonResponse = method.getResponseBodyAsString();
 
@@ -332,7 +330,7 @@ public class CartolaRestFulClient {
 				
 				JSONObject jsonObject = (JSONObject) parser.parse(jsonResponse);
 				
-				System.out.println(jsonObject.toString());				
+				//System.out.println(jsonObject.toString());				
 											
 				method.releaseConnection();
 				

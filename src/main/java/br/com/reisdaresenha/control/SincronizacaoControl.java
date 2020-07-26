@@ -29,13 +29,13 @@ import br.com.reisdaresenha.view.TimeCartolaRestDTO;
  * @author Renan Celso
  * Classe criada para Testes
  */
-@ManagedBean(name = "ligaRDRControl")
+@ManagedBean(name = "sincronizacaoControl")
 @ViewScoped
-public class LigaRDRControl extends BaseControl {
+public class SincronizacaoControl extends BaseControl {
 
 	private static final long serialVersionUID = 4471049778894375957L;	
 	
-	private transient Logger log = Logger.getLogger(LigaRDRControl.class.getName());
+	private transient Logger log = Logger.getLogger(SincronizacaoControl.class.getName());
 	
 	@EJB
 	private ParametroServiceLocal parametroService;
@@ -62,6 +62,7 @@ public class LigaRDRControl extends BaseControl {
 	public void init() {
 		
 		try {	
+			log.info("SincronizacaoControl: INIT BEGIN...");
 			
 			HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);	
 			usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");			
@@ -140,6 +141,7 @@ public class LigaRDRControl extends BaseControl {
 				
 			}
 									
+			log.info("SincronizacaoControl: INIT FINISH...");
 			
 		} catch (Exception e) {
 			log.error(e);
