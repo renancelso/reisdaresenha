@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:pt="http://java.sun.com/jsf/passthrough"
+	  xmlns:c="http://java.sun.com/jstl/core" class="gt-ie8 gt-ie9 not-ie"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head/>  
+ 
+<h:body>
+	
+    <ui:composition template="/template/layout.xhtml">		
+        <ui:define name="conteudo">        
+        
+            <h:form id="formPrincipal" style="font-size: 12px;"> 
+                
+	  			<p:messages id="messages" closable="true" showDetail="false">
+          			<p:autoUpdate />
+          		</p:messages>		  			
+          		
+          		<p:panel header="Gerar Apertura" style="min-width: 300px;">
+          		    <p:panel rendered="#{rdrControl.listaParticipantesSerieA == null or rdrControl.listaParticipantesSerieB == null}">      		
+	          			<br/>           	
+	          			
+	          			<p:commandButton value="GERAR PARTICIPANTES APERTURA" 			    					
+		               					 onstart="PF('dialogProcessando').show();" 
+		               					 onclick="PF('dialogProcessando').show();"                					 
+		               					 oncomplete="PF('dialogProcessando').hide();"									
+									     onsuccess="PF('dialogProcessando').hide();"
+								 		 onerror="PF('dialogProcessando').hide();"
+								 		 update="@form" id="btnGerarApertura"
+								 		 action="#{rdrControl.btnGerarParticipantesApertura}"
+								 		 rendered="#{rdrControl.listaParticipantesSerieA == null or rdrControl.listaParticipantesSerieB == null}"/>		
+												
+						<hr/>
+					</p:panel>         		
+          		
+	          		<h:panelGrid columns="2" rendered="#{rdrControl.listaParticipantesSerieA != null and rdrControl.listaParticipantesSerieB != null}">
+	          			
+	          			<p:panel style="height: 700px;" header="Serie A">
+	          				<p:repeat var="item" value="#{rdrControl.listaParticipantesSerieA}" varStatus="var">	 	
+					 		  	<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
+					 		  	<img src="#{item.time.urlEscudoSvg}" alt="" style="width: 20px;"/> 
+					 		  	<h:outputText value="#{item.time.nomeTime} (#{item.time.nomeDonoTime})"/>		
+				 		  		<br/>
+				 		  		<br/>
+		 		  			</p:repeat>	
+	          			</p:panel>
+	          			
+	          			<p:panel style="height: 700px;" header="Serie B">
+	          				<p:repeat var="item" value="#{rdrControl.listaParticipantesSerieB}" varStatus="var">	 	
+					 		  	<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
+					 		  	<img src="#{item.time.urlEscudoSvg}" alt="" style="width: 20px;"/> 
+					 		  	<h:outputText value="#{item.time.nomeTime} (#{item.time.nomeDonoTime})"/>
+				 		  		<br/>
+				 		  		<br/>
+		 		  			</p:repeat>	
+	          			</p:panel>
+	          		
+	          		</h:panelGrid>
+          		
+          		</p:panel>	
+	                             
+	            <p:dialog widgetVar="dialogProcessando" modal="true" 
+						  resizable="false;" draggable="false"
+					      closable="false" id="dialogProcessando" 					      
+					      style="z-index: 9999; font-size: 14px; border: 0px; background-color: #D3E6FF !important;">						     				    				
+					<center>
+						<h:outputText value="Por favor, aguarde." style="font-weight: bold; font-size: 14px;" />
+						<br/>
+						<img src="publico/estilo/images/loading.gif"/> 
+						<br/>
+					</center>						
+				</p:dialog>
+					 
+            </h:form>
+            
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+
+
+</html>

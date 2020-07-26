@@ -18,6 +18,11 @@
 		<class>br.com.reisdaresenha.model.OSBRodadaTimeParticipante</class>
 		<class>br.com.reisdaresenha.model.OSBPontuacao</class>
 		
+		<class>br.com.reisdaresenha.model.RDRClassificacao</class>
+		<class>br.com.reisdaresenha.model.RDRParticipante</class>
+		<class>br.com.reisdaresenha.model.RDRPontuacao</class>
+		<class>br.com.reisdaresenha.model.RDRRodada</class>
+		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<shared-cache-mode>NONE</shared-cache-mode>			
 		<properties>		

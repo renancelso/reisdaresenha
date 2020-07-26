@@ -83,6 +83,13 @@
         <pattern value="/osb-pontuacao" />
         <view-id value="/sistema/osb/osb-pontuacao.jsf" />
     </url-mapping> 
+    
+    <url-mapping id="rdr-gerar-apertura">
+        <pattern value="/rdr-gerar-apertura" />
+        <view-id value="/sistema/rdr/rdr-gerar-apertura.jsf" />
+    </url-mapping> 
+    
+   
                      
               
    	<url-mapping id="logoff">
