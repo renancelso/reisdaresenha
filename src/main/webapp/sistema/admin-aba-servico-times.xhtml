@@ -13,13 +13,17 @@
 		<p:panel style="text-align: justify; text-justify: inter-word; font-size: 13px; border: 0px; padding: 0px; margin: 0px;">							
 		
 			<p:dataTable var="item" value="#{restFulTestServicesControl.listaTimesParticipantes}" 
-            			 rowKey="#{item.id}"
+            			 rowKey="#{item.id}" rowIndexVar="rowIndex"
             			 reflow="true" id="listaTimesParticipantes"	   
             			 style="min-width: 250px;"
             			 paginator="true" widgetVar="listaTimesParticipantes"
             			 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
             			 currentPageReportTemplate="Exibindo de {startRecord} a {endRecord} de um total de {totalRecords} registros"  
-       			 		 emptyMessage="Não existem dados cadastrados">       			 		 	      					
+       			 		 emptyMessage="Não existem dados cadastrados">     
+       			 		 
+       			<p:column headerText="#" style="text-align: center; width: 45px;">
+			        <h:outputText value="#{rowIndex+1}" />
+			    </p:column>			 		 	      					
        			       					 
        			<p:column headerText="Time" style="width: 30%">				       
 			        <img src="#{item.urlEscudoSvg}" alt="" style="width: 25px;"/> <h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />

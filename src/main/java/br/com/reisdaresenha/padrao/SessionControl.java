@@ -118,6 +118,15 @@ public class SessionControl extends BaseControl {
 			return "publico/estilo/images/cartola00.png";
 		}
 	}
+	
+	public String getNomeLiga() {
+		try {				
+			Parametro param = parametroService.buscarParametroPorChave("nome_liga");	
+			return param.getValor().trim();
+		} catch (Exception e) {
+			return "publico/estilo/images/cartola00.png";
+		}
+	}
 
 	public Logger getLogger() {
 		return log;

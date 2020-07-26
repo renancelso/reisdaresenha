@@ -134,8 +134,8 @@
 	            
 	            <p:dataTable var="item" value="#{timeControl.listaTimes}" 
 	            			 selectionMode="single" rowKey="#{item.id}"
-	            			 reflow="true" id="listaTimesCadastrados"	   
-	            			 style="min-width: 250px;"
+	            			 reflow="true" id="listaTimesCadastrados" 	   
+	            			 style="min-width: 250px; font-size: 12px;" rowIndexVar="rowIndex"
 	            			 paginator="true" widgetVar="listaTimesCadastrados"
 	            			 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 	            			 currentPageReportTemplate="Exibindo de {startRecord} a {endRecord} de um total de {totalRecords} registros"  
@@ -145,12 +145,13 @@
 	       					oncomplete="window.scrollTo(0,0);"
 	       					listener="#{timeControl.onRowSelect}" /> 
 	       					
-	       			<p:column headerText="" style="width: 50px; text-align: center;">	
-				        <img src="#{item.urlEscudoSvg}" alt="" style="width: 25px;"/> 
-				    </p:column> 
-	       					 
-	       			<p:column headerText="Nome Time" style="width: 30%">				       
-				        <h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />
+		       		<p:column headerText="#" style="text-align: center; width: 45px;">
+				        <h:outputText value="#{rowIndex+1}" />
+				    </p:column>		
+	       					
+	       			       					 
+	       			<p:column headerText="Time" style="width: 30%">				       
+				        <img src="#{item.urlEscudoSvg}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />
 				    </p:column>
 								   
 				   				    
