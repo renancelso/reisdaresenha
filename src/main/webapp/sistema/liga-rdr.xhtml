@@ -15,7 +15,7 @@
     <ui:composition template="/template/layout.xhtml">		
         <ui:define name="conteudo">        
         
-            <h:form id="formPrincipal" style="text-align: justify; text-justify: inter-word; font-size: 12px; border: 0px; padding: 0px; margin: 0px; font-weight: bold;">     
+            <h:form id="formPrincipal" style="font-size: 12px; border: 0px; padding: 0px; margin: 0px; font-weight: bold;">     
                  
 	  			<p:messages id="messages" closable="true" showDetail="false">
           			<p:autoUpdate />
@@ -24,7 +24,7 @@
          		<div class="ui-g-12 ui-md-2">	
          				<h:outputText value="TIMES CADASTRADOS NO SISTEMA" 
 			     			  style="color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
-								     border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF;
+								      border-right: 10px solid #D3E6FF;
 									 border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>	
  		  			<br/>
  		  			<br/>
@@ -39,9 +39,9 @@
 	 		  	</div>	  		
 	 		  			         			  
        			<div class="ui-g-12 ui-md-2">  
-       				<h:outputText value="TIMES CADASTRADOS NA #{ligaRDRControl.nomeLiga} NO CARTOLA" 
+       				<h:outputText value="TIMES CADASTRADOS NA '#{ligaRDRControl.nomeLiga}' NO CARTOLA" 
 			     			  	  style="color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
-									     border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF;
+									     border-right: 10px solid #D3E6FF;
 										 border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
          			
           			<br/>
@@ -59,12 +59,12 @@
          		<div class="ui-g-12 ui-md-2">	
  		  			<h:outputText value="FALTA ADICIONAR NO SISTEMA" 
 			     			  	  style="color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
-									     border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF;
+									     border-right: 10px solid #D3E6FF;
 										 border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
  		  			<br/>  
  		  			<br/>   
  		  						
-          			<p:commandButton value="Adicionar Times ao Sistemas" 			    					
+          			<p:commandButton value="ADICIONAR NO SISTEMA" 			    					
               					 onstart="PF('dialogProcessando').show();" 
               					 onclick="PF('dialogProcessando').show();"                					 
               					 oncomplete="PF('dialogProcessando').hide();"									
@@ -91,7 +91,7 @@
  		  		
  		  			<h:outputText value="ADICIONAR NO CARTOLA OU ACEITAR CONVITE" 
 			     			  	  style="color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
-									     border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF;
+									     border-right: 10px solid #D3E6FF;
 										 border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
  		  			<br/> 
           			<br/>

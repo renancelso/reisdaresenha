@@ -80,6 +80,8 @@ public class LigaRDRControl extends BaseControl {
 			if(slugLiga != null && token != null) {
 				jsonObject = servicoCartola.buscarInformacoesLigaEspecifica(slugLiga, token);
 			}
+			
+			//System.out.println(jsonObject.toString());
 						
 			JSONObject jsonObjectLiga = (JSONObject) jsonObject.get("liga");
 						
