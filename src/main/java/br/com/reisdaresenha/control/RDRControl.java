@@ -82,7 +82,7 @@ public class RDRControl extends BaseControl {
 			
 			Integer anoAtual = 2020; //Calendar.getInstance().get(Calendar.YEAR);				
 			
-			listaClassificacaoLigaPrincipalDTO = inicioService.buscarClassificacaoLigaPrincipal(anoAtual);	
+			listaClassificacaoLigaPrincipalDTO = inicioService.buscarClassificacaoLigaPrincipalAteRodada4(anoAtual);	
 			
 			listaParticipantesSerieA = new ArrayList<RDRParticipante>();
 			
