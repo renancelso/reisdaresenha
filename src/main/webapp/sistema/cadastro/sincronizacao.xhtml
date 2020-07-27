@@ -98,7 +98,8 @@
 					<p:repeat var="item" value="#{sincronizacaoControl.listaTimesQueEstaoNoSistemaENaoEstaoNaLigaNoCartola}" varStatus="var">	 	
 		 		  		<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
 		 		  		<img src="#{item.urlEscudoSvg}" alt="" style="width: 20px;"/> 
-		 		  		<h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />		
+		 		  		<h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />	
+		 		  		<h:outputText value="#{'sim'.equals(item.assinante) ? ' (PRO) ' : ''}" style="color: red;"/>	
 		 		  		<br/>
 		 		  		<br/>
 	 		  		</p:repeat>	
