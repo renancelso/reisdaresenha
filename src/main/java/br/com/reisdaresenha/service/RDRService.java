@@ -55,12 +55,63 @@ public class RDRService extends GenericService implements RDRServiceLocal {
 			sql.append(" and o.faseLiga = '").append(fase).append("' ");  
 			sql.append(" and o.serie = '").append(serie).append("' "); 
 			
-			sql.append(" order by o.vrPontos desc"); 
+			sql.append(" order by o.vrPontos desc, o.vrPontuacaoAtualLigaPrincipalCartola desc"); 
 			
 			List<RDRClassificacao> listaRDRClassificacao = (List<RDRClassificacao>) consultarPorQuery(sql.toString(), 0, 0);
 					
 			if(listaRDRClassificacao != null && !listaRDRClassificacao.isEmpty()) {
 				return listaRDRClassificacao; 	 
+			}
+			
+			return null;
+			
+		} catch (Exception e) {			
+			return null;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public RDRClassificacao buscarRDRClassificacaoPorRodadaParticipante(String fase, String serie, Long nrRodada, RDRParticipante rdrParticipante) {		
+		
+		try {
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("select o from ").append(RDRClassificacao.class.getSimpleName()).append(" o where 1=1 ");
+			sql.append(" and o.faseLiga = '").append(fase).append("' ");  
+			sql.append(" and o.serie = '").append(serie).append("' "); 
+			sql.append(" and o.nrRodadaAtual = ").append(nrRodada); 
+			sql.append(" and o.rdrParticipante.id = ").append(rdrParticipante.getId()); 			
+			
+			List<RDRClassificacao> listaRDRClassificacao = (List<RDRClassificacao>) consultarPorQuery(sql.toString(), 0, 0);
+					
+			if(listaRDRClassificacao != null && !listaRDRClassificacao.isEmpty()) {
+				return listaRDRClassificacao.get(0); 	 				
+			}
+			
+			return null;
+			
+		} catch (Exception e) {			
+			return null;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public RDRClassificacao buscarRDRClassificacaoPorRodada(String fase, String serie, Long nrRodada) {		
+		
+		try {
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("select o from ").append(RDRClassificacao.class.getSimpleName()).append(" o where 1=1 ");
+			sql.append(" and o.faseLiga = '").append(fase).append("' ");  
+			sql.append(" and o.serie = '").append(serie).append("' "); 
+			sql.append(" and o.nrRodadaAtual = ").append(nrRodada); 				
+			
+			List<RDRClassificacao> listaRDRClassificacao = (List<RDRClassificacao>) consultarPorQuery(sql.toString(), 0, 0);
+					
+			if(listaRDRClassificacao != null && !listaRDRClassificacao.isEmpty()) {
+				return listaRDRClassificacao.get(0); 	 				
 			}
 			
 			return null;

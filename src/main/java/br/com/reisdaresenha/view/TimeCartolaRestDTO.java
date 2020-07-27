@@ -21,6 +21,8 @@ public class TimeCartolaRestDTO implements Serializable, Comparable<TimeCartolaR
 	private Long rodada;
 	
 	private String urlEscudoSvg;
+	
+	private String urlEscudoPng;
 
 	public Long getIdCartola() {
 		return idCartola;
@@ -111,6 +113,14 @@ public class TimeCartolaRestDTO implements Serializable, Comparable<TimeCartolaR
 
 	public void setNomeDonoTime(String nomeDonoTime) {
 		this.nomeDonoTime = nomeDonoTime;
+	}
+
+	public String getUrlEscudoPng() {
+		return urlEscudoPng;
+	}
+
+	public void setUrlEscudoPng(String urlEscudoPng) {
+		this.urlEscudoPng = urlEscudoPng;
 	}
 	
 }

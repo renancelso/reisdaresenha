@@ -50,6 +50,27 @@ public class RodadaService extends GenericService implements RodadaServiceLocal 
 	
 	@SuppressWarnings("unchecked")
 	@Override
+	public Rodada buscarRodadaDaLigaPrincipalEspecifica(Long nrRodada) {
+		Rodada rodada = new Rodada();
+		try {
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("select o from ").append(Rodada.class.getSimpleName()).append(" o where 1=1 ");			
+			sql.append(" and o.liga.id = ").append(1); // Liga Principal
+			sql.append(" and o.nrRodada = ").append(nrRodada);
+			
+			rodada = (Rodada) consultarPorQuery(sql.toString(), 0, 0).get(0);
+
+			return rodada;
+			
+		} catch (Exception e) {
+			log.error(e);
+			return null;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<Rodada> listarTodasRodadasDesc(Liga liga) {
 
 		List<Rodada> lista = new ArrayList<>();

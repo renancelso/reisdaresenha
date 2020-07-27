@@ -17,6 +17,7 @@ import br.com.reisdaresenha.model.RDRClassificacao;
 import br.com.reisdaresenha.model.RDRParticipante;
 import br.com.reisdaresenha.model.RDRPontuacao;
 import br.com.reisdaresenha.model.RDRRodada;
+import br.com.reisdaresenha.model.Rodada;
 import br.com.reisdaresenha.model.Time;
 import br.com.reisdaresenha.model.Usuario;
 import br.com.reisdaresenha.padrao.BaseControl;
@@ -24,6 +25,7 @@ import br.com.reisdaresenha.rest.CartolaRestFulClient;
 import br.com.reisdaresenha.service.InicioServiceLocal;
 import br.com.reisdaresenha.service.ParametroServiceLocal;
 import br.com.reisdaresenha.service.RDRServiceLocal;
+import br.com.reisdaresenha.service.RodadaServiceLocal;
 import br.com.reisdaresenha.service.TimeServiceLocal;
 import br.com.reisdaresenha.view.ClassificacaoLigaPrincipalDTO;
 
@@ -50,6 +52,9 @@ public class RDRControl extends BaseControl {
 	
 	@EJB
 	private RDRServiceLocal rdrService;
+	
+	@EJB
+	private RodadaServiceLocal rodadaService;
 	
 	private CartolaRestFulClient servicoCartola;
 	
@@ -188,8 +193,10 @@ public class RDRControl extends BaseControl {
 					classificacaoAperturaSerieA.setNomeDonoTime(rdrParticipanteA.getTime().getNomeDonoTime());
 					classificacaoAperturaSerieA.setIdCartolaTime(rdrParticipanteA.getIdTimeCartola());
 					
-					classificacaoAperturaSerieA = (RDRClassificacao) rdrService.atualizar(classificacaoAperturaSerieA);
+					classificacaoAperturaSerieA.setNrRodadaAtual(new Long(1));
 					
+					classificacaoAperturaSerieA = (RDRClassificacao) rdrService.atualizar(classificacaoAperturaSerieA);
+										
 					listaClassificacaoAperturaSerieA.add(classificacaoAperturaSerieA);					
 				}	
 				
@@ -212,6 +219,8 @@ public class RDRControl extends BaseControl {
 					classificacaoAperturaSerieB.setNomeTime(rdrParticipanteB.getTime().getNomeTime());
 					classificacaoAperturaSerieB.setNomeDonoTime(rdrParticipanteB.getTime().getNomeDonoTime());
 					classificacaoAperturaSerieB.setIdCartolaTime(rdrParticipanteB.getIdTimeCartola());
+					
+					classificacaoAperturaSerieB.setNrRodadaAtual(new Long(1));
 					
 					classificacaoAperturaSerieB = (RDRClassificacao) rdrService.atualizar(classificacaoAperturaSerieB);
 					
@@ -365,6 +374,227 @@ public class RDRControl extends BaseControl {
 		}
 		
 	}
+	
+	public String atualizarPontuacaoRodada(RDRRodada rdrRodadaAtualizarPontuacao, List<RDRPontuacao> listaRDRPontuacao) {
+				
+		List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO = new ArrayList<ClassificacaoLigaPrincipalDTO>();
+		
+		Integer anoAtual = 2020; //Calendar.getInstance().get(Calendar.YEAR);	
+		
+		listaClassificacaoLigaPrincipalDTO = inicioService.buscarHistoricoClassificacaoRodadas(anoAtual, rdrRodadaAtualizarPontuacao.getNrRodadaCartola());	
+					
+		if(listaClassificacaoLigaPrincipalDTO != null && !listaClassificacaoLigaPrincipalDTO.isEmpty()) {
+		
+			rdrRodadaAtualizarPontuacao.setStatusRodada("EA");		
+			
+			rdrRodadaAtualizarPontuacao = (RDRRodada) rdrService.atualizar(rdrRodadaAtualizarPontuacao);
+			
+			if(rdrRodadaAtualizarPontuacao.getListaRDRPontuacao() == null || rdrRodadaAtualizarPontuacao.getListaRDRPontuacao().isEmpty()){
+				rdrRodadaAtualizarPontuacao.setListaRDRPontuacao(new ArrayList<RDRPontuacao>());
+				rdrRodadaAtualizarPontuacao.setListaRDRPontuacao(listaRDRPontuacao);
+			}
+			
+			for (ClassificacaoLigaPrincipalDTO classificacaoPrincipalRodadaDTO : listaClassificacaoLigaPrincipalDTO) {	
+				
+				Time time = timeService.buscarTimePorIdCartola(classificacaoPrincipalRodadaDTO.getIdTimeCartola());			
+				
+				for (RDRPontuacao rdrPontuacao : rdrRodadaAtualizarPontuacao.getListaRDRPontuacao()) {				
+					
+					if(rdrPontuacao.getRdrParticipanteTimeCasa().getTime().getId().equals(time.getId())) {
+						
+						rdrPontuacao.setVrPontuacaoTimeCasa(classificacaoPrincipalRodadaDTO.getPontuacao());					
+						
+						rdrPontuacao.setVrPontuacaoTimeCasaArredondada(
+								arredondarValorDonoDaCasa(classificacaoPrincipalRodadaDTO.getPontuacao()) //ARREDONDAMENTO DENTRO DE CASA
+								);					
+					}
+					
+					if(rdrPontuacao.getRdrParticipanteTimeFora().getTime().getId().equals(time.getId())) {
+						
+						rdrPontuacao.setVrPontuacaoTimeFora(classificacaoPrincipalRodadaDTO.getPontuacao());				
+						
+						rdrPontuacao.setVrPontuacaoTimeForaArredondada(
+								arredondarValorVisitante(classificacaoPrincipalRodadaDTO.getPontuacao()) //ARREDONDAMENTO FORA DE CASA
+								);					
+					}					
+									
+					rdrPontuacao = (RDRPontuacao) rdrService.atualizar(rdrPontuacao);		
+										
+				}	
+			}	
+			
+			for (RDRPontuacao rdrPontuacao : rdrRodadaAtualizarPontuacao.getListaRDRPontuacao()) {					
+				
+				if(rdrPontuacao.getVrPontuacaoTimeCasaArredondada() > rdrPontuacao.getVrPontuacaoTimeForaArredondada()) {					
+					rdrPontuacao.setEmpate("nao");					
+					rdrPontuacao.setRdrParticipanteTimeVencedor(rdrPontuacao.getRdrParticipanteTimeCasa());
+					rdrPontuacao.setNomeTimeVencedor((rdrPontuacao.getRdrParticipanteTimeCasa().getNomeTime()));	
+					rdrPontuacao.setRdrParticipanteTimePerdedor(rdrPontuacao.getRdrParticipanteTimeFora());
+					rdrPontuacao.setNomeTimePerdedor((rdrPontuacao.getRdrParticipanteTimeFora().getNomeTime()));
+				}					
+				
+				if(rdrPontuacao.getVrPontuacaoTimeCasaArredondada() < rdrPontuacao.getVrPontuacaoTimeForaArredondada()) {					
+					rdrPontuacao.setEmpate("nao");
+					rdrPontuacao.setRdrParticipanteTimeVencedor(rdrPontuacao.getRdrParticipanteTimeFora());
+					rdrPontuacao.setNomeTimeVencedor((rdrPontuacao.getRdrParticipanteTimeFora().getNomeTime()));
+					rdrPontuacao.setRdrParticipanteTimePerdedor(rdrPontuacao.getRdrParticipanteTimeCasa());
+					rdrPontuacao.setNomeTimePerdedor((rdrPontuacao.getRdrParticipanteTimeCasa().getNomeTime()));
+					
+				}
+				
+				if(rdrPontuacao.getVrPontuacaoTimeCasaArredondada().equals(rdrPontuacao.getVrPontuacaoTimeForaArredondada())) {
+					rdrPontuacao.setEmpate("sim");						
+					rdrPontuacao.setNomeTimeVencedor("empate");
+					rdrPontuacao.setRdrParticipanteTimeEmpateEmCasa(rdrPontuacao.getRdrParticipanteTimeCasa());
+					rdrPontuacao.setRdrParticipanteTimeEmpateFora(rdrPontuacao.getRdrParticipanteTimeFora());
+				}
+				
+				rdrPontuacao = (RDRPontuacao) rdrService.atualizar(rdrPontuacao);
+			}
+			
+			atualizarRDRClassificacao(rdrRodadaAtualizarPontuacao.getTipoRodada(), rdrRodadaAtualizarPontuacao.getSerieRodada(), rdrRodadaAtualizarPontuacao.getNrRDRRodada());
+			
+			
+			Rodada rodadaPrincipal = new Rodada();
+			rodadaPrincipal = rodadaService.buscarRodadaDaLigaPrincipalEspecifica(rdrRodadaAtualizarPontuacao.getNrRodadaCartola());			
+			
+			if(rodadaPrincipal != null) {
+				rdrRodadaAtualizarPontuacao.setStatusRodada(rodadaPrincipal.getStatusRodada());				
+				rdrRodadaAtualizarPontuacao = (RDRRodada) rdrService.atualizar(rdrRodadaAtualizarPontuacao);
+			}
+			
+			addInfoMessage(rdrRodadaAtualizarPontuacao.getNrRDRRodada()+"ª Rodada Atualizada com Sucesso");
+			
+			init();
+			
+		} else {
+			addErrorMessage(rdrRodadaAtualizarPontuacao.getNrRodadaCartola()+"ª Rodada Principal do Cartola FC ainda nao está em andamento");			
+		}
+		
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void atualizarRDRClassificacao(String fase, String serie, Long nrRodadaAtual) {		
+		
+		List<RDRClassificacao> listaRDRClassificacao = new ArrayList<RDRClassificacao>();	
+		listaRDRClassificacao = rdrService.buscarRDRClassificacao(fase, serie);
+				
+		for (RDRClassificacao rdrClassificacao : listaRDRClassificacao) {	
+			
+			List <RDRPontuacao> listaRdrPontuacao = new ArrayList<RDRPontuacao>();					
+			StringBuilder sql;
+			
+			/** QTD VITORIAS **/
+			sql = new StringBuilder();
+			sql.append("select o from ").append(RDRPontuacao.class.getSimpleName()).append(" o where 1=1 ");			
+			sql.append(" and o.rdrParticipanteTimeVencedor.id = ").append(rdrClassificacao.getRdrParticipante().getId());						
+			listaRdrPontuacao = (List<RDRPontuacao>) rdrService.consultarPorQuery(sql.toString(), 0, 0);	
+			
+			if(listaRdrPontuacao != null && !listaRdrPontuacao.isEmpty()) {
+				rdrClassificacao.setQtdVitorias(new Long(listaRdrPontuacao.size()));
+			} else {
+				rdrClassificacao.setQtdVitorias(new Long(0));
+			}
+			
+			/** QTD DERROTAS **/
+			sql = new StringBuilder();
+			sql.append("select o from ").append(RDRPontuacao.class.getSimpleName()).append(" o where 1=1 ");			
+			sql.append(" and o.rdrParticipanteTimePerdedor.id = ").append(rdrClassificacao.getRdrParticipante().getId());						
+			listaRdrPontuacao = (List<RDRPontuacao>) rdrService.consultarPorQuery(sql.toString(), 0, 0);	
+			
+			if(listaRdrPontuacao != null && !listaRdrPontuacao.isEmpty()) {
+				rdrClassificacao.setQtdDerrotas(new Long(listaRdrPontuacao.size()));
+			} else {
+				rdrClassificacao.setQtdDerrotas(new Long(0));
+			}
+			
+			/** QTD Empates **/
+			sql = new StringBuilder();
+			sql.append("select o from ").append(RDRPontuacao.class.getSimpleName()).append(" o where 1=1 ");			
+			sql.append(" and o.empate = 'sim' ");
+			sql.append(" and (o.rdrParticipanteTimeEmpateEmCasa.id = ").append(rdrClassificacao.getRdrParticipante().getId());
+			sql.append("      or o.rdrParticipanteTimeEmpateFora.id = " ).append(rdrClassificacao.getRdrParticipante().getId()).append(") ");
+			
+			listaRdrPontuacao = (List<RDRPontuacao>) rdrService.consultarPorQuery(sql.toString(), 0, 0);	
+			
+			if(listaRdrPontuacao != null && !listaRdrPontuacao.isEmpty()) {
+				rdrClassificacao.setQtdEmpates(new Long(listaRdrPontuacao.size()));
+			} else {
+				rdrClassificacao.setQtdEmpates(new Long(0));
+			}			
+			
+			rdrClassificacao.setQtdJogosDisputados(rdrClassificacao.getQtdVitorias()+rdrClassificacao.getQtdDerrotas()+rdrClassificacao.getQtdEmpates());
+			
+			Double vrPontos = new Double((rdrClassificacao.getQtdVitorias() * 3) + (rdrClassificacao.getQtdEmpates() * 1) + (rdrClassificacao.getQtdDerrotas() * 0));
+			
+			rdrClassificacao.setVrPontos(vrPontos);
+			
+			rdrClassificacao.setNrRodadaAtual(nrRodadaAtual);
+			
+			Integer anoAtual = 2020; // Calendar.getInstance().get(Calendar.YEAR);
+			
+			List<ClassificacaoLigaPrincipalDTO> listaClassificacaoPrincipal = inicioService.buscarPontuacaoLigaPrincipalTime(anoAtual, rdrClassificacao.getRdrParticipante().getTime());
+			 
+			Double vrPontuacaoAtualLigaPrincipalCartola =  0.0;
+			
+			if(listaClassificacaoPrincipal!= null && !listaClassificacaoPrincipal.isEmpty()) { 
+				vrPontuacaoAtualLigaPrincipalCartola = listaClassificacaoPrincipal.get(0).getPontuacao();
+			}
+			
+			rdrClassificacao.setVrPontuacaoAtualLigaPrincipalCartola(vrPontuacaoAtualLigaPrincipalCartola);
+						
+			rdrClassificacao = (RDRClassificacao) rdrService.atualizar(rdrClassificacao);				
+		}
+						
+	}
+
+	public Double arredondarValorDonoDaCasa(Double valor) {
+		
+		log.info("Vai Arredondar '"+valor+"' PARA TIME JOGANDO DENTRO DE CASA");
+		
+		Double valorArredondarDentrodeCasa = valor;			
+				
+		Double restoDaDivisaoPor5 = valorArredondarDentrodeCasa%5;
+			
+		double valorSomar = 0;
+				
+		if(restoDaDivisaoPor5 > 0) {			
+			for (int j = restoDaDivisaoPor5.intValue(); j < 5; j++) {
+				valorSomar++;
+			}
+		}
+		
+		Double pontuacaoFinal = valorArredondarDentrodeCasa+valorSomar;
+		
+		log.info("Pontuacao Final Dentro de Casa: "+pontuacaoFinal+"\n");
+		
+		return pontuacaoFinal;
+	}
+	
+	public Double arredondarValorVisitante(Double valor) {
+		
+		log.info("Vai Arredondar '"+valor+"' PARA TIME JOGANDO FORA DE CASA");
+		
+		Double valorArredondarForadeCasa = valor;				
+		
+		Double restoDaDivisaoPor5 = valorArredondarForadeCasa%5;
+			
+		double valorDiminuir = 0;
+				
+		if(restoDaDivisaoPor5 > 0) {			
+			for (int j = 0; j < restoDaDivisaoPor5.intValue(); j++) {
+				valorDiminuir++;
+			}
+		}
+		
+		Double pontuacaoFinal = valorArredondarForadeCasa-valorDiminuir;
+		
+		log.info("Pontuacao Final Fora de Casa: "+pontuacaoFinal+"\n");
+		
+		return pontuacaoFinal;
+	}
+	
 
 	public Liga buscarLigaReisDaResenha() {		
 		Integer anoAtual = 2020; //Calendar.getInstance().get(Calendar.YEAR);	

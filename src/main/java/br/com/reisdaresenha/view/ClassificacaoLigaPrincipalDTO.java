@@ -13,6 +13,8 @@ public class ClassificacaoLigaPrincipalDTO {
 	private Double cartoletas;
 	
 	private Double pontuacao;
+	
+	private Long idTimeCartola;
 
 	public String getTime() {
 		return time;
@@ -86,6 +88,14 @@ public class ClassificacaoLigaPrincipalDTO {
 		} else if (!time.equals(other.time))
 			return false;
 		return true;
+	}
+
+	public Long getIdTimeCartola() {
+		return idTimeCartola;
+	}
+
+	public void setIdTimeCartola(Long idTimeCartola) {
+		this.idTimeCartola = idTimeCartola;
 	}
 	
 }

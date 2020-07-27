@@ -22,7 +22,7 @@
 	 		  			<br/>
 						<p:repeat var="item" value="#{ligaRDRControl.listaTimes}" varStatus="var">	 	
 			 		  		<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
-			 		  		<img src="#{item.urlEscudoSvg}" alt="" style="width: 20px;"/> 
+			 		  		<img src="#{item.urlEscudoPng}" alt="" style="width: 20px;"/> 
 			 		  		<h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" style="#{ligaRDRControl.retornaEstiloDiferenteSeTimeAdicionarNoCartola(item)}"/>		
 			 		  		<br/>
 			 		  		<br/>
@@ -40,7 +40,7 @@
 	          			<br/>
 						<p:repeat var="item" value="#{ligaRDRControl.listaTimeCartolaRestDTO}" varStatus="var">	 	
 			 		  		<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
-			 		  		<img src="#{item.urlEscudoSvg}" alt="" style="width: 20px;"/> 
+			 		  		<img src="#{item.urlEscudoPng}" alt="" style="width: 20px;"/> 
 			 		  		<h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" style="#{ligaRDRControl.retornaEstiloDiferenteSeTimeAdicionarNoSistema(item)}"/>		
 			 		  		<br/>
 			 		  		<br/>
@@ -70,7 +70,7 @@
 						 
 						<p:repeat var="item" value="#{ligaRDRControl.listaTimesCartolaRestDTOQueNaoEstaoNoSistema}" varStatus="var">	 	
 			 		  		<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
-			 		  		<img src="#{item.urlEscudoSvg}" alt="" style="width: 20px;"/> 
+			 		  		<img src="#{item.urlEscudoPng}" alt="" style="width: 20px;"/> 
 			 		  		<h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />		
 			 		  		<br/>
 			 		  		<br/>
@@ -89,7 +89,7 @@
 	          			<br/>
 						<p:repeat var="item" value="#{ligaRDRControl.listaTimesQueEstaoNoSistemaENaoEstaoNaLigaNoCartola}" varStatus="var">	 	
 			 		  		<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
-			 		  		<img src="#{item.urlEscudoSvg}" alt="" style="width: 20px;"/> 
+			 		  		<img src="#{item.urlEscudoPng}" alt="" style="width: 20px;"/> 
 			 		  		<h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />		
 			 		  		<br/>
 			 		  		<br/>

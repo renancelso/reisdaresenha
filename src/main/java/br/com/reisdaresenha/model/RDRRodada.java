@@ -50,7 +50,7 @@ public class RDRRodada implements Serializable {
 	 * C - CLAUSURA	
 	 */
 	@Column(name = "tipo_rodada", length=255)
-	private String tipoRodada;
+	private String tipoRodada; //FASE
 	
 	/**
 	 * SA - SERIE A

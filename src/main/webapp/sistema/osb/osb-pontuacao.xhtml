@@ -83,7 +83,7 @@
 						    </p:column>	
 						   
 						    <p:column headerText="Time" style="width: 50%; #{rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size() or (rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-1 and osbRodadaControl.novaOsbRodada.nrRodada &gt; 31 and osbRodadaControl.novaOsbRodada.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
-						        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoSvg}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
+						        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoPng}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
 						    </p:column>							    						
 						    
 						    <p:column headerText="PG" style="text-align: center; width: 80px; #{rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size() or (rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-1 and osbRodadaControl.novaOsbRodada.nrRodada &gt; 31 and osbRodadaControl.novaOsbRodada.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
@@ -124,7 +124,7 @@
 						    </p:column>	
 						   
 						    <p:column headerText="Time" style="width: 50%; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">
-						        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoSvg}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
+						        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoPng}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
 						    </p:column>							    						
 						    
 						    <p:column headerText="PG" style="text-align: center; width: 80px; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">
@@ -186,7 +186,7 @@
 							    </p:column>	
 							   
 							    <p:column headerText="Time" style="width: 50%; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 31 and var.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
-							        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoSvg}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
+							        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoPng}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
 							    </p:column>							    						
 							    
 							    <p:column headerText="PG" style="text-align: center; width: 80px; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 31 and var.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
@@ -222,7 +222,7 @@
 							    </p:column>	
 							   
 							    <p:column headerText="Time" style="width: 50%; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">
-							        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoSvg}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
+							        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoPng}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
 							    </p:column>							    						
 							    
 							    <p:column headerText="PG" style="text-align: center; width: 80px; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">

@@ -56,6 +56,13 @@ public class RDRPontuacao implements Serializable {
 	@Column(name="nome_time_vencedor")
 	private String nomeTimeVencedor;
 	
+	@ManyToOne
+	@JoinColumn(name="time_perdedor")
+	private RDRParticipante rdrParticipanteTimePerdedor;
+	
+	@Column(name="nome_time_perdedor")
+	private String nomeTimePerdedor;
+	
 	/**
 	 * S - sim
 	 * N - nao
@@ -68,6 +75,14 @@ public class RDRPontuacao implements Serializable {
 	
 	@Column(name="serie")
 	private String serie;
+	
+	@ManyToOne
+	@JoinColumn(name="time_empate_casa")
+	private RDRParticipante rdrParticipanteTimeEmpateEmCasa;
+	
+	@ManyToOne
+	@JoinColumn(name="time_empate_fora")
+	private RDRParticipante rdrParticipanteTimeEmpateFora;
 
 	public Long getId() {
 		return id;
@@ -187,6 +202,39 @@ public class RDRPontuacao implements Serializable {
 
 	public void setSerie(String serie) {
 		this.serie = serie;
+	}
+		
+
+	public RDRParticipante getRdrParticipanteTimePerdedor() {
+		return rdrParticipanteTimePerdedor;
+	}
+
+	public void setRdrParticipanteTimePerdedor(RDRParticipante rdrParticipanteTimePerdedor) {
+		this.rdrParticipanteTimePerdedor = rdrParticipanteTimePerdedor;
+	}
+
+	public String getNomeTimePerdedor() {
+		return nomeTimePerdedor;
+	}
+
+	public void setNomeTimePerdedor(String nomeTimePerdedor) {
+		this.nomeTimePerdedor = nomeTimePerdedor;
+	}	
+
+	public RDRParticipante getRdrParticipanteTimeEmpateEmCasa() {
+		return rdrParticipanteTimeEmpateEmCasa;
+	}
+
+	public void setRdrParticipanteTimeEmpateEmCasa(RDRParticipante rdrParticipanteTimeEmpateEmCasa) {
+		this.rdrParticipanteTimeEmpateEmCasa = rdrParticipanteTimeEmpateEmCasa;
+	}
+
+	public RDRParticipante getRdrParticipanteTimeEmpateFora() {
+		return rdrParticipanteTimeEmpateFora;
+	}
+
+	public void setRdrParticipanteTimeEmpateFora(RDRParticipante rdrParticipanteTimeEmpateFora) {
+		this.rdrParticipanteTimeEmpateFora = rdrParticipanteTimeEmpateFora;
 	}
 
 	@Override

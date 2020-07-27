@@ -63,6 +63,13 @@ public class RDRClassificacao implements Serializable {
 	 */
 	@Column(name = "serie", length=255)
 	private String serie;
+	
+	@Column(name = "nr_rodada_atual")
+	private Long nrRodadaAtual;	
+		
+	@Column(name = "vr_pontos_liga_principal")
+	private Double vrPontuacaoAtualLigaPrincipalCartola;	
+	
 
 	public Long getId() {
 		return id;
@@ -158,6 +165,22 @@ public class RDRClassificacao implements Serializable {
 
 	public void setIdCartolaTime(Long idCartolaTime) {
 		this.idCartolaTime = idCartolaTime;
+	}
+		
+	public Long getNrRodadaAtual() {
+		return nrRodadaAtual;
+	}
+
+	public void setNrRodadaAtual(Long nrRodadaAtual) {
+		this.nrRodadaAtual = nrRodadaAtual;
+	}
+	
+	public Double getVrPontuacaoAtualLigaPrincipalCartola() {
+		return vrPontuacaoAtualLigaPrincipalCartola;
+	}
+
+	public void setVrPontuacaoAtualLigaPrincipalCartola(Double vrPontuacaoAtualLigaPrincipalCartola) {
+		this.vrPontuacaoAtualLigaPrincipalCartola = vrPontuacaoAtualLigaPrincipalCartola;
 	}
 
 	@Override

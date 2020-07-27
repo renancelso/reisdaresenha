@@ -8,6 +8,7 @@ import br.com.reisdaresenha.model.Liga;
 import br.com.reisdaresenha.model.OSBPontuacao;
 import br.com.reisdaresenha.model.OSBRodada;
 import br.com.reisdaresenha.model.Premiacao;
+import br.com.reisdaresenha.model.Time;
 import br.com.reisdaresenha.padrao.GenericServiceInterface;
 import br.com.reisdaresenha.view.ClassificacaoLigaPrincipalDTO;
 
@@ -28,5 +29,7 @@ public interface InicioServiceLocal extends GenericServiceInterface{
 	public List<OSBPontuacao> buscarHistoricoClassificacaoOsbRodadas(OSBRodada osbRodada);
 
 	public List<ClassificacaoLigaPrincipalDTO> buscarClassificacaoLigaPrincipalAteRodada4(Integer ano);
+
+	public List<ClassificacaoLigaPrincipalDTO> buscarPontuacaoLigaPrincipalTime(Integer ano, Time time);
 	
 }

@@ -101,6 +101,7 @@ public class SincronizacaoControl extends BaseControl {
 				timeCartolaRestDTO.setSlug(String.valueOf(jsonObjectTime.get("slug")));	
 				timeCartolaRestDTO.setNomeDonoTime(String.valueOf(jsonObjectTime.get("nome_cartola")));				
 				timeCartolaRestDTO.setUrlEscudoSvg(String.valueOf(jsonObjectTime.get("url_escudo_svg")));
+				timeCartolaRestDTO.setUrlEscudoPng(String.valueOf(jsonObjectTime.get("url_escudo_png")));
 				JSONObject jsonObjectPontos = (JSONObject) jsonObjectTime.get("pontos");
 				timeCartolaRestDTO.setRodada(new Long(String.valueOf(jsonObjectPontos.get("rodada"))));				
 				timeCartolaRestDTO.setPontosCapitao(new Double(String.valueOf(jsonObjectPontos.get("capitao"))));

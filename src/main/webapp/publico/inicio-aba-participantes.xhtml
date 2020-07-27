@@ -14,7 +14,7 @@
 			<h:form id="formPrincipal" style="font-size: 12px;">			
 				<hr/>
 				<p:repeat var="item" value="#{inicioControl.listaTimesParticipantes}" varStatus="var">	 						  		
-	 		  		<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> <img src="#{item.urlEscudoSvg}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />
+	 		  		<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> <img src="#{item.urlEscudoPng}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />
 	 		  		<br/>
 	 		  		<br/>
  		  		</p:repeat>	
