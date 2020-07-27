@@ -72,13 +72,13 @@
 						<p:panel header="Classificacao Serie A" style="width: 700px;">	
 											
 							<p:dataTable var="item" value="#{rdrControl.listaClassificacaoAperturaSerieA}"
-			      			 		 	 emptyMessage="Não existem dados" rowIndexVar="rowIndex" style="width: 670px;">
-			      			 					     		    			 					 
-				  			 	<p:column headerText="#" style="text-align: center; width: 30px; " >
+				      			 		 	 emptyMessage="Não existem dados" rowIndexVar="rowIndex" style="width: 670px;">
+				      			 					     		    			 					 
+				  			 	<p:column headerText="#" style="text-align: center; width: 30px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}" >
 						        	<h:outputText value="#{rowIndex+1} " style="font-weight: bold;"/> 
 							    </p:column>	
 							    
-							    <p:column headerText="Time">
+							    <p:column headerText="Time" style="#{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">
 							   		<img src="#{item.rdrParticipante.time.urlEscudoPng}" alt="" style="width: 20px;"/> 
 					 		  		<h:outputText value="#{item.rdrParticipante.nomeTime} (#{item.rdrParticipante.time.nomeDonoTime})"/>
 					 		  	</p:column>    
@@ -87,26 +87,26 @@
 					 		  		<h:outputText value="#{item.vrPontos.intValue()}" title="Pontos" />
 					 		  	</p:column>    
 					 		  	
-					 		  	<p:column headerText="J" style="text-align: center; width: 50px;">								   		
+					 		  	<p:column headerText="J" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
 					 		  		<h:outputText value="#{item.qtdJogosDisputados}" title="Jogos"/>
 					 		  	</p:column>  
 					 		  	
 					 		  	
-					 		  	<p:column headerText="V" style="text-align: center; width: 50px;">								   		
+					 		  	<p:column headerText="V" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
 					 		  		<h:outputText value="#{item.qtdVitorias}" title="Vitórias"/>
 					 		  	</p:column> 
 					 		  	
 					 		  	
-					 		  	<p:column headerText="E" style="text-align: center; width: 50px;">								   		
+					 		  	<p:column headerText="E" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
 					 		  		<h:outputText value="#{item.qtdEmpates}" title="Empates"/>
 					 		  	</p:column> 
 					 		  	
 					 		  	
-					 		  	<p:column headerText="D" style="text-align: center; width: 50px;">								   		
+					 		  	<p:column headerText="D" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
 					 		  		<h:outputText value="#{item.qtdDerrotas}" title="Derrotas"/>
 					 		  	</p:column> 
 					 		  	
-					 		  	<p:column headerText="C. Des." style="text-align: center; width: 80px;">								   		
+					 		  	<p:column headerText="C. Des." style="text-align: center; width: 80px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
 					 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao no Cartola FC para critério de desempate"/>
 					 		  	</p:column> 
 						    								   
@@ -176,13 +176,13 @@
 				        <p:panel header="Classificacao Serie B" style="width: 700px;">
 							
 							<p:dataTable var="item" value="#{rdrControl.listaClassificacaoAperturaSerieB}"
-				      			 		 emptyMessage="Não existem dados" rowIndexVar="rowIndex" style="width: 670px;">
-				      			 					     		    			 					 
-				  			 	<p:column headerText="#" style="text-align: center; width: 30px;" >
+					      			 		 emptyMessage="Não existem dados" rowIndexVar="rowIndex" style="width: 670px;">
+					      			 					     		    			 					 
+				  			 	<p:column headerText="#" style="text-align: center; width: 30px;#{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}" >
 						        	<h:outputText value="#{rowIndex+1} " style="font-weight: bold;"/> 
 							    </p:column>	
 							    
-							    <p:column headerText="Time">
+							    <p:column headerText="Time" style="#{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">
 							   		<img src="#{item.rdrParticipante.time.urlEscudoPng}" alt="" style="width: 20px;"/> 
 					 		  		<h:outputText value="#{item.rdrParticipante.nomeTime} (#{item.rdrParticipante.time.nomeDonoTime})"/>
 					 		  	</p:column>    
@@ -191,28 +191,28 @@
 					 		  		<h:outputText value="#{item.vrPontos.intValue()}" title="Pontos"/>
 					 		  	</p:column>    
 					 		  	
-					 		  	<p:column headerText="J" style="text-align: center; width: 50px;">								   		
+					 		  	<p:column headerText="J" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
 					 		  		<h:outputText value="#{item.qtdJogosDisputados}" title="Jogos"/>
 					 		  	</p:column>  
 					 		  	
 					 		  	
-					 		  	<p:column headerText="V" style="text-align: center; width: 50px;">								   		
+					 		  	<p:column headerText="V" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
 					 		  		<h:outputText value="#{item.qtdVitorias}" title="Vitórias"/>
 					 		  	</p:column> 						 		  	
 					 		  	
-					 		  	<p:column headerText="E" style="text-align: center; width: 50px;">								   		
+					 		  	<p:column headerText="E" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
 					 		  		<h:outputText value="#{item.qtdEmpates}" title="Empates"/>
 					 		  	</p:column> 
 					 		  							 		  	
-					 		  	<p:column headerText="D" style="text-align: center; width: 50px;">								   		
+					 		  	<p:column headerText="D" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
 					 		  		<h:outputText value="#{item.qtdDerrotas}" title="Derrotas"/>
 					 		  	</p:column>  
 					 		  	
-					 		  	<p:column headerText="C. Des." style="text-align: center; width: 80px;">								   		
+					 		  	<p:column headerText="C. Des." style="text-align: center; width: 80px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
 					 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao no Cartola FC para critério de desempate"/>
 					 		  	</p:column> 
 							    								   
-							</p:dataTable>							
+							</p:dataTable>								
 						
 						</p:panel>
 						
