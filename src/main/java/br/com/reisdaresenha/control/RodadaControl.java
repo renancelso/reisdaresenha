@@ -293,10 +293,10 @@ public class RodadaControl extends BaseControl {
 			for (Pontuacao pontuacao : novaRodada.getListaPontuacao()) {				
 				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();	
 				Random gerador = new Random();
-				Double patrimonio = Double.parseDouble(String.valueOf(gerador.nextInt(300)));			
-				Double pontos = Double.parseDouble(String.valueOf(gerador.nextInt(300)));		
-				Double pontosCampeonato = Double.parseDouble(String.valueOf(gerador.nextInt(300)));			
-				Double valorTime = Double.parseDouble(String.valueOf(gerador.nextInt(300)));	
+				Double patrimonio = Double.parseDouble(String.valueOf(gerador.nextInt(300) + gerador.nextDouble() + gerador.nextDouble()));			
+				Double pontos = Double.parseDouble(String.valueOf(gerador.nextInt(300) + gerador.nextDouble()));		
+				Double pontosCampeonato = Double.parseDouble(String.valueOf(gerador.nextInt(300) + gerador.nextDouble()));			
+				Double valorTime = Double.parseDouble(String.valueOf(gerador.nextInt(300) + gerador.nextDouble()));	
 				
 				timeRodadaDTO.setTime(pontuacao.getTime());
 				timeRodadaDTO.setRodadaAtual(pontuacao.getRodada().getNrRodada());

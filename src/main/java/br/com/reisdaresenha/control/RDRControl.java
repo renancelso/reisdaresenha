@@ -197,7 +197,9 @@ public class RDRControl extends BaseControl {
 					
 					classificacaoAperturaSerieA = (RDRClassificacao) rdrService.atualizar(classificacaoAperturaSerieA);
 										
-					listaClassificacaoAperturaSerieA.add(classificacaoAperturaSerieA);					
+					listaClassificacaoAperturaSerieA.add(classificacaoAperturaSerieA);		
+					
+					atualizarRDRClassificacao(classificacaoAperturaSerieA.getFaseLiga(), classificacaoAperturaSerieA.getSerie(), new Long(1));
 				}	
 				
 				if(listaClassificacaoAperturaSerieB == null) {
@@ -224,8 +226,12 @@ public class RDRControl extends BaseControl {
 					
 					classificacaoAperturaSerieB = (RDRClassificacao) rdrService.atualizar(classificacaoAperturaSerieB);
 					
-					listaClassificacaoAperturaSerieB.add(classificacaoAperturaSerieB);					
+					listaClassificacaoAperturaSerieB.add(classificacaoAperturaSerieB);		
+					
+					atualizarRDRClassificacao(classificacaoAperturaSerieB.getFaseLiga(), classificacaoAperturaSerieB.getSerie(), new Long(1));
 				}	
+				
+				
 				
 				//GERAR TABELA APERTURA SERIE A
 				if(!gerarTabela(listaParticipantesAperturaSerieA, "A", "SA")) { // String tipoRodada ("A" ou "B"), String serie("SA" ou "SB")
