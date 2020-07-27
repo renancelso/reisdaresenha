@@ -18,6 +18,7 @@ import br.com.reisdaresenha.padrao.BaseControl;
 import br.com.reisdaresenha.rest.CartolaRestFulClient;
 import br.com.reisdaresenha.service.InicioServiceLocal;
 import br.com.reisdaresenha.view.ClassificacaoLigaPrincipalDTO;
+import br.com.reisdaresenha.view.TimeRodadaDTO;
 
 @ManagedBean(name = "restFulTestServicesControl")
 @ViewScoped
@@ -56,17 +57,17 @@ public class RestFulTestServicesControl  extends BaseControl {
 			
 			for (Time time : listaTimesParticipantes) {			
 				
-				Time timeCartola = new Time();			
-				timeCartola= servicoCartola.buscarTime(time.getNomeTime());
+				TimeRodadaDTO timeCartola = new TimeRodadaDTO();			
+				timeCartola = servicoCartola.buscarTimeRodadaPorIDCartola(time, new Long(0));
 				
-				time.setNomeDonoTime(timeCartola.getNomeDonoTime());
-				time.setIdCartola(timeCartola.getIdCartola());
-				time.setFotoPerfil(timeCartola.getFotoPerfil());
-				time.setUrlEscudoPng(timeCartola.getUrlEscudoPng());
-				time.setUrlEscudoSvg(timeCartola.getUrlEscudoSvg());
-				time.setAssinante(timeCartola.getAssinante());
-				time.setSlugTime(timeCartola.getSlugTime());
-				time.setFacebookId(timeCartola.getFacebookId());	
+				time.setNomeDonoTime(timeCartola.getTime().getNomeDonoTime());
+				time.setIdCartola(timeCartola.getTime().getIdCartola());
+				time.setFotoPerfil(timeCartola.getTime().getFotoPerfil());
+				time.setUrlEscudoPng(timeCartola.getTime().getUrlEscudoPng());
+				time.setUrlEscudoSvg(timeCartola.getTime().getUrlEscudoSvg());
+				time.setAssinante(timeCartola.getTime().getAssinante());
+				time.setSlugTime(timeCartola.getTime().getSlugTime());
+				time.setFacebookId(timeCartola.getTime().getFacebookId());	
 							
 				time.setIdUserAtu(usuarioLogado.getId().toString());
 				time.setLoginUserAtu(usuarioLogado.getLogin());

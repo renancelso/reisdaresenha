@@ -89,8 +89,15 @@ public class CartolaRestFulClient {
 	
 	public TimeRodadaDTO buscarTimeRodadaPorIDCartola(Time time, Long nrRodada) {
 		
-		TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();				
-		String endPoint = "https://api.cartolafc.globo.com/time/id/"+time.getIdCartola()+"/"+nrRodada;			
+		TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();		
+		String endPoint = "";
+		
+		if(nrRodada > 0) {
+			endPoint = "https://api.cartolafc.globo.com/time/id/"+time.getIdCartola()+"/"+nrRodada;			
+		} else {
+			endPoint = "https://api.cartolafc.globo.com/time/id/"+time.getIdCartola();
+		}
+		
 		HttpClient client = new HttpClient();		
 		GetMethod method = new GetMethod(endPoint);
 		
@@ -127,6 +134,28 @@ public class CartolaRestFulClient {
 				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
 				timeRodadaDTO.setValorTime(valorTime);		
 				
+				
+				///				
+				JSONObject jsonObjectTime = (JSONObject) jsonObject.get("time");
+				
+				String nomeDonoTimeCartola = (String) jsonObjectTime.get("nome_cartola");				
+				Long timeIdCartola = (Long) jsonObjectTime.get("time_id");				
+				String fotoPerfil = (String) jsonObjectTime.get("foto_perfil");
+				String urlEscudoPng = (String) jsonObjectTime.get("url_escudo_png");				
+				String urlEscudoSvg = (String) jsonObjectTime.get("url_escudo_svg");				
+				Boolean assinante = (Boolean) jsonObjectTime.get("assinante");
+				String slug = (String) jsonObjectTime.get("slug");
+				Long facebookId = (Long) jsonObjectTime.get("facebook_id");
+							
+				timeRodadaDTO.getTime().setNomeDonoTime(nomeDonoTimeCartola);
+				timeRodadaDTO.getTime().setIdCartola(timeIdCartola);
+				timeRodadaDTO.getTime().setFotoPerfil(fotoPerfil);
+				timeRodadaDTO.getTime().setUrlEscudoPng(urlEscudoPng);
+				timeRodadaDTO.getTime().setUrlEscudoSvg(urlEscudoSvg);
+				timeRodadaDTO.getTime().setAssinante(assinante ? "sim" : "nao");
+				timeRodadaDTO.getTime().setSlugTime(slug);
+				timeRodadaDTO.getTime().setFacebookId(facebookId);		
+				
 			} catch (Exception e) {				
 				
 				Long patrimonio = (Long) jsonObject.get("patrimonio");				
@@ -140,6 +169,27 @@ public class CartolaRestFulClient {
 				timeRodadaDTO.setPontos(pontos);
 				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
 				timeRodadaDTO.setValorTime(valorTime != null ? Double.parseDouble(String.valueOf(valorTime)) : 0.0);
+				
+				///
+				JSONObject jsonObjectTime = (JSONObject) jsonObject.get("time");
+				
+				String nomeDonoTimeCartola = (String) jsonObjectTime.get("nome_cartola");				
+				Long timeIdCartola = (Long) jsonObjectTime.get("time_id");				
+				String fotoPerfil = (String) jsonObjectTime.get("foto_perfil");
+				String urlEscudoPng = (String) jsonObjectTime.get("url_escudo_png");				
+				String urlEscudoSvg = (String) jsonObjectTime.get("url_escudo_svg");				
+				Boolean assinante = (Boolean) jsonObjectTime.get("assinante");
+				String slug = (String) jsonObjectTime.get("slug");
+				Long facebookId = (Long) jsonObjectTime.get("facebook_id");
+				
+				timeRodadaDTO.getTime().setNomeDonoTime(nomeDonoTimeCartola);
+				timeRodadaDTO.getTime().setIdCartola(timeIdCartola);
+				timeRodadaDTO.getTime().setFotoPerfil(fotoPerfil);
+				timeRodadaDTO.getTime().setUrlEscudoPng(urlEscudoPng);
+				timeRodadaDTO.getTime().setUrlEscudoSvg(urlEscudoSvg);
+				timeRodadaDTO.getTime().setAssinante(assinante ? "sim" : "nao");
+				timeRodadaDTO.getTime().setSlugTime(slug);
+				timeRodadaDTO.getTime().setFacebookId(facebookId);		
 				
 			}	
 			

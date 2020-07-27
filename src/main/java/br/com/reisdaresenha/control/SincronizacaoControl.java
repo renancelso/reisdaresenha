@@ -24,6 +24,7 @@ import br.com.reisdaresenha.rest.CartolaRestFulClient;
 import br.com.reisdaresenha.service.ParametroServiceLocal;
 import br.com.reisdaresenha.service.TimeServiceLocal;
 import br.com.reisdaresenha.view.TimeCartolaRestDTO;
+import br.com.reisdaresenha.view.TimeRodadaDTO;
 
 /**
  * @author Renan Celso
@@ -190,8 +191,9 @@ public class SincronizacaoControl extends BaseControl {
 				timeCadastrar.setIdUserAtu(usuarioLogado.getId().toString());
 				timeCadastrar.setLoginUserAtu(usuarioLogado.getLogin());
 				timeCadastrar.setDhAtu(new Date());		
-							
+					
 				/** Buscar no restful do Cartola **/
+				timeCadastrar.setIdCartola(timeCartolaRestDTO.getIdCartola());			
 				timeCadastrar = buscarTimeNoCartola(timeCadastrar, timeCadastrar.getNomeTime());
 				
 				if(timeCadastrar == null) {
@@ -259,19 +261,19 @@ public class SincronizacaoControl extends BaseControl {
 	
 	public Time buscarTimeNoCartola(Time time, String nomeTime) {		
 		try {			
-			servicoCartola = new CartolaRestFulClient();
+			servicoCartola = new CartolaRestFulClient();			
 			
-			Time timeCartola = new Time();
-			timeCartola = servicoCartola.buscarTime(nomeTime);		
+			TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();			
+			timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(time, new Long(0));		
 						
-			time.setNomeDonoTime(timeCartola.getNomeDonoTime());
-			time.setIdCartola(timeCartola.getIdCartola());
-			time.setFotoPerfil(timeCartola.getFotoPerfil());
-			time.setUrlEscudoPng(timeCartola.getUrlEscudoPng());
-			time.setUrlEscudoSvg(timeCartola.getUrlEscudoSvg());
-			time.setAssinante(timeCartola.getAssinante());
-			time.setSlugTime(timeCartola.getSlugTime());
-			time.setFacebookId(timeCartola.getFacebookId());	
+			time.setNomeDonoTime(timeRodadaDTO.getTime().getNomeDonoTime());
+			time.setIdCartola(timeRodadaDTO.getTime().getIdCartola());
+			time.setFotoPerfil(timeRodadaDTO.getTime().getFotoPerfil());
+			time.setUrlEscudoPng(timeRodadaDTO.getTime().getUrlEscudoPng());
+			time.setUrlEscudoSvg(timeRodadaDTO.getTime().getUrlEscudoSvg());
+			time.setAssinante(timeRodadaDTO.getTime().getAssinante());
+			time.setSlugTime(timeRodadaDTO.getTime().getSlugTime());
+			time.setFacebookId(timeRodadaDTO.getTime().getFacebookId());	
 			
 			return time;
 			
