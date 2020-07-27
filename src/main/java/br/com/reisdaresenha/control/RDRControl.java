@@ -561,7 +561,7 @@ public class RDRControl extends BaseControl {
 		
 		Double valorArredondarDentrodeCasa = valor;			
 				
-		Double restoDaDivisaoPor5 = valorArredondarDentrodeCasa%5;
+		Double restoDaDivisaoPor5 = (double) (valorArredondarDentrodeCasa.longValue() % 5);
 			
 		double valorSomar = 0;
 				
@@ -571,7 +571,7 @@ public class RDRControl extends BaseControl {
 			}
 		}
 		
-		Double pontuacaoFinal = valorArredondarDentrodeCasa+valorSomar;
+		Double pontuacaoFinal = valorArredondarDentrodeCasa.longValue()+valorSomar;
 		
 		log.info("Pontuacao Final Dentro de Casa: "+pontuacaoFinal+"\n");
 		
@@ -584,7 +584,7 @@ public class RDRControl extends BaseControl {
 		
 		Double valorArredondarForadeCasa = valor;				
 		
-		Double restoDaDivisaoPor5 = valorArredondarForadeCasa%5;
+		Double restoDaDivisaoPor5 = (double) (valorArredondarForadeCasa.longValue()%5);
 			
 		double valorDiminuir = 0;
 				
@@ -594,7 +594,7 @@ public class RDRControl extends BaseControl {
 			}
 		}
 		
-		Double pontuacaoFinal = valorArredondarForadeCasa-valorDiminuir;
+		Double pontuacaoFinal = valorArredondarForadeCasa.longValue()-valorDiminuir;
 		
 		log.info("Pontuacao Final Fora de Casa: "+pontuacaoFinal+"\n");
 		
