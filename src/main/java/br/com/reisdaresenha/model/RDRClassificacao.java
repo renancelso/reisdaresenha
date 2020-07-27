@@ -26,6 +26,15 @@ public class RDRClassificacao implements Serializable {
 	@JoinColumn(name="rdr_participante")
 	private RDRParticipante rdrParticipante;
 	
+	@Column(name = "nome_time")
+	private String nomeTime;
+	
+	@Column(name = "nome_dono_time")
+	private String nomeDonoTime;
+	
+	@Column(name = "id_cartola_time")
+	private Long idCartolaTime;	
+	
 	@Column(name = "vr_pontos")
 	private Double vrPontos;	
 	
@@ -125,6 +134,30 @@ public class RDRClassificacao implements Serializable {
 
 	public void setSerie(String serie) {
 		this.serie = serie;
+	}
+	
+	public String getNomeTime() {
+		return nomeTime;
+	}
+
+	public void setNomeTime(String nomeTime) {
+		this.nomeTime = nomeTime;
+	}
+
+	public String getNomeDonoTime() {
+		return nomeDonoTime;
+	}
+
+	public void setNomeDonoTime(String nomeDonoTime) {
+		this.nomeDonoTime = nomeDonoTime;
+	}
+
+	public Long getIdCartolaTime() {
+		return idCartolaTime;
+	}
+
+	public void setIdCartolaTime(Long idCartolaTime) {
+		this.idCartolaTime = idCartolaTime;
 	}
 
 	@Override

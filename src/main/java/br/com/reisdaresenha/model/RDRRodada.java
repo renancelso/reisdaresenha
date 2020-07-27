@@ -32,7 +32,8 @@ public class RDRRodada implements Serializable {
 	
 	/**
 	 * Em Andamento - EA	 
-	 * Passada      - PS	
+	 * Passada      - PS
+	 * Passada      - FT		
 	 */
 	@Column(name = "status_rodada", length=255)
 	private String statusRodada;

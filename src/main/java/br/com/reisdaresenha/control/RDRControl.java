@@ -12,7 +12,11 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import br.com.reisdaresenha.model.Liga;
+import br.com.reisdaresenha.model.RDRClassificacao;
 import br.com.reisdaresenha.model.RDRParticipante;
+import br.com.reisdaresenha.model.RDRPontuacao;
+import br.com.reisdaresenha.model.RDRRodada;
 import br.com.reisdaresenha.model.Time;
 import br.com.reisdaresenha.model.Usuario;
 import br.com.reisdaresenha.padrao.BaseControl;
@@ -51,23 +55,59 @@ public class RDRControl extends BaseControl {
 	
 	private Usuario usuarioLogado;	
 	
-	private List<RDRParticipante> listaParticipantesSerieA;
+	/** VARIAVEIS APERTURA **/
+	private List<RDRParticipante> listaParticipantesAperturaSerieA;
+	private List<RDRClassificacao> listaClassificacaoAperturaSerieA;	
+	private List<RDRRodada> listaRDRRodadasAperturaSerieA;
 	
-	private List<RDRParticipante> listaParticipantesSerieB;
+	private List<RDRParticipante> listaParticipantesAperturaSerieB;
+	private List<RDRClassificacao> listaClassificacaoAperturaSerieB;
+	private List<RDRRodada> listaRDRRodadasAperturaSerieB;	
+	/** VARIAVEIS APERTURA **/
+	
 		
 	@PostConstruct
 	public void init() {
 		
-		try {				
+		try {	
+			log.info("RDRControl --- INIT()");
+			
 			HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);	
 			usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");		
 			servicoCartola = new CartolaRestFulClient();	
 			
-			listaParticipantesSerieA = new ArrayList<RDRParticipante>();
-			listaParticipantesSerieA = rdrService.buscarRDRParticipantes("A", "SA");
+			/** APERTURA **/
+			listaParticipantesAperturaSerieA = new ArrayList<RDRParticipante>();
+			listaParticipantesAperturaSerieA = rdrService.buscarRDRParticipantes("A", "SA");
 			
-			listaParticipantesSerieB = new ArrayList<RDRParticipante>();
-			listaParticipantesSerieB = rdrService.buscarRDRParticipantes("A", "SB");
+			listaParticipantesAperturaSerieB = new ArrayList<RDRParticipante>();
+			listaParticipantesAperturaSerieB = rdrService.buscarRDRParticipantes("A", "SB");
+						
+			listaClassificacaoAperturaSerieA = new ArrayList<RDRClassificacao>();	
+			listaClassificacaoAperturaSerieA = rdrService.buscarRDRClassificacao("A", "SA");
+			
+			listaClassificacaoAperturaSerieB = new ArrayList<RDRClassificacao>();
+			listaClassificacaoAperturaSerieB = rdrService.buscarRDRClassificacao("A", "SB");
+			
+			listaRDRRodadasAperturaSerieA = new ArrayList<RDRRodada>();	
+			listaRDRRodadasAperturaSerieA = rdrService.buscarRDRRodadas("A", "SA");
+			
+			listaRDRRodadasAperturaSerieB = new ArrayList<RDRRodada>();
+			listaRDRRodadasAperturaSerieB = rdrService.buscarRDRRodadas("A", "SB");
+			/** APERTURA **/
+			
+			
+			if(listaRDRRodadasAperturaSerieA != null && !listaRDRRodadasAperturaSerieA.isEmpty()) {
+				for (RDRRodada rdrRodadaSA : listaRDRRodadasAperturaSerieA) {
+					rdrRodadaSA.setListaRDRPontuacao(rdrService.buscarRDRPontuacaoPorRodada(rdrRodadaSA));
+				}
+			}
+			
+			if(listaRDRRodadasAperturaSerieB != null && !listaRDRRodadasAperturaSerieB.isEmpty()) {				
+				for (RDRRodada rdrRodadaSB : listaRDRRodadasAperturaSerieB) {
+					rdrRodadaSB.setListaRDRPontuacao(rdrService.buscarRDRPontuacaoPorRodada(rdrRodadaSB));
+				}
+			}
 			
 		} catch (Exception e) {
 			log.error(e);
@@ -84,9 +124,9 @@ public class RDRControl extends BaseControl {
 			
 			listaClassificacaoLigaPrincipalDTO = inicioService.buscarClassificacaoLigaPrincipalAteRodada4(anoAtual);	
 			
-			listaParticipantesSerieA = new ArrayList<RDRParticipante>();
+			listaParticipantesAperturaSerieA = new ArrayList<RDRParticipante>();
 			
-			listaParticipantesSerieB = new ArrayList<RDRParticipante>();
+			listaParticipantesAperturaSerieB = new ArrayList<RDRParticipante>();
 						
 			for (int i = 0; i < listaClassificacaoLigaPrincipalDTO.size(); i++) {					
 				if(i < 32) {					
@@ -102,12 +142,12 @@ public class RDRControl extends BaseControl {
 						
 						participante.setSerieParticipante("SA");						
 						participante = (RDRParticipante) timeService.atualizar(participante);						
-						listaParticipantesSerieA.add(participante);					
+						listaParticipantesAperturaSerieA.add(participante);					
 					
 					} else if(i >= 16) {						
 						participante.setSerieParticipante("SB");				
 						participante = (RDRParticipante) timeService.atualizar(participante);
-						listaParticipantesSerieB.add(participante);
+						listaParticipantesAperturaSerieB.add(participante);
 					}
 					
 				}
@@ -120,6 +160,224 @@ public class RDRControl extends BaseControl {
 		}		
 		return null;
 	}
+	
+	public String btnGerarClassificacaoETabelaApertura() {	
+		try {		
+			
+			if(listaParticipantesAperturaSerieA != null && !listaParticipantesAperturaSerieA.isEmpty() 
+			   && listaParticipantesAperturaSerieB != null && !listaParticipantesAperturaSerieB.isEmpty()) {				
+				
+				if(listaClassificacaoAperturaSerieA == null) {
+					listaClassificacaoAperturaSerieA = new ArrayList<RDRClassificacao>();
+				}
+			
+				// Gera Classificacao Inicial				
+				for (RDRParticipante rdrParticipanteA : listaParticipantesAperturaSerieA) {	
+					
+					RDRClassificacao classificacaoAperturaSerieA = new RDRClassificacao();					
+					classificacaoAperturaSerieA.setSerie(rdrParticipanteA.getSerieParticipante());
+					classificacaoAperturaSerieA.setFaseLiga(rdrParticipanteA.getFaseLiga());
+					classificacaoAperturaSerieA.setQtdJogosDisputados(new Long(0));					
+					classificacaoAperturaSerieA.setQtdDerrotas(new Long(0));
+					classificacaoAperturaSerieA.setQtdVitorias(new Long(0));
+					classificacaoAperturaSerieA.setQtdEmpates(new Long(0));
+					classificacaoAperturaSerieA.setVrPontos(0.0);					
+					classificacaoAperturaSerieA.setRdrParticipante(rdrParticipanteA);	
+					
+					classificacaoAperturaSerieA.setNomeTime(rdrParticipanteA.getTime().getNomeTime());
+					classificacaoAperturaSerieA.setNomeDonoTime(rdrParticipanteA.getTime().getNomeDonoTime());
+					classificacaoAperturaSerieA.setIdCartolaTime(rdrParticipanteA.getIdTimeCartola());
+					
+					classificacaoAperturaSerieA = (RDRClassificacao) rdrService.atualizar(classificacaoAperturaSerieA);
+					
+					listaClassificacaoAperturaSerieA.add(classificacaoAperturaSerieA);					
+				}	
+				
+				if(listaClassificacaoAperturaSerieB == null) {
+					listaClassificacaoAperturaSerieB = new ArrayList<RDRClassificacao>();
+				}
+				
+				for (RDRParticipante rdrParticipanteB : listaParticipantesAperturaSerieB) {		
+					
+					RDRClassificacao classificacaoAperturaSerieB = new RDRClassificacao();					
+					classificacaoAperturaSerieB.setSerie(rdrParticipanteB.getSerieParticipante());
+					classificacaoAperturaSerieB.setFaseLiga(rdrParticipanteB.getFaseLiga());
+					classificacaoAperturaSerieB.setQtdJogosDisputados(new Long(0));					
+					classificacaoAperturaSerieB.setQtdDerrotas(new Long(0));
+					classificacaoAperturaSerieB.setQtdVitorias(new Long(0));
+					classificacaoAperturaSerieB.setQtdEmpates(new Long(0));	
+					classificacaoAperturaSerieB.setVrPontos(0.0);					
+					classificacaoAperturaSerieB.setRdrParticipante(rdrParticipanteB);	
+					
+					classificacaoAperturaSerieB.setNomeTime(rdrParticipanteB.getTime().getNomeTime());
+					classificacaoAperturaSerieB.setNomeDonoTime(rdrParticipanteB.getTime().getNomeDonoTime());
+					classificacaoAperturaSerieB.setIdCartolaTime(rdrParticipanteB.getIdTimeCartola());
+					
+					classificacaoAperturaSerieB = (RDRClassificacao) rdrService.atualizar(classificacaoAperturaSerieB);
+					
+					listaClassificacaoAperturaSerieB.add(classificacaoAperturaSerieB);					
+				}	
+				
+				//GERAR TABELA APERTURA SERIE A
+				if(!gerarTabela(listaParticipantesAperturaSerieA, "A", "SA")) { // String tipoRodada ("A" ou "B"), String serie("SA" ou "SB")
+					addErrorMessage("ERRO AO GERAR TABELA DE JOGOS");
+				}	
+				
+				//GERAR TABELA APERTURA SERIE B
+				if(!gerarTabela(listaParticipantesAperturaSerieB, "A", "SB")) { // String tipoRodada ("A" ou "B"), String serie("SA" ou "SB")
+					addErrorMessage("ERRO AO GERAR TABELA DE JOGOS");
+				}	
+				
+				addInfoMessage("Classificação e Tabela da fase apertura geradas com sucesso");				
+			}
+			
+			init();
+			
+		} catch (Exception e) {			
+			addErrorMessage("ERRO AO GERAR APERTURA.");			
+			log.error(e);
+			init();
+		}			
+		return null;
+	}
+	
+	private boolean gerarTabela(List<RDRParticipante> listaParticipantes, String tipo, String serie) {		
+		
+		try {	
+			
+			if(listaRDRRodadasAperturaSerieA == null) {
+				listaRDRRodadasAperturaSerieA = new ArrayList<RDRRodada>();
+			}
+			
+			if(listaRDRRodadasAperturaSerieB == null) {
+				listaRDRRodadasAperturaSerieB = new ArrayList<RDRRodada>();
+			}
+			
+			List<RDRParticipante> listaParticipantesGerarTabelaAUX = listaParticipantes;
+			
+			int t = listaParticipantesGerarTabelaAUX.size();
+			int m = listaParticipantesGerarTabelaAUX.size() / 2;			
+			
+			for (int i = 0; i < t - 1; i++) {
+				
+				RDRRodada rdrRodada = new RDRRodada();
+				rdrRodada.setNrRDRRodada(new Long(i+1));
+				
+				if("A".equalsIgnoreCase(tipo)) { // APERTURA	
+					
+					rdrRodada.setNrRodadaCartola(new Long(i+1) + 4);	
+					
+				} else if("C".equalsIgnoreCase(tipo)) {
+					
+					rdrRodada.setNrRodadaCartola(new Long(i+1) + 19);
+					
+				}
+				
+				rdrRodada.setStatusRodada("FT"); // FUTURA
+				rdrRodada.setLiga(buscarLigaReisDaResenha());
+				
+				rdrRodada.setTipoRodada(tipo); // APERTURA OU CLAUSURA
+				rdrRodada.setSerieRodada(serie); // SERIE A OU SERIE B
+				
+				rdrRodada = (RDRRodada) rdrService.atualizar(rdrRodada);
+				
+				if("A".equalsIgnoreCase(rdrRodada.getTipoRodada())) { // APERTURA	
+					if("SA".equalsIgnoreCase(rdrRodada.getSerieRodada())) {
+						listaRDRRodadasAperturaSerieA.add(rdrRodada);
+					} else if("SB".equalsIgnoreCase(rdrRodada.getSerieRodada())) {
+						listaRDRRodadasAperturaSerieB.add(rdrRodada);						
+					} 					
+				}
+				
+				/** Falta implementar a Clausura **/
+				if("C".equalsIgnoreCase(rdrRodada.getTipoRodada())) { // CLAUSURA				
+					if("SA".equalsIgnoreCase(rdrRodada.getSerieRodada())) {
+						
+					} else if("SB".equalsIgnoreCase(rdrRodada.getSerieRodada())) {
+												
+					} 					
+				}				
+								
+				log.info(rdrRodada.getNrRDRRodada() + "ª rodada RDR || "+rdrRodada.getNrRodadaCartola()+"ª RODADA DO CARTOLA FC");
+				
+				if(rdrRodada.getNrRDRRodada() > 1) {
+					
+					for (int j = 0; j < m; j++) {	
+						
+						RDRPontuacao rdrPontuacao = new RDRPontuacao();
+						rdrPontuacao.setRdrRodada(rdrRodada);	
+						rdrPontuacao.setFase(rdrRodada.getTipoRodada());
+						rdrPontuacao.setSerie(rdrRodada.getSerieRodada());
+						
+						if (j % 2 == 1 || i % 2 == 1 && j == 0) {						
+							//log.info(listaParticipantesGerarTabelaAUX.get(t - j - 1).getNomeTime() + " x " + listaParticipantesGerarTabelaAUX.get(j).getNomeTime() + "  ");	
+							rdrPontuacao.setRdrParticipanteTimeCasa(listaParticipantesGerarTabelaAUX.get(t - j - 1));
+							rdrPontuacao.setNomeTimeCasa(listaParticipantesGerarTabelaAUX.get(t - j - 1).getNomeTime());							
+							rdrPontuacao.setRdrParticipanteTimeFora(listaParticipantesGerarTabelaAUX.get(j));
+							rdrPontuacao.setNomeTimeFora(listaParticipantesGerarTabelaAUX.get(j).getNomeTime());
+							
+						} else {
+							//log.info(listaParticipantesGerarTabelaAUX.get(j).getNomeTime() + " x " + listaParticipantesGerarTabelaAUX.get(t - j - 1).getNomeTime() + "  ");		
+							
+							rdrPontuacao.setRdrParticipanteTimeCasa(listaParticipantesGerarTabelaAUX.get(j));
+							rdrPontuacao.setNomeTimeCasa(listaParticipantesGerarTabelaAUX.get(j).getNomeTime());							
+							rdrPontuacao.setRdrParticipanteTimeFora(listaParticipantesGerarTabelaAUX.get(t - j - 1));
+							rdrPontuacao.setNomeTimeFora(listaParticipantesGerarTabelaAUX.get(t - j - 1).getNomeTime());									
+						}		
+						
+						log.info(rdrPontuacao.getNomeTimeCasa() + " x " + rdrPontuacao.getNomeTimeFora() + "  ");
+						
+						rdrPontuacao = (RDRPontuacao) rdrService.atualizar(rdrPontuacao);
+					}	
+					
+				} else {
+					for (int j = 0; j < t && j < m; j++) {
+												
+						RDRPontuacao rdrPontuacao = new RDRPontuacao();
+						rdrPontuacao.setRdrRodada(rdrRodada);	
+						rdrPontuacao.setFase(rdrRodada.getTipoRodada());
+						rdrPontuacao.setSerie(rdrRodada.getSerieRodada());		
+					
+						rdrPontuacao.setRdrParticipanteTimeCasa(listaParticipantesGerarTabelaAUX.get(j));
+						rdrPontuacao.setNomeTimeCasa(listaParticipantesGerarTabelaAUX.get(j).getNomeTime());	
+						
+						rdrPontuacao.setRdrParticipanteTimeFora(listaParticipantesGerarTabelaAUX.get(t-j-1));
+						rdrPontuacao.setNomeTimeFora(listaParticipantesGerarTabelaAUX.get(t-j-1).getNomeTime());
+						
+						log.info(rdrPontuacao.getNomeTimeCasa() + " x " + rdrPontuacao.getNomeTimeFora() + "  ");
+						
+						rdrPontuacao = (RDRPontuacao) rdrService.atualizar(rdrPontuacao);
+						
+					}
+				}
+				
+				log.info("\n");	
+				
+				listaParticipantesGerarTabelaAUX.add(1, listaParticipantesGerarTabelaAUX.remove(listaParticipantesGerarTabelaAUX.size() - 1));						
+			}	
+			
+			return true;
+			
+		} catch (Exception e) {
+			log.error(e);
+			addErrorMessage("ERRO AO GERAR TABELA DE JOGOS");			
+			return false;
+		}
+		
+	}
+
+	public Liga buscarLigaReisDaResenha() {		
+		Integer anoAtual = 2020; //Calendar.getInstance().get(Calendar.YEAR);	
+		List<Liga> listaLigas = inicioService.buscarLigas(anoAtual);		
+		if(listaLigas != null && !listaLigas.isEmpty()) {			
+			for (Liga liga : listaLigas) {	
+				if(liga.getNomeLiga().toUpperCase().contains("RESENHA")) {
+					return liga;
+				}
+			}
+		}			
+		return null;			
+	}
 
 	public Usuario getUsuarioLogado() {
 		return usuarioLogado;
@@ -129,21 +387,51 @@ public class RDRControl extends BaseControl {
 		this.usuarioLogado = usuarioLogado;
 	}
 
-	public List<RDRParticipante> getListaParticipantesSerieA() {
-		return listaParticipantesSerieA;
+	public List<RDRParticipante> getListaParticipantesAperturaSerieA() {
+		return listaParticipantesAperturaSerieA;
 	}
 
-	public void setListaParticipantesSerieA(List<RDRParticipante> listaParticipantesSerieA) {
-		this.listaParticipantesSerieA = listaParticipantesSerieA;
+	public void setListaParticipantesAperturaSerieA(List<RDRParticipante> listaParticipantesAperturaSerieA) {
+		this.listaParticipantesAperturaSerieA = listaParticipantesAperturaSerieA;
 	}
 
-	public List<RDRParticipante> getListaParticipantesSerieB() {
-		return listaParticipantesSerieB;
+	public List<RDRParticipante> getListaParticipantesAperturaSerieB() {
+		return listaParticipantesAperturaSerieB;
 	}
 
-	public void setListaParticipantesSerieB(List<RDRParticipante> listaParticipantesSerieB) {
-		this.listaParticipantesSerieB = listaParticipantesSerieB;
+	public void setListaParticipantesAperturaSerieB(List<RDRParticipante> listaParticipantesAperturaSerieB) {
+		this.listaParticipantesAperturaSerieB = listaParticipantesAperturaSerieB;
+	}
+
+	public List<RDRClassificacao> getListaClassificacaoAperturaSerieA() {
+		return listaClassificacaoAperturaSerieA;
+	}
+
+	public void setListaClassificacaoAperturaSerieA(List<RDRClassificacao> listaClassificacaoAperturaSerieA) {
+		this.listaClassificacaoAperturaSerieA = listaClassificacaoAperturaSerieA;
+	}
+
+	public List<RDRClassificacao> getListaClassificacaoAperturaSerieB() {
+		return listaClassificacaoAperturaSerieB;
+	}
+
+	public void setListaClassificacaoAperturaSerieB(List<RDRClassificacao> listaClassificacaoAperturaSerieB) {
+		this.listaClassificacaoAperturaSerieB = listaClassificacaoAperturaSerieB;
 	}
 	
+	public List<RDRRodada> getListaRDRRodadasAperturaSerieA() {
+		return listaRDRRodadasAperturaSerieA;
+	}
 
+	public void setListaRDRRodadasAperturaSerieA(List<RDRRodada> listaRDRRodadasAperturaSerieA) {
+		this.listaRDRRodadasAperturaSerieA = listaRDRRodadasAperturaSerieA;
+	}
+
+	public List<RDRRodada> getListaRDRRodadasAperturaSerieB() {
+		return listaRDRRodadasAperturaSerieB;
+	}
+
+	public void setListaRDRRodadasAperturaSerieB(List<RDRRodada> listaRDRRodadasAperturaSerieB) {
+		this.listaRDRRodadasAperturaSerieB = listaRDRRodadasAperturaSerieB;
+	}
 }

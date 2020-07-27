@@ -53,12 +53,21 @@ public class RDRPontuacao implements Serializable {
 	@JoinColumn(name="time_vencedor")
 	private RDRParticipante rdrParticipanteTimeVencedor;
 	
+	@Column(name="nome_time_vencedor")
+	private String nomeTimeVencedor;
+	
 	/**
 	 * S - sim
 	 * N - nao
 	 */
 	@Column(name="empate")
 	private String empate;
+		
+	@Column(name="fase")
+	private String fase;
+	
+	@Column(name="serie")
+	private String serie;
 
 	public Long getId() {
 		return id;
@@ -154,6 +163,30 @@ public class RDRPontuacao implements Serializable {
 
 	public void setNomeTimeFora(String nomeTimeFora) {
 		this.nomeTimeFora = nomeTimeFora;
+	}	
+	
+	public String getNomeTimeVencedor() {
+		return nomeTimeVencedor;
+	}
+
+	public void setNomeTimeVencedor(String nomeTimeVencedor) {
+		this.nomeTimeVencedor = nomeTimeVencedor;
+	}	
+
+	public String getFase() {
+		return fase;
+	}
+
+	public void setFase(String fase) {
+		this.fase = fase;
+	}
+
+	public String getSerie() {
+		return serie;
+	}
+
+	public void setSerie(String serie) {
+		this.serie = serie;
 	}
 
 	@Override
@@ -180,6 +213,5 @@ public class RDRPontuacao implements Serializable {
 			return false;
 		return true;
 	}	
-	
 	
 }

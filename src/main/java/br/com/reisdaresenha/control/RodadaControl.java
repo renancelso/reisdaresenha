@@ -216,96 +216,97 @@ public class RodadaControl extends BaseControl {
 	
 	public String atualizarTodasPontuacoesRodadaEmAndamento() {		
 		try {				
-//			servicoCartola = new CartolaRestFulClient();			
-//			
-//			for (Pontuacao pontuacao : novaRodada.getListaPontuacao()) {
-//				
-//				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();			
-//				timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
-//								
-//				String email = parametroService.buscarParametroPorChave("user_email").getValor();			
-//				String senha = parametroService.buscarParametroPorChave("user_senha").getValor();				
-//				String slugLiga = servicoCartola.buscarSlugDaLiga(parametroService.buscarParametroPorChave("nome_liga").getValor());							
-//				String token = servicoCartola.gerarTokenLoginCartola(email, senha);	
-//				
-//				JSONObject jsonObject = new JSONObject();				
-//				
-//				if(slugLiga != null && token != null) {
-//					jsonObject = servicoCartola.buscarInformacoesLigaEspecifica(slugLiga, token);
-//				}	
-//				
-//				if(jsonObject != null) {
-//				
-//					JSONObject jsonObjectLiga = (JSONObject) jsonObject.get("liga");	
-//					boolean isLigaSemCapitao = false;					
-//					isLigaSemCapitao = (boolean) jsonObjectLiga.get("sem_capitao");
-//					
-//					if(isLigaSemCapitao) {		
-//						
-//						//buscar pontuacao do capitacao	 de cada time	
-//						
-//						JSONArray jsonArrayTimesParticipantes = (JSONArray) jsonObject.get("times");
-//						
-//						System.out.println("JSON: "+jsonArrayTimesParticipantes.toString());		
-//											
-//						List<TimeCartolaRestDTO> listaTimeCartolaRestDTO = new ArrayList<TimeCartolaRestDTO>();
-//						
-//						for (int i = 0; i < jsonArrayTimesParticipantes.size(); i++) {				
-//							JSONObject jsonObjectTime = (JSONObject) jsonArrayTimesParticipantes.get(i);						
-//							
-//							TimeCartolaRestDTO timeCartolaRestDTO = new TimeCartolaRestDTO();
-//							timeCartolaRestDTO.setIdCartola(new Long(String.valueOf(jsonObjectTime.get("time_id"))));
-//							timeCartolaRestDTO.setNomeTime(String.valueOf(jsonObjectTime.get("nome")));
-//							timeCartolaRestDTO.setSlug(String.valueOf(jsonObjectTime.get("slug")));	
-//							timeCartolaRestDTO.setNomeDonoTime(String.valueOf(jsonObjectTime.get("nome_cartola")));				
-//							timeCartolaRestDTO.setUrlEscudoSvg(String.valueOf(jsonObjectTime.get("url_escudo_svg")));
-//							JSONObject jsonObjectPontos = (JSONObject) jsonObjectTime.get("pontos");
-//							timeCartolaRestDTO.setRodada(new Long(String.valueOf(jsonObjectPontos.get("rodada"))));				
-//							timeCartolaRestDTO.setPontosCapitao(new Double(String.valueOf(jsonObjectPontos.get("capitao"))));
-//							
-//							listaTimeCartolaRestDTO.add(timeCartolaRestDTO);
-//						}	
-//						
-//						for (TimeCartolaRestDTO timeCartolaRestDTO : listaTimeCartolaRestDTO) {
-//							
-//							if(timeRodadaDTO.getTime().getIdCartola().equals(timeCartolaRestDTO.getIdCartola()) 
-//									&& timeRodadaDTO.getRodadaAtual().equals(timeCartolaRestDTO.getRodada())) {		
-//								
-//								timeRodadaDTO.setPontos(timeRodadaDTO.getPontos() - (timeCartolaRestDTO.getPontosCapitao() / 2));
-//								
-//							}
-//							
-//						}						
-//					} 						
-//				}
-//				
-//				pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);					
-//				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);
-//				
-//			}		
-//			
-//			btnSalvarRodada();
+			servicoCartola = new CartolaRestFulClient();			
+			
+			for (Pontuacao pontuacao : novaRodada.getListaPontuacao()) {
+				
+				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();			
+				timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
+								
+				String email = parametroService.buscarParametroPorChave("user_email").getValor();			
+				String senha = parametroService.buscarParametroPorChave("user_senha").getValor();				
+				String slugLiga = servicoCartola.buscarSlugDaLiga(parametroService.buscarParametroPorChave("nome_liga").getValor());							
+				String token = servicoCartola.gerarTokenLoginCartola(email, senha);	
+				
+				JSONObject jsonObject = new JSONObject();				
+				
+				if(slugLiga != null && token != null) {
+					jsonObject = servicoCartola.buscarInformacoesLigaEspecifica(slugLiga, token);
+				}	
+				
+				if(jsonObject != null) {
+				
+					JSONObject jsonObjectLiga = (JSONObject) jsonObject.get("liga");	
+					boolean isLigaSemCapitao = false;					
+					isLigaSemCapitao = (boolean) jsonObjectLiga.get("sem_capitao");
+					
+					if(isLigaSemCapitao) {		
+						
+						//buscar pontuacao do capitacao	 de cada time	
+						
+						JSONArray jsonArrayTimesParticipantes = (JSONArray) jsonObject.get("times");
+						
+						System.out.println("JSON: "+jsonArrayTimesParticipantes.toString());		
+											
+						List<TimeCartolaRestDTO> listaTimeCartolaRestDTO = new ArrayList<TimeCartolaRestDTO>();
+						
+						for (int i = 0; i < jsonArrayTimesParticipantes.size(); i++) {				
+							JSONObject jsonObjectTime = (JSONObject) jsonArrayTimesParticipantes.get(i);						
+							
+							TimeCartolaRestDTO timeCartolaRestDTO = new TimeCartolaRestDTO();
+							timeCartolaRestDTO.setIdCartola(new Long(String.valueOf(jsonObjectTime.get("time_id"))));
+							timeCartolaRestDTO.setNomeTime(String.valueOf(jsonObjectTime.get("nome")));
+							timeCartolaRestDTO.setSlug(String.valueOf(jsonObjectTime.get("slug")));	
+							timeCartolaRestDTO.setNomeDonoTime(String.valueOf(jsonObjectTime.get("nome_cartola")));				
+							timeCartolaRestDTO.setUrlEscudoSvg(String.valueOf(jsonObjectTime.get("url_escudo_svg")));
+							JSONObject jsonObjectPontos = (JSONObject) jsonObjectTime.get("pontos");
+							timeCartolaRestDTO.setRodada(new Long(String.valueOf(jsonObjectPontos.get("rodada"))));		
+							
+							timeCartolaRestDTO.setPontosCapitao(new Double(String.valueOf(jsonObjectPontos.get("capitao"))));
+							
+							listaTimeCartolaRestDTO.add(timeCartolaRestDTO);
+						}	
+						
+						for (TimeCartolaRestDTO timeCartolaRestDTO : listaTimeCartolaRestDTO) {
+							
+							if(timeRodadaDTO.getTime().getIdCartola().equals(timeCartolaRestDTO.getIdCartola()) 
+									&& timeRodadaDTO.getRodadaAtual().equals(timeCartolaRestDTO.getRodada())) {		
+								
+								timeRodadaDTO.setPontos(timeRodadaDTO.getPontos() - (timeCartolaRestDTO.getPontosCapitao() / 2));
+								
+							}
+							
+						}						
+					} 						
+				}
+				
+				pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);					
+				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);
+				
+			}		
+			
+			btnSalvarRodada();
 			
 			//MOCK
-			for (Pontuacao pontuacao : novaRodada.getListaPontuacao()) {				
-				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();	
-				Random gerador = new Random();
-				Double patrimonio = Double.parseDouble(String.valueOf(gerador.nextInt(300)));			
-				Double pontos = Double.parseDouble(String.valueOf(gerador.nextInt(300)));		
-				Double pontosCampeonato = Double.parseDouble(String.valueOf(gerador.nextInt(300)));			
-				Double valorTime = Double.parseDouble(String.valueOf(gerador.nextInt(300)));	
-				
-				timeRodadaDTO.setTime(pontuacao.getTime());
-				timeRodadaDTO.setRodadaAtual(pontuacao.getRodada().getNrRodada());
-				timeRodadaDTO.setPatrimonio(patrimonio);
-				timeRodadaDTO.setPontos(pontos);
-				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
-				timeRodadaDTO.setValorTime(valorTime);					
-				pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);			
-				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);				
-			}	
-			
-			btnFinalizarRodada();
+//			for (Pontuacao pontuacao : novaRodada.getListaPontuacao()) {				
+//				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();	
+//				Random gerador = new Random();
+//				Double patrimonio = Double.parseDouble(String.valueOf(gerador.nextInt(300)));			
+//				Double pontos = Double.parseDouble(String.valueOf(gerador.nextInt(300)));		
+//				Double pontosCampeonato = Double.parseDouble(String.valueOf(gerador.nextInt(300)));			
+//				Double valorTime = Double.parseDouble(String.valueOf(gerador.nextInt(300)));	
+//				
+//				timeRodadaDTO.setTime(pontuacao.getTime());
+//				timeRodadaDTO.setRodadaAtual(pontuacao.getRodada().getNrRodada());
+//				timeRodadaDTO.setPatrimonio(patrimonio);
+//				timeRodadaDTO.setPontos(pontos);
+//				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
+//				timeRodadaDTO.setValorTime(valorTime);					
+//				pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);			
+//				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);				
+//			}	
+//			
+//			btnFinalizarRodada();
 			//MOCK
 			
 		} catch (Exception e) {
