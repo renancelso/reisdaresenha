@@ -278,6 +278,10 @@
 							styleClass="btn btn-success" update="@(form)"
 							style="margin-top: 10px;"
 							onclick="PF('dialogFinalizarRodada').hide();" 
+							onstart="PF('dialogProcessando').show();" 
+	               			oncomplete="PF('dialogProcessando').hide();"									
+							onsuccess="PF('dialogProcessando').hide();"
+							onerror="PF('dialogProcessando').hide();"
 							action="#{osbRodadaControl.btnFinalizarRodadaEmAndamento}"/>							
 		
 						<p:commandButton value="Não" type="success" title="Não"
@@ -306,6 +310,10 @@
 							styleClass="btn btn-success" update="@(form)"
 							style="margin-top: 10px;"
 							onclick="PF('dialogExcluirRodada').hide();" 
+							onstart="PF('dialogProcessando').show();" 
+			               	oncomplete="PF('dialogProcessando').hide();"									
+							onsuccess="PF('dialogProcessando').hide();"
+							onerror="PF('dialogProcessando').hide();"
 							action="#{osbRodadaControl.btnExcluirRodadaEmAndamento}"/>							
 		
 						<p:commandButton value="Não" type="success" title="Não"

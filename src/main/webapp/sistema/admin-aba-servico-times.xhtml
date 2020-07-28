@@ -21,35 +21,36 @@
             			 currentPageReportTemplate="Exibindo de {startRecord} a {endRecord} de um total de {totalRecords} registros"  
        			 		 emptyMessage="Não existem dados cadastrados">     
        			 		 
-       			<p:column headerText="#" style="text-align: center; width: 45px;">
+       			<p:column headerText="#" style="text-align: center; width: 30px;">
 			        <h:outputText value="#{rowIndex+1}" />
 			    </p:column>			 		 	      					
        			       					 
-       			<p:column headerText="Time" style="width: 30%">				       
+       			<p:column headerText="Time" style="width: 150px;">				       
 			        <img src="#{item.urlEscudoPng}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />
 			    </p:column>
 			   
-			    <p:column headerText="Id Cartola" style="width: 30%; text-align: center;">
+			    <p:column headerText="Id Cartola" style="width: 80px; text-align: center;">
 			        <h:outputText value="#{item.idCartola}" />
 			    </p:column>	
 			    
-			    <p:column headerText="Slug" style="width: 30%; text-align: center;">
+			    <p:column headerText="Slug" style="width: 120px;">
 			        <h:outputText value="#{item.slugTime}" />
 			    </p:column>	
 			    
-			    <p:column headerText="Assinante" style="width: 30%; text-align: center;">
-			        <h:outputText value="#{item.assinante}" />
+			    <p:column headerText="É PRÓ?" style="width: 70px; text-align: center; #{'sim'.equals(item.assinante) ? 'background-color: #ADD8E6;' : 'background-color: #FFB6C1'}">
+			        <h:outputText value="#{'sim'.equals(item.assinante) ? 'SIM' : 'NÃO'}" />
+			       
 			    </p:column>
 			    
-			    <p:column headerText="Status" style="width: 20%; text-align: center; font-weight: bold;">			    					    		  
-			        <h:outputText value="NAO PAGO" rendered="#{item.statusPagamento == 'NP'}" style="color: red;"/>
-			        <h:outputText value="P. PARCIAL" rendered="#{item.statusPagamento == 'PP'}" style="color: red;"/>
-			        <h:outputText value="PAGO" rendered="#{item.statusPagamento == 'P'}" style="color: green;"/>
-			    </p:column>	
+<!-- 			    <p:column headerText="Status" style="width: 20%; text-align: center; font-weight: bold;">			    					    		   -->
+<!-- 			        <h:outputText value="NAO PAGO" rendered="#{item.statusPagamento == 'NP'}" style="color: red;"/> -->
+<!-- 			        <h:outputText value="P. PARCIAL" rendered="#{item.statusPagamento == 'PP'}" style="color: red;"/> -->
+<!-- 			        <h:outputText value="PAGO" rendered="#{item.statusPagamento == 'P'}" style="color: green;"/> -->
+<!-- 			    </p:column>	 -->
 			    
-			    <p:column headerText="R$" style="text-align: right; width: 20%;">	
-			        <h:outputText value="#{item.valorPago}" converter="decimal"/>
-			    </p:column>
+<!-- 			    <p:column headerText="R$" style="text-align: right; width: 20%;">	 -->
+<!-- 			        <h:outputText value="#{item.valorPago}" converter="decimal"/> -->
+<!-- 			    </p:column> -->
 			    								   
 			</p:dataTable>  
 						

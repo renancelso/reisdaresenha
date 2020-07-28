@@ -15,27 +15,31 @@
     <ui:composition template="/template/layout.xhtml">		
         <ui:define name="conteudo">        
         
-            <h:form id="formPrincipal">	  			
-          		          		
-          		<b>Módulo Administrativo do Sistema</b>
-          		          		
-          		<p:growl id="messages" showDetail="false" life="4000" /> 	
+            <h:form id="formPrincipal" style="font-size: 12px;"> 
+                
+	  			<p:messages id="messages" closable="true" showDetail="false">
+          			<p:autoUpdate />
+          		</p:messages>		  			
           		
-          		<p:tabView dynamic="true" cache="true" style="font-size: 12px; width: 930px;">
-          		
-          		 	<p:tab title="Rodada em Andamento">
-						<ui:include src="admin-cad-rodadas.xhtml" />	
-			        </p:tab>
-          							
-					<p:tab title="Times">
-						<ui:include src="admin-aba-servico-times.xhtml" />	
-			        </p:tab>	
-			        
-			        <p:tab title="Histórico Rodadas">
-						<ui:include src="admin-aba-servico-historico-rodadas.xhtml" />	
-			        </p:tab>
-			           	        
-		        </p:tabView>          		           		
+          		<p:panel header="Liga RDR - CLAUSURA" style="min-width: 300px;">
+          		   
+          		    <p:panel rendered="#{rdrControl.listaParticipantesClausuraSerieA == null or rdrControl.listaParticipantesClausuraSerieB == null}"  
+          		    		 style="min-width: 250px; border: 0px;">      		
+	          			
+	          			<p:commandButton value="GERAR PARTICIPANTES CLAUSURA" 			    					
+		               					 onstart="PF('dialogProcessando').show();" 
+		               					 onclick="PF('dialogProcessando').show();"                					 
+		               					 oncomplete="PF('dialogProcessando').hide();"									
+									     onsuccess="PF('dialogProcessando').hide();"
+								 		 onerror="PF('dialogProcessando').hide();"
+								 		 update="@form" id="btnGerarClausura"
+								 		 action="#{rdrControl.btnGerarParticipantesClausura}"/>														
+						
+					</p:panel> 					
+								        
+			          
+	          		          		
+          		</p:panel>	
 	                             
 	            <p:dialog widgetVar="dialogProcessando" modal="true" 
 						  resizable="false;" draggable="false"
@@ -48,8 +52,9 @@
 						<br/>
 					</center>						
 				</p:dialog>
-				
+					 
             </h:form>
+            
         </ui:define>
     </ui:composition>
 </h:body>

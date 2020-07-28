@@ -56,8 +56,6 @@ public class RDRControl extends BaseControl {
 	@EJB
 	private RodadaServiceLocal rodadaService;
 	
-	private CartolaRestFulClient servicoCartola;
-	
 	private Usuario usuarioLogado;	
 	
 	/** VARIAVEIS APERTURA **/
@@ -69,66 +67,173 @@ public class RDRControl extends BaseControl {
 	private List<RDRClassificacao> listaClassificacaoAperturaSerieB;
 	private List<RDRRodada> listaRDRRodadasAperturaSerieB;	
 	
-	private List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalAteRodada4;	
 	/** VARIAVEIS APERTURA **/
+			
 	
+	/** VARIAVEIS CLAUSURA **/
+	private List<RDRParticipante> listaParticipantesClausuraSerieA;
+	private List<RDRClassificacao> listaClassificacaoClausuraSerieA;	
+	private List<RDRRodada> listaRDRRodadasClausuraSerieA;
+	
+	private List<RDRParticipante> listaParticipantesClausuraSerieB;
+	private List<RDRClassificacao> listaClassificacaoClausuraSerieB;
+	private List<RDRRodada> listaRDRRodadasClausuraSerieB;		
+	/** VARIAVEIS CLAUSURA **/
+	
+	
+	private List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalAteRodada4;	
 	
 		
 	@PostConstruct
-	public void init() {
-		
-		try {	
-			log.info("RDRControl --- INIT()");
-			
-			HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);	
-			usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");		
-			servicoCartola = new CartolaRestFulClient();	
-			
-			/** APERTURA **/
-			listaParticipantesAperturaSerieA = new ArrayList<RDRParticipante>();
-			listaParticipantesAperturaSerieA = rdrService.buscarRDRParticipantes("A", "SA");
-			
-			listaParticipantesAperturaSerieB = new ArrayList<RDRParticipante>();
-			listaParticipantesAperturaSerieB = rdrService.buscarRDRParticipantes("A", "SB");
-						
-			listaClassificacaoAperturaSerieA = new ArrayList<RDRClassificacao>();	
-			listaClassificacaoAperturaSerieA = rdrService.buscarRDRClassificacao("A", "SA");
-			
-			listaClassificacaoAperturaSerieB = new ArrayList<RDRClassificacao>();
-			listaClassificacaoAperturaSerieB = rdrService.buscarRDRClassificacao("A", "SB");
-			
-			listaRDRRodadasAperturaSerieA = new ArrayList<RDRRodada>();	
-			listaRDRRodadasAperturaSerieA = rdrService.buscarRDRRodadas("A", "SA");
-			
-			listaRDRRodadasAperturaSerieB = new ArrayList<RDRRodada>();
-			listaRDRRodadasAperturaSerieB = rdrService.buscarRDRRodadas("A", "SB");										
-			
-			if(listaRDRRodadasAperturaSerieA != null && !listaRDRRodadasAperturaSerieA.isEmpty()) {
-				for (RDRRodada rdrRodadaSA : listaRDRRodadasAperturaSerieA) {
-					rdrRodadaSA.setListaRDRPontuacao(rdrService.buscarRDRPontuacaoPorRodada(rdrRodadaSA));
-				}
-			}
-			
-			if(listaRDRRodadasAperturaSerieB != null && !listaRDRRodadasAperturaSerieB.isEmpty()) {				
-				for (RDRRodada rdrRodadaSB : listaRDRRodadasAperturaSerieB) {
-					rdrRodadaSB.setListaRDRPontuacao(rdrService.buscarRDRPontuacaoPorRodada(rdrRodadaSB));
-				}
-			}
-			
-			listaClassificacaoLigaPrincipalAteRodada4 = new ArrayList<ClassificacaoLigaPrincipalDTO>();
+	public void init() {		
+		try {				
+			log.info("RDRControl --- INIT()");	
 			
 			Integer anoAtual = 2020; //Calendar.getInstance().get(Calendar.YEAR);				
-			listaClassificacaoLigaPrincipalAteRodada4 = inicioService.buscarClassificacaoLigaPrincipalAteRodada4(anoAtual);
-			/** APERTURA **/	
+			
+			log.info("----- buscarInformacoesApertura");	
+			buscarInformacoesApertura(anoAtual);
+			
+			log.info("----- buscarInformacoesClausura");
+			buscarInformacoesClausura(anoAtual);						
 						
 		} catch (Exception e) {
+			addErrorMessage("ERRO DE SISTEMA - RDRControl.init() ");
 			log.error(e);
 			e.printStackTrace();
 		}
 	}
 	
+	private void buscarInformacoesClausura(Integer anoAtual) {
+		
+		/** CLAUSURA **/
+		listaParticipantesClausuraSerieA = new ArrayList<RDRParticipante>();
+		listaParticipantesClausuraSerieA = rdrService.buscarRDRParticipantes("C", "SA");
+		
+		listaParticipantesClausuraSerieB = new ArrayList<RDRParticipante>();
+		listaParticipantesClausuraSerieB = rdrService.buscarRDRParticipantes("C", "SB");
+					
+		listaClassificacaoClausuraSerieA = new ArrayList<RDRClassificacao>();	
+		listaClassificacaoClausuraSerieA = rdrService.buscarRDRClassificacao("C", "SA");
+		
+		listaClassificacaoClausuraSerieB = new ArrayList<RDRClassificacao>();
+		listaClassificacaoClausuraSerieB = rdrService.buscarRDRClassificacao("C", "SB");
+		
+		listaRDRRodadasClausuraSerieA = new ArrayList<RDRRodada>();	
+		listaRDRRodadasClausuraSerieA = rdrService.buscarRDRRodadas("C", "SA");
+		
+		listaRDRRodadasClausuraSerieB = new ArrayList<RDRRodada>();
+		listaRDRRodadasClausuraSerieB = rdrService.buscarRDRRodadas("C", "SB");										
+		
+		if(listaRDRRodadasClausuraSerieA != null && !listaRDRRodadasClausuraSerieA.isEmpty()) {
+			for (RDRRodada rdrRodadaSA : listaRDRRodadasClausuraSerieA) {
+				rdrRodadaSA.setListaRDRPontuacao(rdrService.buscarRDRPontuacaoPorRodada(rdrRodadaSA));
+			}
+		}
+		
+		if(listaRDRRodadasClausuraSerieB != null && !listaRDRRodadasClausuraSerieB.isEmpty()) {				
+			for (RDRRodada rdrRodadaSB : listaRDRRodadasClausuraSerieB) {
+				rdrRodadaSB.setListaRDRPontuacao(rdrService.buscarRDRPontuacaoPorRodada(rdrRodadaSB));
+			}
+		}
+		/** CLAUSURA **/
+		
+	}
+
+	private void buscarInformacoesApertura(Integer anoAtual) {
+		
+		HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);	
+		usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");		
+					
+		/** APERTURA **/
+		listaParticipantesAperturaSerieA = new ArrayList<RDRParticipante>();
+		listaParticipantesAperturaSerieA = rdrService.buscarRDRParticipantes("A", "SA");
+		
+		listaParticipantesAperturaSerieB = new ArrayList<RDRParticipante>();
+		listaParticipantesAperturaSerieB = rdrService.buscarRDRParticipantes("A", "SB");
+					
+		listaClassificacaoAperturaSerieA = new ArrayList<RDRClassificacao>();	
+		listaClassificacaoAperturaSerieA = rdrService.buscarRDRClassificacao("A", "SA");
+		
+		listaClassificacaoAperturaSerieB = new ArrayList<RDRClassificacao>();
+		listaClassificacaoAperturaSerieB = rdrService.buscarRDRClassificacao("A", "SB");
+		
+		listaRDRRodadasAperturaSerieA = new ArrayList<RDRRodada>();	
+		listaRDRRodadasAperturaSerieA = rdrService.buscarRDRRodadas("A", "SA");
+		
+		listaRDRRodadasAperturaSerieB = new ArrayList<RDRRodada>();
+		listaRDRRodadasAperturaSerieB = rdrService.buscarRDRRodadas("A", "SB");										
+		
+		if(listaRDRRodadasAperturaSerieA != null && !listaRDRRodadasAperturaSerieA.isEmpty()) {
+			for (RDRRodada rdrRodadaSA : listaRDRRodadasAperturaSerieA) {
+				rdrRodadaSA.setListaRDRPontuacao(rdrService.buscarRDRPontuacaoPorRodada(rdrRodadaSA));
+			}
+		}
+		
+		if(listaRDRRodadasAperturaSerieB != null && !listaRDRRodadasAperturaSerieB.isEmpty()) {				
+			for (RDRRodada rdrRodadaSB : listaRDRRodadasAperturaSerieB) {
+				rdrRodadaSB.setListaRDRPontuacao(rdrService.buscarRDRPontuacaoPorRodada(rdrRodadaSB));
+			}
+		}
+		/** APERTURA **/	
+		
+		listaClassificacaoLigaPrincipalAteRodada4 = new ArrayList<ClassificacaoLigaPrincipalDTO>();					
+		listaClassificacaoLigaPrincipalAteRodada4 = inicioService.buscarClassificacaoLigaPrincipalAteRodada4(anoAtual);
+		
+	}
+	
+	public String btnGerarParticipantesClausura() {	
+		try {							
+			Rodada decimaNonaRodadaFinalizada = null;			
+			
+			try {					
+				decimaNonaRodadaFinalizada = new Rodada();				
+				
+				StringBuilder sql = new StringBuilder();
+				sql.append("select o from ").append(Rodada.class.getSimpleName()).append(" o where o.nrRodada = 19 and o.statusRodada = 'PS'");				
+				
+				decimaNonaRodadaFinalizada = (Rodada) rdrService.consultarPorQuery(sql.toString(), 1, 0).get(0);			
+				
+			} catch (Exception e) {
+				addFatalMessage("Não é possivel gerar a CLAUSURA antes da 19ª rodada do Cartola FC ser finalizada.");				
+				return null;
+			}
+			
+			if(decimaNonaRodadaFinalizada == null) {
+				addFatalMessage("Não é possivel gerar a CLAUSURA antes da 19ª rodada do Cartola FC ser finalizada.");				
+				return null;
+			}
+			
+		} catch (Exception e) {			
+			addErrorMessage("ERRO AO GERAR CLAUSURA.");
+			log.error(e);
+		}	
+			
+		return null;
+	}
+
 	public String btnGerarParticipantesApertura() {		
-		try {			
+		try {							
+			Rodada quartaRodada = null;			
+			
+			try {	
+				
+				quartaRodada = new Rodada();				
+				
+				StringBuilder sql = new StringBuilder();
+				sql.append("select o from ").append(Rodada.class.getSimpleName()).append(" o where o.nrRodada = 4 and o.statusRodada = 'PS'");				
+				
+				quartaRodada = (Rodada) rdrService.consultarPorQuery(sql.toString(), 1, 0).get(0);			
+				
+			} catch (Exception e) {
+				addFatalMessage("Não é possivel gerar a Apertura antes da 4ª rodada do Cartola FC ser finalizada.");				
+				return null;
+			}
+			
+			if(quartaRodada == null) {
+				addFatalMessage("Não é possivel gerar a Apertura antes da 4ª rodada do Cartola FC ser finalizada.");				
+				return null;
+			}			
 			
 			List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO = new ArrayList<ClassificacaoLigaPrincipalDTO>();			
 			
@@ -685,4 +790,53 @@ public class RDRControl extends BaseControl {
 	public void setListaClassificacaoLigaPrincipalAteRodada4(List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalAteRodada4) {
 		this.listaClassificacaoLigaPrincipalAteRodada4 = listaClassificacaoLigaPrincipalAteRodada4;
 	}
+
+	public List<RDRParticipante> getListaParticipantesClausuraSerieA() {
+		return listaParticipantesClausuraSerieA;
+	}
+
+	public void setListaParticipantesClausuraSerieA(List<RDRParticipante> listaParticipantesClausuraSerieA) {
+		this.listaParticipantesClausuraSerieA = listaParticipantesClausuraSerieA;
+	}
+
+	public List<RDRClassificacao> getListaClassificacaoClausuraSerieA() {
+		return listaClassificacaoClausuraSerieA;
+	}
+
+	public void setListaClassificacaoClausuraSerieA(List<RDRClassificacao> listaClassificacaoClausuraSerieA) {
+		this.listaClassificacaoClausuraSerieA = listaClassificacaoClausuraSerieA;
+	}
+
+	public List<RDRRodada> getListaRDRRodadasClausuraSerieA() {
+		return listaRDRRodadasClausuraSerieA;
+	}
+
+	public void setListaRDRRodadasClausuraSerieA(List<RDRRodada> listaRDRRodadasClausuraSerieA) {
+		this.listaRDRRodadasClausuraSerieA = listaRDRRodadasClausuraSerieA;
+	}
+
+	public List<RDRParticipante> getListaParticipantesClausuraSerieB() {
+		return listaParticipantesClausuraSerieB;
+	}
+
+	public void setListaParticipantesClausuraSerieB(List<RDRParticipante> listaParticipantesClausuraSerieB) {
+		this.listaParticipantesClausuraSerieB = listaParticipantesClausuraSerieB;
+	}
+
+	public List<RDRClassificacao> getListaClassificacaoClausuraSerieB() {
+		return listaClassificacaoClausuraSerieB;
+	}
+
+	public void setListaClassificacaoClausuraSerieB(List<RDRClassificacao> listaClassificacaoClausuraSerieB) {
+		this.listaClassificacaoClausuraSerieB = listaClassificacaoClausuraSerieB;
+	}
+
+	public List<RDRRodada> getListaRDRRodadasClausuraSerieB() {
+		return listaRDRRodadasClausuraSerieB;
+	}
+
+	public void setListaRDRRodadasClausuraSerieB(List<RDRRodada> listaRDRRodadasClausuraSerieB) {
+		this.listaRDRRodadasClausuraSerieB = listaRDRRodadasClausuraSerieB;
+	}	
+	
 }

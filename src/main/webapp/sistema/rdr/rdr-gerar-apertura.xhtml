@@ -152,7 +152,7 @@
 						 		  		style="font-weight: bold;color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
 									    	   border-left: 10px solid #D3E6FF; border-right: 5px solid #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
 																											
-									<h:outputText value="(#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? 'EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? 'PASSADA' : ''})"
+									<h:outputText value="(#{'FT'.equals(rdrRodada.statusRodada) ? 'FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? 'EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? 'PASSADA' : ''})"
 												  style="font-weight: bold; color: red; font-size: 12px; background-color: #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF; border-right: 5px solid #D3E6FF;"/>    
 												  
 									<h:outputText value=" | (#{rdrRodada.nrRodadaCartola}ª rodada no CARTOLA FC)" style="font-weight: bold;"/>																			
@@ -265,7 +265,7 @@
 						 		  				  style="font-weight: bold;color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
 									    	   			 border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
 					 		  		
-					 		  		<h:outputText value="(#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? 'EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? 'PASSADA' : ''})"
+					 		  		<h:outputText value="(#{'FT'.equals(rdrRodada.statusRodada) ? 'FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? 'EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? 'PASSADA' : ''})"
 												  style="font-weight: bold; color: red; font-size: 12px; background-color: #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF; border-right: 5px solid #D3E6FF;"/>    
 												  
 									<h:outputText value=" | (#{rdrRodada.nrRodadaCartola}ª rodada no CARTOLA FC)" style="font-weight: bold;"/>				
@@ -348,25 +348,25 @@
 			          			<p:panel header="Classificacao Geral até a 4ª rodada" style="width: 500px;">	
 			          				
 			          				<p:dataTable var="item" value="#{rdrControl.listaClassificacaoLigaPrincipalAteRodada4}"
-						      			 		 emptyMessage="Não existem dados" >
+						      			 		 emptyMessage="Não existem dados" rowIndexVar="rowIndex">
 						      			 					     		    			 					 
-						  			 	<p:column headerText="#" style="text-align: center; width: 50px;" sortBy="#{item.colocacao}">
+						  			 	<p:column headerText="#" style="text-align: center; width: 50px; #{item.colocacao.intValue() > 32 ? 'background-color: #FFB6C1;' : ''}" sortBy="#{item.colocacao}">
 								        	<h:outputText value="#{item.colocacao}" />
 									    </p:column>	
 									   
-									    <p:column headerText="Time" style="width: 50%">
+									    <p:column headerText="Time" style="width: 50%; #{item.colocacao.intValue() > 32 ? 'background-color: #FFB6C1;' : ''}">
 									        <img src="#{item.escudoTime}" alt="" style="width: 20px;"/> <h:outputText value="#{item.time}" />
 									    </p:column>	
 									    
-									    <p:column headerText="J" style="text-align: center; width: 50px;" sortBy="#{item.jogos}">
+									    <p:column headerText="J" style="text-align: center; width: 50px; #{item.colocacao.intValue() > 32 ? 'background-color: #FFB6C1;' : ''}" sortBy="#{item.jogos}">
 									        <h:outputText value="#{item.jogos}" />
 									    </p:column>			
 									    
-									    <p:column headerText="PG" style="text-align: center; width: 75px;" sortBy="#{item.pontuacao}">
+									    <p:column headerText="PG" style="text-align: center; width: 75px; #{item.colocacao.intValue() > 32 ? 'background-color: #FFB6C1;' : ''}" sortBy="#{item.pontuacao}">
 									        <h:outputText value="#{item.pontuacao}" converter="decimal"/>
 									    </p:column>								   
 									 
-									    <p:column headerText="$" style="text-align: center; width: 75px;" sortBy="#{item.cartoletas}">
+									    <p:column headerText="$" style="text-align: center; width: 75px; #{item.colocacao.intValue() > 32 ? 'background-color: #FFB6C1;' : ''}" sortBy="#{item.cartoletas}">
 									        <h:outputText value="#{item.cartoletas}" converter="decimal"/>
 									    </p:column>						    
 									    								   

@@ -212,6 +212,8 @@ public class OSBRodadaControl extends BaseControl {
 			
 			addInfoMessage("Pontuacao da "+novaOsbRodada.getNrRodada()+"ª rodada atualizada com sucesso");
 			
+			init();
+			
 			return null;
 			
 		} catch (Exception e) {

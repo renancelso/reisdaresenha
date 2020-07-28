@@ -22,6 +22,7 @@ import br.com.reisdaresenha.rest.CartolaRestFulClient;
 import br.com.reisdaresenha.service.InicioServiceLocal;
 import br.com.reisdaresenha.service.ParametroServiceLocal;
 import br.com.reisdaresenha.service.RodadaServiceLocal;
+import br.com.reisdaresenha.view.ClassificacaoLigaPrincipalDTO;
 import br.com.reisdaresenha.view.TimeCartolaRestDTO;
 import br.com.reisdaresenha.view.TimeRodadaDTO;
 
@@ -58,11 +59,15 @@ public class RodadaControl extends BaseControl {
 	@EJB
 	private ParametroServiceLocal parametroService;
 		
+	private List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO;
+		
 	
 	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {
 		try {
+			
+			Integer anoAtual = 2020;//Calendar.getInstance().get(Calendar.YEAR);	
 			
 			servicoCartola = new CartolaRestFulClient();		
 			
@@ -117,6 +122,9 @@ public class RodadaControl extends BaseControl {
 				}	
 			}
 			
+			setListaClassificacaoLigaPrincipalDTO(new ArrayList<>());					
+			setListaClassificacaoLigaPrincipalDTO(inicioService.buscarClassificacaoLigaPrincipal(anoAtual));		
+			
 		} catch (Exception e) {
 			log.error("Erro no método init "+e.getMessage());			
 		}
@@ -143,6 +151,11 @@ public class RodadaControl extends BaseControl {
 			TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();
 			
 			timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
+						
+			if(timeRodadaDTO.getTime() == null) {
+				addErrorMessage(pontuacao.getRodada().getNrRodada()+"ª Rodada ainda não iniciou no Cartola FC.");
+				return null;
+			}
 							
 			String email = parametroService.buscarParametroPorChave("user_email").getValor();			
 			String senha = parametroService.buscarParametroPorChave("user_senha").getValor();				
@@ -317,8 +330,7 @@ public class RodadaControl extends BaseControl {
 //				pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);			
 //				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);				
 //			}	
-//			btnSalvarRodada();
-			
+//			btnSalvarRodada();			
 			//btnFinalizarRodada();
 			
 			//MOCK
@@ -327,6 +339,8 @@ public class RodadaControl extends BaseControl {
 			addErrorMessage("Erro ao atualizar pontuacao do time");			
 			log.error("Erro ao atualizar pontuacao do time \n"+e);
 		}
+		
+		init();
 		
 		return null;
 	}
@@ -490,6 +504,14 @@ public class RodadaControl extends BaseControl {
 
 	public void setListaTimes(List<Time> listaTimes) {
 		this.listaTimes = listaTimes;
+	}
+
+	public List<ClassificacaoLigaPrincipalDTO> getListaClassificacaoLigaPrincipalDTO() {
+		return listaClassificacaoLigaPrincipalDTO;
+	}
+
+	public void setListaClassificacaoLigaPrincipalDTO(List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO) {
+		this.listaClassificacaoLigaPrincipalDTO = listaClassificacaoLigaPrincipalDTO;
 	}			
 		
 }
