@@ -118,6 +118,13 @@ public class CartolaRestFulClient {
 			JSONParser parser = new JSONParser();
 			
 			JSONObject jsonObject = (JSONObject) parser.parse(jsonResponse);		
+			
+			if(jsonObject.get("mensagem") != null) {
+				if("Rodada Inválida.".equalsIgnoreCase(String.valueOf(jsonObject.get("mensagem")))){					
+					timeRodadaDTO.setTime(null);
+					return timeRodadaDTO;
+				}
+			}
 				
 			try {
 				

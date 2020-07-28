@@ -12,12 +12,8 @@
  
 <h:body>
 	
-    <ui:composition template="/template/layout.xhtml">		
-        <ui:define name="conteudo">        
-        
-            <h:form id="formPrincipal" style="font-size: 12px;"> 
+    <ui:composition>	
             
-            	<br/>
            		<p:commandButton value="Nova Rodada" 			    					
                					 onstart="PF('dialogProcessando').show();" 
                					 onclick="PF('dialogProcessando').show();"                					 
@@ -28,14 +24,12 @@
 						 		 action="#{rodadaControl.btnNovaRodada}"/>
 							 		 
 				<br/>   
-				<br/>    
-                 
-	  			<p:messages id="messages" closable="true" showDetail="false">
-          			<p:autoUpdate />
-          		</p:messages>
+				<br/>  
           		          		          	            				  
                	<p:panel header="#{rodadaControl.novaRodada.nrRodada}ª Rodada em Andamento" rendered="#{rodadaControl.novaRodada != null}" 
                			 toggleable="true" toggleableHeader="true" id="painelRodadaAtual" style="min-width: 470px;">    
+               		
+               		<br/> 
                			 
                		<p:commandLink value="Atualizar Todas as Pontuacoes da Rodada" 			    					
                					   onstart="PF('dialogProcessando').show();" 
@@ -43,7 +37,7 @@
                					   oncomplete="PF('dialogProcessando').hide();"									
 							       onsuccess="PF('dialogProcessando').hide();"
 						 		   onerror="PF('dialogProcessando').hide();"
-						 		   update="@form"
+						 		   update="@form" 
 						 		   action="#{rodadaControl.atualizarTodasPontuacoesRodadaEmAndamento}"
 						 		   style="text-align: center; font-weight: bold; text-decoration: underline;"/>	
  		  		
@@ -131,64 +125,8 @@
 							 		 onclick="PF('dialogFinalizarRodada').show();"/>		
 					
                	    <hr/>           		               							
-	            </p:panel>	   
-	            	            
-	            <p:panel header="Rodadas Anteriores" toggleable="true" toggleableHeader="true" style="min-width: 470px;">
-	            	
-		            <p:dataTable var="item" value="#{rodadaControl.listaRodadas}" 
-		            			 selectionMode="single" rowKey="#{item.id}"
-		            			 reflow="true" id="listaRodadas"	   
-		            			 style="min-width: 450px;"
-		            			 paginator="true" widgetVar="listaRodadas"
-		            			 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-		            			 currentPageReportTemplate="Exibindo de {startRecord} a {endRecord} de um total de {totalRecords} registros"  
-		       			 		 emptyMessage="Não existem dados cadastrados">
-		       			 		 
-		       			<p:column style="width:16px">
-				            <p:rowToggler />
-				        </p:column>
-		       			 		 
-		       			<p:column headerText="Liga" style="width: 30%">
-					        <h:outputText value="#{item.liga.nomeLiga}" />
-					    </p:column>	
-		       					       					       					 
-		       			<p:column headerText="Rodada" style="width: 30%; text-align: center;">				       
-					        <h:outputText value="#{item.nrRodada}" />
-					    </p:column>		
-					    
-					    <p:rowExpansion>
-					    
-						    <p:repeat var="pontuacao" value="#{item.listaPontuacao}">		 		  				
-		 		  		
-			 		  			<h:panelGrid columns="2" style="width:100%" columnClasses="coluna1,coluna2">
-						           
-						            <p:outputPanel>
-						            	<center>
-								            <img src="#{pontuacao.time.urlEscudoPng}" alt="" style="width: 20px;"/> 
-							            	<br/>
-							            	<h:outputText value="#{pontuacao.time.nomeTime} - #{pontuacao.time.nomeDonoTime}" />	
-							            	<br/> 
-						            	</center>      						            	
-						 			</p:outputPanel>
-						 			
-						            <p:outputPanel>
-						                <h:panelGrid columns="2" cellpadding="5" columnClasses="coluna1,coluna2">
-						                    <h:outputText value="Pontuação: "  style="font-weight: bold"/>
-						                    <h:outputText value="#{pontuacao.vrPontuacao}" />						 
-						                    <h:outputText value="Cartoletas:"  style="font-weight: bold"/>
-						                    <h:outputText value="#{pontuacao.vrCartoletas}"/>					                  
-						                </h:panelGrid>
-						            </p:outputPanel>
-						            
-						        </h:panelGrid>						       
-			 		  		
-			 		  		</p:repeat>	
-					    
-					    </p:rowExpansion>					
-					    								   
-					</p:dataTable>    	            
-	            
-	            </p:panel>	                      		                	
+	            </p:panel>	  
+	                            		                	
 	                             
 	            <p:dialog widgetVar="dialogProcessando" modal="true" 
 						  resizable="false;" draggable="false"
@@ -228,9 +166,8 @@
 					</center>
 			
 				</p:dialog>	
-				
-            </h:form>
-        </ui:define>
+       
+      
     </ui:composition>
 </h:body>
 

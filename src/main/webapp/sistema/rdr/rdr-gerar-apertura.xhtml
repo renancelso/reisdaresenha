@@ -84,7 +84,7 @@
 	          			</p:panel>
 	          		
 	          		</h:panelGrid>
-	          		
+	          			          		
 	          		<p:tabView dynamic="true" cache="true" style="font-size: 12px;"
 	          				   rendered="#{rdrControl.listaParticipantesAperturaSerieA != null 
        										and rdrControl.listaParticipantesAperturaSerieB != null
@@ -148,12 +148,14 @@
 						 		  						          		
 						 		  	<br/>
 						 		  	
-						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada" 
+						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada " 
 						 		  		style="font-weight: bold;color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
-									    	   border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
-									
-									<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}"
-												  style="font-weight: bold;"/>    																			
+									    	   border-left: 10px solid #D3E6FF; border-right: 5px solid #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
+																											
+									<h:outputText value="(#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? 'EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? 'PASSADA' : ''})"
+												  style="font-weight: bold; color: red; font-size: 12px; background-color: #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF; border-right: 5px solid #D3E6FF;"/>    
+												  
+									<h:outputText value=" | (#{rdrRodada.nrRodadaCartola}ª rodada no CARTOLA FC)" style="font-weight: bold;"/>																			
 					          			 			 	    	   
 									<p:commandButton value="Atualizar Pontuacao #{rdrRodada.nrRDRRodada}ª Rodada" 			    					
 				               					   onstart="PF('dialogProcessando').show();" 
@@ -263,8 +265,10 @@
 						 		  				  style="font-weight: bold;color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
 									    	   			 border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
 					 		  		
-					 		  		<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}"
-												  style="font-weight: bold;"/>    	
+					 		  		<h:outputText value="(#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? 'EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? 'PASSADA' : ''})"
+												  style="font-weight: bold; color: red; font-size: 12px; background-color: #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF; border-right: 5px solid #D3E6FF;"/>    
+												  
+									<h:outputText value=" | (#{rdrRodada.nrRodadaCartola}ª rodada no CARTOLA FC)" style="font-weight: bold;"/>				
 					 		  		
 					 		  		<p:commandButton value="Atualizar Pontuacao #{rdrRodada.nrRDRRodada}ª Rodada" 			    					
 				               					   onstart="PF('dialogProcessando').show();" 
@@ -339,11 +343,44 @@
 						 		  		<br/>
 				 		  			</p:repeat>	
 			          			</p:panel>	
-		          			</h:panelGrid>					
+		          			
+		          			
+			          			<p:panel header="Classificacao Geral até a 4ª rodada" style="width: 500px;">	
+			          				
+			          				<p:dataTable var="item" value="#{rdrControl.listaClassificacaoLigaPrincipalAteRodada4}"
+						      			 		 emptyMessage="Não existem dados" >
+						      			 					     		    			 					 
+						  			 	<p:column headerText="#" style="text-align: center; width: 50px;" sortBy="#{item.colocacao}">
+								        	<h:outputText value="#{item.colocacao}" />
+									    </p:column>	
+									   
+									    <p:column headerText="Time" style="width: 50%">
+									        <img src="#{item.escudoTime}" alt="" style="width: 20px;"/> <h:outputText value="#{item.time}" />
+									    </p:column>	
+									    
+									    <p:column headerText="J" style="text-align: center; width: 50px;" sortBy="#{item.jogos}">
+									        <h:outputText value="#{item.jogos}" />
+									    </p:column>			
+									    
+									    <p:column headerText="PG" style="text-align: center; width: 75px;" sortBy="#{item.pontuacao}">
+									        <h:outputText value="#{item.pontuacao}" converter="decimal"/>
+									    </p:column>								   
+									 
+									    <p:column headerText="$" style="text-align: center; width: 75px;" sortBy="#{item.cartoletas}">
+									        <h:outputText value="#{item.cartoletas}" converter="decimal"/>
+									    </p:column>						    
+									    								   
+									</p:dataTable>			          			
+			          				
+		          				</p:panel> 
+	          				
+	          				</h:panelGrid>	 				
 						
 						</p:tab>
 				           	        
-			        </p:tabView>     
+			        </p:tabView> 
+			        
+			          
 	          		          		
           		</p:panel>	
 	                             

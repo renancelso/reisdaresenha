@@ -189,8 +189,12 @@ public class OSBRodadaControl extends BaseControl {
 	
 	public String btnAtualizarRodadaEmAndamento() {
 		try {
-
+			
 			Integer anoAtual = 2020; //Calendar.getInstance().get(Calendar.YEAR);
+			
+			if(novaOsbRodada.getListaOsbPontuacao() == null || novaOsbRodada.getListaOsbPontuacao().isEmpty()) {				
+				criarListaParticipantesEGerarPontuacaoOSBRodada(anoAtual, novaOsbRodada.getNrRodada());
+			}			
 			
 			List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO = inicioService.buscarHistoricoClassificacaoRodadas(anoAtual, novaOsbRodada.getNrRodada());
 			
@@ -215,6 +219,8 @@ public class OSBRodadaControl extends BaseControl {
 			e.printStackTrace();
 			addInfoMessage("Erro ao atualizar rodada");
 		}
+		
+		init();
 		
 		return null;
 	}

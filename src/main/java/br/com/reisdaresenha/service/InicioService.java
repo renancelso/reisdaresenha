@@ -184,17 +184,17 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     		
     		StringBuilder sql = new StringBuilder();
     		
-    		sql.append(" SELECT t.nome_time time, ");   		  // 0 		    	
-    		sql.append(" count(r.nr_rodada) jogos, "); 			  // 1
-    		sql.append(" t.vr_cartoletasAtuais cartoletas, ");    // 2
+    		sql.append(" SELECT t.nome_time time, ");   		   // 0 		    	
+    		sql.append(" count(r.nr_rodada) jogos, "); 			   // 1
+    		sql.append(" t.vr_cartoletasAtuais cartoletas, ");     // 2
     		sql.append(" round(sum(vr_pontuacao),2) pontuacao, "); // 3  
-    		sql.append(" t.url_escudo_png escudo_time "); // 4   
+    		sql.append(" t.url_escudo_png escudo_time "); 		   // 4   
     		sql.append(" FROM pontuacao p inner join time t on p.time = t.id ");
     		sql.append(" inner join liga l on p.liga = l.id ");
     		sql.append(" inner join rodada r on p.rodada = r.id ");
     		sql.append(" where l.ano = ").append(ano);    	
     		
-    		sql.append(" and r.nr_rodada in(1,2,3,4) ");   
+    		sql.append(" and r.nr_rodada in (1,2,3,4) ");   
     		
     		sql.append(" group by t.nome_time ");
     		sql.append(" order by sum(vr_pontuacao) desc ");
@@ -261,7 +261,7 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     			ClassificacaoLigaPrincipalDTO classificacao = new ClassificacaoLigaPrincipalDTO();
     			classificacao.setTime(String.valueOf(obj[0]));
     			classificacao.setJogos(Integer.parseInt(String.valueOf(obj[1])));
-    			classificacao.setCartoletas(Double.parseDouble(String.valueOf(obj[2])));
+    			classificacao.setCartoletas(obj[2] != null ? Double.parseDouble(String.valueOf(obj[2])) : 0.0);
     			classificacao.setPontuacao(Double.parseDouble(String.valueOf(obj[3])));      			
     			classificacao.setColocacao(colocacao++);     			
     			classificacao.setIdTimeCartola(Long.parseLong(String.valueOf(obj[6])));    

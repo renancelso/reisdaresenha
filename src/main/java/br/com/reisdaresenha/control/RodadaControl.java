@@ -223,7 +223,12 @@ public class RodadaControl extends BaseControl {
 				
 				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();			
 				timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
-								
+				
+				if(timeRodadaDTO.getTime() == null) {
+					addErrorMessage(pontuacao.getRodada().getNrRodada()+"ª Rodada ainda não iniciou no Cartola FC.");
+					return null;
+				}
+				
 				String email = parametroService.buscarParametroPorChave("user_email").getValor();			
 				String senha = parametroService.buscarParametroPorChave("user_senha").getValor();				
 				String slugLiga = servicoCartola.buscarSlugDaLiga(parametroService.buscarParametroPorChave("nome_liga").getValor());							
@@ -285,11 +290,16 @@ public class RodadaControl extends BaseControl {
 				pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);					
 				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);
 				
+				pontuacao.getTime().setVrCartoletasAtuais(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);	
+				
+				rodadaService.atualizar(pontuacao.getTime());
+				
 			}		
 			
 			btnSalvarRodada();
 			
 			//MOCK
+			
 //			for (Pontuacao pontuacao : novaRodada.getListaPontuacao()) {				
 //				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();	
 //				Random gerador = new Random();
@@ -308,7 +318,9 @@ public class RodadaControl extends BaseControl {
 //				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);				
 //			}	
 //			btnSalvarRodada();
+			
 			//btnFinalizarRodada();
+			
 			//MOCK
 			
 		} catch (Exception e) {
@@ -349,6 +361,7 @@ public class RodadaControl extends BaseControl {
 					novaRodada.getListaPontuacao().add(pontuacao);
 				}	
 			} else {
+				addFatalMessage("Já existe uma rodada em Andamento.");
 				init();			
 			}		
 			
@@ -383,7 +396,7 @@ public class RodadaControl extends BaseControl {
 				novaRodada.setListaPontuacao(listaPontuacao);
 			}		
 			
-			addInfoMessage(novaRodada.getNrRodada()+"ª Rodada atualizada com sucesso!");
+			addInfoMessage(novaRodada.getNrRodada()+"ª Rodada atualizada com sucesso.");
 			
 		} catch (Exception e) {
 			log.error(e);

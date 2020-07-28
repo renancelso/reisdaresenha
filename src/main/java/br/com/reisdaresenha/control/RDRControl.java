@@ -68,7 +68,10 @@ public class RDRControl extends BaseControl {
 	private List<RDRParticipante> listaParticipantesAperturaSerieB;
 	private List<RDRClassificacao> listaClassificacaoAperturaSerieB;
 	private List<RDRRodada> listaRDRRodadasAperturaSerieB;	
+	
+	private List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalAteRodada4;	
 	/** VARIAVEIS APERTURA **/
+	
 	
 		
 	@PostConstruct
@@ -98,9 +101,7 @@ public class RDRControl extends BaseControl {
 			listaRDRRodadasAperturaSerieA = rdrService.buscarRDRRodadas("A", "SA");
 			
 			listaRDRRodadasAperturaSerieB = new ArrayList<RDRRodada>();
-			listaRDRRodadasAperturaSerieB = rdrService.buscarRDRRodadas("A", "SB");
-			/** APERTURA **/
-			
+			listaRDRRodadasAperturaSerieB = rdrService.buscarRDRRodadas("A", "SB");										
 			
 			if(listaRDRRodadasAperturaSerieA != null && !listaRDRRodadasAperturaSerieA.isEmpty()) {
 				for (RDRRodada rdrRodadaSA : listaRDRRodadasAperturaSerieA) {
@@ -114,6 +115,12 @@ public class RDRControl extends BaseControl {
 				}
 			}
 			
+			listaClassificacaoLigaPrincipalAteRodada4 = new ArrayList<ClassificacaoLigaPrincipalDTO>();
+			
+			Integer anoAtual = 2020; //Calendar.getInstance().get(Calendar.YEAR);				
+			listaClassificacaoLigaPrincipalAteRodada4 = inicioService.buscarClassificacaoLigaPrincipalAteRodada4(anoAtual);
+			/** APERTURA **/	
+						
 		} catch (Exception e) {
 			log.error(e);
 			e.printStackTrace();
@@ -669,5 +676,13 @@ public class RDRControl extends BaseControl {
 
 	public void setListaRDRRodadasAperturaSerieB(List<RDRRodada> listaRDRRodadasAperturaSerieB) {
 		this.listaRDRRodadasAperturaSerieB = listaRDRRodadasAperturaSerieB;
+	}
+
+	public List<ClassificacaoLigaPrincipalDTO> getListaClassificacaoLigaPrincipalAteRodada4() {
+		return listaClassificacaoLigaPrincipalAteRodada4;
+	}
+
+	public void setListaClassificacaoLigaPrincipalAteRodada4(List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalAteRodada4) {
+		this.listaClassificacaoLigaPrincipalAteRodada4 = listaClassificacaoLigaPrincipalAteRodada4;
 	}
 }

@@ -15,15 +15,22 @@
     <ui:composition template="/template/layout.xhtml">		
         <ui:define name="conteudo">        
         
-            <h:form id="formPrincipal">     
-                 
-	  			<p:messages id="messages" closable="true" showDetail="false">
+            <h:form id="formPrincipal">	  			
+          		
+          		<center>
+          			<b>Módulo Administrativo do Sistema</b>
+          		</center>   
+          		
+          		<p:messages id="messages" closable="true" showDetail="false">
           			<p:autoUpdate />
           		</p:messages>	
           		
-          		<b>Módulo Administrativo do Sistema</b>    
+          		<p:tabView dynamic="true" cache="true" style="font-size: 12px;">
           		
-          		<p:tabView dynamic="true" cache="true" style="font-size: 12px;">					
+          		 	<p:tab title="Rodada em Andamento">
+						<ui:include src="admin-cad-rodadas.xhtml" />	
+			        </p:tab>
+          							
 					<p:tab title="Times">
 						<ui:include src="admin-aba-servico-times.xhtml" />	
 			        </p:tab>	
