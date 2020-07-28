@@ -21,7 +21,7 @@
           			<p:autoUpdate />
           		</p:messages>		  			
           		
-          		<p:panel header="O Sobrevivente" style="min-width: 300px;">
+          		<p:panel header="O Sobrevivente" style="width: 580px;">
           		
           			<br/>           			
           			
@@ -69,7 +69,7 @@
 					          		
           			<p:panel header="#{osbRodadaControl.novaOsbRodada.nrRodada}ª Rodada em Andamento (PADRÃO)" 
           					 rendered="#{osbRodadaControl.novaOsbRodada != null and 'N'.equals(osbRodadaControl.novaOsbRodada.tipoRodada)}"
-          					 style="min-width: 230px;">
+          					 style="width: 550px;">
           				
           				<p:dataTable var="item" value="#{osbRodadaControl.novaOsbRodada.listaOsbPontuacao}"
 	      			 				 emptyMessage="Não existem dados" rowIndexVar="rowIndex" style="min-width: 210px; ">
@@ -110,7 +110,7 @@
           			
           			<p:panel header="#{osbRodadaControl.novaOsbRodada.nrRodada}ª Rodada em Andamento (REPESCAGEM)" 
           					 rendered="#{osbRodadaControl.novaOsbRodada != null and 'R'.equals(osbRodadaControl.novaOsbRodada.tipoRodada)}"
-          					 style="min-width: 230px;">
+          					 style="width: 550px;">
           				
           				<p:dataTable var="item" value="#{osbRodadaControl.novaOsbRodada.listaOsbPontuacao}"
 	      			 				 emptyMessage="Não existem dados" rowIndexVar="rowIndex" style="min-width: 210px; ">
@@ -162,6 +162,38 @@
 							 		 onclick="PF('dialogExcluirRodada').show();"/>          			
 					
           			<hr style="height: 5px; background-color: red; color: red;"/>				 
+          			
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			
+          			<hr/>
           				          			
 					<h:outputText value="HISTÓRICO DE RODADAS" style="color: red; font-size: 14px; font-weight: bold; background-color: #D3E6FF; 
 																	  border-left: 20px solid #D3E6FF; border-right: 20px solid #D3E6FF;

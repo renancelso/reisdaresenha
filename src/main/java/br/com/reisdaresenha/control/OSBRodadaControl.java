@@ -227,6 +227,7 @@ public class OSBRodadaControl extends BaseControl {
 		return null;
 	}
 	
+	@SuppressWarnings({ "unchecked", "unused" })
 	public String btnOsbNovaRodada() {	
 		
 		listaOsbRodadas = new ArrayList<>();		
@@ -237,15 +238,60 @@ public class OSBRodadaControl extends BaseControl {
 						
 		listaRodadasLigaPrincipal = rodadaService.listarTodasRodadasDesc(buscarLigaPrincipal());	
 		
+		List<Time> listaTimes = new ArrayList<Time>();		
+		listaTimes = (List<Time>) timeService.consultarTodos(new Time().getClass());
+				
+		Long rodadaInicio = new Long(1);
+		
+		switch (listaTimes.size()) {		
+			case 40:
+				rodadaInicio = new Long(1);
+				break;
+			case 39:
+				rodadaInicio = new Long(2);
+				break;
+			case 38:
+				rodadaInicio = new Long(3);
+				break;
+			case 37:
+				rodadaInicio = new Long(4);
+				break;
+			case 36:
+				rodadaInicio = new Long(5);
+				break;
+			case 35:
+				rodadaInicio = new Long(6);
+				break;
+			case 34:
+				rodadaInicio = new Long(7);
+				break;
+			case 33:
+				rodadaInicio = new Long(8);
+				break;
+			case 32:
+				rodadaInicio = new Long(9);
+				break;
+				
+			default:
+				rodadaInicio = new Long(1);
+				break;
+		}
+		
 		if(listaRodadasLigaPrincipal != null 
 				&& !listaRodadasLigaPrincipal.isEmpty()
-				&& listaRodadasLigaPrincipal.get(0).getNrRodada() > listaOsbRodadas.size()) {		
+				&& listaRodadasLigaPrincipal.get(0).getNrRodada() > listaOsbRodadas.size()) {	
+			
+			if(rodadaInicio > listaRodadasLigaPrincipal.get(0).getNrRodada()) {
+				addFatalMessage("O Liga Principal tem apenas "+listaTimes.size()+" times. Portanto a liga 'O Sobrevivente' só iniciará na rodada "+rodadaInicio);
+				return null;
+			}
 		
+			if(novaOsbRodada == null) {	
 				
-			if(novaOsbRodada == null) {					
 				novaOsbRodada = new OSBRodada();
-				novaOsbRodada.setLiga(ligaOSobrevivente);
-				novaOsbRodada.setNrRodada(new Long(listaOsbRodadas.size()+1));									
+				novaOsbRodada.setLiga(ligaOSobrevivente);				
+				novaOsbRodada.setNrRodada(new Long( !listaOsbRodadas.isEmpty() ? (listaOsbRodadas.get(0).getNrRodada()+1) : rodadaInicio) );		
+				
 				novaOsbRodada.setStatusRodada("EA"); //Em Andamento			
 				
 				if(novaOsbRodada.getNrRodada() == 8 || novaOsbRodada.getNrRodada() == 16 || novaOsbRodada.getNrRodada() == 24) { //Repescagem
