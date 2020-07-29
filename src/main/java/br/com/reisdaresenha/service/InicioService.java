@@ -133,7 +133,7 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     	try {
     		
     		String rodadas = "";
-    		for (int i = 1; i <nrRodada; i++) {
+    		for (int i = 1; i <= nrRodada; i++) {
     			rodadas += i+",";
 			}
     		
@@ -240,7 +240,7 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     		List<Object[]> listaClassificacaoLigaPrincipalObject = new ArrayList<>();
     		
     		String rodadas = "";
-    		for (int i = 1; i <nrRodada; i++) {
+    		for (int i = 1;  i <= nrRodada; i++) {
     			rodadas += i+",";
 			}
     		
