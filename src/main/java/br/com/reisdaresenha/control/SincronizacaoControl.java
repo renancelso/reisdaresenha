@@ -163,7 +163,7 @@ public class SincronizacaoControl extends BaseControl {
 				timeCadastrar.setNomeTime(removerAcentos(timeCartolaRestDTO.getNomeTime()));
 				timeCadastrar.setStatusPagamento("P");
 				
-				if(timeService.buscarTimePorNome(timeCadastrar.getNomeTime()) != null) {
+				if(timeService.buscarTimePorIdCartola(timeCadastrar.getIdCartola()) != null) {
 					addErrorMessage("Time "+timeCadastrar.getNomeTime()+" já existe na base de dados.");				
 					timeCadastrar = new Time();
 					return null;

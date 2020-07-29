@@ -199,7 +199,7 @@ public class OSBRodadaControl extends BaseControl {
 			List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO = inicioService.buscarHistoricoClassificacaoRodadas(anoAtual, novaOsbRodada.getNrRodada());
 			
 			for (ClassificacaoLigaPrincipalDTO classDTO : listaClassificacaoLigaPrincipalDTO) {					
-				Time time = timeService.buscarTimePorNome(classDTO.getTime());		
+				Time time = timeService.buscarTimePorIdCartola(classDTO.getIdTimeCartola());		
 				for (OSBPontuacao pontuacao : novaOsbRodada.getListaOsbPontuacao()) {	
 					if(time.getId().equals(pontuacao.getOsbRodadaTimeParticipante().getTime().getId())) {						
 						pontuacao.setVrPontuacao(classDTO.getPontuacao());		
@@ -377,7 +377,7 @@ public class OSBRodadaControl extends BaseControl {
 					
 					OSBRodadaTimeParticipante participante = new OSBRodadaTimeParticipante();		
 					
-					Time time = timeService.buscarTimePorNome(classificacaoLigaPrincipalDTO.getTime());
+					Time time = timeService.buscarTimePorIdCartola(classificacaoLigaPrincipalDTO.getIdTimeCartola());
 					participante.setTime(time);
 					participante.setIdTimeCartola(time.getIdCartola());
 					participante.setNomeTime(classificacaoLigaPrincipalDTO.getTime());
@@ -395,7 +395,7 @@ public class OSBRodadaControl extends BaseControl {
 										
 					boolean timeParticipa = false;					
 					
-					Time timeClassDTO = timeService.buscarTimePorNome(classDTO.getTime());					
+					Time timeClassDTO = timeService.buscarTimePorIdCartola(classDTO.getIdTimeCartola());					
 							
 					OSBPontuacao pontuacao = new OSBPontuacao();
 					
@@ -447,7 +447,7 @@ public class OSBRodadaControl extends BaseControl {
 							
 							OSBRodadaTimeParticipante participante = new OSBRodadaTimeParticipante();		
 							
-							Time time = timeService.buscarTimePorNome(classificacaoLigaPrincipalDTO.getTime());
+							Time time = timeService.buscarTimePorIdCartola(classificacaoLigaPrincipalDTO.getIdTimeCartola());
 							
 							if(!idsTimesEliminados.contains(time.getId())) { // Elimina o ultimos colocados das rodadas anteriores
 								
@@ -470,7 +470,7 @@ public class OSBRodadaControl extends BaseControl {
 												
 							boolean timeParticipa = false;					
 							
-							Time timeClassDTO = timeService.buscarTimePorNome(classDTO.getTime());					
+							Time timeClassDTO = timeService.buscarTimePorIdCartola(classDTO.getIdTimeCartola());					
 									
 							OSBPontuacao pontuacao = new OSBPontuacao();
 							
@@ -515,7 +515,7 @@ public class OSBRodadaControl extends BaseControl {
 						
 						OSBRodadaTimeParticipante participante = new OSBRodadaTimeParticipante();		
 						
-						Time time = timeService.buscarTimePorNome(classificacaoLigaPrincipalDTO.getTime());
+						Time time = timeService.buscarTimePorIdCartola(classificacaoLigaPrincipalDTO.getIdTimeCartola());
 						
 						if(idsTimesEliminados.contains(time.getId())) { // Elimina o ultimos colocados das rodadas anteriores
 							
@@ -538,7 +538,7 @@ public class OSBRodadaControl extends BaseControl {
 											
 						boolean timeParticipa = false;					
 						
-						Time timeClassDTO = timeService.buscarTimePorNome(classDTO.getTime());					
+						Time timeClassDTO = timeService.buscarTimePorIdCartola(classDTO.getIdTimeCartola());					
 								
 						OSBPontuacao pontuacao = new OSBPontuacao();
 						

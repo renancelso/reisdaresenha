@@ -14,7 +14,7 @@
 		       		
       			<p:tab title="LIGA PRINCIPAL">			
      			 	
-     			 	<a href="class-liga-principal" target="_blank" style="color:red;">Abrir tabela da liga Principal</a>
+     			 	<a href="class-liga-principal" target="_blank" style="color:red; font-size: 14px;">Abrir tabela da liga Principal</a>
      			 	
      			 	<br/>
      			 	<br/>
@@ -36,11 +36,7 @@
 						    
 						    <p:column headerText="PG" style="text-align: center; width: 75px;" sortBy="#{item.pontuacao}">
 						        <h:outputText value="#{item.pontuacao}" converter="decimal"/>
-						    </p:column>								   
-						 
-						    <p:column headerText="$" style="text-align: center; width: 75px;" sortBy="#{item.cartoletas}">
-						        <h:outputText value="#{item.cartoletas}" converter="decimal"/>
-						    </p:column>						    
+						    </p:column>		  				    
 						    								   
 						</p:dataTable>
 					</p:panel>   
@@ -54,7 +50,7 @@
       	<p:tabView dynamic="true" cache="true" style="font-size: 12px;">
       		 <p:tab title="O SOBREVIVENTE">	
       		 
-      		 	<a href="class-o-sobrevivente" target="_blank" style="color:red;">Abrir tabela completa da liga 'O SOBREVIVENTE'</a>
+      		 	<a href="class-o-sobrevivente" target="_blank" style="color:red; font-size: 14px;">Abrir tabela completa da liga 'O SOBREVIVENTE'</a>
      			 	
      			<br/>
      			<br/> 
@@ -94,14 +90,14 @@
 								    
 								    <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
 								    		  rendered="#{(rowIndex+1 &lt; var.listaOsbPontuacao.size() and var.nrRodada &lt; 32) or (rowIndex+1 &lt; var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 31 and var.nrRodada &lt; 39)}">
-								        <h:outputText value="CAMPEÃO" rendered="#{var.nrRodada == 38}"/>	
-								        <h:outputText value="CLASSIFICADO" rendered="#{var.nrRodada &lt; 38}"/>
+								        <h:outputText value="C" rendered="#{var.nrRodada == 38}" title="Campeão"/>	
+								        <h:outputText value="C" rendered="#{var.nrRodada &lt; 38}" title="Classificado"/>
 								    </p:column>		
 								    
 								    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
 								   			  rendered="#{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 31 and var.nrRodada &lt; 39)}">
-								       <h:outputText value="ELIMINADO" rendered="#{var.nrRodada &lt; 38 or (var.nrRodada == 38 and rowIndex+1 == var.listaOsbPontuacao.size())}"/>	
-								       <h:outputText value="VICE-CAMPEÃO" rendered="#{var.nrRodada == 38 and rowIndex+1 == var.listaOsbPontuacao.size()-1}"/>	
+								       <h:outputText value="E" rendered="#{var.nrRodada &lt; 38 or (var.nrRodada == 38 and rowIndex+1 == var.listaOsbPontuacao.size())}" title="Eliminado"/>	
+								       <h:outputText value="VC" rendered="#{var.nrRodada == 38 and rowIndex+1 == var.listaOsbPontuacao.size()-1}" title="Vice-Campeão"/>	
 								    </p:column>					 				    
 																	   
 								</p:dataTable> 
@@ -159,151 +155,7 @@
       	
       		<p:tab title="LIGA REIS DA RESENHA" >	
       		      	     			
-    			<a href="class-reis-da-resenha" target="_blank" style="color:red;">Abrir tabela da liga 'Reis da Resenha'</a>
-    			 	
-     			<br/>
-     			<br/> 
-    							       			 			       			 			
-   			 	<p:panel header="Classificação da Liga Reis da Resenha" 
-   			 			 toggleable="true" toggleableHeader="true" toggleTitle="Clique para minimizar ou maximizar">	 
-   			 		
-	   			 	<p:tabView dynamic="true" cache="true" style="font-size: 12px;"
-	          				   rendered="#{rdrControl.listaParticipantesAperturaSerieA != null 
-       										and rdrControl.listaParticipantesAperturaSerieB != null
-       										and rdrControl.listaClassificacaoAperturaSerieA != null  
-											and rdrControl.listaClassificacaoAperturaSerieB != null
-											and rdrControl.listaRDRRodadasAperturaSerieA != null
-											and rdrControl.listaRDRRodadasAperturaSerieB != null}">		
-											
-						<p:tab title="Série A - Apertura">		
-							
-							<p:panel header="Classificacao Serie A - Apertura">	
-																
-								<p:dataTable var="item" value="#{rdrControl.listaClassificacaoAperturaSerieA}"
-				      			 		 	 emptyMessage="Não existem dados" rowIndexVar="rowIndex" >
-				      			 					     		    			 					 
-					  			 	<p:column headerText="#" style="text-align: center; width: 30px; " >
-							        	<h:outputText value="#{rowIndex+1} " style="font-weight: bold;"/> 
-								    </p:column>	
-								    
-								    <p:column headerText="Time" style="width: 200px;">
-								   		<img src="#{item.rdrParticipante.time.urlEscudoPng}" alt="" style="width: 20px;"/> 
-						 		  		<h:outputText value="#{item.rdrParticipante.nomeTime} (#{item.rdrParticipante.time.nomeDonoTime})"/>
-						 		  	</p:column>    
-						 		  	
-						 		  	<p:column headerText="PG" style="text-align: center; width: 50px; background-color: #ADD8E6; font-weight: bold;">								   		
-						 		  		<h:outputText value="#{item.vrPontos.intValue()}" title="Pontos" />
-						 		  	</p:column>    
-						 		  	
-						 		  	<p:column headerText="J" style="text-align: center; width: 50px;">								   		
-						 		  		<h:outputText value="#{item.qtdJogosDisputados}" title="Jogos"/>
-						 		  	</p:column>  
-						 		  	
-						 		  	
-						 		  	<p:column headerText="V" style="text-align: center; width: 50px;">								   		
-						 		  		<h:outputText value="#{item.qtdVitorias}" title="Vitórias"/>
-						 		  	</p:column> 
-						 		  	
-						 		  	
-						 		  	<p:column headerText="E" style="text-align: center; width: 50px;">								   		
-						 		  		<h:outputText value="#{item.qtdEmpates}" title="Empates"/>
-						 		  	</p:column> 
-						 		  	
-						 		  	
-						 		  	<p:column headerText="D" style="text-align: center; width: 50px;">								   		
-						 		  		<h:outputText value="#{item.qtdDerrotas}" title="Derrotas"/>
-						 		  	</p:column> 
-						 		  	
-						 		  	<p:column headerText="C. Des." style="text-align: center; width: 80px;">								   		
-						 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao no Cartola FC para critério de desempate"/>
-						 		  	</p:column> 
-							    								   
-								</p:dataTable>	
-							
-							</p:panel>													
-														
-							<hr/>							
-														
-				        </p:tab>	
-				        
-				        <p:tab title="Série B - Apertura">
-				        	
-					        <p:panel header="Classificacao Serie B - Apertura" >
-								
-								<p:dataTable var="item" value="#{rdrControl.listaClassificacaoAperturaSerieB}"
-					      			 		 emptyMessage="Não existem dados" rowIndexVar="rowIndex">
-					      			 					     		    			 					 
-					  			 	<p:column headerText="#" style="text-align: center; width: 30px;" >
-							        	<h:outputText value="#{rowIndex+1} " style="font-weight: bold;"/> 
-								    </p:column>	
-								    
-								    <p:column headerText="Time" style="width: 200px;">
-								   		<img src="#{item.rdrParticipante.time.urlEscudoPng}" alt="" style="width: 20px;"/> 
-						 		  		<h:outputText value="#{item.rdrParticipante.nomeTime} (#{item.rdrParticipante.time.nomeDonoTime})"/>
-						 		  	</p:column>    
-						 		  	
-						 		  	<p:column headerText="PG" style="text-align: center; width: 50px; background-color: #ADD8E6; font-weight: bold;">								   		
-						 		  		<h:outputText value="#{item.vrPontos.intValue()}" title="Pontos"/>
-						 		  	</p:column>    
-						 		  	
-						 		  	<p:column headerText="J" style="text-align: center; width: 50px;">								   		
-						 		  		<h:outputText value="#{item.qtdJogosDisputados}" title="Jogos"/>
-						 		  	</p:column>  
-						 		  	
-						 		  	
-						 		  	<p:column headerText="V" style="text-align: center; width: 50px;">								   		
-						 		  		<h:outputText value="#{item.qtdVitorias}" title="Vitórias"/>
-						 		  	</p:column> 						 		  	
-						 		  	
-						 		  	<p:column headerText="E" style="text-align: center; width: 50px;">								   		
-						 		  		<h:outputText value="#{item.qtdEmpates}" title="Empates"/>
-						 		  	</p:column> 
-						 		  							 		  	
-						 		  	<p:column headerText="D" style="text-align: center; width: 50px;">								   		
-						 		  		<h:outputText value="#{item.qtdDerrotas}" title="Derrotas"/>
-						 		  	</p:column>  
-						 		  	
-						 		  	<p:column headerText="C. Des." style="text-align: center; width: 80px;">								   		
-						 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao no Cartola FC para critério de desempate"/>
-						 		  	</p:column> 
-								    								   
-								</p:dataTable>							
-							
-							</p:panel>
-							
-							<hr/>							
-														
-				        </p:tab>
-				        
-				        <p:tab title="Participantes - Apertura">
-							
-							<h:panelGrid columns="1">
-								<p:panel header="Serie A">
-			          				<p:repeat var="item" value="#{rdrControl.listaParticipantesAperturaSerieA}" varStatus="var">	 	
-							 		  	<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
-							 		  	<img src="#{item.time.urlEscudoPng}" alt="" style="width: 20px;"/> 
-							 		  	<h:outputText value="#{item.time.nomeTime} (#{item.time.nomeDonoTime})"/>		
-						 		  		<br/>
-						 		  		<br/>
-				 		  			</p:repeat>	
-			          			</p:panel>
-		          			
-			          			<p:panel header="Serie B">
-			          				<p:repeat var="item" value="#{rdrControl.listaParticipantesAperturaSerieB}" varStatus="var">	 	
-							 		  	<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
-							 		  	<img src="#{item.time.urlEscudoPng}" alt="" style="width: 20px;"/> 
-							 		  	<h:outputText value="#{item.time.nomeTime} (#{item.time.nomeDonoTime})"/>
-						 		  		<br/>
-						 		  		<br/>
-				 		  			</p:repeat>	
-			          			</p:panel>	
-		          			</h:panelGrid>					
-						
-						</p:tab>
-				           	        
-			        </p:tabView>     
-					
-				</p:panel>					
+    			<a href="class-reis-da-resenha" target="_blank" style="color:red; font-size: 14px;">Clique para abrir tabela da liga 'Reis da Resenha'</a>
                   
      		</p:tab>
      			

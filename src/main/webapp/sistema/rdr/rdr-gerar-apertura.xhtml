@@ -286,7 +286,7 @@
 					 		  		<p:repeat var="rdrPontuacao" value="#{rdrRodada.listaRDRPontuacao}">	
 					 		  				
 						 		  		<h:panelGrid columns="3">	
-							 		  			<p:panel style="width: 300px; text-align: right; border: 0px; 
+							 		  			<p:panel style="width: 330px; text-align: right; border: 0px; 
 							 		  							#{rdrPontuacao.rdrParticipanteTimeVencedor.id.equals(rdrPontuacao.rdrParticipanteTimeCasa.id) ? 'background-color: #ADD8E6;' 
 							 		  							: rdrPontuacao.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
 							 		  							: 'background-color: #FFB6C1;'}">
@@ -298,7 +298,7 @@
 								 		  						 		  								 		  				
 							 		  			<b>x</b> 	
 							 		  			
-							 		  			<p:panel style="width: 300px; text-align: left; border: 0px; 
+							 		  			<p:panel style="width: 330px; text-align: left; border: 0px; 
 							 		  							#{rdrPontuacao.rdrParticipanteTimeVencedor.id.equals(rdrPontuacao.rdrParticipanteTimeFora.id) ? 'background-color: #ADD8E6;' 
 							 		  							: rdrPontuacao.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
 							 		  							: 'background-color: #FFB6C1;' }"
@@ -365,11 +365,7 @@
 									    <p:column headerText="PG" style="text-align: center; width: 75px; #{item.colocacao.intValue() > 32 ? 'background-color: #FFB6C1;' : ''}" sortBy="#{item.pontuacao}">
 									        <h:outputText value="#{item.pontuacao}" converter="decimal"/>
 									    </p:column>								   
-									 
-									    <p:column headerText="$" style="text-align: center; width: 75px; #{item.colocacao.intValue() > 32 ? 'background-color: #FFB6C1;' : ''}" sortBy="#{item.cartoletas}">
-									        <h:outputText value="#{item.cartoletas}" converter="decimal"/>
-									    </p:column>						    
-									    								   
+									 									  					   
 									</p:dataTable>			          			
 			          				
 		          				</p:panel> 
@@ -379,8 +375,6 @@
 						</p:tab>
 				           	        
 			        </p:tabView> 
-			        
-			          
 	          		          		
           		</p:panel>	
 	                             

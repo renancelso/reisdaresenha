@@ -87,11 +87,12 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     		
     		StringBuilder sql = new StringBuilder();
     		
-    		sql.append(" SELECT t.nome_time time, ");   		  // 0 		    	
-    		sql.append(" count(r.nr_rodada) jogos, "); 			  // 1
-    		sql.append(" t.vr_cartoletasAtuais cartoletas, ");    // 2
+    		sql.append(" SELECT t.nome_time time, ");   		   // 0 		    	
+    		sql.append(" count(r.nr_rodada) jogos, "); 			   // 1
+    		sql.append(" t.vr_cartoletasAtuais cartoletas, ");     // 2
     		sql.append(" round(sum(vr_pontuacao),2) pontuacao, "); // 3  
-    		sql.append(" t.url_escudo_png escudo_time "); //4
+    		sql.append(" t.url_escudo_png escudo_time, "); 		   // 4
+    		sql.append(" t.id_cartola id_cartola "); 		   	   // 5      		
     		sql.append(" FROM pontuacao p inner join time t on p.time = t.id ");
     		sql.append(" inner join liga l on p.liga = l.id ");
     		sql.append(" inner join rodada r on p.rodada = r.id ");
@@ -115,6 +116,7 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     			classificacao.setColocacao(colocacao++); 
 
     			classificacao.setEscudoTime(String.valueOf(obj[4]));
+    			classificacao.setIdTimeCartola(new Long(String.valueOf(obj[5])));   
     			
     			listaClassificacaoLigaPrincipalDTO.add(classificacao);    			
 			}
@@ -143,11 +145,12 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     		
     		StringBuilder sql = new StringBuilder();
     		
-    		sql.append(" SELECT t.nome_time time, ");   		  // 0 		    	
-    		sql.append(" count(r.nr_rodada) jogos, "); 			  // 1
-    		sql.append(" t.vr_cartoletasAtuais cartoletas, ");    // 2
-    		sql.append(" round(sum(vr_pontuacao),2) pontuacao, "); // 3  
-    		sql.append(" t.url_escudo_png escudo_time "); //4
+    		sql.append(" SELECT t.nome_time time, ");   		    // 0 		    	
+    		sql.append(" count(r.nr_rodada) jogos, "); 			    // 1
+    		sql.append(" t.vr_cartoletasAtuais cartoletas, ");      // 2
+    		sql.append(" round(sum(vr_pontuacao),2) pontuacao, ");  // 3  
+    		sql.append(" t.url_escudo_png escudo_time, "); 			// 4
+    		sql.append(" t.id_cartola id_cartola "); 	 			// 5 
     		sql.append(" FROM pontuacao p inner join time t on p.time = t.id ");
     		sql.append(" inner join liga l on p.liga = l.id ");
     		sql.append(" inner join rodada r on p.rodada = r.id ");
@@ -173,6 +176,8 @@ public class InicioService extends GenericService implements InicioServiceLocal 
 
     			classificacao.setEscudoTime(String.valueOf(obj[4]));
     			
+    			classificacao.setIdTimeCartola(new Long(String.valueOf(obj[5])));
+    			
     			listaClassificacaoLigaPrincipalDTO.add(classificacao);    			
 			}
     		    	
@@ -193,11 +198,12 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     		
     		StringBuilder sql = new StringBuilder();
     		
-    		sql.append(" SELECT t.nome_time time, ");   		  // 0 		    	
-    		sql.append(" count(r.nr_rodada) jogos, "); 			  // 1
-    		sql.append(" t.vr_cartoletasAtuais cartoletas, ");    // 2
+    		sql.append(" SELECT t.nome_time time, ");   		   // 0 		    	
+    		sql.append(" count(r.nr_rodada) jogos, "); 			   // 1
+    		sql.append(" t.vr_cartoletasAtuais cartoletas, ");     // 2
     		sql.append(" round(sum(vr_pontuacao),2) pontuacao, "); // 3  
-    		sql.append(" t.url_escudo_png escudo_time "); //4
+    		sql.append(" t.url_escudo_png escudo_time, "); 		   // 4
+    		sql.append(" t.id_cartola id_cartola "); 		   	   // 5  
     		sql.append(" FROM pontuacao p inner join time t on p.time = t.id ");
     		sql.append(" inner join liga l on p.liga = l.id ");
     		sql.append(" inner join rodada r on p.rodada = r.id ");
@@ -220,6 +226,8 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     			classificacao.setColocacao(colocacao++); 
 
     			classificacao.setEscudoTime(String.valueOf(obj[4]));
+    			
+    			classificacao.setIdTimeCartola(new Long(String.valueOf(obj[5])));   
     			
     			listaClassificacaoLigaPrincipalDTO.add(classificacao);    			
 			}
@@ -252,7 +260,8 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     		sql.append(" count(r.nr_rodada) jogos, "); 			   // 1
     		sql.append(" t.vr_cartoletasAtuais cartoletas, ");     // 2
     		sql.append(" round(sum(vr_pontuacao),2) pontuacao, "); // 3  
-    		sql.append(" t.url_escudo_png escudo_time "); 		   // 4   
+    		sql.append(" t.url_escudo_png escudo_time, "); 		   // 4   
+    		sql.append(" t.id_cartola id_cartola "); 		   	   // 5  
     		sql.append(" FROM pontuacao p inner join time t on p.time = t.id ");
     		sql.append(" inner join liga l on p.liga = l.id ");
     		sql.append(" inner join rodada r on p.rodada = r.id ");
@@ -275,7 +284,8 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     			classificacao.setPontuacao(Double.parseDouble(String.valueOf(obj[3])));      			
     			classificacao.setColocacao(colocacao++); 
 
-    			classificacao.setEscudoTime(String.valueOf(obj[4]));
+    			classificacao.setEscudoTime(String.valueOf(obj[4]));    			
+    			classificacao.setIdTimeCartola(new Long(String.valueOf(obj[5])));    			
     			
     			listaClassificacaoLigaPrincipalDTO.add(classificacao);    			
 			}

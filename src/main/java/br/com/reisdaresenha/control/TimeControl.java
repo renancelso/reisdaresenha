@@ -74,6 +74,8 @@ public class TimeControl extends BaseControl {
 		try {			
 			servicoCartola = new CartolaRestFulClient();
 			
+			nomeTime = removerAcentos(nomeTime);
+			
 			Time timeCartola = new Time();
 			timeCartola = servicoCartola.buscarTime(nomeTime);		
 						

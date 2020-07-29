@@ -209,16 +209,101 @@ public class RDRControl extends BaseControl {
 				return null;
 			}
 			
-			/**Série A Clausura**/
-			//listaClassificacaoAperturaSerieA; // Pegar os 8 primeiros
-			//listaClassificacaoAperturaSerieB // Pegar os 8 primeiros
+			/**Série A Clausura - INICIO**/		
+			listaParticipantesClausuraSerieA = new ArrayList<RDRParticipante>();				
+			//Pegar os 8 primeiros da série A da APERTURA			
+			int i = 1;			
+			for (RDRClassificacao rdrClassificacaoAperturaA : listaClassificacaoAperturaSerieA) {				
+				if(i <= 8) {
+					RDRParticipante participante = new RDRParticipante();					
+					Time time = timeService.buscarTimePorIdCartola(rdrClassificacaoAperturaA.getIdCartolaTime());					
+					participante.setTime(time);
+					participante.setNomeTime(time.getNomeTime());				
+					participante.setIdTimeCartola(time.getIdCartola());
+					participante.setFaseLiga("C");								
+					participante.setSerieParticipante("SA");				
+					participante = (RDRParticipante) timeService.atualizar(participante);
+					listaParticipantesClausuraSerieA.add(participante);		
+				} else {
+					break;
+				}				
+				i++;
+			}	
+			////Pegar os 8 primeiros da série B da APERTURA
+			i = 1;
+			for (RDRClassificacao rdrClassificacaoAperturaB : listaClassificacaoAperturaSerieB) {				
+				if(i <= 8) {					
+					RDRParticipante participante = new RDRParticipante();					
+					Time time = timeService.buscarTimePorIdCartola(rdrClassificacaoAperturaB.getIdCartolaTime());					
+					participante.setTime(time);
+					participante.setNomeTime(time.getNomeTime());				
+					participante.setIdTimeCartola(time.getIdCartola());
+					participante.setFaseLiga("C");								
+					participante.setSerieParticipante("SA");				
+					participante = (RDRParticipante) timeService.atualizar(participante);
+					listaParticipantesClausuraSerieA.add(participante);	
+				} 			
+				i++;
+			}
+			/**Série A Clausura - FIM**/
 			
+			/********************************************************************************/
 			
-			/**Série B Clausura**/
-			//listaClassificacaoAperturaSerieA; // Pegar os 8 ultimos
-			//listaClassificacaoAperturaSerieB;  Eliminar de vez os "(Total de participantes - 32)" últimos classificados da série B
-			//listaClassificacaoLigaPrincipalAteRodada4 // Pegar os "(participantes menos 32) ultimos e adicionar na serie B da clausura
+			/**Série B Clausura - INICIO**/
+			listaParticipantesClausuraSerieB = new ArrayList<RDRParticipante>();
+			// Pegar os 8 ultimos da serie A
+			i = 1;			
+			for (RDRClassificacao rdrClassificacaoAperturaA : listaClassificacaoAperturaSerieA) {				
+				if(i > 8) {					
+					RDRParticipante participante = new RDRParticipante();					
+					Time time = timeService.buscarTimePorIdCartola(rdrClassificacaoAperturaA.getIdCartolaTime());					
+					participante.setTime(time);
+					participante.setNomeTime(time.getNomeTime());				
+					participante.setIdTimeCartola(time.getIdCartola());
+					participante.setFaseLiga("C");								
+					participante.setSerieParticipante("SB");				
+					participante = (RDRParticipante) timeService.atualizar(participante);	
+					listaParticipantesClausuraSerieB.add(participante);	
+				} 			
+				i++;
+			}	
 			
+			i = 8 - (listaClassificacaoLigaPrincipalAteRodada4.size()-32);		
+			for (int j = 0; j < listaClassificacaoAperturaSerieB.size(); j++) {
+				if(j > 7 && i > 0) {
+					RDRParticipante participante = new RDRParticipante();					
+					Time time = timeService.buscarTimePorIdCartola(listaClassificacaoAperturaSerieB.get(j).getIdCartolaTime());		
+					participante.setTime(time);
+					participante.setNomeTime(time.getNomeTime());				
+					participante.setIdTimeCartola(time.getIdCartola());
+					participante.setFaseLiga("C");								
+					participante.setSerieParticipante("SB");				
+					participante = (RDRParticipante) timeService.atualizar(participante);						
+					listaParticipantesClausuraSerieB.add(participante);	
+					i--;
+				}
+			}		
+			
+			//listaClassificacaoLigaPrincipalAteRodada4 // Pegar os ultimos "(total de participantes - 32 até a 4ª rodada)" e adicionar na clausura
+			i = 1;	
+			for (ClassificacaoLigaPrincipalDTO classificacaoteRodada4 : listaClassificacaoLigaPrincipalAteRodada4) {					
+				if(i > 32) {	
+					RDRParticipante participante = new RDRParticipante();					
+					Time time = timeService.buscarTimePorIdCartola(classificacaoteRodada4.getIdTimeCartola());					
+					participante.setTime(time);
+					participante.setNomeTime(time.getNomeTime());				
+					participante.setIdTimeCartola(time.getIdCartola());
+					participante.setFaseLiga("C");								
+					participante.setSerieParticipante("SB");				
+					participante = (RDRParticipante) timeService.atualizar(participante);						
+					listaParticipantesClausuraSerieB.add(participante);	
+				} 			
+				i++;
+			}		
+			
+			/**Série B Clausura - FIM**/
+			
+			init();
 			
 		} catch (Exception e) {			
 			addErrorMessage("ERRO AO GERAR CLAUSURA.");
@@ -264,7 +349,7 @@ public class RDRControl extends BaseControl {
 			for (int i = 0; i < listaClassificacaoLigaPrincipalDTO.size(); i++) {					
 				if(i < 32) {					
 					RDRParticipante participante = new RDRParticipante();					
-					Time time = timeService.buscarTimePorNome(listaClassificacaoLigaPrincipalDTO.get(i).getTime());
+					Time time = timeService.buscarTimePorIdCartola(listaClassificacaoLigaPrincipalDTO.get(i).getIdTimeCartola());
 					
 					participante.setTime(time);
 					participante.setNomeTime(time.getNomeTime());				
@@ -286,11 +371,99 @@ public class RDRControl extends BaseControl {
 				}
 			}		
 			
-			
+			init();
 		} catch (Exception e) {			
 			addErrorMessage("ERRO AO GERAR APERTURA.");
 			log.error(e);
 		}		
+		return null;
+	}
+	
+	public String btnGerarClassificacaoETabelaClausura() {
+		try {		
+			
+			if(listaParticipantesClausuraSerieA != null && !listaParticipantesClausuraSerieA.isEmpty() 
+			   && listaParticipantesClausuraSerieB != null && !listaParticipantesClausuraSerieB.isEmpty()) {				
+				
+				if(listaClassificacaoClausuraSerieA == null) {
+					listaClassificacaoClausuraSerieA = new ArrayList<RDRClassificacao>();
+				}
+			
+				// Gera Classificacao Inicial				
+				for (RDRParticipante rdrParticipanteA : listaParticipantesClausuraSerieA) {	
+					
+					RDRClassificacao classificacaoClausuraSerieA = new RDRClassificacao();					
+					classificacaoClausuraSerieA.setSerie(rdrParticipanteA.getSerieParticipante());
+					classificacaoClausuraSerieA.setFaseLiga(rdrParticipanteA.getFaseLiga());
+					classificacaoClausuraSerieA.setQtdJogosDisputados(new Long(0));					
+					classificacaoClausuraSerieA.setQtdDerrotas(new Long(0));
+					classificacaoClausuraSerieA.setQtdVitorias(new Long(0));
+					classificacaoClausuraSerieA.setQtdEmpates(new Long(0));
+					classificacaoClausuraSerieA.setVrPontos(0.0);					
+					classificacaoClausuraSerieA.setRdrParticipante(rdrParticipanteA);	
+					
+					classificacaoClausuraSerieA.setNomeTime(rdrParticipanteA.getTime().getNomeTime());
+					classificacaoClausuraSerieA.setNomeDonoTime(rdrParticipanteA.getTime().getNomeDonoTime());
+					classificacaoClausuraSerieA.setIdCartolaTime(rdrParticipanteA.getIdTimeCartola());
+					
+					classificacaoClausuraSerieA.setNrRodadaAtual(new Long(1));
+					
+					classificacaoClausuraSerieA = (RDRClassificacao) rdrService.atualizar(classificacaoClausuraSerieA);
+										
+					listaClassificacaoClausuraSerieA.add(classificacaoClausuraSerieA);		
+					
+					atualizarRDRClassificacao(classificacaoClausuraSerieA.getFaseLiga(), classificacaoClausuraSerieA.getSerie(), new Long(1));
+				}	
+				
+				if(listaClassificacaoClausuraSerieB == null) {
+					listaClassificacaoClausuraSerieB = new ArrayList<RDRClassificacao>();
+				}
+				
+				for (RDRParticipante rdrParticipanteB : listaParticipantesClausuraSerieB) {		
+					
+					RDRClassificacao classificacaoClausuraSerieB = new RDRClassificacao();					
+					classificacaoClausuraSerieB.setSerie(rdrParticipanteB.getSerieParticipante());
+					classificacaoClausuraSerieB.setFaseLiga(rdrParticipanteB.getFaseLiga());
+					classificacaoClausuraSerieB.setQtdJogosDisputados(new Long(0));					
+					classificacaoClausuraSerieB.setQtdDerrotas(new Long(0));
+					classificacaoClausuraSerieB.setQtdVitorias(new Long(0));
+					classificacaoClausuraSerieB.setQtdEmpates(new Long(0));	
+					classificacaoClausuraSerieB.setVrPontos(0.0);					
+					classificacaoClausuraSerieB.setRdrParticipante(rdrParticipanteB);	
+					
+					classificacaoClausuraSerieB.setNomeTime(rdrParticipanteB.getTime().getNomeTime());
+					classificacaoClausuraSerieB.setNomeDonoTime(rdrParticipanteB.getTime().getNomeDonoTime());
+					classificacaoClausuraSerieB.setIdCartolaTime(rdrParticipanteB.getIdTimeCartola());
+					
+					classificacaoClausuraSerieB.setNrRodadaAtual(new Long(1));
+					
+					classificacaoClausuraSerieB = (RDRClassificacao) rdrService.atualizar(classificacaoClausuraSerieB);
+					
+					listaClassificacaoClausuraSerieB.add(classificacaoClausuraSerieB);		
+					
+					atualizarRDRClassificacao(classificacaoClausuraSerieB.getFaseLiga(), classificacaoClausuraSerieB.getSerie(), new Long(1));
+				}	
+				
+				//GERAR TABELA Clausura SERIE A
+				if(!gerarTabela(listaParticipantesClausuraSerieA, "C", "SA")) { // String tipoRodada ("A" ou "B"), String serie("SA" ou "SB")
+					addErrorMessage("ERRO AO GERAR TABELA DE JOGOS");
+				}	
+				
+				//GERAR TABELA Clausura SERIE B
+				if(!gerarTabela(listaParticipantesClausuraSerieB, "C", "SB")) { // String tipoRodada ("A" ou "B"), String serie("SA" ou "SB")
+					addErrorMessage("ERRO AO GERAR TABELA DE JOGOS");
+				}	
+				
+				addInfoMessage("Classificação e Tabela da fase Clausura geradas com sucesso");				
+			}
+			
+			init();
+			
+		} catch (Exception e) {			
+			addErrorMessage("ERRO AO GERAR CLAUSURA.");			
+			log.error(e);
+			init();
+		}			
 		return null;
 	}
 	
@@ -396,6 +569,14 @@ public class RDRControl extends BaseControl {
 				listaRDRRodadasAperturaSerieB = new ArrayList<RDRRodada>();
 			}
 			
+			if(listaRDRRodadasClausuraSerieA == null) {
+				listaRDRRodadasClausuraSerieA = new ArrayList<RDRRodada>();
+			}
+			
+			if(listaRDRRodadasClausuraSerieB == null) {
+				listaRDRRodadasClausuraSerieB = new ArrayList<RDRRodada>();
+			}
+			
 			List<RDRParticipante> listaParticipantesGerarTabelaAUX = listaParticipantes;
 			
 			int t = listaParticipantesGerarTabelaAUX.size();
@@ -432,12 +613,11 @@ public class RDRControl extends BaseControl {
 					} 					
 				}
 				
-				/** Falta implementar a Clausura **/
 				if("C".equalsIgnoreCase(rdrRodada.getTipoRodada())) { // CLAUSURA				
 					if("SA".equalsIgnoreCase(rdrRodada.getSerieRodada())) {
-						
+						listaRDRRodadasClausuraSerieA.add(rdrRodada);
 					} else if("SB".equalsIgnoreCase(rdrRodada.getSerieRodada())) {
-												
+						listaRDRRodadasClausuraSerieB.add(rdrRodada);						
 					} 					
 				}				
 								
