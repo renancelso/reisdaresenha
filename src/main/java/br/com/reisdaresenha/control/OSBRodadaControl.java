@@ -279,7 +279,7 @@ public class OSBRodadaControl extends BaseControl {
 		
 		if(listaRodadasLigaPrincipal != null 
 				&& !listaRodadasLigaPrincipal.isEmpty()
-				&& listaRodadasLigaPrincipal.get(0).getNrRodada() > listaOsbRodadas.size()) {	
+				&& listaRodadasLigaPrincipal.get(0).getNrRodada() > (!listaOsbRodadas.isEmpty() ? listaOsbRodadas.get(0).getNrRodada() : listaOsbRodadas.size())) {	
 			
 			if(rodadaInicio > listaRodadasLigaPrincipal.get(0).getNrRodada()) {
 				addFatalMessage("O Liga Principal tem apenas "+listaTimes.size()+" times. Portanto a liga 'O Sobrevivente' só iniciará na rodada "+rodadaInicio);

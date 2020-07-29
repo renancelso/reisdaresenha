@@ -21,6 +21,7 @@
 							     onsuccess="PF('dialogProcessando').hide();"
 						 		 onerror="PF('dialogProcessando').hide();"
 						 		 update="@form" id="btnNovaRodada"
+						 		 rendered="#{rodadaControl.listaRodadas.size() &lt; 38}"
 						 		 action="#{rodadaControl.btnNovaRodada}"/>
 							 		 
 				<br/>   

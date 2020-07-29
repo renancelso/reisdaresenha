@@ -46,6 +46,12 @@ public class Pontuacao implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="rodada")
 	private Rodada rodada;
+	
+	@Column(name="nome_time")
+	private String nomeTime;
+	
+	@Column(name="id_cartola")
+	private Long idCartola;
 
 	public Long getId() {
 		return id;
@@ -101,6 +107,23 @@ public class Pontuacao implements Serializable {
 
 	public void setRodada(Rodada rodada) {
 		this.rodada = rodada;
+	}
+
+	public String getNomeTime() {
+		return nomeTime;
+	}
+
+	public void setNomeTime(String nomeTime) {
+		this.nomeTime = nomeTime;
+	}	
+	
+
+	public Long getIdCartola() {
+		return idCartola;
+	}
+
+	public void setIdCartola(Long idCartola) {
+		this.idCartola = idCartola;
 	}
 
 	@Override

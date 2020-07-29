@@ -190,7 +190,7 @@ public class RodadaControl extends BaseControl {
 //				rodadaService.atualizar(pontuacao.getTime());	
 //			}	
 //			btnSalvarRodada();
-			//btnFinalizarRodada();			
+//			btnFinalizarRodada();			
 			//MOCK
 						
 			init();
@@ -280,7 +280,7 @@ public class RodadaControl extends BaseControl {
 				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);
 				
 				pontuacao.getTime().setVrCartoletasAtuais(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);	
-				
+								
 				rodadaService.atualizar(pontuacao.getTime());				
 			}		
 			
@@ -324,6 +324,9 @@ public class RodadaControl extends BaseControl {
 					pontuacao.setRodada(novaRodada);
 					pontuacao.setTime(time);
 					
+					pontuacao.setNomeTime(pontuacao.getTime().getNomeTime());					
+					pontuacao.setIdCartola(pontuacao.getTime().getIdCartola());
+					
 					pontuacao = (Pontuacao) rodadaService.atualizar(pontuacao);
 					
 					//pontuacao.setVrCartoletas();
@@ -357,6 +360,10 @@ public class RodadaControl extends BaseControl {
 									
 			for (Pontuacao pontuacao : lista) {
 				pontuacao.setRodada(novaRodada);
+				
+				pontuacao.setNomeTime(pontuacao.getTime().getNomeTime());					
+				pontuacao.setIdCartola(pontuacao.getTime().getIdCartola());
+				
 				rodadaService.atualizar(pontuacao);				
 			}	
 			
@@ -398,7 +405,12 @@ public class RodadaControl extends BaseControl {
 						
 			for (Pontuacao pontuacao : lista) {
 				pontuacao.setRodada(novaRodada);
-				rodadaService.atualizar(pontuacao);				
+				
+				pontuacao.setNomeTime(pontuacao.getTime().getNomeTime());					
+				pontuacao.setIdCartola(pontuacao.getTime().getIdCartola());
+				
+				rodadaService.atualizar(pontuacao);			
+				
 				pontuacao.getTime().setVrCartoletasAtuais(pontuacao.getVrCartoletas());				
 				rodadaService.atualizar(pontuacao.getTime());				
 			}				

@@ -102,43 +102,7 @@ public class RDRControl extends BaseControl {
 			log.error(e);
 			e.printStackTrace();
 		}
-	}
-	
-	private void buscarInformacoesClausura(Integer anoAtual) {
-		
-		/** CLAUSURA **/
-		listaParticipantesClausuraSerieA = new ArrayList<RDRParticipante>();
-		listaParticipantesClausuraSerieA = rdrService.buscarRDRParticipantes("C", "SA");
-		
-		listaParticipantesClausuraSerieB = new ArrayList<RDRParticipante>();
-		listaParticipantesClausuraSerieB = rdrService.buscarRDRParticipantes("C", "SB");
-					
-		listaClassificacaoClausuraSerieA = new ArrayList<RDRClassificacao>();	
-		listaClassificacaoClausuraSerieA = rdrService.buscarRDRClassificacao("C", "SA");
-		
-		listaClassificacaoClausuraSerieB = new ArrayList<RDRClassificacao>();
-		listaClassificacaoClausuraSerieB = rdrService.buscarRDRClassificacao("C", "SB");
-		
-		listaRDRRodadasClausuraSerieA = new ArrayList<RDRRodada>();	
-		listaRDRRodadasClausuraSerieA = rdrService.buscarRDRRodadas("C", "SA");
-		
-		listaRDRRodadasClausuraSerieB = new ArrayList<RDRRodada>();
-		listaRDRRodadasClausuraSerieB = rdrService.buscarRDRRodadas("C", "SB");										
-		
-		if(listaRDRRodadasClausuraSerieA != null && !listaRDRRodadasClausuraSerieA.isEmpty()) {
-			for (RDRRodada rdrRodadaSA : listaRDRRodadasClausuraSerieA) {
-				rdrRodadaSA.setListaRDRPontuacao(rdrService.buscarRDRPontuacaoPorRodada(rdrRodadaSA));
-			}
-		}
-		
-		if(listaRDRRodadasClausuraSerieB != null && !listaRDRRodadasClausuraSerieB.isEmpty()) {				
-			for (RDRRodada rdrRodadaSB : listaRDRRodadasClausuraSerieB) {
-				rdrRodadaSB.setListaRDRPontuacao(rdrService.buscarRDRPontuacaoPorRodada(rdrRodadaSB));
-			}
-		}
-		/** CLAUSURA **/
-		
-	}
+	}	
 
 	private void buscarInformacoesApertura(Integer anoAtual) {
 		
@@ -182,6 +146,42 @@ public class RDRControl extends BaseControl {
 		
 	}
 	
+	private void buscarInformacoesClausura(Integer anoAtual) {
+		
+		/** CLAUSURA **/
+		listaParticipantesClausuraSerieA = new ArrayList<RDRParticipante>();
+		listaParticipantesClausuraSerieA = rdrService.buscarRDRParticipantes("C", "SA");
+		
+		listaParticipantesClausuraSerieB = new ArrayList<RDRParticipante>();
+		listaParticipantesClausuraSerieB = rdrService.buscarRDRParticipantes("C", "SB");
+					
+		listaClassificacaoClausuraSerieA = new ArrayList<RDRClassificacao>();	
+		listaClassificacaoClausuraSerieA = rdrService.buscarRDRClassificacao("C", "SA");
+		
+		listaClassificacaoClausuraSerieB = new ArrayList<RDRClassificacao>();
+		listaClassificacaoClausuraSerieB = rdrService.buscarRDRClassificacao("C", "SB");
+		
+		listaRDRRodadasClausuraSerieA = new ArrayList<RDRRodada>();	
+		listaRDRRodadasClausuraSerieA = rdrService.buscarRDRRodadas("C", "SA");
+		
+		listaRDRRodadasClausuraSerieB = new ArrayList<RDRRodada>();
+		listaRDRRodadasClausuraSerieB = rdrService.buscarRDRRodadas("C", "SB");										
+		
+		if(listaRDRRodadasClausuraSerieA != null && !listaRDRRodadasClausuraSerieA.isEmpty()) {
+			for (RDRRodada rdrRodadaSA : listaRDRRodadasClausuraSerieA) {
+				rdrRodadaSA.setListaRDRPontuacao(rdrService.buscarRDRPontuacaoPorRodada(rdrRodadaSA));
+			}
+		}
+		
+		if(listaRDRRodadasClausuraSerieB != null && !listaRDRRodadasClausuraSerieB.isEmpty()) {				
+			for (RDRRodada rdrRodadaSB : listaRDRRodadasClausuraSerieB) {
+				rdrRodadaSB.setListaRDRPontuacao(rdrService.buscarRDRPontuacaoPorRodada(rdrRodadaSB));
+			}
+		}
+		/** CLAUSURA **/
+		
+	}
+	
 	public String btnGerarParticipantesClausura() {	
 		try {							
 			Rodada decimaNonaRodadaFinalizada = null;			
@@ -203,6 +203,17 @@ public class RDRControl extends BaseControl {
 				addFatalMessage("Não é possivel gerar a CLAUSURA antes da 19ª rodada do Cartola FC ser finalizada.");				
 				return null;
 			}
+			
+			/**Série A Clausura**/
+			//listaClassificacaoAperturaSerieA; // Pegar os 8 primeiros
+			//listaClassificacaoAperturaSerieB // Pegar os 8 primeiros
+			
+			
+			/**Série B Clausura**/
+			//listaClassificacaoAperturaSerieA; // Pegar os 8 ultimos
+			//listaClassificacaoAperturaSerieB;  Eliminar de vez os "(Total de participantes - 32)" últimos classificados da série B
+			//listaClassificacaoLigaPrincipalAteRodada4 // Pegar os "(participantes menos 32) ultimos e adicionar na serie B da clausura
+			
 			
 		} catch (Exception e) {			
 			addErrorMessage("ERRO AO GERAR CLAUSURA.");
