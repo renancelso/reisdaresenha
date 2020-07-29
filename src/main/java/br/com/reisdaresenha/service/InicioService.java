@@ -126,6 +126,63 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     		return null;
     	}
     }	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+    public List<ClassificacaoLigaPrincipalDTO> buscarPontuacaoLigaPrincipalTimeAteRodadaX(Integer ano, Time time, Integer nrRodada) {		
+    	try {
+    		
+    		String rodadas = "";
+    		for (int i = 1; i <nrRodada; i++) {
+    			rodadas += i+",";
+			}
+    		
+    		rodadas = rodadas.substring(0, rodadas.length()-1);    		
+    		    		
+    		List<Object[]> listaClassificacaoLigaPrincipalObject = new ArrayList<>();
+    		
+    		StringBuilder sql = new StringBuilder();
+    		
+    		sql.append(" SELECT t.nome_time time, ");   		  // 0 		    	
+    		sql.append(" count(r.nr_rodada) jogos, "); 			  // 1
+    		sql.append(" t.vr_cartoletasAtuais cartoletas, ");    // 2
+    		sql.append(" round(sum(vr_pontuacao),2) pontuacao, "); // 3  
+    		sql.append(" t.url_escudo_png escudo_time "); //4
+    		sql.append(" FROM pontuacao p inner join time t on p.time = t.id ");
+    		sql.append(" inner join liga l on p.liga = l.id ");
+    		sql.append(" inner join rodada r on p.rodada = r.id ");
+    		sql.append(" where l.ano = ").append(ano);
+    		sql.append(" and r.nr_rodada in (").append(rodadas).append(") ");  
+    		sql.append(" and t.id = ").append(time.getId());
+    		sql.append(" group by t.nome_time ");
+    		sql.append(" order by sum(vr_pontuacao) desc ");
+    		    		
+    		listaClassificacaoLigaPrincipalObject = (List<Object[]>) consultarPorQueryNativa(sql.toString(), 0, 0);    		
+    		    		
+    		List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO = new ArrayList<>();
+    	    
+    		Integer colocacao = 1;
+    		for (Object[] obj : listaClassificacaoLigaPrincipalObject) {
+    			
+    			ClassificacaoLigaPrincipalDTO classificacao = new ClassificacaoLigaPrincipalDTO();
+    			classificacao.setTime(String.valueOf(obj[0]));
+    			classificacao.setJogos(Integer.parseInt(String.valueOf(obj[1])));
+    			classificacao.setCartoletas(Double.parseDouble(String.valueOf(obj[2])));
+    			classificacao.setPontuacao(Double.parseDouble(String.valueOf(obj[3])));      			
+    			classificacao.setColocacao(colocacao++); 
+
+    			classificacao.setEscudoTime(String.valueOf(obj[4]));
+    			
+    			listaClassificacaoLigaPrincipalDTO.add(classificacao);    			
+			}
+    		    	
+	    	return listaClassificacaoLigaPrincipalDTO;
+	    	
+    	} catch(Exception e) {
+    		log.error(e);
+    		return null;
+    	}
+    }	
 		
 	@SuppressWarnings("unchecked")
 	@Override
@@ -177,10 +234,17 @@ public class InicioService extends GenericService implements InicioServiceLocal 
 	
 	@SuppressWarnings("unchecked")
 	@Override
-    public List<ClassificacaoLigaPrincipalDTO> buscarClassificacaoLigaPrincipalAteRodada4(Integer ano) {		
+    public List<ClassificacaoLigaPrincipalDTO> buscarClassificacaoLigaPrincipalAteRodadaX(Integer ano, Integer nrRodada) {		
     	try {
     		
     		List<Object[]> listaClassificacaoLigaPrincipalObject = new ArrayList<>();
+    		
+    		String rodadas = "";
+    		for (int i = 1; i <nrRodada; i++) {
+    			rodadas += i+",";
+			}
+    		
+    		rodadas = rodadas.substring(0, rodadas.length()-1);    		
     		
     		StringBuilder sql = new StringBuilder();
     		
@@ -192,10 +256,8 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     		sql.append(" FROM pontuacao p inner join time t on p.time = t.id ");
     		sql.append(" inner join liga l on p.liga = l.id ");
     		sql.append(" inner join rodada r on p.rodada = r.id ");
-    		sql.append(" where l.ano = ").append(ano);    	
-    		
-    		sql.append(" and r.nr_rodada in (1,2,3,4) ");   
-    		
+    		sql.append(" where l.ano = ").append(ano);    	    		
+    		sql.append(" and r.nr_rodada in (").append(rodadas).append(") ");  
     		sql.append(" group by t.nome_time ");
     		sql.append(" order by sum(vr_pontuacao) desc ");
     		    		

@@ -83,6 +83,8 @@ public class RDRControl extends BaseControl {
 	
 	private List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalAteRodada4;	
 	
+	private List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalAteRodada19;	
+	
 		
 	@PostConstruct
 	public void init() {		
@@ -142,7 +144,10 @@ public class RDRControl extends BaseControl {
 		/** APERTURA **/	
 		
 		listaClassificacaoLigaPrincipalAteRodada4 = new ArrayList<ClassificacaoLigaPrincipalDTO>();					
-		listaClassificacaoLigaPrincipalAteRodada4 = inicioService.buscarClassificacaoLigaPrincipalAteRodada4(anoAtual);
+		listaClassificacaoLigaPrincipalAteRodada4 = inicioService.buscarClassificacaoLigaPrincipalAteRodadaX(anoAtual, 4);
+		
+		listaClassificacaoLigaPrincipalAteRodada19 = new ArrayList<ClassificacaoLigaPrincipalDTO>();					
+		listaClassificacaoLigaPrincipalAteRodada19 = inicioService.buscarClassificacaoLigaPrincipalAteRodadaX(anoAtual, 19);
 		
 	}
 	
@@ -250,7 +255,7 @@ public class RDRControl extends BaseControl {
 			
 			Integer anoAtual = 2020; //Calendar.getInstance().get(Calendar.YEAR);				
 			
-			listaClassificacaoLigaPrincipalDTO = inicioService.buscarClassificacaoLigaPrincipalAteRodada4(anoAtual);	
+			listaClassificacaoLigaPrincipalDTO = inicioService.buscarClassificacaoLigaPrincipalAteRodadaX(anoAtual,4);	
 			
 			listaParticipantesAperturaSerieA = new ArrayList<RDRParticipante>();
 			
@@ -582,8 +587,7 @@ public class RDRControl extends BaseControl {
 			}
 			
 			atualizarRDRClassificacao(rdrRodadaAtualizarPontuacao.getTipoRodada(), rdrRodadaAtualizarPontuacao.getSerieRodada(), rdrRodadaAtualizarPontuacao.getNrRDRRodada());
-			
-			
+						
 			Rodada rodadaPrincipal = new Rodada();
 			rodadaPrincipal = rodadaService.buscarRodadaDaLigaPrincipalEspecifica(rdrRodadaAtualizarPontuacao.getNrRodadaCartola());			
 			
@@ -663,12 +667,18 @@ public class RDRControl extends BaseControl {
 			
 			Integer anoAtual = 2020; // Calendar.getInstance().get(Calendar.YEAR);
 			
-			List<ClassificacaoLigaPrincipalDTO> listaClassificacaoPrincipal = inicioService.buscarPontuacaoLigaPrincipalTime(anoAtual, rdrClassificacao.getRdrParticipante().getTime());
+			List<ClassificacaoLigaPrincipalDTO> listaClassificacaoPrincipalAteRodadaX = new ArrayList<ClassificacaoLigaPrincipalDTO>();
+			
+			if("A".equalsIgnoreCase(fase)) {
+				listaClassificacaoPrincipalAteRodadaX = inicioService.buscarPontuacaoLigaPrincipalTimeAteRodadaX(anoAtual, rdrClassificacao.getRdrParticipante().getTime(),19);
+			} else if("C".equalsIgnoreCase(fase)) {
+				listaClassificacaoPrincipalAteRodadaX = inicioService.buscarPontuacaoLigaPrincipalTime(anoAtual, rdrClassificacao.getRdrParticipante().getTime());
+			}
 			 
 			Double vrPontuacaoAtualLigaPrincipalCartola =  0.0;
 			
-			if(listaClassificacaoPrincipal!= null && !listaClassificacaoPrincipal.isEmpty()) { 
-				vrPontuacaoAtualLigaPrincipalCartola = listaClassificacaoPrincipal.get(0).getPontuacao();
+			if(listaClassificacaoPrincipalAteRodadaX!= null && !listaClassificacaoPrincipalAteRodadaX.isEmpty()) { 
+				vrPontuacaoAtualLigaPrincipalCartola = listaClassificacaoPrincipalAteRodadaX.get(0).getPontuacao();
 			}
 			
 			rdrClassificacao.setVrPontuacaoAtualLigaPrincipalCartola(vrPontuacaoAtualLigaPrincipalCartola);
@@ -848,6 +858,14 @@ public class RDRControl extends BaseControl {
 
 	public void setListaRDRRodadasClausuraSerieB(List<RDRRodada> listaRDRRodadasClausuraSerieB) {
 		this.listaRDRRodadasClausuraSerieB = listaRDRRodadasClausuraSerieB;
+	}
+
+	public List<ClassificacaoLigaPrincipalDTO> getListaClassificacaoLigaPrincipalAteRodada19() {
+		return listaClassificacaoLigaPrincipalAteRodada19;
+	}
+
+	public void setListaClassificacaoLigaPrincipalAteRodada19(List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalAteRodada19) {
+		this.listaClassificacaoLigaPrincipalAteRodada19 = listaClassificacaoLigaPrincipalAteRodada19;
 	}	
 	
 }
