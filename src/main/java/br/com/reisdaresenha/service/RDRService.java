@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 
 import br.com.reisdaresenha.model.RDRClassificacao;
+import br.com.reisdaresenha.model.RDRCopaPontuacao;
 import br.com.reisdaresenha.model.RDRParticipante;
 import br.com.reisdaresenha.model.RDRPontuacao;
 import br.com.reisdaresenha.model.RDRRodada;
@@ -163,6 +164,28 @@ public class RDRService extends GenericService implements RDRServiceLocal {
 					
 			if(listaRDRPontuacao != null && !listaRDRPontuacao.isEmpty()) {
 				return listaRDRPontuacao; 	 
+			}
+			
+			return null;
+			
+		} catch (Exception e) {			
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RDRCopaPontuacao> buscarRDRCopaPontuacao() {
+		try {
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("select o from ").append(RDRCopaPontuacao.class.getSimpleName()).append(" o where 1=1 ");			
+			sql.append(" order by o.nrJogoCopa ");			
+			
+			List<RDRCopaPontuacao> listaRDRCopaPontuacao = (List<RDRCopaPontuacao>) consultarPorQuery(sql.toString(), 0, 0);
+					
+			if(listaRDRCopaPontuacao != null && !listaRDRCopaPontuacao.isEmpty()) {
+				return listaRDRCopaPontuacao; 	 
 			}
 			
 			return null;

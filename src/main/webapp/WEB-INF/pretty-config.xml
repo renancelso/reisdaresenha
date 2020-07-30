@@ -93,6 +93,11 @@
         <pattern value="/rdr-gerar-clausura" />
         <view-id value="/sistema/rdr/rdr-gerar-clausura.jsf" />
     </url-mapping>   
+    
+    <url-mapping id="rdr-gerar-copa">
+        <pattern value="/rdr-gerar-copa" />
+        <view-id value="/sistema/rdr/rdr-gerar-copa.jsf" />
+    </url-mapping> 
               
    	<url-mapping id="logoff">
 	  	<pattern value="/logoff" />

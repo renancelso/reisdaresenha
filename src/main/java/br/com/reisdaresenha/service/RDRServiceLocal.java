@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import br.com.reisdaresenha.model.RDRClassificacao;
+import br.com.reisdaresenha.model.RDRCopaPontuacao;
 import br.com.reisdaresenha.model.RDRParticipante;
 import br.com.reisdaresenha.model.RDRPontuacao;
 import br.com.reisdaresenha.model.RDRRodada;
@@ -26,6 +27,8 @@ public interface RDRServiceLocal extends GenericServiceInterface {
 
 	public RDRClassificacao buscarRDRClassificacaoPorRodadaParticipante(String fase, String serie, Long nrRodada, RDRParticipante rdrParticipante);
 
-	public RDRClassificacao buscarRDRClassificacaoPorRodada(String fase, String serie, Long nrRodada);		
+	public RDRClassificacao buscarRDRClassificacaoPorRodada(String fase, String serie, Long nrRodada);
+
+	public List<RDRCopaPontuacao> buscarRDRCopaPontuacao();		
 		
 }

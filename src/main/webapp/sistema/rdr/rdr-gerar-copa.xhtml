@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:pt="http://java.sun.com/jsf/passthrough"
+	  xmlns:c="http://java.sun.com/jstl/core" class="gt-ie8 gt-ie9 not-ie"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head/>  
+ 
+<h:body>
+	
+    <ui:composition template="/template/layout.xhtml">		
+        <ui:define name="conteudo">        
+        
+            <h:form id="formPrincipal" style="font-size: 12px;"> 
+                
+	  			<p:messages id="messages" closable="true" showDetail="false">
+          			<p:autoUpdate />
+          		</p:messages>		  			
+          		
+          		<p:panel header="Liga RDR - SUPER COPA" style="width: 700px;">
+          			          		         								
+					<p:repeat var="rdrCopa" value="#{rdrControl.listaRDRCopa}">
+					
+						<h:panelGroup rendered="#{rdrCopa.nrJogoCopa == 1 or rdrCopa.nrJogoCopa == 5 or rdrCopa.nrJogoCopa == 7 or rdrCopa.nrJogoCopa == 9}">
+							<h:outputText value="#{'QF'.equals(rdrCopa.fase) ? 'QUARTAS DE FINAL' 
+												 								: 'SFI'.equals(rdrCopa.fase) ? 'SEMI-FINAL - IDA'
+												 								: 'SFV'.equals(rdrCopa.fase) ? 'SEMI-FINAL - VOLTA'
+																				: 'F'.equals(rdrCopa.fase) ? 'FINAL': ''} " 
+							 		  	  style="font-weight: bold; font-size: 16px; font-weight: bold;"/>
+										    	 
+							<br/>
+		 		  			<br/>
+						</h:panelGroup>	
+											
+						<h:outputText value="Jogo #{rdrCopa.nrJogoCopa} " 
+						 		  	  style="font-weight: bold;color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
+									    	 border-left: 20px solid #D3E6FF; border-right: 20px solid #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
+		 		  												 		
+						<p:commandButton value="Atualizar Pontuacao do Jogo #{rdrCopa.nrJogoCopa}"  			    					
+		               					 onstart="PF('dialogProcessando').show();" 
+		               					 onclick="PF('dialogProcessando').show();"                					 
+		               					 oncomplete="PF('dialogProcessando').hide();"									
+									     onsuccess="PF('dialogProcessando').hide();"
+								 		 onerror="PF('dialogProcessando').hide();"
+								 		 update="@form"										 		  
+								 		 action="#{rdrControl.atualizarPontuacaoRodada(rdrCopa)}"
+								 		 style="float: right;"/>		 		  			
+	 		  			<br/>	 		  		
+	 		  			
+	 		  			<h:panelGrid columns="3">	
+		 		  			<p:panel style="width: 330px; text-align: right; border: 0px; 
+		 		  							#{rdrCopa.rdrParticipanteTimeVencedor.id.equals(rdrCopa.rdrParticipanteTimeCasa.id) ? 'background-color: #ADD8E6;' 
+		 		  							: rdrCopa.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
+		 		  							: 'background-color: #FFB6C1;'}">
+		 		  				
+		 		  				<h:panelGroup rendered="#{rdrCopa.rdrParticipanteTimeCasa != null}">
+			 		  				<h:outputText value="(#{rdrCopa.vrPontuacaoTimeCasa}) " style="font-weight: bold;"/>	
+				 		  			<h:outputText value="#{rdrCopa.nomeTimeCasa}" style="font-weight: bold;"/> 
+				 		  			<img src="#{rdrCopa.rdrParticipanteTimeCasa.time.urlEscudoPng}" alt="" style="width: 20px;"/> 
+				 		  			<h:inputText value="#{rdrCopa.vrPontuacaoTimeCasaArredondada.intValue()}" style="width: 40px; text-align: center; font-weight: bold;" readonly="true"/>		
+			 		  			</h:panelGroup>
+			 		  			
+			 		  			<h:panelGroup rendered="#{rdrCopa.rdrParticipanteTimeCasa == null}">
+			 		  				<h:outputText value="#{rdrCopa.descricaoTimeRodadaCasa}" style="font-weight: bold;"/>
+			 		  			</h:panelGroup>
+			 		  			
+			 		  		</p:panel>
+			 		  						 		  								 		  				
+		 		  			<b>x</b> 	
+		 		  			
+		 		  			<p:panel style="width: 330px; text-align: left; border: 0px; 
+		 		  							#{rdrCopa.rdrParticipanteTimeVencedor.id.equals(rdrCopa.rdrParticipanteTimeFora.id) ? 'background-color: #ADD8E6;' 
+		 		  							: rdrCopa.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
+		 		  							: 'background-color: #FFB6C1;' }">	
+		 		  							
+		 		  				<h:panelGroup rendered="#{rdrCopa.rdrParticipanteTimeFora == null}">
+			 		  				<h:outputText value="#{rdrCopa.descricaoTimeRodadaFora}" style="font-weight: bold;"/>
+			 		  			</h:panelGroup>	
+		 		  							
+		 		  				<h:panelGroup rendered="#{rdrCopa.rdrParticipanteTimeFora != null}">				 		  			
+				 		  			<h:inputText value="#{rdrCopa.vrPontuacaoTimeForaArredondada.intValue()}" style="width: 40px; text-align: center; font-weight: bold;" readonly="true"/>			
+				 		  			<img src="#{rdrCopa.rdrParticipanteTimeFora.time.urlEscudoPng}" alt="" style="width: 20px;"/> 			 		  			
+				 		  			<h:outputText value="#{rdrCopa.nomeTimeFora}" style="font-weight: bold;"/>	
+				 		  			<h:outputText value=" (#{rdrCopa.vrPontuacaoTimeFora})"  style="font-weight: bold;"/>	
+			 		  			</h:panelGroup>
+			 		  						 		  			
+		 		  			</p:panel>	
+		 		  			
+	 		  			</h:panelGrid>				 		  					 		  			
+	 		  								 		  			
+	 		  			<br/>	
+	 		  			
+	 		  			<h:panelGroup rendered="#{rdrCopa.nrJogoCopa == 4 or rdrCopa.nrJogoCopa == 6 or rdrCopa.nrJogoCopa == 8}">
+	 		  				<hr/>
+	 		  				<hr/>	 		
+	 		  				<hr/>  			
+	 		  			</h:panelGroup>
+	 		  				 		  		
+	 		  						 		  				 		  							 		  		
+	 		  		</p:repeat>
+		 		  							 		  							 		  		
+		 		  	<hr/>		          
+	          		          		
+          		</p:panel>	
+	                             
+	            <p:dialog widgetVar="dialogProcessando" modal="true" 
+						  resizable="false;" draggable="false"
+					      closable="false" id="dialogProcessando" 					      
+					      style="z-index: 9999; font-size: 14px; border: 0px; background-color: #D3E6FF !important;">						     				    				
+					<center>
+						<h:outputText value="Por favor, aguarde." style="font-weight: bold; font-size: 14px;" />
+						<br/>
+						<img src="publico/estilo/images/loading.gif"/> 
+						<br/>
+					</center>						
+				</p:dialog>
+					 
+            </h:form>
+            
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+
+
+</html>

@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import br.com.reisdaresenha.model.Liga;
 import br.com.reisdaresenha.model.RDRClassificacao;
+import br.com.reisdaresenha.model.RDRCopaPontuacao;
 import br.com.reisdaresenha.model.RDRParticipante;
 import br.com.reisdaresenha.model.RDRPontuacao;
 import br.com.reisdaresenha.model.RDRRodada;
@@ -21,7 +22,6 @@ import br.com.reisdaresenha.model.Rodada;
 import br.com.reisdaresenha.model.Time;
 import br.com.reisdaresenha.model.Usuario;
 import br.com.reisdaresenha.padrao.BaseControl;
-import br.com.reisdaresenha.rest.CartolaRestFulClient;
 import br.com.reisdaresenha.service.InicioServiceLocal;
 import br.com.reisdaresenha.service.ParametroServiceLocal;
 import br.com.reisdaresenha.service.RDRServiceLocal;
@@ -65,10 +65,8 @@ public class RDRControl extends BaseControl {
 	
 	private List<RDRParticipante> listaParticipantesAperturaSerieB;
 	private List<RDRClassificacao> listaClassificacaoAperturaSerieB;
-	private List<RDRRodada> listaRDRRodadasAperturaSerieB;	
-	
+	private List<RDRRodada> listaRDRRodadasAperturaSerieB;		
 	/** VARIAVEIS APERTURA **/
-			
 	
 	/** VARIAVEIS CLAUSURA **/
 	private List<RDRParticipante> listaParticipantesClausuraSerieA;
@@ -79,25 +77,30 @@ public class RDRControl extends BaseControl {
 	private List<RDRClassificacao> listaClassificacaoClausuraSerieB;
 	private List<RDRRodada> listaRDRRodadasClausuraSerieB;		
 	/** VARIAVEIS CLAUSURA **/
-	
-	
+		
 	private List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalAteRodada4;	
 	
 	private List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalAteRodada19;	
-	
 		
+	private List<RDRCopaPontuacao> listaRDRCopa;	
+			
 	@PostConstruct
 	public void init() {		
 		try {				
 			log.info("RDRControl --- INIT()");	
 			
-			Integer anoAtual = 2020; //Calendar.getInstance().get(Calendar.YEAR);				
+			Integer anoAtual = 2020; //Calendar.getInstance().get(Calendar.YEAR);			
+			HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);	
+			usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");						
 			
 			log.info("----- buscarInformacoesApertura");	
 			buscarInformacoesApertura(anoAtual);
 			
 			log.info("----- buscarInformacoesClausura");
-			buscarInformacoesClausura(anoAtual);						
+			buscarInformacoesClausura(anoAtual);		
+			
+			log.info("----- buscarInformacaoRDRCopa");
+			buscarInformacaoRDRCopa();
 						
 		} catch (Exception e) {
 			addErrorMessage("ERRO DE SISTEMA - RDRControl.init() ");
@@ -106,11 +109,114 @@ public class RDRControl extends BaseControl {
 		}
 	}	
 
-	private void buscarInformacoesApertura(Integer anoAtual) {
+	private void buscarInformacaoRDRCopa() {	
 		
-		HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);	
-		usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");		
-					
+		listaRDRCopa = new ArrayList<RDRCopaPontuacao>();
+		listaRDRCopa = rdrService.buscarRDRCopaPontuacao();		
+				
+		if(listaRDRCopa == null || listaRDRCopa.isEmpty()) {		
+			
+			for (int i = 1; i < 10; i++) {			
+				
+				int rodadaCartola = 0; 	
+				
+				if(i <= 4) {
+					rodadaCartola = 35;
+				} else if(i > 4 && i < 7) {					
+					rodadaCartola = 36;
+				} else if(i >= 7 && i < 9) {					
+					rodadaCartola = 37;
+				} else if(i == 9) {
+					rodadaCartola = 38;
+				}
+				
+				RDRCopaPontuacao rdrCopaPontuacao = new RDRCopaPontuacao();				
+				rdrCopaPontuacao.setNrJogoCopa(new Long(i));				
+				rdrCopaPontuacao.setNrRodadaCartola(new Long(rodadaCartola));					
+				
+				switch(rodadaCartola) {				
+					case 35:
+						
+						rdrCopaPontuacao.setFase("QF");	
+						
+						if(i == 1) {						
+							rdrCopaPontuacao.setDescricaoTimeRodadaCasa("Campeão Série A Apertura");
+							rdrCopaPontuacao.setDescricaoTimeRodadaFora("Vice-Campeão Série B Clausura");
+						}
+						
+						if(i == 2) {						
+							rdrCopaPontuacao.setDescricaoTimeRodadaCasa("Campeão Série B Clausura");
+							rdrCopaPontuacao.setDescricaoTimeRodadaFora("Vice-Campeão Série A Apertura");
+						}
+						
+						if(i == 3) {						
+							rdrCopaPontuacao.setDescricaoTimeRodadaCasa("Campeão Série A Clausura");
+							rdrCopaPontuacao.setDescricaoTimeRodadaFora("Vice-Campeão Série B Apertura");
+						}
+						
+						if(i == 4) {						
+							rdrCopaPontuacao.setDescricaoTimeRodadaCasa("Campeão Série B Apertura");
+							rdrCopaPontuacao.setDescricaoTimeRodadaFora("Vice-Campeão Série A Clausura");
+						}
+						
+						break;
+						
+					case 36:
+						
+						rdrCopaPontuacao.setFase("SFI");	
+						
+						if(i == 5) {						
+							rdrCopaPontuacao.setDescricaoTimeRodadaCasa("Vencedor Jogo 1");
+							rdrCopaPontuacao.setDescricaoTimeRodadaFora("Vencedor Jogo 2");
+						}
+						
+						if(i == 6) {						
+							rdrCopaPontuacao.setDescricaoTimeRodadaCasa("Vencedor Jogo 3");
+							rdrCopaPontuacao.setDescricaoTimeRodadaFora("Vencedor Jogo 4");
+						}
+						
+						break;
+						
+					case 37:
+						
+						rdrCopaPontuacao.setFase("SFV");
+						
+						if(i == 7) {						
+							rdrCopaPontuacao.setDescricaoTimeRodadaCasa("Vencedor Jogo 2");
+							rdrCopaPontuacao.setDescricaoTimeRodadaFora("Vencedor Jogo 1");
+						}
+						
+						if(i == 8) {						
+							rdrCopaPontuacao.setDescricaoTimeRodadaCasa("Vencedor Jogo 4");
+							rdrCopaPontuacao.setDescricaoTimeRodadaFora("Vencedor Jogo 3");
+						}
+						
+						break;
+					case 38:
+						
+						rdrCopaPontuacao.setFase("F");	
+						
+						if(i == 9) {						
+							rdrCopaPontuacao.setDescricaoTimeRodadaCasa("Vencedor (Jogo 5 + Jogo 7)");
+							rdrCopaPontuacao.setDescricaoTimeRodadaFora("Vencedor (Jogo 6 + Jogo 8)");
+						}
+						
+						break;	
+					default:
+						break;
+				}
+								
+				rdrCopaPontuacao = (RDRCopaPontuacao) rdrService.atualizar(rdrCopaPontuacao);		
+				
+			}		
+			
+			listaRDRCopa = new ArrayList<RDRCopaPontuacao>();
+			listaRDRCopa = rdrService.buscarRDRCopaPontuacao();		
+		}
+	}
+
+	private void buscarInformacoesApertura(Integer anoAtual) {
+							
 		/** APERTURA **/
 		listaParticipantesAperturaSerieA = new ArrayList<RDRParticipante>();
 		listaParticipantesAperturaSerieA = rdrService.buscarRDRParticipantes("A", "SA");
@@ -787,6 +893,24 @@ public class RDRControl extends BaseControl {
 		return null;
 	}
 	
+	public String atualizarPontuacaoRodada(RDRCopaPontuacao rdrCopa) { //(RDRRodada rdrRodadaAtualizarPontuacao, List<RDRPontuacao> listaRDRPontuacao) {
+		
+		List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO = new ArrayList<ClassificacaoLigaPrincipalDTO>();
+		
+		Integer anoAtual = 2020; //Calendar.getInstance().get(Calendar.YEAR);	
+		
+		listaClassificacaoLigaPrincipalDTO = inicioService.buscarHistoricoClassificacaoRodadas(anoAtual, rdrCopa.getNrRodadaCartola());	
+					
+		if(listaClassificacaoLigaPrincipalDTO != null && !listaClassificacaoLigaPrincipalDTO.isEmpty()) {
+					
+			init();			
+		} else {
+			addErrorMessage(rdrCopa.getNrRodadaCartola()+"ª Rodada Principal do Cartola FC ainda nao está em andamento");			
+		}
+		
+		return null;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public void atualizarRDRClassificacao(String fase, String serie, Long nrRodadaAtual) {		
 		
@@ -1046,6 +1170,14 @@ public class RDRControl extends BaseControl {
 
 	public void setListaClassificacaoLigaPrincipalAteRodada19(List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalAteRodada19) {
 		this.listaClassificacaoLigaPrincipalAteRodada19 = listaClassificacaoLigaPrincipalAteRodada19;
+	}
+
+	public List<RDRCopaPontuacao> getListaRDRCopa() {
+		return listaRDRCopa;
+	}
+
+	public void setListaRDRCopa(List<RDRCopaPontuacao> listaRDRCopa) {
+		this.listaRDRCopa = listaRDRCopa;
 	}	
 	
 }

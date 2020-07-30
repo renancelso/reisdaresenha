@@ -23,6 +23,8 @@
 		<class>br.com.reisdaresenha.model.RDRPontuacao</class>
 		<class>br.com.reisdaresenha.model.RDRRodada</class>
 		
+		<class>br.com.reisdaresenha.model.RDRCopaPontuacao</class>
+		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<shared-cache-mode>NONE</shared-cache-mode>			
 		<properties>		
