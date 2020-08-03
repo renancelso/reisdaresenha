@@ -179,13 +179,15 @@ public class RDRService extends GenericService implements RDRServiceLocal {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public RDRRodada buscarRDRRodadaPorRodadaDaLigaPrincipal(Long nrRodadaLigaPrincipal) {	
+	public RDRRodada buscarRDRRodadaPorRodadaDaLigaPrincipal(Long nrRodadaLigaPrincipal, String fase, String serie) {	
 		
 		try {
 			
 			StringBuilder sql = new StringBuilder();
 			sql.append("select o from ").append(RDRRodada.class.getSimpleName()).append(" o where 1=1 ");
 			sql.append(" and o.nrRodadaCartola = ").append(nrRodadaLigaPrincipal);
+			sql.append(" and o.tipoRodada = '").append(fase).append("'");
+			sql.append(" and o.serieRodada = '").append(serie).append("'");
 						
 			List<RDRRodada> listaRDRRodada = (List<RDRRodada>) consultarPorQuery(sql.toString(), 0, 0);
 					

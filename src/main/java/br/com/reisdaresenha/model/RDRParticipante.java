@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * @author Renan Celso
@@ -48,6 +49,9 @@ public class RDRParticipante implements Serializable {
 	 */
 	@Column(name = "serie_participante", length=255)
 	private String serieParticipante;
+	
+	@Transient
+	private boolean estaNaCopa;
 
 	public Long getId() {
 		return id;
@@ -95,6 +99,14 @@ public class RDRParticipante implements Serializable {
 
 	public void setSerieParticipante(String serieParticipante) {
 		this.serieParticipante = serieParticipante;
+	}
+	
+	public boolean isEstaNaCopa() {
+		return estaNaCopa;
+	}
+
+	public void setEstaNaCopa(boolean estaNaCopa) {
+		this.estaNaCopa = estaNaCopa;
 	}
 
 	@Override

@@ -99,11 +99,15 @@ public class RDRControl extends BaseControl {
 			log.info("----- buscarInformacoesClausura");
 			buscarInformacoesClausura(anoAtual);		
 			
-			log.info("----- buscarInformacaoRDRCopa");
-			buscarInformacaoRDRCopa();
 			
-			log.info("----- buscarParticipantesRDRCopa");
-			buscarParticipantesRDRCopa();
+			if(listaClassificacaoAperturaSerieA != null && listaClassificacaoClausuraSerieA != null
+					&& !listaClassificacaoAperturaSerieA.isEmpty() && !listaClassificacaoClausuraSerieA.isEmpty()) {			
+				log.info("----- buscarInformacaoRDRCopa");
+				buscarInformacaoRDRCopa();
+				
+				log.info("----- buscarParticipantesRDRCopa");
+				buscarParticipantesRDRCopa();
+			}
 						
 		} catch (Exception e) {
 			addErrorMessage("ERRO DE SISTEMA - RDRControl.init() ");
@@ -220,28 +224,196 @@ public class RDRControl extends BaseControl {
 	
 	private void buscarParticipantesRDRCopa() {		
 		
+		List<RDRParticipante> listaRDRParticipantesCopa = new ArrayList<RDRParticipante>();
+		
 		Rodada rodada19 = rodadaService.buscarRodadaDaLigaPrincipalEspecifica(new Long(19));
 	
 		if(rodada19 != null && "PS".equalsIgnoreCase(rodada19.getStatusRodada())) {	
-			RDRRodada rdrRodada15Apertura = rdrService.buscarRDRRodadaPorRodadaDaLigaPrincipal(rodada19.getNrRodada());		
 			
-			if("PS".equalsIgnoreCase(rdrRodada15Apertura.getStatusRodada())) {
-				if(rdrRodada15Apertura != null && "PS".equalsIgnoreCase(rdrRodada15Apertura.getStatusRodada())) {
+			RDRRodada rdrRodada15AperturaSA = rdrService.buscarRDRRodadaPorRodadaDaLigaPrincipal(rodada19.getNrRodada(), "A", "SA");	
+			RDRRodada rdrRodada15AperturaSB = rdrService.buscarRDRRodadaPorRodadaDaLigaPrincipal(rodada19.getNrRodada(), "A", "SB");		
+			
+			if(rdrRodada15AperturaSA != null && "PS".equalsIgnoreCase(rdrRodada15AperturaSA.getStatusRodada()) 
+					&& rdrRodada15AperturaSB != null && "PS".equalsIgnoreCase(rdrRodada15AperturaSB.getStatusRodada())) {			
 					
 					RDRParticipante campeaoSerieAApertura = listaClassificacaoAperturaSerieA.get(0).getRdrParticipante();
 					RDRParticipante viceCampeaoSerieAApertura = listaClassificacaoAperturaSerieA.get(1).getRdrParticipante();				
 					RDRParticipante campeaoSerieBApertura = listaClassificacaoAperturaSerieB.get(0).getRdrParticipante();
 					RDRParticipante viceCampeaoSerieBApertura = listaClassificacaoAperturaSerieB.get(1).getRdrParticipante();	
-									
-				}	
+					
+					listaRDRParticipantesCopa = new ArrayList<RDRParticipante>();
+					
+					listaRDRParticipantesCopa = rdrService.buscarRDRParticipantes("COPA", "COPA");
+					
+					if(listaRDRParticipantesCopa != null && !listaRDRParticipantesCopa.isEmpty()) {
+						for (RDRParticipante rdrParticipante : listaRDRParticipantesCopa) {
+							
+							if(rdrParticipante.getTime().getId().equals(campeaoSerieAApertura.getTime().getId())) {
+								campeaoSerieAApertura.setEstaNaCopa(true);
+							}
+							
+							if(rdrParticipante.getTime().getId().equals(viceCampeaoSerieAApertura.getTime().getId())) {
+								viceCampeaoSerieAApertura.setEstaNaCopa(true);
+							}
+							
+							if(rdrParticipante.getTime().getId().equals(campeaoSerieBApertura.getTime().getId())) {
+								campeaoSerieBApertura.setEstaNaCopa(true);
+							}
+							
+							if(rdrParticipante.getTime().getId().equals(viceCampeaoSerieBApertura.getTime().getId())) {
+								viceCampeaoSerieBApertura.setEstaNaCopa(true);
+							}
+							
+						}
+					}
+					
+					if(!campeaoSerieAApertura.isEstaNaCopa()) {
+						RDRParticipante rdrParticipante = new RDRParticipante();
+						rdrParticipante.setEstaNaCopa(true);
+						rdrParticipante.setFaseLiga("COPA");
+						rdrParticipante.setIdTimeCartola(campeaoSerieAApertura.getTime().getIdCartola());
+						rdrParticipante.setNomeTime(campeaoSerieAApertura.getTime().getNomeTime());
+						rdrParticipante.setSerieParticipante("COPA");
+						rdrParticipante.setTime(campeaoSerieAApertura.getTime());
+						
+						rdrService.atualizar(rdrParticipante);
+					}
+					
+					if(!viceCampeaoSerieAApertura.isEstaNaCopa()) {
+						RDRParticipante rdrParticipante = new RDRParticipante();
+						rdrParticipante.setEstaNaCopa(true);
+						rdrParticipante.setFaseLiga("COPA");
+						rdrParticipante.setIdTimeCartola(viceCampeaoSerieAApertura.getTime().getIdCartola());
+						rdrParticipante.setNomeTime(viceCampeaoSerieAApertura.getTime().getNomeTime());
+						rdrParticipante.setSerieParticipante("COPA");
+						rdrParticipante.setTime(viceCampeaoSerieAApertura.getTime());
+						
+						rdrService.atualizar(rdrParticipante);						
+					}
+					
+					if(!campeaoSerieBApertura.isEstaNaCopa()) {
+						
+						RDRParticipante rdrParticipante = new RDRParticipante();
+						rdrParticipante.setEstaNaCopa(true);
+						rdrParticipante.setFaseLiga("COPA");
+						rdrParticipante.setIdTimeCartola(campeaoSerieBApertura.getTime().getIdCartola());
+						rdrParticipante.setNomeTime(campeaoSerieBApertura.getTime().getNomeTime());
+						rdrParticipante.setSerieParticipante("COPA");
+						rdrParticipante.setTime(campeaoSerieBApertura.getTime());
+						
+						rdrService.atualizar(rdrParticipante);							
+					}
+					
+					if(!viceCampeaoSerieBApertura.isEstaNaCopa()) {
+						
+						RDRParticipante rdrParticipante = new RDRParticipante();
+						rdrParticipante.setEstaNaCopa(true);
+						rdrParticipante.setFaseLiga("COPA");
+						rdrParticipante.setIdTimeCartola(viceCampeaoSerieBApertura.getTime().getIdCartola());
+						rdrParticipante.setNomeTime(viceCampeaoSerieBApertura.getTime().getNomeTime());
+						rdrParticipante.setSerieParticipante("COPA");
+						rdrParticipante.setTime(viceCampeaoSerieBApertura.getTime());
+						
+						rdrService.atualizar(rdrParticipante);	
+					}				
+					
 			}	
 		} 
 		
 		Rodada rodada34 = rodadaService.buscarRodadaDaLigaPrincipalEspecifica(new Long(34));		
 		
 		if(rodada34 != null && "PS".equalsIgnoreCase(rodada34.getStatusRodada())) {		
+								
+			RDRRodada rdrRodada15ClausuraSA = rdrService.buscarRDRRodadaPorRodadaDaLigaPrincipal(rodada34.getNrRodada(), "C", "SA");	
+			RDRRodada rdrRodada15ClausuraSB = rdrService.buscarRDRRodadaPorRodadaDaLigaPrincipal(rodada34.getNrRodada(), "C", "SB");		
+			
+			if(rdrRodada15ClausuraSA != null && "PS".equalsIgnoreCase(rdrRodada15ClausuraSA.getStatusRodada()) 
+					&& rdrRodada15ClausuraSB != null && "PS".equalsIgnoreCase(rdrRodada15ClausuraSB.getStatusRodada())) {			
 									
-		}	
+				RDRParticipante campeaoSerieAClausura = listaClassificacaoClausuraSerieA.get(0).getRdrParticipante();
+				RDRParticipante viceCampeaoSerieAClausura = listaClassificacaoClausuraSerieA.get(1).getRdrParticipante();				
+				RDRParticipante campeaoSerieBClausura = listaClassificacaoClausuraSerieB.get(0).getRdrParticipante();
+				RDRParticipante viceCampeaoSerieBClausura = listaClassificacaoClausuraSerieB.get(1).getRdrParticipante();	
+				
+				listaRDRParticipantesCopa = new ArrayList<RDRParticipante>();
+				
+				listaRDRParticipantesCopa = rdrService.buscarRDRParticipantes("COPA", "COPA");
+				
+				if(listaRDRParticipantesCopa != null && !listaRDRParticipantesCopa.isEmpty()) {
+					for (RDRParticipante rdrParticipante : listaRDRParticipantesCopa) {
+						
+						if(rdrParticipante.getTime().getId().equals(campeaoSerieAClausura.getTime().getId())) {
+							campeaoSerieAClausura.setEstaNaCopa(true);
+						}
+						
+						if(rdrParticipante.getTime().getId().equals(viceCampeaoSerieAClausura.getTime().getId())) {
+							viceCampeaoSerieAClausura.setEstaNaCopa(true);
+						}
+						
+						if(rdrParticipante.getTime().getId().equals(campeaoSerieBClausura.getTime().getId())) {
+							campeaoSerieBClausura.setEstaNaCopa(true);
+						}
+						
+						if(rdrParticipante.getTime().getId().equals(viceCampeaoSerieBClausura.getTime().getId())) {
+							viceCampeaoSerieBClausura.setEstaNaCopa(true);
+						}
+						
+					}	
+				}
+				
+				if(!campeaoSerieAClausura.isEstaNaCopa()) {
+					RDRParticipante rdrParticipante = new RDRParticipante();
+					rdrParticipante.setEstaNaCopa(true);
+					rdrParticipante.setFaseLiga("COPA");
+					rdrParticipante.setIdTimeCartola(campeaoSerieAClausura.getTime().getIdCartola());
+					rdrParticipante.setNomeTime(campeaoSerieAClausura.getTime().getNomeTime());
+					rdrParticipante.setSerieParticipante("COPA");
+					rdrParticipante.setTime(campeaoSerieAClausura.getTime());
+					
+					rdrService.atualizar(rdrParticipante);
+				}
+				
+				if(!viceCampeaoSerieAClausura.isEstaNaCopa()) {
+					RDRParticipante rdrParticipante = new RDRParticipante();
+					rdrParticipante.setEstaNaCopa(true);
+					rdrParticipante.setFaseLiga("COPA");
+					rdrParticipante.setIdTimeCartola(viceCampeaoSerieAClausura.getTime().getIdCartola());
+					rdrParticipante.setNomeTime(viceCampeaoSerieAClausura.getTime().getNomeTime());
+					rdrParticipante.setSerieParticipante("COPA");
+					rdrParticipante.setTime(viceCampeaoSerieAClausura.getTime());
+					
+					rdrService.atualizar(rdrParticipante);						
+				}
+				
+				if(!campeaoSerieBClausura.isEstaNaCopa()) {
+					
+					RDRParticipante rdrParticipante = new RDRParticipante();
+					rdrParticipante.setEstaNaCopa(true);
+					rdrParticipante.setFaseLiga("COPA");
+					rdrParticipante.setIdTimeCartola(campeaoSerieBClausura.getTime().getIdCartola());
+					rdrParticipante.setNomeTime(campeaoSerieBClausura.getTime().getNomeTime());
+					rdrParticipante.setSerieParticipante("COPA");
+					rdrParticipante.setTime(campeaoSerieBClausura.getTime());
+					
+					rdrService.atualizar(rdrParticipante);							
+				}
+				
+				if(!viceCampeaoSerieBClausura.isEstaNaCopa()) {
+					
+					RDRParticipante rdrParticipante = new RDRParticipante();
+					rdrParticipante.setEstaNaCopa(true);
+					rdrParticipante.setFaseLiga("COPA");
+					rdrParticipante.setIdTimeCartola(viceCampeaoSerieBClausura.getTime().getIdCartola());
+					rdrParticipante.setNomeTime(viceCampeaoSerieBClausura.getTime().getNomeTime());
+					rdrParticipante.setSerieParticipante("COPA");
+					rdrParticipante.setTime(viceCampeaoSerieBClausura.getTime());
+					
+					rdrService.atualizar(rdrParticipante);	
+				}							
+			}
+		}
+		
+		listaRDRParticipantesCopa = rdrService.buscarRDRParticipantes("COPA", "COPA");
 		
 		buscarInformacaoRDRCopa();
 		
