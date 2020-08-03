@@ -107,7 +107,7 @@
 								    
 								    <p:column headerText="Time" style="#{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">
 								   		<img src="#{item.rdrParticipante.time.urlEscudoPng}" alt="" style="width: 20px;"/> 
-						 		  		<h:outputText value="#{item.rdrParticipante.nomeTime} (#{item.rdrParticipante.time.nomeDonoTime})"/>
+						 		  		<h:outputText value="#{item.rdrParticipante.nomeTime} "/>
 						 		  	</p:column>    
 						 		  	
 						 		  	<p:column headerText="PG" style="text-align: center; width: 50px; background-color: #ADD8E6; font-weight: bold;">								   		
@@ -127,14 +127,25 @@
 						 		  	<p:column headerText="E" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
 						 		  		<h:outputText value="#{item.qtdEmpates}" title="Empates"/>
 						 		  	</p:column> 
-						 		  	
-						 		  	
+						 		  							 		  	
 						 		  	<p:column headerText="D" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
 						 		  		<h:outputText value="#{item.qtdDerrotas}" title="Derrotas"/>
 						 		  	</p:column> 
 						 		  	
+						 		  	<p:column headerText="SG" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
+						 		  		<h:outputText value="#{item.vrGolsPro - item.vrGolsContra}" title="Saldo" converter="inteiro"/>
+						 		  	</p:column> 
+						 		  	
+						 		  	<p:column headerText="GP" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
+						 		  		<h:outputText value="#{item.vrGolsPro}" title="Gols Pró" converter="inteiro"/>
+						 		  	</p:column> 
+						 		  	
+						 		  	<p:column headerText="GC" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
+						 		  		<h:outputText value="#{item.vrGolsContra}" title="Gols Contra" converter="inteiro"/>
+						 		  	</p:column> 
+						 		  	
 						 		  	<p:column headerText="C. Des." style="text-align: center; width: 80px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
-						 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao no Cartola FC para critério de desempate"/>
+						 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao no Cartola FC para critério de desempate" converter="decimal"/>
 						 		  	</p:column> 
 							    								   
 								</p:dataTable>
@@ -223,7 +234,7 @@
 								    
 								    <p:column headerText="Time" style="#{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">
 								   		<img src="#{item.rdrParticipante.time.urlEscudoPng}" alt="" style="width: 20px;"/> 
-						 		  		<h:outputText value="#{item.rdrParticipante.nomeTime} (#{item.rdrParticipante.time.nomeDonoTime})"/>
+						 		  		<h:outputText value="#{item.rdrParticipante.nomeTime} "/>
 						 		  	</p:column>    
 						 		  	
 						 		  	<p:column headerText="PG" style="text-align: center; width: 50px; background-color: #ADD8E6; font-weight: bold;">								   		
@@ -247,8 +258,20 @@
 						 		  		<h:outputText value="#{item.qtdDerrotas}" title="Derrotas"/>
 						 		  	</p:column>  
 						 		  	
+						 		  	<p:column headerText="SG" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
+						 		  		<h:outputText value="#{item.vrGolsPro - item.vrGolsContra}" title="Saldo" converter="inteiro"/>
+						 		  	</p:column> 
+						 		  	
+						 		  	<p:column headerText="GP" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
+						 		  		<h:outputText value="#{item.vrGolsPro}" title="Gols Pró" converter="inteiro"/>
+						 		  	</p:column> 
+						 		  	
+						 		  	<p:column headerText="GC" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
+						 		  		<h:outputText value="#{item.vrGolsContra}" title="Gols Contra" converter="inteiro"/>
+						 		  	</p:column> 
+						 		  	
 						 		  	<p:column headerText="C. Des." style="text-align: center; width: 80px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
-						 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao no Cartola FC para critério de desempate"/>
+						 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao no Cartola FC para critério de desempate" converter="decimal"/>
 						 		  	</p:column> 
 								    								   
 								</p:dataTable>							

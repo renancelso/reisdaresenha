@@ -70,6 +70,10 @@ public class RDRClassificacao implements Serializable {
 	@Column(name = "vr_pontos_liga_principal")
 	private Double vrPontuacaoAtualLigaPrincipalCartola;	
 	
+	private Double vrGolsPro;
+	
+	private Double vrGolsContra;
+	
 
 	public Long getId() {
 		return id;
@@ -206,6 +210,22 @@ public class RDRClassificacao implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public Double getVrGolsPro() {
+		return vrGolsPro;
+	}
+
+	public void setVrGolsPro(Double vrGolsPro) {
+		this.vrGolsPro = vrGolsPro;
+	}
+
+	public Double getVrGolsContra() {
+		return vrGolsContra;
+	}
+
+	public void setVrGolsContra(Double vrGolsContra) {
+		this.vrGolsContra = vrGolsContra;
 	}	
 	
 }

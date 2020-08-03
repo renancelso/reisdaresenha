@@ -101,13 +101,16 @@ public class RDRControl extends BaseControl {
 			
 			log.info("----- buscarInformacaoRDRCopa");
 			buscarInformacaoRDRCopa();
+			
+			log.info("----- buscarParticipantesRDRCopa");
+			buscarParticipantesRDRCopa();
 						
 		} catch (Exception e) {
 			addErrorMessage("ERRO DE SISTEMA - RDRControl.init() ");
 			log.error(e);
 			e.printStackTrace();
 		}
-	}	
+	}		
 
 	private void buscarInformacaoRDRCopa() {	
 		
@@ -214,6 +217,35 @@ public class RDRControl extends BaseControl {
 			listaRDRCopa = rdrService.buscarRDRCopaPontuacao();		
 		}
 	}
+	
+	private void buscarParticipantesRDRCopa() {		
+		
+		Rodada rodada19 = rodadaService.buscarRodadaDaLigaPrincipalEspecifica(new Long(19));
+	
+		if(rodada19 != null && "PS".equalsIgnoreCase(rodada19.getStatusRodada())) {	
+			RDRRodada rdrRodada15Apertura = rdrService.buscarRDRRodadaPorRodadaDaLigaPrincipal(rodada19.getNrRodada());		
+			
+			if("PS".equalsIgnoreCase(rdrRodada15Apertura.getStatusRodada())) {
+				if(rdrRodada15Apertura != null && "PS".equalsIgnoreCase(rdrRodada15Apertura.getStatusRodada())) {
+					
+					RDRParticipante campeaoSerieAApertura = listaClassificacaoAperturaSerieA.get(0).getRdrParticipante();
+					RDRParticipante viceCampeaoSerieAApertura = listaClassificacaoAperturaSerieA.get(1).getRdrParticipante();				
+					RDRParticipante campeaoSerieBApertura = listaClassificacaoAperturaSerieB.get(0).getRdrParticipante();
+					RDRParticipante viceCampeaoSerieBApertura = listaClassificacaoAperturaSerieB.get(1).getRdrParticipante();	
+									
+				}	
+			}	
+		} 
+		
+		Rodada rodada34 = rodadaService.buscarRodadaDaLigaPrincipalEspecifica(new Long(34));		
+		
+		if(rodada34 != null && "PS".equalsIgnoreCase(rodada34.getStatusRodada())) {		
+									
+		}	
+		
+		buscarInformacaoRDRCopa();
+		
+	}
 
 	private void buscarInformacoesApertura(Integer anoAtual) {
 							
@@ -223,7 +255,11 @@ public class RDRControl extends BaseControl {
 		
 		listaParticipantesAperturaSerieB = new ArrayList<RDRParticipante>();
 		listaParticipantesAperturaSerieB = rdrService.buscarRDRParticipantes("A", "SB");
-					
+				
+		/**Atualizar Saldo de gols*/
+		rdrService.atualizarSaldoDeGols("A", "SA",listaParticipantesAperturaSerieA);
+		rdrService.atualizarSaldoDeGols("A", "SB",listaParticipantesAperturaSerieB);
+		
 		listaClassificacaoAperturaSerieA = new ArrayList<RDRClassificacao>();	
 		listaClassificacaoAperturaSerieA = rdrService.buscarRDRClassificacao("A", "SA");
 		
@@ -265,6 +301,10 @@ public class RDRControl extends BaseControl {
 		
 		listaParticipantesClausuraSerieB = new ArrayList<RDRParticipante>();
 		listaParticipantesClausuraSerieB = rdrService.buscarRDRParticipantes("C", "SB");
+				
+		/**Atualizar Saldo de gols*/
+		rdrService.atualizarSaldoDeGols("C", "SA", listaParticipantesClausuraSerieA);
+		rdrService.atualizarSaldoDeGols("C", "SB", listaParticipantesClausuraSerieB);
 					
 		listaClassificacaoClausuraSerieA = new ArrayList<RDRClassificacao>();	
 		listaClassificacaoClausuraSerieA = rdrService.buscarRDRClassificacao("C", "SA");
@@ -893,7 +933,7 @@ public class RDRControl extends BaseControl {
 		return null;
 	}
 	
-	public String atualizarPontuacaoRodada(RDRCopaPontuacao rdrCopa) { //(RDRRodada rdrRodadaAtualizarPontuacao, List<RDRPontuacao> listaRDRPontuacao) {
+	public String atualizarPontuacaoRodadaCopa(RDRCopaPontuacao rdrCopa) { //(RDRRodada rdrRodadaAtualizarPontuacao, List<RDRPontuacao> listaRDRPontuacao) {
 		
 		List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO = new ArrayList<ClassificacaoLigaPrincipalDTO>();
 		
@@ -901,9 +941,40 @@ public class RDRControl extends BaseControl {
 		
 		listaClassificacaoLigaPrincipalDTO = inicioService.buscarHistoricoClassificacaoRodadas(anoAtual, rdrCopa.getNrRodadaCartola());	
 					
-		if(listaClassificacaoLigaPrincipalDTO != null && !listaClassificacaoLigaPrincipalDTO.isEmpty()) {
+		if(listaClassificacaoLigaPrincipalDTO != null && !listaClassificacaoLigaPrincipalDTO.isEmpty()) {			
+			
+			for (ClassificacaoLigaPrincipalDTO classificacaoPrincipalRodadaDTO : listaClassificacaoLigaPrincipalDTO) {	
+				
+				Time time = timeService.buscarTimePorIdCartola(classificacaoPrincipalRodadaDTO.getIdTimeCartola());		
+				
+				if(rdrCopa.getRdrParticipanteTimeCasa().getTime().getId().equals(time.getId())) {
 					
-			init();			
+					rdrCopa.setVrPontuacaoTimeCasa(classificacaoPrincipalRodadaDTO.getPontuacao());					
+					
+					rdrCopa.setVrPontuacaoTimeCasaArredondada(
+							arredondarValorDonoDaCasa(classificacaoPrincipalRodadaDTO.getPontuacao()) //ARREDONDAMENTO DENTRO DE CASA
+							);					
+				}
+				
+				if(rdrCopa.getRdrParticipanteTimeFora().getTime().getId().equals(time.getId())) {
+					
+					rdrCopa.setVrPontuacaoTimeFora(classificacaoPrincipalRodadaDTO.getPontuacao());				
+					
+					rdrCopa.setVrPontuacaoTimeForaArredondada(
+							arredondarValorVisitante(classificacaoPrincipalRodadaDTO.getPontuacao()) //ARREDONDAMENTO FORA DE CASA
+							);					
+				}					
+								
+				rdrCopa = (RDRCopaPontuacao) rdrService.atualizar(rdrCopa);		
+				
+			}
+			
+			//Atualizar classificacao Copa
+			atualizarClassificacaoCopa(rdrCopa);
+			
+					
+			init();		
+			
 		} else {
 			addErrorMessage(rdrCopa.getNrRodadaCartola()+"ª Rodada Principal do Cartola FC ainda nao está em andamento");			
 		}
@@ -911,6 +982,76 @@ public class RDRControl extends BaseControl {
 		return null;
 	}
 	
+	private void atualizarClassificacaoCopa(RDRCopaPontuacao rdrCopaPontuacao) {
+		
+		if(rdrCopaPontuacao.getVrPontuacaoTimeCasaArredondada() > rdrCopaPontuacao.getVrPontuacaoTimeForaArredondada()) {					
+			rdrCopaPontuacao.setEmpate("nao");					
+			rdrCopaPontuacao.setRdrParticipanteTimeVencedor(rdrCopaPontuacao.getRdrParticipanteTimeCasa());
+			rdrCopaPontuacao.setNomeTimeVencedor((rdrCopaPontuacao.getRdrParticipanteTimeCasa().getNomeTime()));	
+			rdrCopaPontuacao.setRdrParticipanteTimePerdedor(rdrCopaPontuacao.getRdrParticipanteTimeFora());
+			rdrCopaPontuacao.setNomeTimePerdedor((rdrCopaPontuacao.getRdrParticipanteTimeFora().getNomeTime()));
+		}					
+		
+		if(rdrCopaPontuacao.getVrPontuacaoTimeCasaArredondada() < rdrCopaPontuacao.getVrPontuacaoTimeForaArredondada()) {					
+			rdrCopaPontuacao.setEmpate("nao");
+			rdrCopaPontuacao.setRdrParticipanteTimeVencedor(rdrCopaPontuacao.getRdrParticipanteTimeFora());
+			rdrCopaPontuacao.setNomeTimeVencedor((rdrCopaPontuacao.getRdrParticipanteTimeFora().getNomeTime()));
+			rdrCopaPontuacao.setRdrParticipanteTimePerdedor(rdrCopaPontuacao.getRdrParticipanteTimeCasa());
+			rdrCopaPontuacao.setNomeTimePerdedor((rdrCopaPontuacao.getRdrParticipanteTimeCasa().getNomeTime()));
+			
+		}
+		
+		if(rdrCopaPontuacao.getVrPontuacaoTimeCasaArredondada().equals(rdrCopaPontuacao.getVrPontuacaoTimeForaArredondada())) {
+			rdrCopaPontuacao.setEmpate("sim");						
+			rdrCopaPontuacao.setNomeTimeVencedor("empate");
+			rdrCopaPontuacao.setRdrParticipanteTimeEmpateEmCasa(rdrCopaPontuacao.getRdrParticipanteTimeCasa());
+			rdrCopaPontuacao.setRdrParticipanteTimeEmpateFora(rdrCopaPontuacao.getRdrParticipanteTimeFora());
+		}
+		
+		rdrCopaPontuacao = (RDRCopaPontuacao) rdrService.atualizar(rdrCopaPontuacao);
+		
+		if(rdrCopaPontuacao.getNrRodadaCartola() == 35) {
+			
+			RDRCopaPontuacao jogo1 = rdrService.buscarRDRCopaPontuacaoPorNrJogoCopa(new Long(1));
+			RDRCopaPontuacao jogo2 = rdrService.buscarRDRCopaPontuacaoPorNrJogoCopa(new Long(2));
+			RDRCopaPontuacao jogo3 = rdrService.buscarRDRCopaPontuacaoPorNrJogoCopa(new Long(3));
+			RDRCopaPontuacao jogo4 = rdrService.buscarRDRCopaPontuacaoPorNrJogoCopa(new Long(4));	
+						
+			RDRCopaPontuacao jogo5 = rdrService.buscarRDRCopaPontuacaoPorNrJogoCopa(new Long(5));
+			RDRCopaPontuacao jogo6 = rdrService.buscarRDRCopaPontuacaoPorNrJogoCopa(new Long(6));
+			RDRCopaPontuacao jogo7 = rdrService.buscarRDRCopaPontuacaoPorNrJogoCopa(new Long(7));
+			RDRCopaPontuacao jogo8 = rdrService.buscarRDRCopaPontuacaoPorNrJogoCopa(new Long(8));
+			
+			jogo5.setRdrParticipanteTimeCasa(jogo1.getRdrParticipanteTimeVencedor());	
+			jogo5.setRdrParticipanteTimeFora(jogo2.getRdrParticipanteTimeVencedor());				
+			jogo6.setRdrParticipanteTimeCasa(jogo3.getRdrParticipanteTimeVencedor());	
+			jogo6.setRdrParticipanteTimeFora(jogo4.getRdrParticipanteTimeVencedor());
+			
+			jogo7.setRdrParticipanteTimeCasa(jogo2.getRdrParticipanteTimeVencedor());	
+			jogo7.setRdrParticipanteTimeFora(jogo1.getRdrParticipanteTimeVencedor());			
+			jogo8.setRdrParticipanteTimeCasa(jogo4.getRdrParticipanteTimeVencedor());	
+			jogo8.setRdrParticipanteTimeFora(jogo3.getRdrParticipanteTimeVencedor());
+						
+			jogo5.setNomeTimeCasa(jogo5.getRdrParticipanteTimeCasa() != null ? jogo5.getRdrParticipanteTimeCasa().getNomeTime() : null);
+			jogo5.setNomeTimeFora(jogo5.getRdrParticipanteTimeFora() != null ? jogo5.getRdrParticipanteTimeFora().getNomeTime() : null);
+			
+			jogo6.setNomeTimeCasa(jogo6.getRdrParticipanteTimeCasa() != null ? jogo6.getRdrParticipanteTimeCasa().getNomeTime() : null);
+			jogo6.setNomeTimeFora(jogo6.getRdrParticipanteTimeFora() != null ? jogo6.getRdrParticipanteTimeFora().getNomeTime() : null);
+			
+			jogo7.setNomeTimeCasa(jogo7.getRdrParticipanteTimeCasa() != null ? jogo7.getRdrParticipanteTimeCasa().getNomeTime() : null);
+			jogo7.setNomeTimeFora(jogo7.getRdrParticipanteTimeFora() != null ? jogo7.getRdrParticipanteTimeFora().getNomeTime() : null);
+			
+			jogo8.setNomeTimeCasa(jogo8.getRdrParticipanteTimeCasa() != null ? jogo8.getRdrParticipanteTimeCasa().getNomeTime() : null);		
+			jogo8.setNomeTimeFora(jogo8.getRdrParticipanteTimeFora() != null ? jogo8.getRdrParticipanteTimeFora().getNomeTime() : null);	
+			
+			jogo5 = (RDRCopaPontuacao) rdrService.atualizar(jogo5);
+			jogo6 = (RDRCopaPontuacao) rdrService.atualizar(jogo6);
+			jogo7 = (RDRCopaPontuacao) rdrService.atualizar(jogo7);
+			jogo8 = (RDRCopaPontuacao) rdrService.atualizar(jogo8);			
+		}
+				
+	}
+
 	@SuppressWarnings("unchecked")
 	public void atualizarRDRClassificacao(String fase, String serie, Long nrRodadaAtual) {		
 		

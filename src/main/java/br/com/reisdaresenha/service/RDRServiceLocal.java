@@ -29,6 +29,14 @@ public interface RDRServiceLocal extends GenericServiceInterface {
 
 	public RDRClassificacao buscarRDRClassificacaoPorRodada(String fase, String serie, Long nrRodada);
 
-	public List<RDRCopaPontuacao> buscarRDRCopaPontuacao();		
+	public List<RDRCopaPontuacao> buscarRDRCopaPontuacao();
+
+	public RDRRodada buscarRDRRodadaPorRodadaDaLigaPrincipal(Long nrRodadaLigaPrincipal);
+
+	public RDRCopaPontuacao buscarRDRCopaPontuacaoPorNrJogoCopa(Long nrJogoCopa);
+
+	public void atualizarSaldoDeGols(String fase, String serie, List<RDRParticipante> listaParticipantes);
+
+	public RDRClassificacao buscarRDRClassificacaoPorParticipante(String fase, String serie, RDRParticipante rdrParticipante);		
 		
 }
