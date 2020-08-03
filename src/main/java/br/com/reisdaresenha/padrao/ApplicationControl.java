@@ -17,6 +17,18 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.ObjectAlreadyExistsException;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.quartz.impl.StdSchedulerFactory;
+
+import br.com.reisdaresenha.job.RDRJob;
 
 
 /** 
@@ -33,10 +45,34 @@ public class ApplicationControl implements Serializable {
 	
 	@PostConstruct
 	public void init() {	
-		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);		
-		PropertyConfigurator.configure(session.getServletContext().getRealPath("/") +File.separator+"WEB-INF"+File.separator+"log4j.properties");
-		Locale.setDefault(new Locale("pt", "BR"));		
-		dataHoraInicio = new Date();		
+		
+		try {
+			
+			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);		
+			PropertyConfigurator.configure(session.getServletContext().getRealPath("/") +File.separator+"WEB-INF"+File.separator+"log4j.properties");
+			Locale.setDefault(new Locale("pt", "BR"));		
+			dataHoraInicio = new Date();		
+						
+			/** INICIAR JOB **/
+			String value = "0 0/1 * * * ?";
+			SchedulerFactory schedFact = new StdSchedulerFactory();
+			Scheduler sched = schedFact.getScheduler();								
+			sched.start();
+			
+			JobDetail job = JobBuilder.newJob(RDRJob.class).withIdentity("job1", "grupo1").build();			
+			
+			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("job1", "grupo1").withSchedule(CronScheduleBuilder.cronSchedule(value)).build();
+			
+			sched.scheduleJob(job, trigger);
+			/** INICIAR JOB **/
+			
+		} catch (SchedulerException e) {
+			if(e instanceof ObjectAlreadyExistsException){
+				log.info(e);
+			} else {			
+				log.error(e);
+			}
+		}
 	}	
 	
 	public String getIniciarAplicacao(){
