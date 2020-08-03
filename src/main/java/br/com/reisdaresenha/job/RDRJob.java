@@ -1,5 +1,6 @@
 package br.com.reisdaresenha.job;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,12 +42,20 @@ public class RDRJob implements Job {
 			RDRServiceLocal rdrService = lookupRdrService();
 			RodadaServiceLocal rodadaService = lookupRodadaService();
 			ParametroServiceLocal parametroService = lookupParametrosService();
-			
 			CartolaRestFulClient servicoCartola = new CartolaRestFulClient(); 	
+			String rodaJob = parametroService.buscarParametroPorChave("roda_job").getValor();
 			
-			sincronizarTimesComCartolaFC(rdrService, servicoCartola);
-			
-			atualizarPontuacaoRodadaEmAndamento(rdrService, rodadaService, parametroService, servicoCartola);			
+			if("SIM".equalsIgnoreCase(rodaJob.trim())) {	
+				System.out.println(">>>>>>>>>>>> Iniciando JOB em '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<");			
+				
+				sincronizarTimesComCartolaFC(rdrService, servicoCartola);				
+				atualizarPontuacaoRodadaEmAndamento(rdrService, rodadaService, parametroService, servicoCartola);			
+				
+				System.out.println(">>>>>>>>>>>> Finalizando JOB em '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<");				
+				
+			} else {
+				System.out.println("parametro >>> roda_job: "+rodaJob);				
+			}
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -102,7 +111,9 @@ public class RDRJob implements Job {
 			rodadaEmAndamento.setListaPontuacao(listaPontuacao);
 			
 			buscarTodasAsPontuacoesNoServicoCartolaFC(rdrService, rodadaService, parametroService, servicoCartola, rodadaEmAndamento.getListaPontuacao());
-		}		
+		} else {
+			System.out.println("JOB: NAO EXISTE RODADA EM ANDAMENTO");			
+		}
 	}
 	
 	private String buscarTodasAsPontuacoesNoServicoCartolaFC(RDRServiceLocal rdrService, RodadaServiceLocal rodadaService, ParametroServiceLocal parametroService, CartolaRestFulClient servicoCartola, List<Pontuacao> listaPontuacao) {
@@ -175,14 +186,15 @@ public class RDRJob implements Job {
 							}							
 						}						
 					} 						
+				
+				
+					pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);					
+					pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);
+					
+					pontuacao.getTime().setVrCartoletasAtuais(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);	
+									
+					rodadaService.atualizar(pontuacao.getTime());	
 				}
-				
-				pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);					
-				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);
-				
-				pontuacao.getTime().setVrCartoletasAtuais(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);	
-								
-				rodadaService.atualizar(pontuacao.getTime());				
 			}	
 									
 			for (Pontuacao pontuacao : listaPontuacao) {	

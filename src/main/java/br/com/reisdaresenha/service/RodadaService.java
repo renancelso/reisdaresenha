@@ -171,9 +171,15 @@ public class RodadaService extends GenericService implements RodadaServiceLocal 
 			}
 
 			sql.append(" and statusRodada = 'EA' "); // EA = EM ANDAMENTO
-			sql.append(" order by o.nrRodada desc");
+			sql.append(" order by o.nrRodada desc");					
 			
-			rodada = (Rodada) consultarPorQuery(sql.toString(), 1, 0).get(0);
+			List<Rodada> listaRodadas = (List<Rodada>) consultarPorQuery(sql.toString(), 0, 0);
+			
+			if(listaRodadas != null && !listaRodadas.isEmpty()) {			
+				rodada = (Rodada) consultarPorQuery(sql.toString(), 1, 0).get(0);
+			} else {
+				return null;
+			}
 
 			return rodada;
 
