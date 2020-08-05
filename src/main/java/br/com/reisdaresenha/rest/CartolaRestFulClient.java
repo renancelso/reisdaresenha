@@ -12,6 +12,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 import br.com.reisdaresenha.model.Time;
 import br.com.reisdaresenha.view.TimeRodadaDTO;
 
@@ -118,6 +123,18 @@ public class CartolaRestFulClient {
 			JSONParser parser = new JSONParser();
 			
 			JSONObject jsonObject = (JSONObject) parser.parse(jsonResponse);		
+			
+			// JSON IDENTADO
+//			try {
+//				JsonParser parser2 = new JsonParser();
+//				Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//				JsonElement el = parser2.parse(jsonResponse);
+//				String jsonString = gson.toJson(el);			
+//				System.out.println(jsonString);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+			// JSON IDENTADO
 			
 			if(jsonObject.get("mensagem") != null) {
 				if("Rodada Inválida.".equalsIgnoreCase(String.valueOf(jsonObject.get("mensagem")))){					

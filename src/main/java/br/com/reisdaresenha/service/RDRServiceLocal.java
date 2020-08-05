@@ -37,6 +37,9 @@ public interface RDRServiceLocal extends GenericServiceInterface {
 
 	public void atualizarSaldoDeGols(String fase, String serie, List<RDRParticipante> listaParticipantes);
 
-	public RDRClassificacao buscarRDRClassificacaoPorParticipante(String fase, String serie, RDRParticipante rdrParticipante);		
+	public RDRClassificacao buscarRDRClassificacaoPorParticipante(String fase, String serie, RDRParticipante rdrParticipante);
+
+	public RDRParticipante buscarRDRParticipantesCopaPorClassificacaoFinal(String fase, String serie, String classFinal);		
+	
 		
 }

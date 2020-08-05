@@ -157,6 +157,7 @@ public class RodadaService extends GenericService implements RodadaServiceLocal 
 	}
 	
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Rodada buscarRodadaEmAndamento(Liga liga) {
 		Rodada rodada = new Rodada();

@@ -54,7 +54,9 @@ public class ApplicationControl implements Serializable {
 			dataHoraInicio = new Date();		
 						
 			/** INICIAR JOB **/
+			//String value = "0 0/1 * * * ?"; 
 			String value = "0 0/30 * * * ?"; 
+			
 			SchedulerFactory schedFact = new StdSchedulerFactory();
 			Scheduler sched = schedFact.getScheduler();								
 			sched.start();

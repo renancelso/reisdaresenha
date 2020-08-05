@@ -48,6 +48,33 @@ public class RDRService extends GenericService implements RDRServiceLocal {
 	
 	@SuppressWarnings("unchecked")
 	@Override
+	public RDRParticipante buscarRDRParticipantesCopaPorClassificacaoFinal(String fase, String serie, String classFinal) {		
+		
+		try {
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("select o from ").append(RDRParticipante.class.getSimpleName()).append(" o where 1=1 ");
+			sql.append(" and o.faseLiga = 'COPA' ");
+			sql.append(" and o.serieParticipante = 'COPA'"); 
+			sql.append(" and o.classificacaoFinalParaCopa = '").append(classFinal).append("'");
+			
+			sql.append(" order by o.id"); 
+			
+			List<RDRParticipante> listaRDRParticipantes = (List<RDRParticipante>) consultarPorQuery(sql.toString(), 0, 0);
+					
+			if(listaRDRParticipantes != null && !listaRDRParticipantes.isEmpty()) {
+				return listaRDRParticipantes.get(0); 	 
+			}
+			
+			return null;
+			
+		} catch (Exception e) {			
+			return null;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<RDRClassificacao> buscarRDRClassificacao(String fase, String serie) {		
 		
 		try {			
@@ -272,6 +299,7 @@ public class RDRService extends GenericService implements RDRServiceLocal {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void atualizarSaldoDeGols(String fase, String serie, List<RDRParticipante> listaParticipantes) {
 		
@@ -279,47 +307,50 @@ public class RDRService extends GenericService implements RDRServiceLocal {
 		// (SELECT sum(a.vr_pont_time_casa_arr) FROM rdrpontuacao a where a.serie = 'SA' and a.fase = 'A' and a.time_casa = 1) + (SELECT sum(o.vr_pont_time_fora_arr) FROM rdrpontuacao o where o.serie = 'SA' and o.fase = 'A' and o.time_fora = 1)
 		// from dual;
 		try {
-			for (RDRParticipante rdrParticipante : listaParticipantes) {				
-				
-				//GOLS PRO
-				StringBuilder sql = new StringBuilder();	
-				sql.append("select ");
-				sql.append(" (SELECT sum(c.vr_pont_time_casa_arr) FROM rdrpontuacao c where c.serie = '"+serie+"' and c.fase = '"+fase+"' and c.time_casa = "+rdrParticipante.getId()+") ");
-				sql.append(" + ");
-				sql.append(" (SELECT sum(f.vr_pont_time_fora_arr) FROM rdrpontuacao f where f.serie = '"+serie+"' and f.fase = '"+fase+"' and f.time_fora = "+rdrParticipante.getId()+") ");
-				sql.append(" from dual ");
-				
-				List<Object[]> listaGolsPro = new ArrayList<>();				
-				listaGolsPro = (List<Object[]>) consultarPorQueryNativa(sql.toString(), 0, 0);    		
-				
-				Double golsPro = 0.0;
-				for (Object obj : listaGolsPro) {
-					golsPro = new Double(String.valueOf(obj));
+			
+			if(listaParticipantes != null && !listaParticipantes.isEmpty()) {
+				for (RDRParticipante rdrParticipante : listaParticipantes) {				
+					
+					//GOLS PRO
+					StringBuilder sql = new StringBuilder();	
+					sql.append("select \n");
+					sql.append(" (SELECT sum(if(c.vr_pont_time_casa_arr IS NULL, 0, c.vr_pont_time_casa_arr)) FROM rdrpontuacao c where c.serie = '"+serie+"' and c.fase = '"+fase+"' and c.time_casa = "+rdrParticipante.getId()+") \n");
+					sql.append(" + \n");
+					sql.append(" (SELECT sum(if(f.vr_pont_time_fora_arr IS NULL, 0, f.vr_pont_time_fora_arr)) FROM rdrpontuacao f where f.serie = '"+serie+"' and f.fase = '"+fase+"' and f.time_fora = "+rdrParticipante.getId()+") \n");
+					sql.append(" from dual ");
+					
+					List<Object[]> listaGolsPro = new ArrayList<>();				
+					listaGolsPro = (List<Object[]>) consultarPorQueryNativa(sql.toString(), 0, 0);    		
+					
+					Double golsPro = 0.0;
+					for (Object obj : listaGolsPro) {
+						golsPro = new Double(String.valueOf(obj));
+					}	
+									
+					//GOLS CONTRA
+					sql = new StringBuilder();	
+					sql.append("select \n");
+					sql.append(" (SELECT sum(if(c.vr_pont_time_fora_arr IS NULL, 0, c.vr_pont_time_fora_arr)) FROM rdrpontuacao c where c.serie = '"+serie+"' and c.fase = '"+fase+"' and c.time_casa = "+rdrParticipante.getId()+") \n");
+					sql.append(" + \n");
+					sql.append(" (SELECT sum(if(f.vr_pont_time_casa_arr IS NULL, 0, f.vr_pont_time_casa_arr)) FROM rdrpontuacao f where f.serie = '"+serie+"' and f.fase = '"+fase+"' and f.time_fora = "+rdrParticipante.getId()+") \n");
+					sql.append(" from dual ");
+					
+					List<Object[]> listaGolsContra = new ArrayList<>();						
+					listaGolsContra = (List<Object[]>) consultarPorQueryNativa(sql.toString(), 0, 0);    		
+					
+					Double golsContra = 0.0;
+					for (Object obj : listaGolsContra) {
+						golsContra = new Double(String.valueOf(obj));
+					}	
+									
+					RDRClassificacao classificacao = buscarRDRClassificacaoPorParticipante(fase, serie, rdrParticipante);
+					classificacao.setVrGolsPro(golsPro);
+					classificacao.setVrGolsContra(golsContra);
+					
+					atualizar(classificacao);
+					
 				}	
-								
-				//GOLS CONTRA
-				sql = new StringBuilder();	
-				sql.append("select ");
-				sql.append(" (SELECT sum(c.vr_pont_time_fora_arr) FROM rdrpontuacao c where c.serie = '"+serie+"' and c.fase = '"+fase+"' and c.time_casa = "+rdrParticipante.getId()+") ");
-				sql.append(" + ");
-				sql.append(" (SELECT sum(f.vr_pont_time_casa_arr) FROM rdrpontuacao f where f.serie = '"+serie+"' and f.fase = '"+fase+"' and f.time_fora = "+rdrParticipante.getId()+") ");
-				sql.append(" from dual ");
-				
-				List<Object[]> listaGolsContra = new ArrayList<>();						
-				listaGolsContra = (List<Object[]>) consultarPorQueryNativa(sql.toString(), 0, 0);    		
-				
-				Double golsContra = 0.0;
-				for (Object obj : listaGolsContra) {
-					golsContra = new Double(String.valueOf(obj));
-				}	
-								
-				RDRClassificacao classificacao = buscarRDRClassificacaoPorParticipante(fase, serie, rdrParticipante);
-				classificacao.setVrGolsPro(golsPro);
-				classificacao.setVrGolsContra(golsContra);
-				
-				atualizar(classificacao);
-				
-			}			
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		

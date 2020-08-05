@@ -50,8 +50,28 @@ public class RDRParticipante implements Serializable {
 	@Column(name = "serie_participante", length=255)
 	private String serieParticipante;
 	
+	/**
+	 * CA-SA  - Campeão Apertura Serie A
+	 * VCA-SA - Vice Campeão Apertura Serie A
+	 * CA-SB  - Campeão Apertura Serie B
+	 * VCA-SB - Vice Campeão Apertura Serie B
+	 * 
+	 * CC-SA  - Campeão Clausura Serie A
+	 * VCC-SA - Vice Campeão Clausura Serie A
+	 * CC-SB  - Campeão Clausura Serie B
+	 * VCC-SB - Vice Campeão Clausura Serie B
+	 */
+	@Column(name = "classif_final_copa", length=255)
+	private String classificacaoFinalParaCopa;
+	
 	@Transient
 	private boolean estaNaCopa;
+	
+	@Transient
+	private boolean incluirNaCopa;
+	
+	@Transient
+	private boolean incluirNoLugarCampeao;
 
 	public Long getId() {
 		return id;
@@ -107,6 +127,30 @@ public class RDRParticipante implements Serializable {
 
 	public void setEstaNaCopa(boolean estaNaCopa) {
 		this.estaNaCopa = estaNaCopa;
+	}	
+
+	public boolean isIncluirNaCopa() {
+		return incluirNaCopa;
+	}
+
+	public void setIncluirNaCopa(boolean incluirNaCopa) {
+		this.incluirNaCopa = incluirNaCopa;
+	}	
+
+	public String getClassificacaoFinalParaCopa() {
+		return classificacaoFinalParaCopa;
+	}
+
+	public void setClassificacaoFinalParaCopa(String classificacaoFinalParaCopa) {
+		this.classificacaoFinalParaCopa = classificacaoFinalParaCopa;
+	}
+	
+	public boolean isIncluirNoLugarCampeao() {
+		return incluirNoLugarCampeao;
+	}
+
+	public void setIncluirNoLugarCampeao(boolean incluirNoLugarCampeao) {
+		this.incluirNoLugarCampeao = incluirNoLugarCampeao;
 	}
 
 	@Override
