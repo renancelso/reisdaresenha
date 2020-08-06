@@ -47,9 +47,15 @@
 			Reis da Resenha - Liga RDR
 		</label>		
 					
-		<h:form style="font-size: 12px;">				
+		<h:form style="font-size: 12px;">								
 												
-			  	<p:tabView cache="true" style="font-size: 12px; border: 0px; margin-left: -8px;">		
+			  	<p:tabView cache="true" style="font-size: 12px; border: 0px; margin-left: -8px;" 
+			  			   rendered="#{rdrControl.listaParticipantesAperturaSerieA != null 
+      									and rdrControl.listaParticipantesAperturaSerieB != null
+      									and rdrControl.listaClassificacaoAperturaSerieA != null  
+										and rdrControl.listaClassificacaoAperturaSerieB != null
+										and rdrControl.listaRDRRodadasAperturaSerieA != null
+										and rdrControl.listaRDRRodadasAperturaSerieB != null}">		
 																		
 					<p:tab title="Apertura A" 
 						   rendered="#{rdrControl.listaParticipantesAperturaSerieA != null 
@@ -687,6 +693,19 @@
 					</p:tab>	
 												
 				</p:tabView>	
+				
+				
+				<br/>
+				<br/>
+				
+				<h:outputText rendered="#{rdrControl.listaParticipantesAperturaSerieA == null 
+      									and rdrControl.listaParticipantesAperturaSerieB == null
+      									and rdrControl.listaClassificacaoAperturaSerieA == null  
+										and rdrControl.listaClassificacaoAperturaSerieB == null
+										and rdrControl.listaRDRRodadasAperturaSerieA == null
+										and rdrControl.listaRDRRodadasAperturaSerieB == null}"
+							  value="A LIGA RDR INICIARÁ A PARTIR DA 5ª RODADA" 
+							  style="text-align: center; font-size: 16px; color: red; margin-left: 10px;"/>		
 							
 		</h:form>
 		
