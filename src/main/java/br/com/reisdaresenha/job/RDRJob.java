@@ -331,36 +331,36 @@ public class RDRJob implements Job {
 			buscarTodasAsPontuacoesNoServicoCartolaFC(rdrService, rodadaService, parametroService, servicoCartola, rodadaEmAndamento.getListaPontuacao());
 			
 			//MOCK			
-			for (Pontuacao pontuacao : rodadaEmAndamento.getListaPontuacao()) {				
-				
-				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();	
-				Random gerador = new Random();
-				Double patrimonio = Double.parseDouble(String.valueOf(gerador.nextInt(300) + gerador.nextDouble()));			
-				Double pontos = Double.parseDouble(String.valueOf(gerador.nextInt(300) + gerador.nextDouble()));		
-				Double pontosCampeonato = Double.parseDouble(String.valueOf(gerador.nextInt(300) + gerador.nextDouble()));			
-				Double valorTime = Double.parseDouble(String.valueOf(gerador.nextInt(300) + gerador.nextDouble()));	
-				
-				timeRodadaDTO.setTime(pontuacao.getTime());
-				timeRodadaDTO.setRodadaAtual(pontuacao.getRodada().getNrRodada());
-				timeRodadaDTO.setPatrimonio(patrimonio);
-				timeRodadaDTO.setPontos(pontos);
-				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
-				timeRodadaDTO.setValorTime(valorTime);					
-				
-				pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);			
-				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);			
-				
-				pontuacao.getTime().setVrCartoletasAtuais(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);	
-				
-				rodadaService.atualizar(pontuacao.getTime());	
-			}	
-			
-			for (Pontuacao pontuacao : rodadaEmAndamento.getListaPontuacao()) {	
-				pontuacao.setNomeTime(pontuacao.getTime().getNomeTime());					
-				pontuacao.setIdCartola(pontuacao.getTime().getIdCartola());
-				
-				rodadaService.atualizar(pontuacao);				
-			}				
+//			for (Pontuacao pontuacao : rodadaEmAndamento.getListaPontuacao()) {				
+//				
+//				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();	
+//				Random gerador = new Random();
+//				Double patrimonio = Double.parseDouble(String.valueOf(gerador.nextInt(300) + gerador.nextDouble()));			
+//				Double pontos = Double.parseDouble(String.valueOf(gerador.nextInt(300) + gerador.nextDouble()));		
+//				Double pontosCampeonato = Double.parseDouble(String.valueOf(gerador.nextInt(300) + gerador.nextDouble()));			
+//				Double valorTime = Double.parseDouble(String.valueOf(gerador.nextInt(300) + gerador.nextDouble()));	
+//				
+//				timeRodadaDTO.setTime(pontuacao.getTime());
+//				timeRodadaDTO.setRodadaAtual(pontuacao.getRodada().getNrRodada());
+//				timeRodadaDTO.setPatrimonio(patrimonio);
+//				timeRodadaDTO.setPontos(pontos);
+//				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
+//				timeRodadaDTO.setValorTime(valorTime);					
+//				
+//				pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);			
+//				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);			
+//				
+//				pontuacao.getTime().setVrCartoletasAtuais(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);	
+//				
+//				rodadaService.atualizar(pontuacao.getTime());	
+//			}	
+//			
+//			for (Pontuacao pontuacao : rodadaEmAndamento.getListaPontuacao()) {	
+//				pontuacao.setNomeTime(pontuacao.getTime().getNomeTime());					
+//				pontuacao.setIdCartola(pontuacao.getTime().getIdCartola());
+//				
+//				rodadaService.atualizar(pontuacao);				
+//			}				
 			//MOCK
 			
 			
