@@ -229,6 +229,29 @@ public class RDRService extends GenericService implements RDRServiceLocal {
 		}
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RDRRodada> buscarRDRRodadaPorRodadaDaLigaPrincipal(Long nrRodadaLigaPrincipal) {			
+		try {
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("select o from ").append(RDRRodada.class.getSimpleName()).append(" o where 1=1 ");
+			sql.append(" and o.nrRodadaCartola = ").append(nrRodadaLigaPrincipal);
+						
+			List<RDRRodada> listaRDRRodada = (List<RDRRodada>) consultarPorQuery(sql.toString(), 0, 0);
+					
+			if(listaRDRRodada != null && !listaRDRRodada.isEmpty()) {
+				return listaRDRRodada; 	 
+			}
+			
+			return null;
+			
+		} catch (Exception e) {			
+			return null;
+		}
+	}
+	
 
 	@SuppressWarnings("unchecked")
 	@Override

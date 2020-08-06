@@ -90,13 +90,13 @@
 								    
 								    <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
 								    		  rendered="#{(rowIndex+1 &lt; var.listaOsbPontuacao.size() and var.nrRodada &lt; 32) or (rowIndex+1 &lt; var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 31 and var.nrRodada &lt; 39)}">
-								        <h:outputText value="C" rendered="#{var.nrRodada == 38}" title="Campeão"/>	
-								        <h:outputText value="C" rendered="#{var.nrRodada &lt; 38}" title="Classificado"/>
+								        <h:outputText value="Campeão" rendered="#{var.nrRodada == 38}" title="Campeão"/>	
+								        <h:outputText value="Classificado" rendered="#{var.nrRodada &lt; 38}" title="Classificado"/>
 								    </p:column>		
 								    
 								    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
 								   			  rendered="#{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 31 and var.nrRodada &lt; 39)}">
-								       <h:outputText value="E" rendered="#{var.nrRodada &lt; 38 or (var.nrRodada == 38 and rowIndex+1 == var.listaOsbPontuacao.size())}" title="Eliminado"/>	
+								       <h:outputText value="Eliminado" rendered="#{var.nrRodada &lt; 38 or (var.nrRodada == 38 and rowIndex+1 == var.listaOsbPontuacao.size())}" title="Eliminado"/>	
 								       <h:outputText value="VC" rendered="#{var.nrRodada == 38 and rowIndex+1 == var.listaOsbPontuacao.size()-1}" title="Vice-Campeão"/>	
 								    </p:column>					 				    
 																	   
