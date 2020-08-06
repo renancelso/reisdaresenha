@@ -1,6 +1,8 @@
 package br.com.reisdaresenha.view;
 
 import java.io.Serializable;
+import java.text.Collator;
+import java.util.Locale;
 
 import br.com.reisdaresenha.model.OSBPontuacao;
 
@@ -104,7 +106,15 @@ public class TimeCartolaRestDTO implements Serializable, Comparable<TimeCartolaR
 
 	@Override
 	public int compareTo(TimeCartolaRestDTO other) {	
-		return new Integer(this.nomeTime.compareTo(other.getNomeTime())).intValue();	
+		
+		Collator cot = Collator.getInstance(new Locale("pt","BR"));
+	    
+		if(other != null) {	    
+	    	return cot.compare(this.nomeTime,other.getNomeTime());
+	    } else {
+	        return 0;
+	    }
+		
 	}
 
 	public String getNomeDonoTime() {
