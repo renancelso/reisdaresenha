@@ -18,7 +18,7 @@ import com.google.gson.Gson;
 //https://api.cartolafc.globo.com/atletas/mercado
 //https://api.cartolafc.globo.com/patrocinadores
 //https://api.cartolafc.globo.com/time/id/[id_time_cartola]/[rodada]
-public class ExemploClientRestGet {
+public class _ExemploClientRestGet {
 
 	public static void main(String[] args) {
 		

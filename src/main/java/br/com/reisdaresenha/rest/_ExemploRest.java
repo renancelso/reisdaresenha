@@ -9,7 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Path("/exemplo")
-public class ExemploRest {
+public class _ExemploRest {
 	private List<String> list = new ArrayList<String>();
 
 	@GET

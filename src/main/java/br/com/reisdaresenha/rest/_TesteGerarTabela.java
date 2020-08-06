@@ -3,7 +3,7 @@ package br.com.reisdaresenha.rest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TesteGerarTabela {
+public class _TesteGerarTabela {
 
 	public static void main(String[] args) {
 				

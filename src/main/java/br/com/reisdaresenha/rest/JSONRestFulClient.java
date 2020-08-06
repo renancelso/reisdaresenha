@@ -143,7 +143,7 @@ public class JSONRestFulClient {
 		HttpClient client = new HttpClient();
 		GetMethod method = new GetMethod(endPoint);
 		
-try {	
+		try {	
 			
 			method.setRequestHeader("Connection", "keep-alive");
 			method.setRequestHeader("Accept", "*/*");

@@ -98,6 +98,13 @@
         <pattern value="/rdr-gerar-copa" />
         <view-id value="/sistema/rdr/rdr-gerar-copa.jsf" />
     </url-mapping> 
+    
+    
+    <url-mapping id="rest-cartolafc">
+        <pattern value="/rest-cartolafc" />
+        <view-id value="/sistema/cadastro/rest-cartolafc.jsf" />
+    </url-mapping> 
+    
               
    	<url-mapping id="logoff">
 	  	<pattern value="/logoff" />

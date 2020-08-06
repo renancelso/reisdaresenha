@@ -1,6 +1,6 @@
 package br.com.reisdaresenha.rest;
 
-public class TesteArredondamento {	
+public class _TesteArredondamento {	
 	
 	public static void main(String[] args) {
 		

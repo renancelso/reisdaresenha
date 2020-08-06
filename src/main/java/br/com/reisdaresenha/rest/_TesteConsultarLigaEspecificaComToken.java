@@ -14,7 +14,7 @@ import org.json.simple.parser.JSONParser;
 //https://api.cartolafc.globo.com/atletas/mercado
 //https://api.cartolafc.globo.com/patrocinadores
 //https://api.cartolafc.globo.com/time/id/[id_time_cartola]/[rodada]
-public class TesteConsultarLigaEspecificaComToken {
+public class _TesteConsultarLigaEspecificaComToken {
 
 	public static void main(String[] args) {
 		
