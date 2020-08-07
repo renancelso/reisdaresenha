@@ -39,7 +39,7 @@ public class JSONRestFulClient {
 			String jsonResponse = method.getResponseBodyAsString();
 					
 			JsonParser parser = new JsonParser();
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 			JsonElement el = parser.parse(jsonResponse);
 			String jsonString = gson.toJson(el);			
 			
@@ -74,14 +74,11 @@ public class JSONRestFulClient {
 			method.setRequestHeader("Accept", "*/*");
 			method.setRequestHeader("Content-type", "application/x-www-form-urlencoded");						
 			
-			int statusCode = client.executeMethod(method);
-			
-			//System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));
-				
-			String jsonResponse = method.getResponseBodyAsString();
-					
+			int statusCode = client.executeMethod(method);			
+			//System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));				
+			String jsonResponse = method.getResponseBodyAsString();					
 			JsonParser parser = new JsonParser();
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create(); //new GsonBuilder().setPrettyPrinting().create();			
 			JsonElement el = parser.parse(jsonResponse);
 			String jsonString = gson.toJson(el);			
 			
@@ -118,7 +115,7 @@ public class JSONRestFulClient {
 			String jsonResponse = method.getResponseBodyAsString();
 					
 			JsonParser parser = new JsonParser();
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 			JsonElement el = parser.parse(jsonResponse);
 			String jsonString = gson.toJson(el);			
 			
@@ -156,7 +153,7 @@ public class JSONRestFulClient {
 			String jsonResponse = method.getResponseBodyAsString();
 					
 			JsonParser parser = new JsonParser();
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 			JsonElement el = parser.parse(jsonResponse);
 			String jsonString = gson.toJson(el);			
 			
@@ -250,7 +247,7 @@ public class JSONRestFulClient {
 			String jsonResponse = method.getResponseBodyAsString();
 					
 			JsonParser parser = new JsonParser();
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 			JsonElement el = parser.parse(jsonResponse);
 			String jsonString = gson.toJson(el);			
 			

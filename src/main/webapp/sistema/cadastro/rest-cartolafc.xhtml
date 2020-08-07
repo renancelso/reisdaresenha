@@ -29,7 +29,47 @@
 		          		<p:inputTextarea cols="230" value="#{jsonRestFulControl.buscarInformacoesLigaEspecifica()}" readonly="true"/>   
 	          		</p:tab>  
 	          		
+	          		<p:tab title="JSON TIMES">
 	          		
+	          			<br/>
+		          				          	          		
+		          		<h:panelGrid columns="4" columnClasses="coluna1,coluna2,coluna1,coluna2">
+		          		
+		          			<h:outputText value="TIME: "/>
+		          			<p:selectOneMenu id="time" value="#{jsonRestFulControl.timeSelecionado}" requiredMessage="É necessário informar um time">
+								<f:converter converterId="TimeConverter" />
+								<f:selectItem itemValue="" itemLabel="TODOS" />
+								<f:selectItems value="#{jsonRestFulControl.listaTimes}" var="time" itemLabel="#{time.nomeTime} - #{time.idCartola}" />													
+							</p:selectOneMenu>
+							
+							<h:outputText value="RODADA: "/>
+							<p:inputText value="#{jsonRestFulControl.rodadaSelecionada}" size="4"/>
+							
+		          		</h:panelGrid>
+		          		
+		          		<br/>
+		          		
+		          		
+		          		<center>
+			          		<p:commandButton value="BUSCAR JSON NO CARTOLA FC" 			    					
+			               					 onstart="PF('dialogProcessando').show();" 
+			               					 onclick="PF('dialogProcessando').show();"                					 
+			               					 oncomplete="PF('dialogProcessando').hide();"									
+										     onsuccess="PF('dialogProcessando').hide();"
+									 		 onerror="PF('dialogProcessando').hide();"
+									 		 update="@form" 							 		
+									 		 action="#{jsonRestFulControl.buscarTimeRodadaPorIDCartola()}"/>
+						</center>	
+						
+						
+						<br/>	 	
+							 
+							 		 
+						<p:inputTextarea cols="230" value="#{jsonRestFulControl.jsonTimeSelecionado}" readonly="true"/>   
+						
+		          		
+		          		
+	          		</p:tab>
 	          		        	
           		</p:tabView>         		          		  		          			           		
 	                             

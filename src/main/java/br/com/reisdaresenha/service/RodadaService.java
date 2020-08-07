@@ -190,6 +190,7 @@ public class RodadaService extends GenericService implements RodadaServiceLocal 
 		}
 	}	
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public OSBRodada buscarOsbRodadaEmAndamento(Liga liga) {
 		
@@ -206,10 +207,21 @@ public class RodadaService extends GenericService implements RodadaServiceLocal 
 
 			sql.append(" and statusRodada = 'EA' "); // EA = EM ANDAMENTO
 			sql.append(" order by o.nrRodada desc");
+						
+			List<OSBRodada> listaOSBRodada = new ArrayList<OSBRodada>();
 			
-			rodada = (OSBRodada) consultarPorQuery(sql.toString(), 1, 0).get(0);
-
-			return rodada;
+			listaOSBRodada = (List<OSBRodada>) consultarPorQuery(sql.toString(), 0, 0);
+			
+			if(listaOSBRodada != null && !listaOSBRodada.isEmpty()) {
+				
+				rodada = listaOSBRodada.get(0);
+				
+				return rodada;			
+				
+			} else {
+				
+				return null;
+			}
 
 		} catch (Exception e) {
 			log.error(e);
