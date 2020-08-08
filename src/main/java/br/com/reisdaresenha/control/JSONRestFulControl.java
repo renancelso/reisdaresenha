@@ -67,7 +67,21 @@ public class JSONRestFulControl extends BaseControl{
 			listaRodadas = (List<Rodada>) timeService.consultarTodos(Rodada.class," order by o.nrRodada desc ");
 			
 			if(listaRodadas != null && !listaRodadas.isEmpty()) {
-				rodadaSelecionada = listaRodadas.get(0).getNrRodada();
+				
+				if("EA".equalsIgnoreCase(listaRodadas.get(0).getStatusRodada())){
+					
+					rodadaSelecionada = listaRodadas.get(0).getNrRodada();
+					
+				} else if("PS".equalsIgnoreCase(listaRodadas.get(0).getStatusRodada())){
+					
+					rodadaSelecionada = listaRodadas.get(0).getNrRodada()+1;
+					
+				} else {
+					
+					rodadaSelecionada = listaRodadas.get(0).getNrRodada();
+					
+				}
+				
 			} else {
 				rodadaSelecionada = new Long(1);
 			}
