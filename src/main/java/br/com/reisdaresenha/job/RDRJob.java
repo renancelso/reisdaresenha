@@ -444,7 +444,7 @@ public class RDRJob implements Job {
 			
 			
 		} else {
-			System.out.println("JOB: NAO EXISTE RODADA EM ANDAMENTO");			
+			log.info("JOB: NAO EXISTE RODADA EM ANDAMENTO");			
 		}
 	}
 	
@@ -462,7 +462,7 @@ public class RDRJob implements Job {
 				timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
 				
 				if(timeRodadaDTO.getTime() == null) {
-					System.out.println(pontuacao.getRodada().getNrRodada()+"ª Rodada ainda não iniciou no Cartola FC.");
+					log.info(pontuacao.getRodada().getNrRodada()+"ª Rodada ainda não iniciou no Cartola FC.");
 					return null;
 				}
 				
