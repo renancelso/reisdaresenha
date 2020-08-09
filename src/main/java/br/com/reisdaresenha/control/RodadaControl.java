@@ -218,11 +218,36 @@ public class RodadaControl extends BaseControl {
 			for (Pontuacao pontuacao : listaPontuacao) {
 				
 				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();			
-				timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
 				
-				if(timeRodadaDTO.getTime() == null) {
-					addErrorMessage(pontuacao.getRodada().getNrRodada()+"ª Rodada ainda não iniciou no Cartola FC.");
-					return null;
+				timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());					
+				
+				if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) { 					
+					
+					timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
+					
+					if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) { 
+						
+						timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
+						
+						if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) { 
+							
+							timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
+							
+							if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) { 
+								
+								timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());				
+								
+							}
+							
+						}
+						
+					}
+					
+				}
+				
+				if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) {
+					addErrorMessage(pontuacao.getRodada().getNrRodada()+"ª Rodada ainda não iniciou no Cartola FC e/ou nao foi possivel buscar o time: "+pontuacao.getTime().getNomeTime()+" (ID-Cartola: "+pontuacao.getTime().getIdCartola()+")");
+					continue;
 				}
 				
 				timeRodadaDTO.setPontos(0.0);	

@@ -461,11 +461,38 @@ public class RDRJob implements Job {
 				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();			
 				timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
 				
-				if(timeRodadaDTO.getTime() == null) {
-					log.info(pontuacao.getRodada().getNrRodada()+"ª Rodada ainda não iniciou no Cartola FC.");
-					return null;
+				if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) { 					
+					
+					timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
+					
+					if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) { 
+						
+						timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
+						
+						if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) { 
+							
+							timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
+							
+							if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) { 
+								
+								timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
+								
+								if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) { 
+									log.info(pontuacao.getRodada().getNrRodada()+"ª Rodada ainda não iniciou no Cartola FC e/ou nao foi possivel buscar o time: "+pontuacao.getTime().getNomeTime()+" (ID-Cartola: "+pontuacao.getTime().getIdCartola()+")");
+									log.error(pontuacao.getRodada().getNrRodada()+"ª Rodada ainda não iniciou no Cartola FC e/ou nao foi possivel buscar o time: "+pontuacao.getTime().getNomeTime()+" (ID-Cartola: "+pontuacao.getTime().getIdCartola()+")");
+									log.debug(pontuacao.getRodada().getNrRodada()+"ª Rodada ainda não iniciou no Cartola FC e/ou nao foi possivel buscar o time: "+pontuacao.getTime().getNomeTime()+" (ID-Cartola: "+pontuacao.getTime().getIdCartola()+")");
+									log.warn(pontuacao.getRodada().getNrRodada()+"ª Rodada ainda não iniciou no Cartola FC e/ou nao foi possivel buscar o time: "+pontuacao.getTime().getNomeTime()+" (ID-Cartola: "+pontuacao.getTime().getIdCartola()+")");
+									continue;
+								}
+								
+							}
+							
+						}
+						
+					}
+					
 				}
-				
+						
 				timeRodadaDTO.setPontos(0.0);	
 				
 				if(jsonAtletas != null) {			
