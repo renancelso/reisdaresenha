@@ -433,7 +433,7 @@ public class CartolaRestFulClient {
 		return null;
 	}
 		
-	public JSONObject buscarPontuacaoRodadaAtual() {		
+	public JSONObject buscarPontuacaoRodadaAtual(Long nrRodada) {			
 						
 			String endPoint = "https://api.cartolafc.globo.com/atletas/pontuados";		
 			HttpClient client = new HttpClient();
@@ -452,12 +452,15 @@ public class CartolaRestFulClient {
 				JSONParser parser = new JSONParser();
 				
 				JSONObject jsonObject = (JSONObject) parser.parse(jsonResponse);	
-								
-				//System.out.println("PARE");
 				
-				JSONObject jsonAtletas = (JSONObject) jsonObject.get("atletas");
+				Long rodadaEmAndamentoCartolaFC = new Long(String.valueOf(jsonObject.get("rodada")));
 				
-				return jsonAtletas;
+				if(nrRodada.longValue() == rodadaEmAndamentoCartolaFC.longValue()) {					
+					JSONObject jsonAtletas = (JSONObject) jsonObject.get("atletas");					
+					return jsonAtletas;
+				} else {
+					return null;
+				}
 
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
