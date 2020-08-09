@@ -1,6 +1,7 @@
 package br.com.reisdaresenha.rest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
@@ -157,8 +158,7 @@ public class CartolaRestFulClient {
 				
 				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
 				timeRodadaDTO.setValorTime(valorTime);		
-				
-				
+								
 				///				
 				JSONObject jsonObjectTime = (JSONObject) jsonObject.get("time");
 				
@@ -216,6 +216,18 @@ public class CartolaRestFulClient {
 				timeRodadaDTO.getTime().setFacebookId(facebookId);		
 				
 			}	
+			
+			JSONArray jsonArray = (JSONArray) jsonObject.get("atletas");
+				
+			timeRodadaDTO.setIdAtletasEscalados(new ArrayList<Long>());
+			
+			if(jsonArray != null && !jsonArray.isEmpty()) {						
+				for (int i = 0; i < jsonArray.size(); i++) {					
+					JSONObject json = (JSONObject) jsonArray.get(i);						
+					Long idAtleta = (Long) json.get("atleta_id");					
+					timeRodadaDTO.getIdAtletasEscalados().add(idAtleta);
+				}			
+			}
 			
 			return timeRodadaDTO;		
 
@@ -420,5 +432,45 @@ public class CartolaRestFulClient {
 		
 		return null;
 	}
+	
+	@SuppressWarnings("unused")
+	public JSONObject buscarPontuacaoRodadaAtual() {		
+						
+			String endPoint = "https://api.cartolafc.globo.com/atletas/pontuados";		
+			HttpClient client = new HttpClient();
+			GetMethod method = new GetMethod(endPoint);
+			
+			try {				
+							
+				method.setRequestHeader("Connection", "keep-alive");
+				method.setRequestHeader("Accept", "*/*");
+				method.setRequestHeader("Content-type", "application/x-www-form-urlencoded");				
+
+				client.executeMethod(method);
+
+				String jsonResponse = method.getResponseBodyAsString();
+
+				JSONParser parser = new JSONParser();
+				
+				JSONObject jsonObject = (JSONObject) parser.parse(jsonResponse);	
+								
+				System.out.println("PARE");
+				
+				JSONObject jsonAtletas = (JSONObject) jsonObject.get("atletas");
+				
+				return jsonAtletas;
+
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			} catch (ParseException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			} finally {
+				method.releaseConnection();
+			}		
+			
+			return null;		
+		}
 	
 }

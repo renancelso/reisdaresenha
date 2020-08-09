@@ -1,5 +1,7 @@
 package br.com.reisdaresenha.view;
 
+import java.util.List;
+
 import br.com.reisdaresenha.model.Time;
 
 public class TimeRodadaDTO {
@@ -15,6 +17,8 @@ public class TimeRodadaDTO {
 	private Double pontos;
 	
 	private Double pontosCampeonato;
+	
+	private List<Long> idAtletasEscalados;
 
 	public Time getTime() {
 		return time;
@@ -87,6 +91,14 @@ public class TimeRodadaDTO {
 		} else if (!time.equals(other.time))
 			return false;
 		return true;
+	}
+
+	public List<Long> getIdAtletasEscalados() {
+		return idAtletasEscalados;
+	}
+
+	public void setIdAtletasEscalados(List<Long> idAtletasEscalados) {
+		this.idAtletasEscalados = idAtletasEscalados;
 	}
 	
 	
