@@ -5,14 +5,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
-import org.json.simple.JSONArray;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -33,7 +30,6 @@ import br.com.reisdaresenha.service.RDRServiceLocal;
 import br.com.reisdaresenha.service.RodadaServiceLocal;
 import br.com.reisdaresenha.service.TimeServiceLocal;
 import br.com.reisdaresenha.view.ClassificacaoLigaPrincipalDTO;
-import br.com.reisdaresenha.view.TimeCartolaRestDTO;
 import br.com.reisdaresenha.view.TimeRodadaDTO;
 
 /**
@@ -42,6 +38,8 @@ import br.com.reisdaresenha.view.TimeRodadaDTO;
  *
  */
 public class RDRJob implements Job {
+	
+	private transient Logger log = Logger.getLogger(RDRJob.class.getName());
 	
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {				
@@ -59,12 +57,25 @@ public class RDRJob implements Job {
 			String rodaJob = parametroService.buscarParametroPorChave("roda_job").getValor();
 			
 			if("SIM".equalsIgnoreCase(rodaJob.trim())) {	
-				System.out.println(">>>>>>>>>>>> Iniciando JOB em '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<");			
+				log.info(">>>>>>>>>>>> Iniciando JOB em '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<");			
 				
-				sincronizarTimesComCartolaFC(rdrService, servicoCartola);		
+				try {
+					log.info(">> INICIO sincronizarTimesComCartolaFC <<");
+					sincronizarTimesComCartolaFC(rdrService, servicoCartola);	
+				} catch (Exception e) {
+					log.error(">> ERRO EM  sincronizarTimesComCartolaFC <<");
+					e.printStackTrace();
+				}
 				
-				atualizarPontuacaoRodadaEmAndamento(rdrService, rodadaService, parametroService, servicoCartola);		
-				
+				try {
+					log.info(">> INICIO atualizarPontuacaoRodadaEmAndamento <<");
+					atualizarPontuacaoRodadaEmAndamento(rdrService, rodadaService, parametroService, servicoCartola);		
+				} catch (Exception e) {
+					log.error(">> ERRO EM atualizarPontuacaoRodadaEmAndamento <<");
+					e.printStackTrace();
+					return;
+				}				
+							
 				atualizarPontuacaoOSobreviventeRodadaEmAndamento(timeService, inicioService,rdrService, rodadaService, parametroService, servicoCartola);
 				
 				atualizarPontuacaoLigaReisDaResenhaRodadaEmAndamento(timeService, inicioService,rdrService, rodadaService, parametroService, servicoCartola);
@@ -72,12 +83,12 @@ public class RDRJob implements Job {
 				System.out.println(">>>>>>>>>>>> Finalizando JOB em '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<");				
 				
 			} else {
-				System.out.println("parametro >>> roda_job: "+rodaJob);				
+				log.info("parametro >>> roda_job: "+rodaJob);				
 			}
 		
 		} catch (Exception e) {
 			e.printStackTrace();
-			Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e.getMessage());
+			log.error(e);
 		}
 		
 	}
@@ -495,7 +506,7 @@ public class RDRJob implements Job {
 			Context c = new InitialContext();
 			return (RDRServiceLocal) c.lookup("java:global/reisdaresenha/RDRService!br.com.reisdaresenha.service.RDRServiceLocal");
 		} catch (Exception ne) {			
-			Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+			log.error(ne);
 			throw new RuntimeException(ne);			
 		}
 	}
@@ -505,7 +516,7 @@ public class RDRJob implements Job {
 			Context c = new InitialContext();
 			return (RodadaServiceLocal) c.lookup("java:global/reisdaresenha/RodadaService!br.com.reisdaresenha.service.RodadaServiceLocal");
 		} catch (Exception ne) {			
-			Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+			log.error(ne);
 			throw new RuntimeException(ne);			
 		}
 	}
@@ -516,7 +527,7 @@ public class RDRJob implements Job {
 			Context c = new InitialContext();
 			return (ParametroServiceLocal) c.lookup("java:global/reisdaresenha/ParametroService!br.com.reisdaresenha.service.ParametroServiceLocal");
 		} catch (Exception ne) {			
-			Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+			log.error(ne);
 			throw new RuntimeException(ne);			
 		}
 	}
@@ -526,7 +537,7 @@ public class RDRJob implements Job {
 			Context c = new InitialContext();
 			return (InicioServiceLocal) c.lookup("java:global/reisdaresenha/InicioService!br.com.reisdaresenha.service.InicioServiceLocal");
 		} catch (Exception ne) {			
-			Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+			log.error(ne);
 			throw new RuntimeException(ne);			
 		}
 	}
@@ -536,7 +547,7 @@ public class RDRJob implements Job {
 			Context c = new InitialContext();
 			return (TimeServiceLocal) c.lookup("java:global/reisdaresenha/TimeService!br.com.reisdaresenha.service.TimeServiceLocal");
 		} catch (Exception ne) {			
-			Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+			log.error(ne);
 			throw new RuntimeException(ne);			
 		}
 	}

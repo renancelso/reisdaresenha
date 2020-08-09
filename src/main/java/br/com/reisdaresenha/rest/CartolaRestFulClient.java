@@ -432,8 +432,7 @@ public class CartolaRestFulClient {
 		
 		return null;
 	}
-	
-	@SuppressWarnings("unused")
+		
 	public JSONObject buscarPontuacaoRodadaAtual() {		
 						
 			String endPoint = "https://api.cartolafc.globo.com/atletas/pontuados";		
@@ -454,7 +453,7 @@ public class CartolaRestFulClient {
 				
 				JSONObject jsonObject = (JSONObject) parser.parse(jsonResponse);	
 								
-				System.out.println("PARE");
+				//System.out.println("PARE");
 				
 				JSONObject jsonAtletas = (JSONObject) jsonObject.get("atletas");
 				
