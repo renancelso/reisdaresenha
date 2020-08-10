@@ -47,6 +47,8 @@ public class RDRJob implements Job {
 		
 		try {	
 			
+			Calendar agora = Calendar.getInstance();
+			
 			RDRServiceLocal rdrService = lookupRdrService();
 			RodadaServiceLocal rodadaService = lookupRodadaService();
 			ParametroServiceLocal parametroService = lookupParametrosService();			
@@ -59,75 +61,75 @@ public class RDRJob implements Job {
 			
 			if("SIM".equalsIgnoreCase(rodaJob.trim())) {	
 				
-				log.info("\n>>>>>>>>>>>> Iniciando JOB em '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<\n");			
+				log.info("\n>>>>>>>>>>>> Iniciando JOB em '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<\n");		
+				
+				Liga ligaPrincipal = new Liga();
+				ligaPrincipal = (Liga) rdrService.consultarPorChavePrimaria(ligaPrincipal, new Long(1));				
+				Rodada rodadaEmAndamento = new Rodada();		
+				rodadaEmAndamento = rodadaService.buscarRodadaEmAndamento(ligaPrincipal);					
+				JSONObject jsonObject = servicoCartola.getStatusRodadaCartolaFC(rodadaEmAndamento.getNrRodada());				
+				long statusMercado = new Long(String.valueOf(jsonObject.get("status_mercado"))).longValue();
+				
+				if(statusMercado == 2) { // 2 = Mercado Fechado (Rodada em andamento)
 								
-				Calendar hoje = Calendar.getInstance();
-				
-				Calendar hora16 = Calendar.getInstance();
-				hora16.setTime(new Date());
-				hora16.set(hora16.get(Calendar.YEAR), hora16.get(Calendar.MONTH), hora16.get(Calendar.DATE), 16, 00, 00);
-				
-				Calendar hora23e59 = Calendar.getInstance();
-				hora23e59.setTime(new Date());
-				hora23e59.set(hora23e59.get(Calendar.YEAR), hora23e59.get(Calendar.MONTH), hora23e59.get(Calendar.DATE), 23, 59, 00);
-				
-				Calendar agora = Calendar.getInstance();				
-				
-				if(hoje.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || hoje.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+					Calendar hoje = Calendar.getInstance();
+					
+					Calendar hora16 = Calendar.getInstance();
+					hora16.setTime(new Date());
+					hora16.set(hora16.get(Calendar.YEAR), hora16.get(Calendar.MONTH), hora16.get(Calendar.DATE), 16, 00, 00);
+					
+					Calendar hora23e59 = Calendar.getInstance();
+					hora23e59.setTime(new Date());
+					hora23e59.set(hora23e59.get(Calendar.YEAR), hora23e59.get(Calendar.MONTH), hora23e59.get(Calendar.DATE), 23, 59, 00);
 									
-					if(agora.getTime().after(hora16.getTime()) && agora.getTime().before(hora23e59.getTime())) {	
-						
-						log.info("\n>>>>>>>>>>>> Iniciando ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<\n");
-						
-						try {
-							log.info(">> INICIO atualizarPontuacaoRodadaEmAndamento <<");
-							atualizarPontuacaoRodadaEmAndamento(rdrService, rodadaService, parametroService, servicoCartola);		
-						} catch (Exception e) {
-							log.error(">> ERRO EM atualizarPontuacaoRodadaEmAndamento <<");
-							e.printStackTrace();
-							return;
-						}				
-									
-						atualizarPontuacaoOSobreviventeRodadaEmAndamento(timeService, inicioService,rdrService, rodadaService, parametroService, servicoCartola);
-						
-						atualizarPontuacaoLigaReisDaResenhaRodadaEmAndamento(timeService, inicioService,rdrService, rodadaService, parametroService, servicoCartola);
-						
-						log.info("\n>>>>>>>>>>>> FINALIZANDO ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<\n");
-					}
-					
-				} else {
-					
-					Calendar hora19 = Calendar.getInstance();
-					hora19.setTime(new Date());
-					hora19.set(hora19.get(Calendar.YEAR), hora19.get(Calendar.MONTH), hora19.get(Calendar.DATE), 19, 00, 00);
-					
-					if(agora.getTime().after(hora19.getTime()) && agora.getTime().before(hora23e59.getTime())) {	
-						
-						log.info("\n>>>>>>>>>>>> Iniciando ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<\n");
-						try {
-							log.info(">> INICIO sincronizarTimesComCartolaFC <<");
-							sincronizarTimesComCartolaFC(rdrService, servicoCartola);	
-						} catch (Exception e) {
-							log.error(">> ERRO EM sincronizarTimesComCartolaFC <<");
-							e.printStackTrace();
+					if(hoje.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || hoje.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+										
+						if(agora.getTime().after(hora16.getTime()) && agora.getTime().before(hora23e59.getTime())) {	
+							
+							log.info("\n>>>>>>>>>>>> Iniciando ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<\n");
+							
+							try {
+								log.info(">> INICIO atualizarPontuacaoRodadaEmAndamento <<");
+								atualizarPontuacaoRodadaEmAndamento(rdrService, rodadaService, parametroService, servicoCartola);		
+							} catch (Exception e) {
+								log.error(">> ERRO EM atualizarPontuacaoRodadaEmAndamento <<");
+								e.printStackTrace();
+								return;
+							}				
+										
+							atualizarPontuacaoOSobreviventeRodadaEmAndamento(timeService, inicioService,rdrService, rodadaService, parametroService, servicoCartola);
+							
+							atualizarPontuacaoLigaReisDaResenhaRodadaEmAndamento(timeService, inicioService,rdrService, rodadaService, parametroService, servicoCartola);
+							
+							log.info("\n>>>>>>>>>>>> FINALIZANDO ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<\n");
 						}
 						
-						try {
-							log.info(">> INICIO atualizarPontuacaoRodadaEmAndamento <<");
-							atualizarPontuacaoRodadaEmAndamento(rdrService, rodadaService, parametroService, servicoCartola);		
-						} catch (Exception e) {
-							log.error(">> ERRO EM atualizarPontuacaoRodadaEmAndamento <<");
-							e.printStackTrace();
-							return;
-						}				
-									
-						atualizarPontuacaoOSobreviventeRodadaEmAndamento(timeService, inicioService,rdrService, rodadaService, parametroService, servicoCartola);
+					} else {
 						
-						atualizarPontuacaoLigaReisDaResenhaRodadaEmAndamento(timeService, inicioService,rdrService, rodadaService, parametroService, servicoCartola);
+						Calendar hora19 = Calendar.getInstance();
+						hora19.setTime(new Date());
+						hora19.set(hora19.get(Calendar.YEAR), hora19.get(Calendar.MONTH), hora19.get(Calendar.DATE), 19, 00, 00);
 						
-						log.info("\n>>>>>>>>>>>> FINALIZANDO ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<\n");
-					}									
-					
+						if(agora.getTime().after(hora19.getTime()) && agora.getTime().before(hora23e59.getTime())) {	
+							
+							log.info("\n>>>>>>>>>>>> Iniciando ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<\n");
+														
+							try {
+								log.info(">> INICIO atualizarPontuacaoRodadaEmAndamento <<");
+								atualizarPontuacaoRodadaEmAndamento(rdrService, rodadaService, parametroService, servicoCartola);		
+							} catch (Exception e) {
+								log.error(">> ERRO EM atualizarPontuacaoRodadaEmAndamento <<");
+								e.printStackTrace();
+								return;
+							}				
+										
+							atualizarPontuacaoOSobreviventeRodadaEmAndamento(timeService, inicioService,rdrService, rodadaService, parametroService, servicoCartola);
+							
+							atualizarPontuacaoLigaReisDaResenhaRodadaEmAndamento(timeService, inicioService,rdrService, rodadaService, parametroService, servicoCartola);
+							
+							log.info("\n>>>>>>>>>>>> FINALIZANDO ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<\n");
+						}
+					}
 				}
 				
 				Calendar hora14 = Calendar.getInstance();
@@ -136,7 +138,7 @@ public class RDRJob implements Job {
 				
 				Calendar hora15e55 = Calendar.getInstance();
 				hora15e55.setTime(new Date());
-				hora15e55.set(hora16.get(Calendar.YEAR), hora16.get(Calendar.MONTH), hora16.get(Calendar.DATE), 15, 55, 00);
+				hora15e55.set(hora15e55.get(Calendar.YEAR), hora15e55.get(Calendar.MONTH), hora15e55.get(Calendar.DATE), 15, 55, 00);
 				
 				if(agora.getTime().after(hora14.getTime()) && agora.getTime().before(hora15e55.getTime())) {	
 					try {
@@ -403,8 +405,8 @@ public class RDRJob implements Job {
 			List<Pontuacao> listaPontuacao = (List<Pontuacao>) 
 					rodadaService.consultarPorQuery("select o from Pontuacao o where o.liga.id = "+ligaPrincipal.getId()+
 													" and o.rodada.id = "+rodadaEmAndamento.getId()+
-													" order by o.time.nomeTime, o.time.nomeDonoTime", 0, 0);		
-			
+													" order by o.time.nomeTime, o.time.nomeDonoTime", 0, 0);	
+									
 			rodadaEmAndamento.setListaPontuacao(listaPontuacao);
 			
 			buscarTodasAsPontuacoesNoServicoCartolaFC(rdrService, rodadaService, parametroService, servicoCartola, rodadaEmAndamento, rodadaEmAndamento.getListaPontuacao());
@@ -501,22 +503,23 @@ public class RDRJob implements Job {
 						
 						for (Long idEscalado : timeRodadaDTO.getIdAtletasEscalados()) {
 							if(jsonAtletas.get(String.valueOf(idEscalado)) != null) {
+								
 								JSONObject pont = (JSONObject) jsonAtletas.get(String.valueOf(idEscalado));	
-								Double pontuacaoSomar = Double.parseDouble(String.valueOf(pont.get("pontuacao")));						
+								
+								Double pontuacaoSomar = Double.parseDouble(String.valueOf(pont.get("pontuacao")));	
+								
 								timeRodadaDTO.setPontos(timeRodadaDTO.getPontos()+pontuacaoSomar);				
 							}
+							
 						}			
 						
-						pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);					
-						pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);
-						
+						pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);		
 					}					
-				}				
-													
-				pontuacao.getTime().setVrCartoletasAtuais(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);	
-								
-				rodadaService.atualizar(pontuacao.getTime());	
+				}		
 				
+				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);													
+				pontuacao.getTime().setVrCartoletasAtuais(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);									
+				rodadaService.atualizar(pontuacao.getTime());					
 			}	
 									
 			for (Pontuacao pontuacao : listaPontuacao) {	

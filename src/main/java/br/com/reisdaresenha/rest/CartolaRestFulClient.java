@@ -124,109 +124,63 @@ public class CartolaRestFulClient {
 			JSONParser parser = new JSONParser();
 			
 			JSONObject jsonObject = (JSONObject) parser.parse(jsonResponse);		
-			
-			// JSON IDENTADO
-//			try {
-//				JsonParser parser2 = new JsonParser();
-//				Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//				JsonElement el = parser2.parse(jsonResponse);
-//				String jsonString = gson.toJson(el);			
-//				System.out.println(jsonString);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-			// JSON IDENTADO
-			
+						
 			if(jsonObject.get("mensagem") != null) {
-				if("Rodada Inválida.".equalsIgnoreCase(String.valueOf(jsonObject.get("mensagem")))){					
+				if("Rodada Inválida.".equalsIgnoreCase(String.valueOf(jsonObject.get("mensagem")))
+						|| "Mercado em manutenção.".equalsIgnoreCase(String.valueOf(jsonObject.get("mensagem")))){					
 					timeRodadaDTO.setTime(null);
 					return timeRodadaDTO;
 				}
 			}
-				
-			try {
-				
-				Double patrimonio = (Double) jsonObject.get("patrimonio");				
-				Double pontos = (Double) jsonObject.get("pontos");				
-				Double pontosCampeonato = (Double) jsonObject.get("pontos_campeonato");				
-				Double valorTime = (Double) jsonObject.get("valor_time");
-				
-				timeRodadaDTO.setTime(time);
-				timeRodadaDTO.setRodadaAtual(nrRodada);
-				timeRodadaDTO.setPatrimonio(patrimonio);				
-				timeRodadaDTO.setPontos(pontos);	
-				
-				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
-				timeRodadaDTO.setValorTime(valorTime);		
-								
-				///				
-				JSONObject jsonObjectTime = (JSONObject) jsonObject.get("time");
-				
-				String nomeDonoTimeCartola = (String) jsonObjectTime.get("nome_cartola");				
-				Long timeIdCartola = (Long) jsonObjectTime.get("time_id");				
-				String fotoPerfil = (String) jsonObjectTime.get("foto_perfil");
-				String urlEscudoPng = (String) jsonObjectTime.get("url_escudo_png");				
-				String urlEscudoSvg = (String) jsonObjectTime.get("url_escudo_svg");				
-				Boolean assinante = (Boolean) jsonObjectTime.get("assinante");
-				String slug = (String) jsonObjectTime.get("slug");
-				Long facebookId = (Long) jsonObjectTime.get("facebook_id");
 							
-				timeRodadaDTO.getTime().setNomeDonoTime(nomeDonoTimeCartola);
-				timeRodadaDTO.getTime().setIdCartola(timeIdCartola);
-				timeRodadaDTO.getTime().setFotoPerfil(fotoPerfil);
-				timeRodadaDTO.getTime().setUrlEscudoPng(urlEscudoPng);
-				timeRodadaDTO.getTime().setUrlEscudoSvg(urlEscudoSvg);
-				timeRodadaDTO.getTime().setAssinante(assinante ? "sim" : "nao");
-				timeRodadaDTO.getTime().setSlugTime(slug);
-				timeRodadaDTO.getTime().setFacebookId(facebookId);		
-				
-			} catch (Exception e) {				
-				
-				Long patrimonio = (Long) jsonObject.get("patrimonio");				
-				Double pontos = (Double) jsonObject.get("pontos");				
-				Double pontosCampeonato = (Double) jsonObject.get("pontos_campeonato");				
-				Long valorTime = (Long) jsonObject.get("valor_time");
-				
-				timeRodadaDTO.setTime(time);
-				timeRodadaDTO.setRodadaAtual(nrRodada);
+			try {	
+				Double patrimonio = (Double) jsonObject.get("patrimonio");	
+				timeRodadaDTO.setPatrimonio(patrimonio);
+			} catch (Exception e) {
+				Long patrimonio = (Long) jsonObject.get("patrimonio");			
 				timeRodadaDTO.setPatrimonio(patrimonio != null ? Double.parseDouble(String.valueOf(patrimonio)) : 0.0);
-				timeRodadaDTO.setPontos(pontos);
-				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
-				timeRodadaDTO.setValorTime(valorTime != null ? Double.parseDouble(String.valueOf(valorTime)) : 0.0);
-				
-				///
-				JSONObject jsonObjectTime = (JSONObject) jsonObject.get("time");
-				
-				String nomeDonoTimeCartola = (String) jsonObjectTime.get("nome_cartola");				
-				Long timeIdCartola = (Long) jsonObjectTime.get("time_id");				
-				String fotoPerfil = (String) jsonObjectTime.get("foto_perfil");
-				String urlEscudoPng = (String) jsonObjectTime.get("url_escudo_png");				
-				String urlEscudoSvg = (String) jsonObjectTime.get("url_escudo_svg");				
-				Boolean assinante = (Boolean) jsonObjectTime.get("assinante");
-				String slug = (String) jsonObjectTime.get("slug");
-				Long facebookId = (Long) jsonObjectTime.get("facebook_id");
-				
-				timeRodadaDTO.getTime().setNomeDonoTime(nomeDonoTimeCartola);
-				timeRodadaDTO.getTime().setIdCartola(timeIdCartola);
-				timeRodadaDTO.getTime().setFotoPerfil(fotoPerfil);
-				timeRodadaDTO.getTime().setUrlEscudoPng(urlEscudoPng);
-				timeRodadaDTO.getTime().setUrlEscudoSvg(urlEscudoSvg);
-				timeRodadaDTO.getTime().setAssinante(assinante ? "sim" : "nao");
-				timeRodadaDTO.getTime().setSlugTime(slug);
-				timeRodadaDTO.getTime().setFacebookId(facebookId);		
-				
-			}	
+			}
 			
-			JSONArray jsonArray = (JSONArray) jsonObject.get("atletas");
-				
-			timeRodadaDTO.setIdAtletasEscalados(new ArrayList<Long>());
+			Double pontos = (Double) jsonObject.get("pontos");	
+			Double pontosCampeonato = (Double) jsonObject.get("pontos_campeonato");									
+			JSONObject jsonObjectTime = (JSONObject) jsonObject.get("time");
 			
-			if(jsonArray != null && !jsonArray.isEmpty()) {						
-				for (int i = 0; i < jsonArray.size(); i++) {					
-					JSONObject json = (JSONObject) jsonArray.get(i);						
-					Long idAtleta = (Long) json.get("atleta_id");					
-					timeRodadaDTO.getIdAtletasEscalados().add(idAtleta);
-				}			
+			String nomeDonoTimeCartola = (String) jsonObjectTime.get("nome_cartola");				
+			Long timeIdCartola = (Long) jsonObjectTime.get("time_id");				
+			String fotoPerfil = (String) jsonObjectTime.get("foto_perfil");
+			String urlEscudoPng = (String) jsonObjectTime.get("url_escudo_png");				
+			String urlEscudoSvg = (String) jsonObjectTime.get("url_escudo_svg");				
+			Boolean assinante = (Boolean) jsonObjectTime.get("assinante");
+			String slug = (String) jsonObjectTime.get("slug");
+			Long facebookId = (Long) jsonObjectTime.get("facebook_id");
+						
+			timeRodadaDTO.setTime(time);
+			timeRodadaDTO.getTime().setNomeDonoTime(nomeDonoTimeCartola);
+			timeRodadaDTO.getTime().setIdCartola(timeIdCartola);
+			timeRodadaDTO.getTime().setFotoPerfil(fotoPerfil);
+			timeRodadaDTO.getTime().setUrlEscudoPng(urlEscudoPng);
+			timeRodadaDTO.getTime().setUrlEscudoSvg(urlEscudoSvg);
+			timeRodadaDTO.getTime().setAssinante(assinante ? "sim" : "nao");
+			timeRodadaDTO.getTime().setSlugTime(slug);
+			timeRodadaDTO.getTime().setFacebookId(facebookId);	
+			
+			timeRodadaDTO.setRodadaAtual(nrRodada);				
+			timeRodadaDTO.setPontos(pontos);	
+			timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
+			
+			if(new Long(String.valueOf(jsonObject.get("rodada_atual"))).longValue() == nrRodada.longValue()) {
+							
+				JSONArray jsonArray = (JSONArray) jsonObject.get("atletas");
+					
+				timeRodadaDTO.setIdAtletasEscalados(new ArrayList<Long>());
+				
+				if(jsonArray != null && !jsonArray.isEmpty()) {						
+					for (int i = 0; i < jsonArray.size(); i++) {					
+						JSONObject json = (JSONObject) jsonArray.get(i);						
+						Long idAtleta = (Long) json.get("atleta_id");					
+						timeRodadaDTO.getIdAtletasEscalados().add(idAtleta);
+					}			
+				}
 			}
 			
 			return timeRodadaDTO;		
@@ -435,44 +389,95 @@ public class CartolaRestFulClient {
 		
 	public JSONObject buscarPontuacaoRodadaAtual(Long nrRodada) {			
 						
-			String endPoint = "http://api.cartolafc.globo.com/atletas/pontuados";		
-			HttpClient client = new HttpClient();
-			GetMethod method = new GetMethod(endPoint);
+		String endPoint = "http://api.cartolafc.globo.com/atletas/pontuados";		
+		HttpClient client = new HttpClient();
+		GetMethod method = new GetMethod(endPoint);
+		
+		try {				
+						
+			method.setRequestHeader("Connection", "keep-alive");
+			method.setRequestHeader("Accept", "*/*");
+			method.setRequestHeader("Content-type", "application/x-www-form-urlencoded");				
+
+			client.executeMethod(method);
+
+			String jsonResponse = method.getResponseBodyAsString();
 			
-			try {				
-							
-				method.setRequestHeader("Connection", "keep-alive");
-				method.setRequestHeader("Accept", "*/*");
-				method.setRequestHeader("Content-type", "application/x-www-form-urlencoded");				
+			if(jsonResponse == null) {
+				return null;
+			}
 
-				client.executeMethod(method);
-
-				String jsonResponse = method.getResponseBodyAsString();
-
-				JSONParser parser = new JSONParser();
-				
-				JSONObject jsonObject = (JSONObject) parser.parse(jsonResponse);	
-				
-				Long rodadaEmAndamentoCartolaFC = new Long(String.valueOf(jsonObject.get("rodada")));
-				
-				if(nrRodada.longValue() == rodadaEmAndamentoCartolaFC.longValue()) {					
-					JSONObject jsonAtletas = (JSONObject) jsonObject.get("atletas");					
-					return jsonAtletas;
-				} else {
-					return null;
-				}
-
-			} catch (IOException e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			} catch (ParseException e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			} finally {
-				method.releaseConnection();
-			}		
+			JSONParser parser = new JSONParser();
 			
-			return null;		
-		}
+			JSONObject jsonObject = (JSONObject) parser.parse(jsonResponse);	
+			
+			Long rodadaEmAndamentoCartolaFC = new Long(String.valueOf(jsonObject.get("rodada")));
+			
+			if(nrRodada.longValue() == rodadaEmAndamentoCartolaFC.longValue()) {					
+				JSONObject jsonAtletas = (JSONObject) jsonObject.get("atletas");					
+				return jsonAtletas;
+			} else {
+				return null;
+			}
+
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} catch (ParseException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			method.releaseConnection();
+		}		
+		
+		return null;		
+	}
+	
+	public JSONObject getStatusRodadaCartolaFC(Long nrRodada) {			
+		
+		String endPoint = "https://api.cartolafc.globo.com/mercado/status";		
+		HttpClient client = new HttpClient();
+		GetMethod method = new GetMethod(endPoint);
+		
+		try {				
+						
+			method.setRequestHeader("Connection", "keep-alive");
+			method.setRequestHeader("Accept", "*/*");
+			method.setRequestHeader("Content-type", "application/x-www-form-urlencoded");				
+
+			client.executeMethod(method);
+
+			String jsonResponse = method.getResponseBodyAsString();
+
+			JSONParser parser = new JSONParser();
+			
+			JSONObject jsonObject = (JSONObject) parser.parse(jsonResponse);	
+			
+			Long rodadaAtual = new Long(String.valueOf(jsonObject.get("rodada_atual")));
+			
+			if(rodadaAtual.longValue() == nrRodada.longValue()) {
+				/**
+				 * "status_mercado":1 - Mercado Aberto
+				 * "status_mercado":2 - Mercado Fechado (Rodada em andamento)
+				 * "status_mercado":4 - Mercado em Manutenção (Pós Rodada)
+				 */
+				return jsonObject;
+				
+			} else {
+				return null;
+			}
+			
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} catch (ParseException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			method.releaseConnection();
+		}		
+		
+		return null;		
+	}
 	
 }
