@@ -282,6 +282,10 @@ public class RodadaControl extends BaseControl {
 									
 				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);
 				pontuacao.getTime().setVrCartoletasAtuais(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);	
+				
+				if(pontuacao.getVrPontuacao() == null) {
+					pontuacao.setVrPontuacao(0.0);					
+				}
 								
 				rodadaService.atualizar(pontuacao.getTime());		
 			}		

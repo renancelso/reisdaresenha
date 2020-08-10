@@ -334,7 +334,7 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     			classificacao.setTime(String.valueOf(obj[0]));
     			classificacao.setJogos(Integer.parseInt(String.valueOf(obj[1])));
     			classificacao.setCartoletas(obj[2] != null ? Double.parseDouble(String.valueOf(obj[2])) : 0.0);
-    			classificacao.setPontuacao(Double.parseDouble(String.valueOf(obj[3])));      			
+    			classificacao.setPontuacao(obj[3] != null ? Double.parseDouble(String.valueOf(obj[3])) : 0.0);      			
     			classificacao.setColocacao(colocacao++);     			
     			classificacao.setIdTimeCartola(Long.parseLong(String.valueOf(obj[6])));    
     			classificacao.setEscudoTime(String.valueOf(obj[4]));    			
