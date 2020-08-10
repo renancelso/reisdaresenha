@@ -61,7 +61,7 @@ public class RDRJob implements Job {
 			
 			if("SIM".equalsIgnoreCase(rodaJob.trim())) {	
 				
-				log.info("\n>>>>>>>>>>>> Iniciando JOB em '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<\n");		
+				log.info(" \n \n >>>>>>>>>>>> Iniciando JOB em '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n ");		
 				
 				Liga ligaPrincipal = new Liga();
 				ligaPrincipal = (Liga) rdrService.consultarPorChavePrimaria(ligaPrincipal, new Long(1));				
@@ -86,7 +86,7 @@ public class RDRJob implements Job {
 										
 						if(agora.getTime().after(hora16.getTime()) && agora.getTime().before(hora23e59.getTime())) {	
 							
-							log.info("\n>>>>>>>>>>>> Iniciando ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<\n");
+							log.info("\n \n >>>>>>>>>>>> Iniciando ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n");
 							
 							try {
 								log.info(">> INICIO atualizarPontuacaoRodadaEmAndamento <<");
@@ -101,7 +101,7 @@ public class RDRJob implements Job {
 							
 							atualizarPontuacaoLigaReisDaResenhaRodadaEmAndamento(timeService, inicioService,rdrService, rodadaService, parametroService, servicoCartola);
 							
-							log.info("\n>>>>>>>>>>>> FINALIZANDO ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<\n");
+							log.info("\n \n >>>>>>>>>>>> FINALIZANDO ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n");
 						}
 						
 					} else {
@@ -112,7 +112,7 @@ public class RDRJob implements Job {
 						
 						if(agora.getTime().after(hora19.getTime()) && agora.getTime().before(hora23e59.getTime())) {	
 							
-							log.info("\n>>>>>>>>>>>> Iniciando ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<\n");
+							log.info("\n \n >>>>>>>>>>>> Iniciando ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n");
 														
 							try {
 								log.info(">> INICIO atualizarPontuacaoRodadaEmAndamento <<");
@@ -127,7 +127,7 @@ public class RDRJob implements Job {
 							
 							atualizarPontuacaoLigaReisDaResenhaRodadaEmAndamento(timeService, inicioService,rdrService, rodadaService, parametroService, servicoCartola);
 							
-							log.info("\n>>>>>>>>>>>> FINALIZANDO ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<\n");
+							log.info(" \n \n >>>>>>>>>>>> FINALIZANDO ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n ");
 						}
 					}
 				}
@@ -142,18 +142,18 @@ public class RDRJob implements Job {
 				
 				if(agora.getTime().after(hora14.getTime()) && agora.getTime().before(hora15e55.getTime())) {	
 					try {
-						log.info("\n>> INICIO sincronizarTimesComCartolaFC <<\n");
+						log.info("\n \n >> INICIO sincronizarTimesComCartolaFC << \n \n");
 						sincronizarTimesComCartolaFC(rdrService, servicoCartola);	
 					} catch (Exception e) {
-						log.error("\n>> ERRO EM sincronizarTimesComCartolaFC <<\n");
+						log.error("\n \n >> ERRO EM sincronizarTimesComCartolaFC << \n \n ");
 						e.printStackTrace();
 					}	
 				}
 				
-				log.info("\n>>>>>>>>>>>> Finalizando JOB em '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<<\n");				
+				log.info("\n \n >>>>>>>>>>>> Finalizando JOB em '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n");				
 				
 			} else {
-				log.info("parametro >>> roda_job: "+rodaJob);				
+				log.info("\n \n parametro >>> roda_job: "+rodaJob+" \n \n ");				
 			}
 		
 		} catch (Exception e) {
