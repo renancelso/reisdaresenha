@@ -61,7 +61,7 @@ public class RDRJob implements Job {
 			
 			if("SIM".equalsIgnoreCase(rodaJob.trim())) {	
 				
-				log.info(" \n \n >>>>>>>>>>>> Iniciando JOB em '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n ");		
+				log.info(" \n \n >>>>>>>>>>>> Iniciando JOB em '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n ");		
 				
 				Liga ligaPrincipal = new Liga();
 				ligaPrincipal = (Liga) rdrService.consultarPorChavePrimaria(ligaPrincipal, new Long(1));				
@@ -130,6 +130,8 @@ public class RDRJob implements Job {
 							log.info(" \n \n >>>>>>>>>>>> FINALIZANDO ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n ");
 						}
 					}
+				} else {
+					log.info("\n \n >>>>>>>>>>>> STATUS DO MERCADO NO CARTOLA FC NÃO ESTA FECHADO(Fechado = Código 2): Código Status ATUAL: "+statusMercado+" <<<<<<<<<<<< \n ");
 				}
 				
 				Calendar hora14 = Calendar.getInstance();
@@ -150,7 +152,7 @@ public class RDRJob implements Job {
 					}	
 				}
 				
-				log.info("\n \n >>>>>>>>>>>> Finalizando JOB em '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n");				
+				log.info("\n \n >>>>>>>>>>>> Finalizando JOB em '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n");				
 				
 			} else {
 				log.info("\n \n parametro >>> roda_job: "+rodaJob+" \n \n ");				
