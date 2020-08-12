@@ -1,5 +1,8 @@
 package br.com.reisdaresenha.control;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -101,6 +104,22 @@ public class RestFulTestServicesControl  extends BaseControl {
 			e.printStackTrace();
 			return new ArrayList<ClassificacaoLigaPrincipalDTO>();
 		}
+	}
+	
+	public String mostrarLog() {			
+		StringBuilder logRetorno = new StringBuilder();		
+		try {
+	    	BufferedReader br = new BufferedReader(new FileReader("/home/reisdaresenha/appservers/wildfly-17.0.1.Final/standalone/log/server.log"));
+	    	while(br.ready()){
+	    		String linha = br.readLine();
+	    		logRetorno.append(linha).append("\n");	    		
+	    	}
+	    	br.close();
+	    } catch (IOException e) {
+	        System.err.printf("Erro na abertura do arquivo: %s.\n",
+	        e.getMessage());
+	    }		
+		return logRetorno.toString();
 	}
 
 	public List<Time> getListaTimesParticipantes() {
