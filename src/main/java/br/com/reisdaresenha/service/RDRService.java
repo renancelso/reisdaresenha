@@ -5,12 +5,18 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 
+import org.json.simple.JSONObject;
+
+import br.com.reisdaresenha.model.Pontuacao;
 import br.com.reisdaresenha.model.RDRClassificacao;
 import br.com.reisdaresenha.model.RDRCopaPontuacao;
 import br.com.reisdaresenha.model.RDRParticipante;
 import br.com.reisdaresenha.model.RDRPontuacao;
 import br.com.reisdaresenha.model.RDRRodada;
+import br.com.reisdaresenha.model.Rodada;
 import br.com.reisdaresenha.padrao.GenericService;
+import br.com.reisdaresenha.rest.CartolaRestFulClient;
+import br.com.reisdaresenha.view.TimeRodadaDTO;
 
 /**
  * @author Renan Celso
@@ -380,6 +386,103 @@ public class RDRService extends GenericService implements RDRServiceLocal {
 		
 	}
 
-
+	@Override
+	public String buscarTodasAsPontuacoesNoServicoCartolaFC(RodadaServiceLocal rodadaService, ParametroServiceLocal parametroService, CartolaRestFulClient servicoCartola, Rodada rodadaEmAndamento, List<Pontuacao> listaPontuacao) {
+		
+		try {	
+			
+			servicoCartola = new CartolaRestFulClient();	
+			
+			JSONObject jsonAtletas = servicoCartola.buscarPontuacaoRodadaAtual(rodadaEmAndamento.getNrRodada());
+						
+			StringBuilder str = new StringBuilder();
+			
+			for (Pontuacao pontuacao : listaPontuacao) {
+				
+				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();			
+				timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
+				
+				if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) { 					
+					
+					timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
+					
+					if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) { 
+						
+						timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
+						
+						if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) { 
+							
+							timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
+							
+							if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) { 
+								
+								timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
+								
+								if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) { 
+									log.info(pontuacao.getRodada().getNrRodada()+"ª Rodada ainda não iniciou no Cartola FC e/ou nao foi possivel buscar o time: "+pontuacao.getTime().getNomeTime()+" (ID-Cartola: "+pontuacao.getTime().getIdCartola()+")");
+									log.error(pontuacao.getRodada().getNrRodada()+"ª Rodada ainda não iniciou no Cartola FC e/ou nao foi possivel buscar o time: "+pontuacao.getTime().getNomeTime()+" (ID-Cartola: "+pontuacao.getTime().getIdCartola()+")");
+									log.debug(pontuacao.getRodada().getNrRodada()+"ª Rodada ainda não iniciou no Cartola FC e/ou nao foi possivel buscar o time: "+pontuacao.getTime().getNomeTime()+" (ID-Cartola: "+pontuacao.getTime().getIdCartola()+")");
+									log.warn(pontuacao.getRodada().getNrRodada()+"ª Rodada ainda não iniciou no Cartola FC e/ou nao foi possivel buscar o time: "+pontuacao.getTime().getNomeTime()+" (ID-Cartola: "+pontuacao.getTime().getIdCartola()+")");
+									str.append(pontuacao.getTime().getNomeTime()).append(", ");
+									
+									continue;
+								}
+								
+							}
+							
+						}
+						
+					}
+					
+				}
+						
+				timeRodadaDTO.setPontos(0.0);	
+				
+				if(jsonAtletas != null) {			
+					
+					if(timeRodadaDTO.getIdAtletasEscalados() != null && !timeRodadaDTO.getIdAtletasEscalados().isEmpty()) {	
+						
+						for (Long idEscalado : timeRodadaDTO.getIdAtletasEscalados()) {
+							if(jsonAtletas.get(String.valueOf(idEscalado)) != null) {
+								
+								JSONObject pont = (JSONObject) jsonAtletas.get(String.valueOf(idEscalado));	
+								
+								Double pontuacaoSomar = Double.parseDouble(String.valueOf(pont.get("pontuacao")));	
+								
+								timeRodadaDTO.setPontos(timeRodadaDTO.getPontos()+pontuacaoSomar);				
+							}
+							
+						}			
+						
+						pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);		
+					}					
+				}		
+				
+				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);													
+				pontuacao.getTime().setVrCartoletasAtuais(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);									
+				rodadaService.atualizar(pontuacao.getTime());					
+			}	
+									
+			for (Pontuacao pontuacao : listaPontuacao) {	
+				pontuacao.setNomeTime(pontuacao.getTime().getNomeTime());					
+				pontuacao.setIdCartola(pontuacao.getTime().getIdCartola());
+				
+				rodadaService.atualizar(pontuacao);				
+			}	
+			
+			if(str!= null && str.toString() != null && !str.toString().isEmpty()) {
+				return str.toString();
+			}	
+			
+			return null;
+		
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
 
 }

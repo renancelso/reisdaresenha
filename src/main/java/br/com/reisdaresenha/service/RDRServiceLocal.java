@@ -4,12 +4,15 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import br.com.reisdaresenha.model.Pontuacao;
 import br.com.reisdaresenha.model.RDRClassificacao;
 import br.com.reisdaresenha.model.RDRCopaPontuacao;
 import br.com.reisdaresenha.model.RDRParticipante;
 import br.com.reisdaresenha.model.RDRPontuacao;
 import br.com.reisdaresenha.model.RDRRodada;
+import br.com.reisdaresenha.model.Rodada;
 import br.com.reisdaresenha.padrao.GenericServiceInterface;
+import br.com.reisdaresenha.rest.CartolaRestFulClient;
 
 /**
  * @author Renan Celso
@@ -43,5 +46,6 @@ public interface RDRServiceLocal extends GenericServiceInterface {
 
 	public List<RDRRodada> buscarRDRRodadaPorRodadaDaLigaPrincipal(Long nrRodadaLigaPrincipal);		
 	
+	public String buscarTodasAsPontuacoesNoServicoCartolaFC(RodadaServiceLocal rodadaService, ParametroServiceLocal parametroService, CartolaRestFulClient servicoCartola, Rodada rodadaEmAndamento, List<Pontuacao> listaPontuacao);
 		
 }

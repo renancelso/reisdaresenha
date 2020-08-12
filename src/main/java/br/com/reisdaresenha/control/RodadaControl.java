@@ -19,6 +19,7 @@ import br.com.reisdaresenha.padrao.BaseControl;
 import br.com.reisdaresenha.rest.CartolaRestFulClient;
 import br.com.reisdaresenha.service.InicioServiceLocal;
 import br.com.reisdaresenha.service.ParametroServiceLocal;
+import br.com.reisdaresenha.service.RDRServiceLocal;
 import br.com.reisdaresenha.service.RodadaServiceLocal;
 import br.com.reisdaresenha.view.ClassificacaoLigaPrincipalDTO;
 import br.com.reisdaresenha.view.TimeRodadaDTO;
@@ -57,6 +58,9 @@ public class RodadaControl extends BaseControl {
 	private ParametroServiceLocal parametroService;
 		
 	private List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO;
+	
+	@EJB
+	private RDRServiceLocal rdrService; 
 		
 	
 	@SuppressWarnings("unchecked")
@@ -145,8 +149,8 @@ public class RodadaControl extends BaseControl {
 				listaPontuacao.add(pontuacao);
 			} 
 			
-			buscarTodasAsPontuacoesNoServicoCartolaFC(pontuacao.getRodada(),listaPontuacao);	
-			
+			rdrService.buscarTodasAsPontuacoesNoServicoCartolaFC(rodadaService, parametroService, servicoCartola, pontuacao.getRodada(), listaPontuacao);
+					
 			init();
 			
 		} catch (Exception e) {
@@ -158,10 +162,14 @@ public class RodadaControl extends BaseControl {
 	
 	
 	public String atualizarTodasPontuacoesRodadaEmAndamento() {		
-		try {			
+		try {	
 			
-			buscarTodasAsPontuacoesNoServicoCartolaFC(novaRodada, novaRodada.getListaPontuacao());
-			
+			String str = rdrService.buscarTodasAsPontuacoesNoServicoCartolaFC(rodadaService, parametroService, servicoCartola, novaRodada, novaRodada.getListaPontuacao());			
+			if(str!= null && !str.toString().isEmpty()) {
+				addErrorMessage("TIMES: '"+ str +"' NAO FORAM ATUALIZADOS.");	
+			}			
+			btnSalvarRodada();			
+		
 			//MOCK			
 //			for (Pontuacao pontuacao : novaRodada.getListaPontuacao()) {				
 //				
@@ -200,109 +208,6 @@ public class RodadaControl extends BaseControl {
 		return null;
 	}
 
-	private String buscarTodasAsPontuacoesNoServicoCartolaFC(Rodada rodada, List<Pontuacao> listaPontuacao) {
-		
-		try {	
-			
-			servicoCartola = new CartolaRestFulClient();		
-				
-			JSONObject jsonAtletas = null;
-						
-			JSONObject jsonObject = servicoCartola.getStatusRodadaCartolaFC(rodada.getNrRodada());		
-			
-			long statusMercado = new Long(String.valueOf(jsonObject.get("status_mercado"))).longValue();
-			
-			// 2 = Mercado Fechado (Rodada em andamento)	
-			if(statusMercado == 2) { 
-				try {
-					jsonAtletas = servicoCartola.buscarPontuacaoRodadaAtual(rodada.getNrRodada());
-				} catch (Exception e) {
-					jsonAtletas = null;				
-				}		
-			}
-	
-			for (Pontuacao pontuacao : listaPontuacao) {
-				
-				TimeRodadaDTO timeRodadaDTO = new TimeRodadaDTO();			
-				
-				timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());					
-				
-				if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) { 					
-					
-					timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
-					
-					if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) { 
-						
-						timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
-						
-						if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) { 
-							
-							timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());	
-							
-							if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) { 
-								
-								timeRodadaDTO = servicoCartola.buscarTimeRodadaPorIDCartola(pontuacao.getTime(), pontuacao.getRodada().getNrRodada());				
-								
-							}
-							
-						}
-						
-					}
-					
-				}
-				
-				if(timeRodadaDTO == null || timeRodadaDTO.getTime() == null) {
-					addErrorMessage(pontuacao.getRodada().getNrRodada()+"ª Rodada ainda não iniciou no Cartola FC e/ou nao foi possivel buscar o time: "+pontuacao.getTime().getNomeTime()+" (ID-Cartola: "+pontuacao.getTime().getIdCartola()+")");
-					continue;
-				}
-				
-				timeRodadaDTO.setPontos(0.0);	
-				
-				if(jsonAtletas != null) {		
-					
-					if(timeRodadaDTO.getIdAtletasEscalados() != null && !timeRodadaDTO.getIdAtletasEscalados().isEmpty()) {		
-						
-						for (Long idEscalado : timeRodadaDTO.getIdAtletasEscalados()) {
-							
-							if(jsonAtletas.get(String.valueOf(idEscalado)) != null) {
-								
-								JSONObject pont = (JSONObject) jsonAtletas.get(String.valueOf(idEscalado));	
-								
-								Double pontuacaoSomar = Double.parseDouble(String.valueOf(pont.get("pontuacao")));		
-								
-								timeRodadaDTO.setPontos(timeRodadaDTO.getPontos()+pontuacaoSomar);			
-								
-							}
-						}		
-						
-						pontuacao.setVrPontuacao(timeRodadaDTO.getPontos() != null ? timeRodadaDTO.getPontos() : 0.0);	
-						
-					}					
-				}	
-									
-				pontuacao.setVrCartoletas(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);
-				pontuacao.getTime().setVrCartoletasAtuais(timeRodadaDTO.getPatrimonio() != null ? timeRodadaDTO.getPatrimonio()  : 0.0);	
-				
-				if(pontuacao.getVrPontuacao() == null) {
-					pontuacao.setVrPontuacao(0.0);					
-				}
-								
-				rodadaService.atualizar(pontuacao.getTime());		
-			}		
-			
-			btnSalvarRodada();
-			
-			return null;
-		
-		} catch (Exception e) {
-			e.printStackTrace();
-			addErrorMessage("Erro ao atualizar pontuacao do time");			
-			log.error("Erro ao atualizar pontuacao do time \n"+e);
-		}
-		
-		return null;
-		
-	}
 
 	public String btnNovaRodada() {	
 		

@@ -62,9 +62,17 @@
 		<!-- Form -->
 		<h:form id="signin-form_id">				
 								
-			<p:messages id="messages1" closable="true" showDetail="false" />
-						
-			<p:tabView dynamic="true" cache="true" style="font-size: 12px;" >
+			<p:messages id="messages1" closable="true" showDetail="false" />			
+		  	
+		  	<p:tabView dynamic="true" cache="true" style="font-size: 12px;">
+		  		<p:tab title="Classificação">
+		        	<ui:include src="inicio-aba-classificacao.xhtml" />
+		        </p:tab>	
+		  	</p:tabView>	
+		  	
+		  	<hr/>
+		  	
+		  	<p:tabView dynamic="true" cache="true" style="font-size: 12px;" >
 				
 				<p:tab title="Home">
 					<ui:include src="inicio-aba-home.xhtml" />	
@@ -80,14 +88,6 @@
 		        
 		  	</p:tabView>
 		  		
-		  	<hr/>
-		  	
-		  	<p:tabView dynamic="true" cache="true" style="font-size: 12px;">
-		  		<p:tab title="Classificação">
-		        	<ui:include src="inicio-aba-classificacao.xhtml" />
-		        </p:tab>	
-		  	</p:tabView>	
-		  	
 		  	<hr/>
 		  	
 		  	<p:tabView dynamic="true" cache="true" style="font-size: 12px;">
