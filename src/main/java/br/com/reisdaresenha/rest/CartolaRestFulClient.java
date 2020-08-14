@@ -4,19 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
 import br.com.reisdaresenha.model.Time;
 import br.com.reisdaresenha.view.TimeRodadaDTO;
@@ -27,6 +22,8 @@ import br.com.reisdaresenha.view.TimeRodadaDTO;
  *
  */
 public class CartolaRestFulClient {
+	
+	private transient Logger log = Logger.getLogger(CartolaRestFulClient.class.getName());
 	
 	public Time buscarTime(String nomeTimeNoCartola) {
 		
@@ -43,12 +40,11 @@ public class CartolaRestFulClient {
 			method.setRequestHeader("Accept", "*/*");
 			method.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			
-			//System.out.println("Inicializando chamada a: " + endPoint);
+			//log.info("Inicializando chamada a: " + endPoint);
 			
 			int statusCode = client.executeMethod(method);
 
-			//System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));
-			//System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));			
+			//log.info("Status Text >>> " + HttpStatus.getStatusText(statusCode));			
 
 			String jsonResponse = method.getResponseBodyAsString();
 
@@ -81,10 +77,10 @@ public class CartolaRestFulClient {
 			return time;		
 
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			e.printStackTrace();
 		} catch (ParseException e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			method.releaseConnection();
@@ -113,11 +109,11 @@ public class CartolaRestFulClient {
 			method.setRequestHeader("Accept", "*/*");
 			method.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			
-			//System.out.println("Inicializando chamada a: " + endPoint);
+			//log.info("Inicializando chamada a: " + endPoint);
 
 			int statusCode = client.executeMethod(method);
 
-			//System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));					
+			//log.info("Status Text >>> " + HttpStatus.getStatusText(statusCode));					
 
 			String jsonResponse = method.getResponseBodyAsString();
 
@@ -198,16 +194,16 @@ public class CartolaRestFulClient {
 			return timeRodadaDTO;		
 
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			e.printStackTrace();
+			return null;
 		} catch (ParseException e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			e.printStackTrace();
+			return null;
 		} finally {
 			method.releaseConnection();
-		}	
-		
-		return timeRodadaDTO;		
+		}			
 	}
 		
 	public String buscarLogoDaLiga(String nomeLiga) {
@@ -241,10 +237,10 @@ public class CartolaRestFulClient {
 			}
 
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			e.printStackTrace();
 		} catch (ParseException e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			method.releaseConnection();
@@ -285,10 +281,10 @@ public class CartolaRestFulClient {
 			}
 
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			e.printStackTrace();
 		} catch (ParseException e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			method.releaseConnection();
@@ -315,12 +311,12 @@ public class CartolaRestFulClient {
 					
 			try {
 			
-				//System.out.println("Inicializando chamada a: " + endPoint);
-				//System.out.println("-----------------------------------------------------");
+				//log.info("Inicializando chamada a: " + endPoint);
+				//log.info("-----------------------------------------------------");
 
 				int statusCode = client.executeMethod(method);
 
-				//System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));			
+				//log.info("Status Text >>> " + HttpStatus.getStatusText(statusCode));			
 
 				String jsonResponse = method.getResponseBodyAsString();
 
@@ -336,9 +332,9 @@ public class CartolaRestFulClient {
 						&& userMessage.contains("autenticado com sucesso") 
 						&& "Authenticated".equalsIgnoreCase(id)) {
 					String token = glbId;
-//					System.out.println("userMessage: "+userMessage);
-//					System.out.println("token: \n"+token);		
-//					System.out.println("id: "+id);
+//					log.info("userMessage: "+userMessage);
+//					log.info("token: \n"+token);		
+//					log.info("id: "+id);
 					return token;
 				}
 											
@@ -369,12 +365,12 @@ public class CartolaRestFulClient {
 					
 			try {
 			
-				//System.out.println("Inicializando chamada a: " + endPoint);
-				//System.out.println("-----------------------------------------------------");
+				//log.info("Inicializando chamada a: " + endPoint);
+				//log.info("-----------------------------------------------------");
 	
 				int statusCode = client.executeMethod(method);
 	
-				//System.out.println("Status Text >>> " + HttpStatus.getStatusText(statusCode));						
+				//log.info("Status Text >>> " + HttpStatus.getStatusText(statusCode));						
 	
 				String jsonResponse = method.getResponseBodyAsString();
 	
@@ -382,7 +378,7 @@ public class CartolaRestFulClient {
 				
 				JSONObject jsonObject = (JSONObject) parser.parse(jsonResponse);
 				
-				//System.out.println(jsonObject.toString());				
+				//log.info(jsonObject.toString());				
 											
 				method.releaseConnection();
 				
@@ -433,10 +429,10 @@ public class CartolaRestFulClient {
 			}
 
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			e.printStackTrace();
 		} catch (ParseException e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			method.releaseConnection();
@@ -469,9 +465,9 @@ public class CartolaRestFulClient {
 			
 			if(rodadaAtual.longValue() == nrRodada.longValue()) {
 				/**
-				 * "status_mercado":1 - Mercado Aberto
-				 * "status_mercado":2 - Mercado Fechado (Rodada em andamento)
-				 * "status_mercado":4 - Mercado em Manutenção (Pós Rodada)
+				 * "status_mercado": 1 - Mercado Aberto
+				 * "status_mercado": 2 - Mercado Fechado (Rodada em andamento)
+				 * "status_mercado": 4 - Mercado em Manutenção (Pós Rodada)
 				 */
 				return jsonObject;
 				
@@ -480,10 +476,10 @@ public class CartolaRestFulClient {
 			}
 			
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			e.printStackTrace();
 		} catch (ParseException e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			method.releaseConnection();
