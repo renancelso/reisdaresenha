@@ -141,8 +141,22 @@ public class CartolaRestFulClient {
 				timeRodadaDTO.setPatrimonio(patrimonio != null ? Double.parseDouble(String.valueOf(patrimonio)) : 0.0);
 			}
 			
-			Double pontos = (Double) jsonObject.get("pontos");	
-			Double pontosCampeonato = (Double) jsonObject.get("pontos_campeonato");									
+			try {
+				Double pontos = (Double) jsonObject.get("pontos");	
+				timeRodadaDTO.setPontos(pontos);	
+			} catch (Exception e) {
+				Long pontos = (Long) jsonObject.get("pontos");	
+				timeRodadaDTO.setPontos(new Double(String.valueOf(pontos)));	
+			}
+			
+			try {
+				Double pontosCampeonato = (Double) jsonObject.get("pontos_campeonato");		
+				timeRodadaDTO.setPontosCampeonato(pontosCampeonato);		
+			} catch (Exception e) {
+				Long pontosCampeonato = (Long) jsonObject.get("pontos_campeonato");	
+				timeRodadaDTO.setPontosCampeonato(new Double(String.valueOf(pontosCampeonato)));		
+			}
+			
 			JSONObject jsonObjectTime = (JSONObject) jsonObject.get("time");
 			
 			String nomeDonoTimeCartola = (String) jsonObjectTime.get("nome_cartola");				
@@ -164,9 +178,7 @@ public class CartolaRestFulClient {
 			timeRodadaDTO.getTime().setSlugTime(slug);
 			timeRodadaDTO.getTime().setFacebookId(facebookId);	
 			
-			timeRodadaDTO.setRodadaAtual(nrRodada);				
-			timeRodadaDTO.setPontos(pontos);	
-			timeRodadaDTO.setPontosCampeonato(pontosCampeonato);			
+			timeRodadaDTO.setRodadaAtual(nrRodada);						
 			
 			if(new Long(String.valueOf(jsonObject.get("rodada_atual"))).longValue() == nrRodada.longValue()) {
 							
