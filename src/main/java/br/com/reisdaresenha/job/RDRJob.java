@@ -74,9 +74,9 @@ public class RDRJob implements Job {
 								
 					Calendar hoje = Calendar.getInstance();
 					
-					Calendar hora16 = Calendar.getInstance();
-					hora16.setTime(new Date());
-					hora16.set(hora16.get(Calendar.YEAR), hora16.get(Calendar.MONTH), hora16.get(Calendar.DATE), 16, 00, 00);
+					Calendar hora11 = Calendar.getInstance();
+					hora11.setTime(new Date());
+					hora11.set(hora11.get(Calendar.YEAR), hora11.get(Calendar.MONTH), hora11.get(Calendar.DATE), 11, 00, 00);
 					
 					Calendar hora23e59 = Calendar.getInstance();
 					hora23e59.setTime(new Date());
@@ -84,7 +84,7 @@ public class RDRJob implements Job {
 									
 					if(hoje.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || hoje.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 										
-						if(agora.getTime().after(hora16.getTime()) && agora.getTime().before(hora23e59.getTime())) {	
+						if(agora.getTime().after(hora11.getTime()) && agora.getTime().before(hora23e59.getTime())) {	
 							
 							log.info("\n \n >>>>>>>>>>>> Iniciando ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n");
 							
