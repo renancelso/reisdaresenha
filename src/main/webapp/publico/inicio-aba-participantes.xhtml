@@ -10,13 +10,12 @@
 <h:body>
 
 	<ui:composition>
-		<p:panel style="font-size: 12px; border: 0px; padding: 0px; margin: 0px;">							
-			<hr/>
+		<p:panel style="font-size: 12px; border: 0px; padding: 0px; margin: 0px;">			
 			<p:repeat var="item" value="#{inicioControl.listaTimesParticipantes}" varStatus="var">	 						  		
  		  		<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> <img src="#{item.urlEscudoPng}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime} (#{item.nomeDonoTime})" />
- 		  		<br/>
- 		  		<br/>
-		  		</p:repeat>	
+ 		  		<br/> 
+ 		  		<br/>		  		
+		  	</p:repeat>	
 		  		<hr/>			
 		</p:panel>
 	</ui:composition>

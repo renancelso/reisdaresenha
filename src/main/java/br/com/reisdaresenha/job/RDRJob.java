@@ -67,8 +67,10 @@ public class RDRJob implements Job {
 				ligaPrincipal = (Liga) rdrService.consultarPorChavePrimaria(ligaPrincipal, new Long(1));				
 				Rodada rodadaEmAndamento = new Rodada();		
 				rodadaEmAndamento = rodadaService.buscarRodadaEmAndamento(ligaPrincipal);					
-				JSONObject jsonObject = servicoCartola.getStatusRodadaCartolaFC(rodadaEmAndamento.getNrRodada());				
-				long statusMercado = new Long(String.valueOf(jsonObject.get("status_mercado"))).longValue();
+				
+				JSONObject jsonObject = servicoCartola.getStatusRodadaCartolaFC(rodadaEmAndamento != null && rodadaEmAndamento.getNrRodada() != null ? rodadaEmAndamento.getNrRodada() : null);				
+				
+				long statusMercado = jsonObject != null ? new Long(String.valueOf(jsonObject.get("status_mercado"))).longValue() : 0;
 				
 				if(statusMercado == 2) { // 2 = Mercado Fechado (Rodada em andamento)
 								

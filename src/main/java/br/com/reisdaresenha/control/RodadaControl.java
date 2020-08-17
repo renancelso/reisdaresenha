@@ -2,6 +2,7 @@ package br.com.reisdaresenha.control;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -9,7 +10,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import org.apache.log4j.Logger;
-import org.json.simple.JSONObject;
 
 import br.com.reisdaresenha.model.Liga;
 import br.com.reisdaresenha.model.Pontuacao;

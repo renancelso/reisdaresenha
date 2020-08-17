@@ -63,9 +63,11 @@
 		<h:form id="signin-form_id">				
 								
 			<p:messages id="messages1" closable="true" showDetail="false" />			
-		  			  
-		    <ui:include src="inicio-aba-classificacao.xhtml" />
-		   		  	
+		  	
+		  	<center>	  
+		   		<ui:include src="inicio-aba-classificacao.xhtml" />
+		   	</center>	  	
+		  	
 		  	<hr/>
 		  	
 		  	<p:tabView dynamic="true" cache="true" style="font-size: 12px;" >
@@ -86,10 +88,12 @@
 		  		
 		  	<hr/>
 		  	
-		    <p:panel header="Atuais Participantes (#{inicioControl.listaTimesParticipantes.size()})" 
-		    		 style="font-size: 12px; width: 370px;">
-				<ui:include src="inicio-aba-participantes.xhtml" />
-			</p:panel> 		  			  		
+		  	<center>
+			    <p:panel header="Atuais Participantes (#{inicioControl.listaTimesParticipantes.size()})" 
+			    		 style="font-size: 12px; width: 370px; text-align: left;">			    	
+						<ui:include src="inicio-aba-participantes.xhtml" />					
+				</p:panel> 	
+			</center>	  			  		
 																	
 			<p:dialog widgetVar="dialogProcessando" modal="true" 
 					  resizable="false;" draggable="false" 

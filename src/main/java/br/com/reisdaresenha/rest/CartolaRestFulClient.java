@@ -463,7 +463,7 @@ public class CartolaRestFulClient {
 			
 			Long rodadaAtual = new Long(String.valueOf(jsonObject.get("rodada_atual")));
 			
-			if(rodadaAtual.longValue() == nrRodada.longValue()) {
+			if(rodadaAtual != null && nrRodada != null && rodadaAtual.longValue() == nrRodada.longValue()) {
 				/**
 				 * "status_mercado": 1 - Mercado Aberto
 				 * "status_mercado": 2 - Mercado Fechado (Rodada em andamento)
