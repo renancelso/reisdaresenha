@@ -56,6 +56,89 @@
 										and rdrControl.listaClassificacaoAperturaSerieB != null
 										and rdrControl.listaRDRRodadasAperturaSerieA != null
 										and rdrControl.listaRDRRodadasAperturaSerieB != null}">		
+										
+					<p:tab title="Super Copa" rendered="#{rdrControl.listaRDRCopa != null and rdrControl.listaRDRCopa.size() != 0}">
+			         
+				        <center> 
+				                			          		         								
+							<p:repeat var="rdrCopa" value="#{rdrControl.listaRDRCopa}">
+								
+									<h:panelGroup rendered="#{rdrCopa.nrJogoCopa == 1 or rdrCopa.nrJogoCopa == 5 or rdrCopa.nrJogoCopa == 7 or rdrCopa.nrJogoCopa == 9}">
+										<h:outputText value="#{'QF'.equals(rdrCopa.fase) ? 'QUARTAS DE FINAL' 
+															 								: 'SFI'.equals(rdrCopa.fase) ? 'SEMI-FINAL - IDA'
+															 								: 'SFV'.equals(rdrCopa.fase) ? 'SEMI-FINAL - VOLTA'
+																							: 'F'.equals(rdrCopa.fase) ? 'FINAL': ''} " 
+										 		  	  style="font-weight: bold; font-size: 16px; font-weight: bold;"/>
+													    	 
+										<br/>
+					 		  			<br/>
+									</h:panelGroup>	
+														
+									<h:outputText value="Jogo #{rdrCopa.nrJogoCopa} " 
+									 		  	  style="font-weight: bold;color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
+												    	 border-left: 20px solid #D3E6FF; border-right: 20px solid #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
+					 		  											 		
+									  			
+				 		  			<br/>
+				 		  			<br/>	 		  		
+				 		  			
+				 		  			<h:panelGrid columns="1">	
+					 		  			
+					 		  			<p:panel style="text-align: right; border: 0px; width: 300px;
+					 		  							#{rdrCopa.rdrParticipanteTimeVencedor.id.equals(rdrCopa.rdrParticipanteTimeCasa.id) ? 'background-color: #ADD8E6;' 
+					 		  							: rdrCopa.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
+					 		  							: 'background-color: #FFB6C1;'}">
+					 		  				
+					 		  				<h:panelGroup rendered="#{rdrCopa.rdrParticipanteTimeCasa != null}">
+						 		  				<h:outputText value="(#{rdrCopa.vrPontuacaoTimeCasa}) " style="font-weight: bold;" rendered="#{rdrCopa.vrPontuacaoTimeCasa != null}"/>	
+						 		  				<img src="#{rdrCopa.rdrParticipanteTimeCasa.time.urlEscudoPng}" alt="" style="width: 15px;"/> 
+							 		  			<h:outputText value="#{rdrCopa.nomeTimeCasa}" style="font-weight: bold;"/> 
+							 		  			<h:inputText value="#{rdrCopa.vrPontuacaoTimeCasaArredondada.intValue()}" style="width: 40px; text-align: center; font-weight: bold;" readonly="true"/>
+						 		  			</h:panelGroup>
+						 		  			
+						 		  			<h:panelGroup rendered="#{rdrCopa.rdrParticipanteTimeCasa == null}">
+						 		  				<h:outputText value="#{rdrCopa.descricaoTimeRodadaCasa}" style="font-weight: bold;"/>
+						 		  			</h:panelGroup>
+						 		  			
+						 		  		</p:panel> 		
+						 		  							 		  			
+					 		  			<p:panel style="text-align: right; border: 0px; width: 300px;
+					 		  							#{rdrCopa.rdrParticipanteTimeVencedor.id.equals(rdrCopa.rdrParticipanteTimeFora.id) ? 'background-color: #ADD8E6;' 
+					 		  							: rdrCopa.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
+					 		  							: 'background-color: #FFB6C1;' }">	
+					 		  							
+					 		  				<h:panelGroup rendered="#{rdrCopa.rdrParticipanteTimeFora == null}">
+						 		  				<h:outputText value="#{rdrCopa.descricaoTimeRodadaFora}" style="font-weight: bold;"/>
+						 		  			</h:panelGroup>	
+					 		  							
+					 		  				<h:panelGroup rendered="#{rdrCopa.rdrParticipanteTimeFora != null}">	
+					 		  					<h:outputText value=" (#{rdrCopa.vrPontuacaoTimeFora})"  style="font-weight: bold;" rendered="#{rdrCopa.vrPontuacaoTimeFora != null}"/>		
+							 		  			<img src="#{rdrCopa.rdrParticipanteTimeFora.time.urlEscudoPng}" alt="" style="width: 15px;"/> 			 		  			
+							 		  			<h:outputText value="#{rdrCopa.nomeTimeFora}" style="font-weight: bold;"/>	
+							 		  			<h:inputText value="#{rdrCopa.vrPontuacaoTimeForaArredondada.intValue()}" style="width: 40px; text-align: center; font-weight: bold;" readonly="true"/>		
+						 		  			</h:panelGroup>
+						 		  						 		  			
+					 		  			</p:panel>	
+					 		  			
+				 		  			</h:panelGrid>				 		  					 		  			
+				 		  								 		  			
+				 		  			<br/>	
+				 		  			
+				 		  			<h:panelGroup rendered="#{rdrCopa.nrJogoCopa == 4 or rdrCopa.nrJogoCopa == 6 or rdrCopa.nrJogoCopa == 8}">
+				 		  				<hr/>
+				 		  				<hr/>	 		
+				 		  				<hr/>  
+				 		  				<hr/> 			
+				 		  			</h:panelGroup>
+				 		  						 		  				 		  							 		  		
+			 		  		</p:repeat>
+				 		  							 		  							 		  		
+				 		  	<hr/>			
+			          		
+						</center>
+										
+					</p:tab>	
+										
 																		
 					<p:tab title="Apertura A" 
 						   rendered="#{rdrControl.listaParticipantesAperturaSerieA != null 
@@ -552,89 +635,7 @@
 						</center>
 						
 			        </p:tab>	
-			        
-			        <p:tab title="Super Copa" rendered="#{rdrControl.listaRDRCopa != null and !rdrControl.listaRDRCopa.size() != 0}">
-			                  			          		         								
-							<p:repeat var="rdrCopa" value="#{rdrControl.listaRDRCopa}">
-							
-								<h:panelGroup rendered="#{rdrCopa.nrJogoCopa == 1 or rdrCopa.nrJogoCopa == 5 or rdrCopa.nrJogoCopa == 7 or rdrCopa.nrJogoCopa == 9}">
-									<h:outputText value="#{'QF'.equals(rdrCopa.fase) ? 'QUARTAS DE FINAL' 
-														 								: 'SFI'.equals(rdrCopa.fase) ? 'SEMI-FINAL - IDA'
-														 								: 'SFV'.equals(rdrCopa.fase) ? 'SEMI-FINAL - VOLTA'
-																						: 'F'.equals(rdrCopa.fase) ? 'FINAL': ''} " 
-									 		  	  style="font-weight: bold; font-size: 16px; font-weight: bold;"/>
-												    	 
-									<br/>
-				 		  			<br/>
-								</h:panelGroup>	
-													
-								<h:outputText value="Jogo #{rdrCopa.nrJogoCopa} " 
-								 		  	  style="font-weight: bold;color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
-											    	 border-left: 20px solid #D3E6FF; border-right: 20px solid #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
-				 		  											 		
-								  			
-			 		  			<br/>
-			 		  			<br/>	 		  		
-			 		  			
-			 		  			<h:panelGrid columns="3">	
-				 		  			<p:panel style="text-align: right; border: 0px; 
-				 		  							#{rdrCopa.rdrParticipanteTimeVencedor.id.equals(rdrCopa.rdrParticipanteTimeCasa.id) ? 'background-color: #ADD8E6;' 
-				 		  							: rdrCopa.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
-				 		  							: 'background-color: #FFB6C1;'}">
-				 		  				
-				 		  				<h:panelGroup rendered="#{rdrCopa.rdrParticipanteTimeCasa != null}">
-				 		  					<h:inputText value="#{rdrCopa.vrPontuacaoTimeCasaArredondada.intValue()}" style="width: 40px; text-align: center; font-weight: bold;" readonly="true"/>
-				 		  					<br/><br/>	
-					 		  				<h:outputText value="(#{rdrCopa.vrPontuacaoTimeCasa}) " style="font-weight: bold;"/>	
-						 		  			<h:outputText value="#{rdrCopa.nomeTimeCasa}" style="font-weight: bold;"/> 
-						 		  			<img src="#{rdrCopa.rdrParticipanteTimeCasa.time.urlEscudoPng}" alt="" style="width: 15px;"/> 
-					 		  			</h:panelGroup>
-					 		  			
-					 		  			<h:panelGroup rendered="#{rdrCopa.rdrParticipanteTimeCasa == null}">
-					 		  				<h:outputText value="#{rdrCopa.descricaoTimeRodadaCasa}" style="font-weight: bold;"/>
-					 		  			</h:panelGroup>
-					 		  			
-					 		  		</p:panel>
-					 		  						 		  								 		  				
-				 		  			<b>x</b> 	
-				 		  			
-				 		  			<p:panel style="text-align: left; border: 0px; 
-				 		  							#{rdrCopa.rdrParticipanteTimeVencedor.id.equals(rdrCopa.rdrParticipanteTimeFora.id) ? 'background-color: #ADD8E6;' 
-				 		  							: rdrCopa.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
-				 		  							: 'background-color: #FFB6C1;' }">	
-				 		  							
-				 		  				<h:panelGroup rendered="#{rdrCopa.rdrParticipanteTimeFora == null}">
-					 		  				<h:outputText value="#{rdrCopa.descricaoTimeRodadaFora}" style="font-weight: bold;"/>
-					 		  			</h:panelGroup>	
-				 		  							
-				 		  				<h:panelGroup rendered="#{rdrCopa.rdrParticipanteTimeFora != null}">				 		  			
-						 		  			<h:inputText value="#{rdrCopa.vrPontuacaoTimeForaArredondada.intValue()}" style="width: 40px; text-align: center; font-weight: bold;" readonly="true"/>		
-						 		  			<br/><br/>	
-						 		  			<img src="#{rdrCopa.rdrParticipanteTimeFora.time.urlEscudoPng}" alt="" style="width: 15px;"/> 			 		  			
-						 		  			<h:outputText value="#{rdrCopa.nomeTimeFora}" style="font-weight: bold;"/>	
-						 		  			<h:outputText value=" (#{rdrCopa.vrPontuacaoTimeFora})"  style="font-weight: bold;"/>	
-					 		  			</h:panelGroup>
-					 		  						 		  			
-				 		  			</p:panel>	
-				 		  			
-			 		  			</h:panelGrid>				 		  					 		  			
-			 		  								 		  			
-			 		  			<br/>	
-			 		  			
-			 		  			<h:panelGroup rendered="#{rdrCopa.nrJogoCopa == 4 or rdrCopa.nrJogoCopa == 6 or rdrCopa.nrJogoCopa == 8}">
-			 		  				<hr/>
-			 		  				<hr/>	 		
-			 		  				<hr/>  			
-			 		  			</h:panelGroup>
-			 		  				 		  		
-			 		  						 		  				 		  							 		  		
-			 		  		</p:repeat>
-				 		  							 		  							 		  		
-				 		  	<hr/>	 		
-		          		
-										
-					</p:tab>
-			           	        
+			        			        			           	        
 		        </p:tabView>  		        		
 		        
 		        
