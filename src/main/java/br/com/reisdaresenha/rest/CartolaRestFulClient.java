@@ -95,9 +95,9 @@ public class CartolaRestFulClient {
 		String endPoint = "";
 		
 		if(nrRodada > 0) {
-			endPoint = "http://api.cartolafc.globo.com/time/id/"+time.getIdCartola()+"/"+nrRodada;			
+			endPoint = "https://api.cartolafc.globo.com/time/id/"+time.getIdCartola()+"/"+nrRodada;			
 		} else {
-			endPoint = "http://api.cartolafc.globo.com/time/id/"+time.getIdCartola();
+			endPoint = "https://api.cartolafc.globo.com/time/id/"+time.getIdCartola();
 		}
 		
 		HttpClient client = new HttpClient();		
@@ -397,7 +397,7 @@ public class CartolaRestFulClient {
 		
 	public JSONObject buscarPontuacaoRodadaAtual(Long nrRodada) {			
 						
-		String endPoint = "http://api.cartolafc.globo.com/atletas/pontuados";		
+		String endPoint = "https://api.cartolafc.globo.com/atletas/pontuados";		
 		HttpClient client = new HttpClient();
 		GetMethod method = new GetMethod(endPoint);
 		

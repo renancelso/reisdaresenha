@@ -102,46 +102,57 @@ public class JSONRestFulControl extends BaseControl{
 	
 	public String buscarTimeRodadaPorIDCartola() {
 		
-		jsonRestFulClient = new JSONRestFulClient();
-		servicoCartola = new CartolaRestFulClient();
-		
-		if(rodadaSelecionada == null) {
-			rodadaSelecionada = new Long(0);
-		}
-		
-		if(timeSelecionado != null) {					
+		try {
 			
-			jsonTimeSelecionado = jsonRestFulClient.buscarTimeRodadaPorIDCartola(timeSelecionado, rodadaSelecionada);	
-		
-		} else {
+			jsonRestFulClient = new JSONRestFulClient();
+			servicoCartola = new CartolaRestFulClient();
 			
-			StringBuilder jsonTimeSelecionadoBuilder = new StringBuilder();
+			if(rodadaSelecionada == null) {
+				rodadaSelecionada = new Long(0);
+			}
 			
-			for (Time time : listaTimes) {
-				jsonTimeSelecionado = jsonRestFulClient.buscarTimeRodadaPorIDCartola(time, rodadaSelecionada);	
-				jsonTimeSelecionadoBuilder.append("-- "+time.getNomeTime()+"\n").append(jsonTimeSelecionado).append("\n\n");
-			}	
+			if(timeSelecionado != null) {					
+				
+				jsonTimeSelecionado = jsonRestFulClient.buscarTimeRodadaPorIDCartola(timeSelecionado, rodadaSelecionada);	
 			
-			jsonTimeSelecionado = jsonTimeSelecionadoBuilder.toString();
+			} else {
+				
+				StringBuilder jsonTimeSelecionadoBuilder = new StringBuilder();
+				
+				for (Time time : listaTimes) {
+					jsonTimeSelecionado = jsonRestFulClient.buscarTimeRodadaPorIDCartola(time, rodadaSelecionada);	
+					jsonTimeSelecionadoBuilder.append("-- "+time.getNomeTime()+"\n").append(jsonTimeSelecionado).append("\n\n");
+				}	
+				
+				jsonTimeSelecionado = jsonTimeSelecionadoBuilder.toString();
+				
+			}
 			
+		} catch (Exception e) {
+			addErrorMessage("ERRO: "+e.getMessage());
+			return null;
 		}
 		
 		return null;
 	}
 	
 	public String buscarInformacoesLigaEspecifica() {
-		jsonRestFulClient = new JSONRestFulClient();
-		servicoCartola = new CartolaRestFulClient();
-		
-		String email = parametroService.buscarParametroPorChave("user_email").getValor();			
-		String senha = parametroService.buscarParametroPorChave("user_senha").getValor();			
-		
-		String slugLiga = servicoCartola.buscarSlugDaLiga(parametroService.buscarParametroPorChave("nome_liga").getValor());		
-		
-		String token = servicoCartola.gerarTokenLoginCartola(email, senha);	
-		
-		return jsonRestFulClient.buscarInformacoesLigaEspecifica(slugLiga, token);				
-		
+		try {
+			jsonRestFulClient = new JSONRestFulClient();
+			servicoCartola = new CartolaRestFulClient();
+			
+			String email = parametroService.buscarParametroPorChave("user_email").getValor();			
+			String senha = parametroService.buscarParametroPorChave("user_senha").getValor();			
+			
+			String slugLiga = servicoCartola.buscarSlugDaLiga(parametroService.buscarParametroPorChave("nome_liga").getValor());		
+			
+			String token = servicoCartola.gerarTokenLoginCartola(email, senha);	
+			
+			return jsonRestFulClient.buscarInformacoesLigaEspecifica(slugLiga, token);	
+		} catch (Exception e) {
+			addErrorMessage("ERRO: "+e.getMessage());
+			return null;
+		}		
 	}
 	
 	public String onChangeTime() {

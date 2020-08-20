@@ -60,6 +60,7 @@ public class RDRJob implements Job {
 			String rodaJob = parametroService.buscarParametroPorChave("roda_job").getValor();
 			
 			if("SIM".equalsIgnoreCase(rodaJob.trim())) {	
+				//if(true) {	
 				
 				log.info(" \n \n >>>>>>>>>>>> Iniciando JOB em '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n ");		
 				
