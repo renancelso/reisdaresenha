@@ -3,6 +3,7 @@ package br.com.reisdaresenha.control;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -50,7 +51,9 @@ public class InicioControl extends BaseControl {
 	// O Sobrevivente	
 	private Liga ligaOSobrevivente;
 	private List<OSBRodada> listaOsbRodadas;
+		
 	
+	private String strTimesCopaDoBrasilCartolaBelem;	
 		
 	@SuppressWarnings("unchecked")
 	@PostConstruct
@@ -70,6 +73,8 @@ public class InicioControl extends BaseControl {
 				osbRodada.setListaOsbPontuacao(new ArrayList<OSBPontuacao>());	
 				osbRodada.setListaOsbPontuacao(inicioService.buscarHistoricoClassificacaoOsbRodadas(osbRodada));
 			}	
+			
+			strTimesCopaDoBrasilCartolaBelem = "";
 						
 		} catch (Exception e) {
 			log.error("Erro no método init "+e.getMessage());			
@@ -127,7 +132,53 @@ public class InicioControl extends BaseControl {
 		}			
 		return null;			
 	}
+	
+	public String btnLimparCopaDoBrasil() {
+		
+		strTimesCopaDoBrasilCartolaBelem = "";
+		
+		return null;
+	}
+	
+	public String sortearTimesCopaDoBrasilLigaCartolaBelem() {
+	
+		strTimesCopaDoBrasilCartolaBelem = " \n ";
+		
+		Random gerador = new Random();	
+		
+		List<String> timesLigasCartolaBelem = new ArrayList<String>();
+		
+		while(timesLigasCartolaBelem.size() < 16) {
+			Long numero = Long.parseLong(String.valueOf(gerador.nextInt(72)));
+			if(numero > 0 && !timesLigasCartolaBelem.contains("Time "+numero)) {
+				timesLigasCartolaBelem.add("Time "+numero);
+			}
+		}
+		
+		if (timesLigasCartolaBelem.size() % 2 == 1) {
+			timesLigasCartolaBelem.add(0, "");
+		}
 
+		int t = timesLigasCartolaBelem.size();
+		int m = timesLigasCartolaBelem.size() / 2;
+				
+		for (int i = 0; i < 1; i++) {			
+			
+			for (int j = 0; j < m; j++) {	
+				if (j % 2 == 1 || i % 2 == 1 && j == 0) {
+					strTimesCopaDoBrasilCartolaBelem += (timesLigasCartolaBelem.get(t - j - 1) + " x " + timesLigasCartolaBelem.get(j) + "\n \n");
+				} else {
+					strTimesCopaDoBrasilCartolaBelem += (timesLigasCartolaBelem.get(j) + " x " + timesLigasCartolaBelem.get(t - j - 1) + "\n \n");
+				}
+			}
+						
+			timesLigasCartolaBelem.add(1, timesLigasCartolaBelem.remove(timesLigasCartolaBelem.size() - 1));
+			
+		}
+		
+		return null;
+	}	
+	
 	public List<Premiacao> getListaPremiacaoLigaPrincipal() {
 		return listaPremiacaoLigaPrincipal;
 	}
@@ -190,6 +241,14 @@ public class InicioControl extends BaseControl {
 
 	public void setLigaOSobrevivente(Liga ligaOSobrevivente) {
 		this.ligaOSobrevivente = ligaOSobrevivente;
+	}
+
+	public String getStrTimesCopaDoBrasilCartolaBelem() {
+		return strTimesCopaDoBrasilCartolaBelem;
+	}
+
+	public void setStrTimesCopaDoBrasilCartolaBelem(String strTimesCopaDoBrasilCartolaBelem) {
+		this.strTimesCopaDoBrasilCartolaBelem = strTimesCopaDoBrasilCartolaBelem;
 	}
 	
 }

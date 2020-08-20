@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://java.sun.com/jsf/passthrough"
+	xmlns:c="http://java.sun.com/jstl/core" class="gt-ie8 gt-ie9 not-ie">
+
+<h:head>
+	<meta charset="utf-8"/>	
+	<link rel="shortcut icon" href="#{sessionControl.logoLiga}" />	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<title>Copa do Brasil - Liga Cartola Belém</title>	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+	
+	<link href="publico/estilo/stylesheets/bootstrap.css" rel="stylesheet" type="text/css"/>
+	<link href="publico/estilo/stylesheets/pixel-admin.css" rel="stylesheet" type="text/css"/>
+	<link href="publico/estilo/stylesheets/pages.css" rel="stylesheet" type="text/css"/>
+	<link href="publico/estilo/stylesheets/rtl.css" rel="stylesheet" type="text/css"/>
+	<link href="publico/estilo/stylesheets/themes.css" rel="stylesheet" type="text/css"/>
+
+</h:head>
+
+<h:body class="theme-default page-signin">
+
+	<div id="page-signin-bg">			
+		<div class="overlay"></div>
+	</div>	
+	
+	<div style="display: block;	position: relative; z-index: 999; margin-top: 10px;
+		 font-weight: bold; font-size: 16px; margin-left: 20px; margin-right: 20px;">							
+		
+		<h:form id="signin-form_id">	
+			
+			<p:panel style="border: 0px;">
+			
+				<center>
+				
+					<p:commandButton value="GERAR CONFRONTOS" 			    					
+			               			 onstart="PF('dialogProcessando').show();" 
+			               			 onclick="PF('dialogProcessando').show();"                					 
+			               			 oncomplete="PF('dialogProcessando').hide();"									
+								     onsuccess="PF('dialogProcessando').hide();"
+									 onerror="PF('dialogProcessando').hide();"
+									 update="@form" id="btnsortearTimesCopaDoBrasilLigaCartolaBelem"
+									 action="#{inicioControl.sortearTimesCopaDoBrasilLigaCartolaBelem}" />		
+							
+					<br/>
+					<br/>		
+									 
+					<p:inputTextarea cols="18" readonly="true" style="text-align: center;"
+									 value="#{inicioControl.strTimesCopaDoBrasilCartolaBelem}" />  
+								
+					<br/>
+					<br/>
+				
+					<p:commandButton value="Limpar" 			    					
+			               			 onstart="PF('dialogProcessando').show();" 
+			               			 onclick="PF('dialogProcessando').show();"                					 
+			               			 oncomplete="PF('dialogProcessando').hide();"									
+								     onsuccess="PF('dialogProcessando').hide();"
+									 onerror="PF('dialogProcessando').hide();"
+									 update="@form" id="btnLimpar"
+									 action="#{inicioControl.btnLimparCopaDoBrasil}" />		
+				
+				</center>
+			
+			</p:panel>
+																	
+			<p:dialog widgetVar="dialogProcessando" modal="true" 
+					  resizable="false;" draggable="false" 
+				      closable="false" id="dialogProcessando" 					      
+				      style="z-index: 9999; font-size: 14px; border: 0px; background-color: #D3E6FF !important;">	
+				     
+			    <f:facet name="header">
+			     	<h:outputText value="Processando" style="font-size: 14px;" />
+			    </f:facet> 				
+				<center>
+					<h:outputText value="Por favor, aguarde..." style="font-weight: bold; font-size: 14px;" />
+					<br/>
+					<img src="/publico/estilo/images/loading.gif"/> 
+				</center>
+				
+			</p:dialog>			
+							
+		</h:form>
+						
+	</div>
+			
+	<script src="publico/estilo/javascripts/bootstrap.min.js"></script>
+	<script src="publico/estilo/javascripts/pixel-admin.js"></script>
+	
+	<script type="text/javascript">			
+		var init = [];		
+		
+		window.PixelAdmin.start(init);
+	</script>
+
+</h:body>
+
+</html>
