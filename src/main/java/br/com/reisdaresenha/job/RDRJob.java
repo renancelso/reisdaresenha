@@ -20,6 +20,7 @@ import br.com.reisdaresenha.model.Liga;
 import br.com.reisdaresenha.model.OSBPontuacao;
 import br.com.reisdaresenha.model.OSBRodada;
 import br.com.reisdaresenha.model.Pontuacao;
+import br.com.reisdaresenha.model.RDRClassificacao;
 import br.com.reisdaresenha.model.RDRPontuacao;
 import br.com.reisdaresenha.model.RDRRodada;
 import br.com.reisdaresenha.model.Rodada;
@@ -282,16 +283,101 @@ public class RDRJob implements Job {
 				
 				rdrPontuacao = (RDRPontuacao) rdrService.atualizar(rdrPontuacao);
 			}
-												
+								
 			Rodada rodadaPrincipal = new Rodada();
 			rodadaPrincipal = rodadaService.buscarRodadaDaLigaPrincipalEspecifica(rdrRodadaAtualizarPontuacao.getNrRodadaCartola());			
+						
+			atualizarRDRClassificacao(rdrRodadaAtualizarPontuacao.getTipoRodada(), rdrRodadaAtualizarPontuacao.getSerieRodada(), rdrRodadaAtualizarPontuacao.getNrRDRRodada(), rdrService, inicioService);
 			
 			if(rodadaPrincipal != null) {
 				rdrRodadaAtualizarPontuacao.setStatusRodada(rodadaPrincipal.getStatusRodada());				
 				rdrRodadaAtualizarPontuacao = (RDRRodada) rdrService.atualizar(rdrRodadaAtualizarPontuacao);
 			}			
 		} 		
+		
+		
 	
+	}
+	
+	
+	public void atualizarRDRClassificacao(String fase, String serie, Long nrRodadaAtual, RDRServiceLocal rdrService, InicioServiceLocal inicioService) {		
+		
+		List<RDRClassificacao> listaRDRClassificacao = new ArrayList<RDRClassificacao>();	
+		listaRDRClassificacao = rdrService.buscarRDRClassificacao(fase, serie);
+				
+		for (RDRClassificacao rdrClassificacao : listaRDRClassificacao) {	
+			
+			List <RDRPontuacao> listaRdrPontuacao = new ArrayList<RDRPontuacao>();					
+			StringBuilder sql;
+			
+			/** QTD VITORIAS **/
+			sql = new StringBuilder();
+			sql.append("select o from ").append(RDRPontuacao.class.getSimpleName()).append(" o where 1=1 ");			
+			sql.append(" and o.rdrParticipanteTimeVencedor.id = ").append(rdrClassificacao.getRdrParticipante().getId());						
+			listaRdrPontuacao = (List<RDRPontuacao>) rdrService.consultarPorQuery(sql.toString(), 0, 0);	
+			
+			if(listaRdrPontuacao != null && !listaRdrPontuacao.isEmpty()) {
+				rdrClassificacao.setQtdVitorias(new Long(listaRdrPontuacao.size()));
+			} else {
+				rdrClassificacao.setQtdVitorias(new Long(0));
+			}
+			
+			/** QTD DERROTAS **/
+			sql = new StringBuilder();
+			sql.append("select o from ").append(RDRPontuacao.class.getSimpleName()).append(" o where 1=1 ");			
+			sql.append(" and o.rdrParticipanteTimePerdedor.id = ").append(rdrClassificacao.getRdrParticipante().getId());						
+			listaRdrPontuacao = (List<RDRPontuacao>) rdrService.consultarPorQuery(sql.toString(), 0, 0);	
+			
+			if(listaRdrPontuacao != null && !listaRdrPontuacao.isEmpty()) {
+				rdrClassificacao.setQtdDerrotas(new Long(listaRdrPontuacao.size()));
+			} else {
+				rdrClassificacao.setQtdDerrotas(new Long(0));
+			}
+			
+			/** QTD Empates **/
+			sql = new StringBuilder();
+			sql.append("select o from ").append(RDRPontuacao.class.getSimpleName()).append(" o where 1=1 ");			
+			sql.append(" and o.empate = 'sim' ");
+			sql.append(" and (o.rdrParticipanteTimeEmpateEmCasa.id = ").append(rdrClassificacao.getRdrParticipante().getId());
+			sql.append("      or o.rdrParticipanteTimeEmpateFora.id = " ).append(rdrClassificacao.getRdrParticipante().getId()).append(") ");
+			
+			listaRdrPontuacao = (List<RDRPontuacao>) rdrService.consultarPorQuery(sql.toString(), 0, 0);	
+			
+			if(listaRdrPontuacao != null && !listaRdrPontuacao.isEmpty()) {
+				rdrClassificacao.setQtdEmpates(new Long(listaRdrPontuacao.size()));
+			} else {
+				rdrClassificacao.setQtdEmpates(new Long(0));
+			}			
+			
+			rdrClassificacao.setQtdJogosDisputados(rdrClassificacao.getQtdVitorias()+rdrClassificacao.getQtdDerrotas()+rdrClassificacao.getQtdEmpates());
+			
+			Double vrPontos = new Double((rdrClassificacao.getQtdVitorias() * 3) + (rdrClassificacao.getQtdEmpates() * 1) + (rdrClassificacao.getQtdDerrotas() * 0));
+			
+			rdrClassificacao.setVrPontos(vrPontos);
+			
+			rdrClassificacao.setNrRodadaAtual(nrRodadaAtual);
+			
+			Integer anoAtual = 2020; // Calendar.getInstance().get(Calendar.YEAR);
+			
+			List<ClassificacaoLigaPrincipalDTO> listaClassificacaoPrincipalAteRodadaX = new ArrayList<ClassificacaoLigaPrincipalDTO>();
+			
+			if("A".equalsIgnoreCase(fase)) {
+				listaClassificacaoPrincipalAteRodadaX = inicioService.buscarPontuacaoLigaPrincipalTimeAteRodadaX(anoAtual, rdrClassificacao.getRdrParticipante().getTime(), 19);
+			} else if("C".equalsIgnoreCase(fase)) {
+				listaClassificacaoPrincipalAteRodadaX = inicioService.buscarPontuacaoLigaPrincipalTime(anoAtual, rdrClassificacao.getRdrParticipante().getTime());
+			}
+			 
+			Double vrPontuacaoAtualLigaPrincipalCartola =  0.0;
+			
+			if(listaClassificacaoPrincipalAteRodadaX!= null && !listaClassificacaoPrincipalAteRodadaX.isEmpty()) { 
+				vrPontuacaoAtualLigaPrincipalCartola = listaClassificacaoPrincipalAteRodadaX.get(0).getPontuacao();
+			}
+			
+			rdrClassificacao.setVrPontuacaoAtualLigaPrincipalCartola(vrPontuacaoAtualLigaPrincipalCartola);
+						
+			rdrClassificacao = (RDRClassificacao) rdrService.atualizar(rdrClassificacao);				
+		}
+						
 	}
 	
 	public Double arredondarValorDonoDaCasa(Double valor) {
