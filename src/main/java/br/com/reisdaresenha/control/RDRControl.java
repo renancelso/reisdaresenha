@@ -1268,8 +1268,11 @@ public class RDRControl extends BaseControl {
 				}
 				
 				if(rdrPontuacao.getVrPontuacaoTimeCasaArredondada().equals(rdrPontuacao.getVrPontuacaoTimeForaArredondada())) {
-					rdrPontuacao.setEmpate("sim");						
+					rdrPontuacao.setEmpate("sim");				
+					rdrPontuacao.setRdrParticipanteTimeVencedor(null);
 					rdrPontuacao.setNomeTimeVencedor("empate");
+					rdrPontuacao.setRdrParticipanteTimePerdedor(null);
+					rdrPontuacao.setNomeTimePerdedor("empate");				
 					rdrPontuacao.setRdrParticipanteTimeEmpateEmCasa(rdrPontuacao.getRdrParticipanteTimeCasa());
 					rdrPontuacao.setRdrParticipanteTimeEmpateFora(rdrPontuacao.getRdrParticipanteTimeFora());
 				}

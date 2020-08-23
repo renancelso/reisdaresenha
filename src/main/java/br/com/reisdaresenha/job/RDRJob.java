@@ -276,9 +276,12 @@ public class RDRJob implements Job {
 				
 				if(rdrPontuacao.getVrPontuacaoTimeCasaArredondada().equals(rdrPontuacao.getVrPontuacaoTimeForaArredondada())) {
 					rdrPontuacao.setEmpate("sim");						
+					rdrPontuacao.setRdrParticipanteTimeVencedor(null);
 					rdrPontuacao.setNomeTimeVencedor("empate");
+					rdrPontuacao.setRdrParticipanteTimePerdedor(null);
+					rdrPontuacao.setNomeTimePerdedor("empate");				
 					rdrPontuacao.setRdrParticipanteTimeEmpateEmCasa(rdrPontuacao.getRdrParticipanteTimeCasa());
-					rdrPontuacao.setRdrParticipanteTimeEmpateFora(rdrPontuacao.getRdrParticipanteTimeFora());
+					rdrPontuacao.setRdrParticipanteTimeEmpateFora(rdrPontuacao.getRdrParticipanteTimeFora());					
 				}
 				
 				rdrPontuacao = (RDRPontuacao) rdrService.atualizar(rdrPontuacao);
