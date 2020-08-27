@@ -113,7 +113,7 @@ public class RDRJob implements Job {
 						Calendar hora19 = Calendar.getInstance();
 						hora19.setTime(new Date());
 						hora19.set(hora19.get(Calendar.YEAR), hora19.get(Calendar.MONTH), hora19.get(Calendar.DATE), 19, 00, 00);
-						
+																	
 						if(agora.getTime().after(hora19.getTime()) && agora.getTime().before(hora23e59.getTime())) {	
 							
 							log.info("\n \n >>>>>>>>>>>> Iniciando ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n");
@@ -132,6 +132,33 @@ public class RDRJob implements Job {
 							atualizarPontuacaoLigaReisDaResenhaRodadaEmAndamento(timeService, inicioService,rdrService, rodadaService, parametroService, servicoCartola);
 							
 							log.info(" \n \n >>>>>>>>>>>> FINALIZANDO ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n ");
+						
+						} else {
+							
+							Calendar hora01e16daManha = Calendar.getInstance();
+							hora01e16daManha.setTime(new Date());
+							hora01e16daManha.set(hora01e16daManha.get(Calendar.YEAR), hora01e16daManha.get(Calendar.MONTH), hora01e16daManha.get(Calendar.DATE), 01, 16, 00);
+														
+							if(agora.getTime().before(hora01e16daManha.getTime())) {	
+								
+								log.info("\n \n >>>>>>>>>>>> Iniciando ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n");
+								
+								try {
+									log.info(">> INICIO atualizarPontuacaoRodadaEmAndamento <<");
+									atualizarPontuacaoRodadaEmAndamento(rdrService, rodadaService, parametroService, servicoCartola);		
+								} catch (Exception e) {
+									log.error(">> ERRO EM atualizarPontuacaoRodadaEmAndamento <<");
+									e.printStackTrace();
+									return;
+								}				
+											
+								atualizarPontuacaoOSobreviventeRodadaEmAndamento(timeService, inicioService,rdrService, rodadaService, parametroService, servicoCartola);
+								
+								atualizarPontuacaoLigaReisDaResenhaRodadaEmAndamento(timeService, inicioService,rdrService, rodadaService, parametroService, servicoCartola);
+								
+								log.info(" \n \n >>>>>>>>>>>> FINALIZANDO ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n ");
+							}
+							
 						}
 					}
 				} else {
