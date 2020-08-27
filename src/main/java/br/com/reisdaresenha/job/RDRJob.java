@@ -135,11 +135,11 @@ public class RDRJob implements Job {
 						
 						} else {
 							
-							Calendar hora01e16daManha = Calendar.getInstance();
-							hora01e16daManha.setTime(new Date());
-							hora01e16daManha.set(hora01e16daManha.get(Calendar.YEAR), hora01e16daManha.get(Calendar.MONTH), hora01e16daManha.get(Calendar.DATE), 01, 16, 00);
+							Calendar hora01e31daManha = Calendar.getInstance();
+							hora01e31daManha.setTime(new Date());
+							hora01e31daManha.set(hora01e31daManha.get(Calendar.YEAR), hora01e31daManha.get(Calendar.MONTH), hora01e31daManha.get(Calendar.DATE), 01, 31, 00);
 														
-							if(agora.getTime().before(hora01e16daManha.getTime())) {	
+							if(agora.getTime().before(hora01e31daManha.getTime())) {	
 								
 								log.info("\n \n >>>>>>>>>>>> Iniciando ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n");
 								
