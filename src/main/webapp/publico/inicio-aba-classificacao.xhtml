@@ -267,7 +267,7 @@
 					 		  	</p:column> 
 					 		  					 		  						 		  	
 					 		  	<p:column headerText="C. Des." style="text-align: center; width: 80px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
-					 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao no Cartola FC para critério de desempate" converter="decimal"/>
+					 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao CARTOLA FC para critério de desempate" converter="decimal"/>
 					 		  	</p:column> 
 						    								   
 							</p:dataTable>
@@ -284,15 +284,13 @@
 						 		  						          		
 						 		  	<br/>
 						 		  	
-						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada" 
-						 		  				  style=" font-weight: bold;color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
+						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada (SA) | (#{rdrRodada.nrRodadaCartola}ª rodada CARTOLA FC)" 
+						 		  				  style=" font-weight: bold;color: red; font-size: 11px; font-weight: bold; background-color: #D3E6FF; 
 									    	   			 border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
 									
-									<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}"
-												  style="font-weight: bold;"/>    																			
-					          			 			 	   	   
-									<h:outputText value=" | (#{rdrRodada.nrRodadaCartola}ª rodada no CARTOLA FC)" style="font-weight: bold;"/>
-													 		  		
+<!-- 									<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}" -->
+<!-- 												  style="font-weight: bold;"/>    																			 -->
+					          			
 					 		  		<br/>
 					 		  		<br/>					 		  		
 					 		  		
@@ -392,7 +390,7 @@
 						 		</p:column> 
 						 		  	
 					 		  	<p:column headerText="C. Des." style="text-align: center; width: 80px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
-					 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao no Cartola FC para critério de desempate" converter="decimal"/>
+					 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao CARTOLA FC para critério de desempate" converter="decimal"/>
 					 		  	</p:column> 
 							    								   
 							</p:dataTable>								
@@ -404,19 +402,18 @@
 						<center>
 						
 							<p:panel header="Tabela de Jogos Serie B - Clausura" >
+							
 								<p:repeat var="rdrRodada" value="#{rdrControl.listaRDRRodadasClausuraSerieB}">	 	
 						 		  	
 						 		  	<br/>
 						 		  	
-						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada" 
-						 		  				  style=" font-weight: bold;color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
+						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada (SB) | (#{rdrRodada.nrRodadaCartola}ª rodada CARTOLA FC)" 
+						 		  				  style=" font-weight: bold;color: red; font-size: 11px; font-weight: bold; background-color: #D3E6FF; 
 									    	   			 border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
 					 		  		
-					 		  		<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}"
-												  style="font-weight: bold;"/>    	
-					 		  		
-					 		  		<h:outputText value=" | (#{rdrRodada.nrRodadaCartola}ª rodada no CARTOLA FC)" style="font-weight: bold;"/>
-					 		  		
+<!-- 					 		  		<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}" -->
+<!-- 												  style="font-weight: bold;"/>    	 -->
+					 		  							 						 		  		
 					 		  		<br/>
 					 		  		<br/>					 		  		
 					 		  		
@@ -516,7 +513,7 @@
 					 		  	</p:column> 
 					 		  					 		  						 		  	
 					 		  	<p:column headerText="C. Des." style="text-align: center; width: 80px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
-					 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao no Cartola FC para critério de desempate" converter="decimal"/>
+					 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao CARTOLA FC para critério de desempate" converter="decimal"/>
 					 		  	</p:column> 
 						    								   
 							</p:dataTable>
@@ -533,15 +530,13 @@
 						 		  						          		
 						 		  	<br/>
 						 		  	
-						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada" 
-								 		  		  style=" font-weight: bold;color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
+						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada (SA) | (#{rdrRodada.nrRodadaCartola}ª rodada CARTOLA FC)" 
+								 		  		  style=" font-weight: bold;color: red; font-size: 11px; font-weight: bold; background-color: #D3E6FF; 
 											    	     border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
 									
-									<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}"
-												  style="font-weight: bold;"/>    
-									
-									<h:outputText value=" | (#{rdrRodada.nrRodadaCartola}ª rodada no CARTOLA FC)" style="font-weight: bold;"/>
-													 		  		
+<!-- 									<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}" -->
+<!-- 												  style="font-weight: bold;"/>     -->
+																														 		  		
 					 		  		<br/>
 					 		  		<br/>					 		  		
 					 		  		
@@ -640,7 +635,7 @@
 					 		  	</p:column> 
 					 		  					 		  							 		  	
 					 		  	<p:column headerText="C. Des." style="text-align: center; width: 80px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
-					 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao no Cartola FC para critério de desempate" converter="decimal"/>
+					 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao CARTOLA FC para critério de desempate" converter="decimal"/>
 					 		  	</p:column> 
 							    								   
 							</p:dataTable>								
@@ -657,15 +652,13 @@
 						 		  	
 						 		  	<br/>
 						 		  	
-						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada" 
-						 		  				  style=" font-weight: bold;color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
+						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada (SB) | (#{rdrRodada.nrRodadaCartola}ª rodada CARTOLA FC)" 
+						 		  				  style=" font-weight: bold;color: red; font-size: 11px; font-weight: bold; background-color: #D3E6FF; 
 									    	   			 border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
 					 		  		
-					 		  		<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}"
-												  style="font-weight: bold;"/>    	
-					 		  		
-					 		  		<h:outputText value=" | (#{rdrRodada.nrRodadaCartola}ª rodada no CARTOLA FC)" style="font-weight: bold;"/>
-					 		  		
+<!-- 					 		  		<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}" -->
+<!-- 												  style="font-weight: bold;"/>    	 -->
+					 		  							 		  						 		  		
 					 		  		<br/>
 					 		  		<br/>					 		  		
 					 		  		
@@ -710,85 +703,7 @@
 			        </p:tab>
 			        			        			        			           	        
 		        </p:tabView>  		        		
-		        
-		        
-		        <p:tabView dynamic="true" cache="true" style="font-size: 12px;">
-		        	
-		        	<p:tab title="Participantes - Apertura"
-		        		   rendered="#{rdrControl.listaParticipantesAperturaSerieA != null 
-      									and rdrControl.listaParticipantesAperturaSerieB != null
-      									and rdrControl.listaClassificacaoAperturaSerieA != null  
-										and rdrControl.listaClassificacaoAperturaSerieB != null
-										and rdrControl.listaRDRRodadasAperturaSerieA != null
-										and rdrControl.listaRDRRodadasAperturaSerieB != null}">
-					
-						<center>
-							
-							<h:panelGrid columns="2">
-							
-								<p:panel style="height: 1000px;"  header="Serie A">
-			          				<p:repeat var="item" value="#{rdrControl.listaParticipantesAperturaSerieA}" varStatus="var">	 	
-							 		  	<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
-							 		  	<img src="#{item.time.urlEscudoPng}" alt="" style="width: 15px;"/> 
-							 		  	<h:outputText value="#{item.time.nomeTime} (#{item.time.nomeDonoTime})"/>		
-						 		  		<br/>
-						 		  		<br/>
-				 		  			</p:repeat>	
-			          			</p:panel>
-		          			
-			          			<p:panel style="height: 1000px;" header="Serie B">
-			          				<p:repeat var="item" value="#{rdrControl.listaParticipantesAperturaSerieB}" varStatus="var">	 	
-							 		  	<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
-							 		  	<img src="#{item.time.urlEscudoPng}" alt="" style="width: 15px;"/> 
-							 		  	<h:outputText value="#{item.time.nomeTime} (#{item.time.nomeDonoTime})"/>
-						 		  		<br/>
-						 		  		<br/>
-				 		  			</p:repeat>	
-			          			</p:panel>	
-			          			
-		          			</h:panelGrid>	
-		          							
-						</center>
-						
-					</p:tab>
-					
-					<p:tab title="Participantes - Clausura"
-					 		rendered="#{rdrControl.listaParticipantesClausuraSerieA != null 
-	       								and rdrControl.listaParticipantesClausuraSerieB != null
-	       								and rdrControl.listaClassificacaoClausuraSerieA != null  
-										and rdrControl.listaClassificacaoClausuraSerieB != null
-										and rdrControl.listaRDRRodadasClausuraSerieA != null
-										and rdrControl.listaRDRRodadasClausuraSerieB != null}">
-					
-						<center>
-							<h:panelGrid columns="2">
-								<p:panel style="height: 1000px;"  header="Serie A">
-			          				<p:repeat var="item" value="#{rdrControl.listaParticipantesClausuraSerieA}" varStatus="var">	 	
-							 		  	<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
-							 		  	<img src="#{item.time.urlEscudoPng}" alt="" style="width: 15px;"/> 
-							 		  	<h:outputText value="#{item.time.nomeTime} (#{item.time.nomeDonoTime})"/>		
-						 		  		<br/>
-						 		  		<br/>
-				 		  			</p:repeat>	
-			          			</p:panel>
-		          			
-			          			<p:panel style="height: 1000px;" header="Serie B">
-			          				<p:repeat var="item" value="#{rdrControl.listaParticipantesClausuraSerieB}" varStatus="var">	 	
-							 		  	<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
-							 		  	<img src="#{item.time.urlEscudoPng}" alt="" style="width: 15px;"/> 
-							 		  	<h:outputText value="#{item.time.nomeTime} (#{item.time.nomeDonoTime})"/>
-						 		  		<br/>
-						 		  		<br/>
-				 		  			</p:repeat>	
-			          			</p:panel>	
-			          			
-		          			</h:panelGrid>	
-		          							
-						</center>
-					</p:tab>	
-												
-				</p:tabView>										
-                  
+		          
      	</p:panel>
      	
      	<hr/>      	      	

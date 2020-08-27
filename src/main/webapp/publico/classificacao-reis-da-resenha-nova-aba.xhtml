@@ -47,15 +47,15 @@
 			Reis da Resenha - Liga RDR
 		</label>		
 					
-		<h:form style="font-size: 12px;">								
+		<h:form style="font-size: 11px;">								
 												
-			  	<p:tabView cache="true" style="font-size: 11px; border: 0px; margin-left: -8px;" 
-			  			   rendered="#{rdrControl.listaParticipantesAperturaSerieA != null 
-      									and rdrControl.listaParticipantesAperturaSerieB != null
-      									and rdrControl.listaClassificacaoAperturaSerieA != null  
-										and rdrControl.listaClassificacaoAperturaSerieB != null
-										and rdrControl.listaRDRRodadasAperturaSerieA != null
-										and rdrControl.listaRDRRodadasAperturaSerieB != null}">		
+			  	<p:tabView cache="true" style="font-size: 12px; border: 0px;" 
+			  		rendered="#{rdrControl.listaParticipantesAperturaSerieA != null 
+      							and rdrControl.listaParticipantesAperturaSerieB != null
+      							and rdrControl.listaClassificacaoAperturaSerieA != null  
+								and rdrControl.listaClassificacaoAperturaSerieB != null
+								and rdrControl.listaRDRRodadasAperturaSerieA != null
+								and rdrControl.listaRDRRodadasAperturaSerieB != null}">		
 										
 					<p:tab title="Super Copa" rendered="#{rdrControl.listaRDRCopa != null and rdrControl.listaRDRCopa.size() != 0}">
 			         
@@ -84,7 +84,7 @@
 				 		  			
 				 		  			<h:panelGrid columns="1">	
 					 		  			
-					 		  			<p:panel style="text-align: right; border: 0px; width: 300px;
+					 		  			<p:panel style="text-align: right; border: 0px; width: 250px;
 					 		  							#{rdrCopa.rdrParticipanteTimeVencedor.id.equals(rdrCopa.rdrParticipanteTimeCasa.id) ? 'background-color: #ADD8E6;' 
 					 		  							: rdrCopa.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
 					 		  							: 'background-color: #FFB6C1;'}">
@@ -102,7 +102,7 @@
 						 		  			
 						 		  		</p:panel> 		
 						 		  							 		  			
-					 		  			<p:panel style="text-align: right; border: 0px; width: 300px;
+					 		  			<p:panel style="text-align: right; border: 0px; width: 250px;
 					 		  							#{rdrCopa.rdrParticipanteTimeVencedor.id.equals(rdrCopa.rdrParticipanteTimeFora.id) ? 'background-color: #ADD8E6;' 
 					 		  							: rdrCopa.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
 					 		  							: 'background-color: #FFB6C1;' }">	
@@ -137,7 +137,7 @@
 			          		
 						</center>
 										
-					</p:tab>	
+					</p:tab>
 					
 					<p:tab title="Clausura A" 
 			               rendered="#{rdrControl.listaParticipantesClausuraSerieA != null 
@@ -194,7 +194,7 @@
 					 		  	</p:column> 
 					 		  					 		  						 		  	
 					 		  	<p:column headerText="C. Des." style="text-align: center; width: 80px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
-					 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao no Cartola FC para critério de desempate" converter="decimal"/>
+					 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao CARTOLA FC para critério de desempate" converter="decimal"/>
 					 		  	</p:column> 
 						    								   
 							</p:dataTable>
@@ -211,15 +211,13 @@
 						 		  						          		
 						 		  	<br/>
 						 		  	
-						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada" 
-						 		  				  style=" font-weight: bold;color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
+						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada (SA) | (#{rdrRodada.nrRodadaCartola}ª rodada CARTOLA FC)" 
+						 		  				  style=" font-weight: bold;color: red; font-size: 11px; font-weight: bold; background-color: #D3E6FF; 
 									    	   			 border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
 									
-									<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}"
-												  style="font-weight: bold;"/>    																			
-					          			 			 	   	   
-									<h:outputText value=" | (#{rdrRodada.nrRodadaCartola}ª rodada no CARTOLA FC)" style="font-weight: bold;"/>
-													 		  		
+<!-- 									<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}" -->
+<!-- 												  style="font-weight: bold;"/>    																			 -->
+					          			
 					 		  		<br/>
 					 		  		<br/>					 		  		
 					 		  		
@@ -227,7 +225,7 @@
 							 		  				
 					 		  			<h:panelGrid columns="1">	
 						 		  			
-						 		  			<p:panel style="text-align: right; border: 0px;  width: 300px;
+						 		  			<p:panel style="text-align: right; border: 0px;  width: 250px;
 						 		  							#{rdrPontuacao.rdrParticipanteTimeVencedor.id.equals(rdrPontuacao.rdrParticipanteTimeCasa.id) ? 'background-color: #ADD8E6;' 
 						 		  							: rdrPontuacao.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
 						 		  							: 'background-color: #FFB6C1;'}">		
@@ -237,7 +235,7 @@
 							 		  			<h:inputText value="#{rdrPontuacao.vrPontuacaoTimeCasaArredondada.intValue()}" style="width: 40px; text-align: center; font-weight: bold;" readonly="true"/>		
 							 		  		</p:panel>
 							 		  			
-						 		  			<p:panel style="text-align: right; border: 0px; width: 300px;
+						 		  			<p:panel style="text-align: right; border: 0px; width: 250px;
 						 		  							#{rdrPontuacao.rdrParticipanteTimeVencedor.id.equals(rdrPontuacao.rdrParticipanteTimeFora.id) ? 'background-color: #ADD8E6;' 
 						 		  							: rdrPontuacao.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
 						 		  							: 'background-color: #FFB6C1;' }">							 		  			
@@ -319,7 +317,7 @@
 						 		</p:column> 
 						 		  	
 					 		  	<p:column headerText="C. Des." style="text-align: center; width: 80px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
-					 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao no Cartola FC para critério de desempate" converter="decimal"/>
+					 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao CARTOLA FC para critério de desempate" converter="decimal"/>
 					 		  	</p:column> 
 							    								   
 							</p:dataTable>								
@@ -331,19 +329,18 @@
 						<center>
 						
 							<p:panel header="Tabela de Jogos Serie B - Clausura" >
+							
 								<p:repeat var="rdrRodada" value="#{rdrControl.listaRDRRodadasClausuraSerieB}">	 	
 						 		  	
 						 		  	<br/>
 						 		  	
-						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada" 
-						 		  				  style=" font-weight: bold;color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
+						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada (SB) | (#{rdrRodada.nrRodadaCartola}ª rodada CARTOLA FC)" 
+						 		  				  style=" font-weight: bold;color: red; font-size: 11px; font-weight: bold; background-color: #D3E6FF; 
 									    	   			 border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
 					 		  		
-					 		  		<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}"
-												  style="font-weight: bold;"/>    	
-					 		  		
-					 		  		<h:outputText value=" | (#{rdrRodada.nrRodadaCartola}ª rodada no CARTOLA FC)" style="font-weight: bold;"/>
-					 		  		
+<!-- 					 		  		<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}" -->
+<!-- 												  style="font-weight: bold;"/>    	 -->
+					 		  							 						 		  		
 					 		  		<br/>
 					 		  		<br/>					 		  		
 					 		  		
@@ -351,7 +348,7 @@
 							 		  				
 					 		  			<h:panelGrid columns="1">	
 						 		  			
-						 		  			<p:panel style="text-align: right; border: 0px;  width: 300px;
+						 		  			<p:panel style="text-align: right; border: 0px;  width: 250px;
 						 		  							#{rdrPontuacao.rdrParticipanteTimeVencedor.id.equals(rdrPontuacao.rdrParticipanteTimeCasa.id) ? 'background-color: #ADD8E6;' 
 						 		  							: rdrPontuacao.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
 						 		  							: 'background-color: #FFB6C1;'}">		
@@ -361,7 +358,7 @@
 							 		  			<h:inputText value="#{rdrPontuacao.vrPontuacaoTimeCasaArredondada.intValue()}" style="width: 40px; text-align: center; font-weight: bold;" readonly="true"/>		
 							 		  		</p:panel>
 							 		  			
-						 		  			<p:panel style="text-align: right; border: 0px; width: 300px;
+						 		  			<p:panel style="text-align: right; border: 0px; width: 250px;
 						 		  							#{rdrPontuacao.rdrParticipanteTimeVencedor.id.equals(rdrPontuacao.rdrParticipanteTimeFora.id) ? 'background-color: #ADD8E6;' 
 						 		  							: rdrPontuacao.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
 						 		  							: 'background-color: #FFB6C1;' }">							 		  			
@@ -385,7 +382,8 @@
 							
 						</center>
 						
-			        </p:tab>											
+			        </p:tab>		
+										
 																		
 					<p:tab title="Apertura A" 
 						   rendered="#{rdrControl.listaParticipantesAperturaSerieA != null 
@@ -442,7 +440,7 @@
 					 		  	</p:column> 
 					 		  					 		  						 		  	
 					 		  	<p:column headerText="C. Des." style="text-align: center; width: 80px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
-					 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao no Cartola FC para critério de desempate" converter="decimal"/>
+					 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao CARTOLA FC para critério de desempate" converter="decimal"/>
 					 		  	</p:column> 
 						    								   
 							</p:dataTable>
@@ -459,15 +457,13 @@
 						 		  						          		
 						 		  	<br/>
 						 		  	
-						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada" 
-								 		  		  style=" font-weight: bold;color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
+						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada (SA) | (#{rdrRodada.nrRodadaCartola}ª rodada CARTOLA FC)" 
+								 		  		  style=" font-weight: bold;color: red; font-size: 11px; font-weight: bold; background-color: #D3E6FF; 
 											    	     border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
 									
-									<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}"
-												  style="font-weight: bold;"/>    
-									
-									<h:outputText value=" | (#{rdrRodada.nrRodadaCartola}ª rodada no CARTOLA FC)" style="font-weight: bold;"/>
-													 		  		
+<!-- 									<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}" -->
+<!-- 												  style="font-weight: bold;"/>     -->
+																														 		  		
 					 		  		<br/>
 					 		  		<br/>					 		  		
 					 		  		
@@ -475,7 +471,7 @@
 					 		  				
 					 		  			<h:panelGrid columns="1">	
 						 		  			
-						 		  			<p:panel style="text-align: right; border: 0px;  width: 300px;
+						 		  			<p:panel style="text-align: right; border: 0px;  width: 250px;
 						 		  							#{rdrPontuacao.rdrParticipanteTimeVencedor.id.equals(rdrPontuacao.rdrParticipanteTimeCasa.id) ? 'background-color: #ADD8E6;' 
 						 		  							: rdrPontuacao.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
 						 		  							: 'background-color: #FFB6C1;'}">		
@@ -485,7 +481,7 @@
 							 		  			<h:inputText value="#{rdrPontuacao.vrPontuacaoTimeCasaArredondada.intValue()}" style="width: 40px; text-align: center; font-weight: bold;" readonly="true"/>		
 							 		  		</p:panel>
 							 		  			
-						 		  			<p:panel style="text-align: right; border: 0px; width: 300px;
+						 		  			<p:panel style="text-align: right; border: 0px; width: 250px;
 						 		  							#{rdrPontuacao.rdrParticipanteTimeVencedor.id.equals(rdrPontuacao.rdrParticipanteTimeFora.id) ? 'background-color: #ADD8E6;' 
 						 		  							: rdrPontuacao.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
 						 		  							: 'background-color: #FFB6C1;' }">							 		  			
@@ -566,7 +562,7 @@
 					 		  	</p:column> 
 					 		  					 		  							 		  	
 					 		  	<p:column headerText="C. Des." style="text-align: center; width: 80px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
-					 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao no Cartola FC para critério de desempate" converter="decimal"/>
+					 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao CARTOLA FC para critério de desempate" converter="decimal"/>
 					 		  	</p:column> 
 							    								   
 							</p:dataTable>								
@@ -583,15 +579,13 @@
 						 		  	
 						 		  	<br/>
 						 		  	
-						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada" 
-						 		  				  style=" font-weight: bold;color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
+						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada (SB) | (#{rdrRodada.nrRodadaCartola}ª rodada CARTOLA FC)" 
+						 		  				  style=" font-weight: bold;color: red; font-size: 11px; font-weight: bold; background-color: #D3E6FF; 
 									    	   			 border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
 					 		  		
-					 		  		<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}"
-												  style="font-weight: bold;"/>    	
-					 		  		
-					 		  		<h:outputText value=" | (#{rdrRodada.nrRodadaCartola}ª rodada no CARTOLA FC)" style="font-weight: bold;"/>
-					 		  		
+<!-- 					 		  		<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}" -->
+<!-- 												  style="font-weight: bold;"/>    	 -->
+					 		  							 		  						 		  		
 					 		  		<br/>
 					 		  		<br/>					 		  		
 					 		  		
@@ -599,7 +593,7 @@
 						 		  				
 					 		  			<h:panelGrid columns="1">	
 						 		  			
-						 		  			<p:panel style="text-align: right; border: 0px;  width: 300px;
+						 		  			<p:panel style="text-align: right; border: 0px;  width: 250px;
 						 		  							#{rdrPontuacao.rdrParticipanteTimeVencedor.id.equals(rdrPontuacao.rdrParticipanteTimeCasa.id) ? 'background-color: #ADD8E6;' 
 						 		  							: rdrPontuacao.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
 						 		  							: 'background-color: #FFB6C1;'}">		
@@ -609,7 +603,7 @@
 							 		  			<h:inputText value="#{rdrPontuacao.vrPontuacaoTimeCasaArredondada.intValue()}" style="width: 40px; text-align: center; font-weight: bold;" readonly="true"/>		
 							 		  		</p:panel>
 							 		  			
-						 		  			<p:panel style="text-align: right; border: 0px; width: 300px;
+						 		  			<p:panel style="text-align: right; border: 0px; width: 250px;
 						 		  							#{rdrPontuacao.rdrParticipanteTimeVencedor.id.equals(rdrPontuacao.rdrParticipanteTimeFora.id) ? 'background-color: #ADD8E6;' 
 						 		  							: rdrPontuacao.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
 						 		  							: 'background-color: #FFB6C1;' }">							 		  			
@@ -633,88 +627,9 @@
 							
 						</center>
 						
-			        </p:tab>	
+			        </p:tab>
 			        			        			        			           	        
-		        </p:tabView>  		        		
-		        
-		        
-		        <p:tabView dynamic="true" cache="true" style="font-size: 12px;">
-		        	
-		        	<p:tab title="Participantes - Apertura"
-		        		   rendered="#{rdrControl.listaParticipantesAperturaSerieA != null 
-      									and rdrControl.listaParticipantesAperturaSerieB != null
-      									and rdrControl.listaClassificacaoAperturaSerieA != null  
-										and rdrControl.listaClassificacaoAperturaSerieB != null
-										and rdrControl.listaRDRRodadasAperturaSerieA != null
-										and rdrControl.listaRDRRodadasAperturaSerieB != null}">
-					
-						<center>
-							
-							<h:panelGrid columns="2">
-							
-								<p:panel style="height: 1000px;"  header="Serie A">
-			          				<p:repeat var="item" value="#{rdrControl.listaParticipantesAperturaSerieA}" varStatus="var">	 	
-							 		  	<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
-							 		  	<img src="#{item.time.urlEscudoPng}" alt="" style="width: 15px;"/> 
-							 		  	<h:outputText value="#{item.time.nomeTime} (#{item.time.nomeDonoTime})"/>		
-						 		  		<br/>
-						 		  		<br/>
-				 		  			</p:repeat>	
-			          			</p:panel>
-		          			
-			          			<p:panel style="height: 1000px;" header="Serie B">
-			          				<p:repeat var="item" value="#{rdrControl.listaParticipantesAperturaSerieB}" varStatus="var">	 	
-							 		  	<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
-							 		  	<img src="#{item.time.urlEscudoPng}" alt="" style="width: 15px;"/> 
-							 		  	<h:outputText value="#{item.time.nomeTime} (#{item.time.nomeDonoTime})"/>
-						 		  		<br/>
-						 		  		<br/>
-				 		  			</p:repeat>	
-			          			</p:panel>	
-			          			
-		          			</h:panelGrid>	
-		          							
-						</center>
-						
-					</p:tab>
-					
-					<p:tab title="Participantes - Clausura"
-					 		rendered="#{rdrControl.listaParticipantesClausuraSerieA != null 
-	       								and rdrControl.listaParticipantesClausuraSerieB != null
-	       								and rdrControl.listaClassificacaoClausuraSerieA != null  
-										and rdrControl.listaClassificacaoClausuraSerieB != null
-										and rdrControl.listaRDRRodadasClausuraSerieA != null
-										and rdrControl.listaRDRRodadasClausuraSerieB != null}">
-					
-						<center>
-							<h:panelGrid columns="2">
-								<p:panel style="height: 1000px;"  header="Serie A">
-			          				<p:repeat var="item" value="#{rdrControl.listaParticipantesClausuraSerieA}" varStatus="var">	 	
-							 		  	<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
-							 		  	<img src="#{item.time.urlEscudoPng}" alt="" style="width: 15px;"/> 
-							 		  	<h:outputText value="#{item.time.nomeTime} (#{item.time.nomeDonoTime})"/>		
-						 		  		<br/>
-						 		  		<br/>
-				 		  			</p:repeat>	
-			          			</p:panel>
-		          			
-			          			<p:panel style="height: 1000px;" header="Serie B">
-			          				<p:repeat var="item" value="#{rdrControl.listaParticipantesClausuraSerieB}" varStatus="var">	 	
-							 		  	<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
-							 		  	<img src="#{item.time.urlEscudoPng}" alt="" style="width: 15px;"/> 
-							 		  	<h:outputText value="#{item.time.nomeTime} (#{item.time.nomeDonoTime})"/>
-						 		  		<br/>
-						 		  		<br/>
-				 		  			</p:repeat>	
-			          			</p:panel>	
-			          			
-		          			</h:panelGrid>	
-		          							
-						</center>
-					</p:tab>	
-												
-				</p:tabView>	
-				
+		        </p:tabView>  	
 				
 				<br/>
 				<br/>
