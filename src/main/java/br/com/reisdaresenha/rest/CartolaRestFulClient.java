@@ -153,6 +153,18 @@ public class CartolaRestFulClient {
 				timeRodadaDTO.setPontosCampeonato(new Double(String.valueOf(pontosCampeonato)));		
 			}
 			
+			try {
+				Long capitaoId = (Long) jsonObject.get("capitao_id");	
+				timeRodadaDTO.setCapitaoId(capitaoId);
+			} catch (Exception e) {
+				try {
+					Double capitaoId = (Double) jsonObject.get("capitao_id");	
+					timeRodadaDTO.setCapitaoId(new Long(String.valueOf(capitaoId)));
+				} catch (Exception ex) {
+					log.warn("NAO FOI POSSIVEL BUSCAR O ID DO CAPITAO DO TIME: "+time.getNomeTime());					
+				}
+			}
+			
 			JSONObject jsonObjectTime = (JSONObject) jsonObject.get("time");
 			
 			String nomeDonoTimeCartola = (String) jsonObjectTime.get("nome_cartola");				
@@ -471,8 +483,10 @@ public class CartolaRestFulClient {
 				 */
 				return jsonObject;
 				
-			} else {
-				return null;
+			} else {				
+				if(jsonObject != null) {
+					return jsonObject;
+				}			
 			}
 			
 		} catch (IOException e) {

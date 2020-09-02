@@ -19,6 +19,8 @@ public class TimeRodadaDTO {
 	private Double pontosCampeonato;
 	
 	private List<Long> idAtletasEscalados;
+	
+	private Long capitaoId;
 
 	public Time getTime() {
 		return time;
@@ -99,6 +101,14 @@ public class TimeRodadaDTO {
 
 	public void setIdAtletasEscalados(List<Long> idAtletasEscalados) {
 		this.idAtletasEscalados = idAtletasEscalados;
+	}
+
+	public Long getCapitaoId() {
+		return capitaoId;
+	}
+
+	public void setCapitaoId(Long capitaoId) {
+		this.capitaoId = capitaoId;
 	}
 	
 	

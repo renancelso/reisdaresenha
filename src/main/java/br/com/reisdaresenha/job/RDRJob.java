@@ -162,7 +162,7 @@ public class RDRJob implements Job {
 						}
 					}
 				} else {
-					log.info("\n \n >>>>> STATUS DO MERCADO NO CARTOLA FC NAO ESTA FECHADO(Fechado = Codigo 2): Codigo Status ATUAL: '"+statusMercado+"' <<<<< \n ");
+					log.info("\n \n >>>>> STATUS DO MERCADO NO CARTOLA FC NAO ESTA FECHADO (Fechado = Codigo 2): Codigo Status ATUAL: '"+statusMercado+"' <<<<< \n ");
 				}
 				
 				Calendar hora14 = Calendar.getInstance();
