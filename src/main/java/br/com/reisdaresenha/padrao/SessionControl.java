@@ -12,7 +12,6 @@ import org.primefaces.PrimeFaces;
 
 import br.com.reisdaresenha.model.Parametro;
 import br.com.reisdaresenha.model.Usuario;
-import br.com.reisdaresenha.rest.CartolaRestFulClient;
 import br.com.reisdaresenha.service.ParametroServiceLocal;
 
 /**

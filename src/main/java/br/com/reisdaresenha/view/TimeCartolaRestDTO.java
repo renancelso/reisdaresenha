@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.text.Collator;
 import java.util.Locale;
 
-import br.com.reisdaresenha.model.OSBPontuacao;
-
 public class TimeCartolaRestDTO implements Serializable, Comparable<TimeCartolaRestDTO>{
 	
 	private static final long serialVersionUID = 1814635572420449643L;

@@ -227,7 +227,7 @@ public class OSBRodadaControl extends BaseControl {
 		return null;
 	}
 	
-	@SuppressWarnings({ "unchecked", "unused" })
+	@SuppressWarnings("unchecked")
 	public String btnOsbNovaRodada() {	
 		
 		listaOsbRodadas = new ArrayList<>();		

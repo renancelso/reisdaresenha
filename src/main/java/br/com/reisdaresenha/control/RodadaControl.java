@@ -2,7 +2,6 @@ package br.com.reisdaresenha.control;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -22,7 +21,6 @@ import br.com.reisdaresenha.service.ParametroServiceLocal;
 import br.com.reisdaresenha.service.RDRServiceLocal;
 import br.com.reisdaresenha.service.RodadaServiceLocal;
 import br.com.reisdaresenha.view.ClassificacaoLigaPrincipalDTO;
-import br.com.reisdaresenha.view.TimeRodadaDTO;
 
 /**
  * @author Renan Celso

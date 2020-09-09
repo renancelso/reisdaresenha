@@ -110,11 +110,17 @@ public class RDRJob implements Job {
 						
 					} else {
 						
-						Calendar hora19 = Calendar.getInstance();
-						hora19.setTime(new Date());
-						hora19.set(hora19.get(Calendar.YEAR), hora19.get(Calendar.MONTH), hora19.get(Calendar.DATE), 19, 00, 00);
-																	
-						if(agora.getTime().after(hora19.getTime()) && agora.getTime().before(hora23e59.getTime())) {	
+						Calendar hora16e30 = Calendar.getInstance();
+						hora16e30.setTime(new Date());
+						hora16e30.set(hora16e30.get(Calendar.YEAR), hora16e30.get(Calendar.MONTH), hora16e30.get(Calendar.DATE), 16, 30, 00);
+									
+						
+						Calendar hora01e31daManha = Calendar.getInstance();
+						hora01e31daManha.setTime(new Date());
+						hora01e31daManha.set(hora01e31daManha.get(Calendar.YEAR), hora01e31daManha.get(Calendar.MONTH), hora01e31daManha.get(Calendar.DATE), 01, 31, 00);
+						
+						if( (agora.getTime().after(hora16e30.getTime()) && agora.getTime().before(hora23e59.getTime())) 
+								|| (agora.getTime().before(hora01e31daManha.getTime())) ) {	
 							
 							log.info("\n \n >>>>>>>>>>>> Iniciando ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n");
 														
@@ -133,34 +139,10 @@ public class RDRJob implements Job {
 							
 							log.info(" \n \n >>>>>>>>>>>> FINALIZANDO ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n ");
 						
-						} else {
-							
-							Calendar hora01e31daManha = Calendar.getInstance();
-							hora01e31daManha.setTime(new Date());
-							hora01e31daManha.set(hora01e31daManha.get(Calendar.YEAR), hora01e31daManha.get(Calendar.MONTH), hora01e31daManha.get(Calendar.DATE), 01, 31, 00);
-														
-							if(agora.getTime().before(hora01e31daManha.getTime())) {	
-								
-								log.info("\n \n >>>>>>>>>>>> Iniciando ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n");
-								
-								try {
-									log.info(">> INICIO atualizarPontuacaoRodadaEmAndamento <<");
-									atualizarPontuacaoRodadaEmAndamento(rdrService, rodadaService, parametroService, servicoCartola);		
-								} catch (Exception e) {
-									log.error(">> ERRO EM atualizarPontuacaoRodadaEmAndamento <<");
-									e.printStackTrace();
-									return;
-								}				
-											
-								atualizarPontuacaoOSobreviventeRodadaEmAndamento(timeService, inicioService,rdrService, rodadaService, parametroService, servicoCartola);
-								
-								atualizarPontuacaoLigaReisDaResenhaRodadaEmAndamento(timeService, inicioService,rdrService, rodadaService, parametroService, servicoCartola);
-								
-								log.info(" \n \n >>>>>>>>>>>> FINALIZANDO ACESSOS AO APP DA GLOBO EM '"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+"' <<<<<<<<<<<< \n \n ");
-							}
-							
-						}
+						} 
+						
 					}
+					
 				} else {
 					log.info("\n \n >>>>> STATUS DO MERCADO NO CARTOLA FC NAO ESTA FECHADO (Fechado = Codigo 2): Codigo Status ATUAL: '"+statusMercado+"' <<<<< \n ");
 				}
@@ -330,6 +312,7 @@ public class RDRJob implements Job {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public void atualizarRDRClassificacao(String fase, String serie, Long nrRodadaAtual, RDRServiceLocal rdrService, InicioServiceLocal inicioService) {		
 		
 		List<RDRClassificacao> listaRDRClassificacao = new ArrayList<RDRClassificacao>();	
