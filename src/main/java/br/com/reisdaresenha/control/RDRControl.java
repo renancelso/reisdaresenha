@@ -697,15 +697,18 @@ public class RDRControl extends BaseControl {
 				}
 			}	
 			
-			listaRDRRodadasAperturaSerieB = new ArrayList<RDRRodada>();
-			listaRDRRodadasAperturaSerieB.add(rodadaEmAndamentoSerieBApertura);
-			listaRDRRodadasAperturaSerieB.addAll(rdrService.buscarRDRRodadas("A", "SB"));			
+			if(rodadaEmAndamentoSerieBApertura != null) {
 			
-			if(listaRDRRodadasAperturaSerieB != null && !listaRDRRodadasAperturaSerieB.isEmpty()) {				
-				for (RDRRodada rdrRodadaSB : listaRDRRodadasAperturaSerieB) {
-					rdrRodadaSB.setListaRDRPontuacao(rdrService.buscarRDRPontuacaoPorRodada(rdrRodadaSB));
-				}
-			}			
+				listaRDRRodadasAperturaSerieB = new ArrayList<RDRRodada>();
+				listaRDRRodadasAperturaSerieB.add(rodadaEmAndamentoSerieBApertura);
+				listaRDRRodadasAperturaSerieB.addAll(rdrService.buscarRDRRodadas("A", "SB"));			
+				
+				if(listaRDRRodadasAperturaSerieB != null && !listaRDRRodadasAperturaSerieB.isEmpty()) {				
+					for (RDRRodada rdrRodadaSB : listaRDRRodadasAperturaSerieB) {
+						rdrRodadaSB.setListaRDRPontuacao(rdrService.buscarRDRPontuacaoPorRodada(rdrRodadaSB));
+					}
+				}	
+			}
 		}
 		
 	}
