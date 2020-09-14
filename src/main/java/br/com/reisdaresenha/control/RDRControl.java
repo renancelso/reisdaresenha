@@ -85,6 +85,11 @@ public class RDRControl extends BaseControl {
 	private List<RDRCopaPontuacao> listaRDRCopa;
 	
 	private List<RDRParticipante> listaRDRParticipantesCopa;
+	
+	private RDRRodada rodadaEmAndamentoSerieAApertura;	
+	private RDRRodada rodadaEmAndamentoSerieBApertura;	
+	private RDRRodada rodadaEmAndamentoSerieAClausura;	
+	private RDRRodada rodadaEmAndamentoSerieBClausura;
 			
 	@PostConstruct
 	public void init() {		
@@ -655,6 +660,53 @@ public class RDRControl extends BaseControl {
 		
 		listaClassificacaoLigaPrincipalAteRodada19 = new ArrayList<ClassificacaoLigaPrincipalDTO>();					
 		listaClassificacaoLigaPrincipalAteRodada19 = inicioService.buscarClassificacaoLigaPrincipalAteRodadaX(anoAtual, 19);
+						
+		if(listaRDRRodadasAperturaSerieA != null && !listaRDRRodadasAperturaSerieA.isEmpty()) {
+			
+			for (RDRRodada rdrRodada : listaRDRRodadasAperturaSerieA) {				
+				rodadaEmAndamentoSerieAApertura = null;				
+				if("EA".equals(rdrRodada.getStatusRodada())) {					
+					rodadaEmAndamentoSerieAApertura = rdrRodada;
+					rodadaEmAndamentoSerieAApertura.setListaRDRPontuacao(rdrRodada.getListaRDRPontuacao());									
+					break;					
+				}
+			}
+			
+			if(rodadaEmAndamentoSerieAApertura != null) {
+
+				listaRDRRodadasAperturaSerieA = new ArrayList<RDRRodada>();	
+				listaRDRRodadasAperturaSerieA.add(rodadaEmAndamentoSerieAApertura);
+				listaRDRRodadasAperturaSerieA.addAll(rdrService.buscarRDRRodadas("A", "SA"));
+				
+				if(listaRDRRodadasAperturaSerieA != null && !listaRDRRodadasAperturaSerieA.isEmpty()) {
+					for (RDRRodada rdrRodadaSA : listaRDRRodadasAperturaSerieA) {
+						rdrRodadaSA.setListaRDRPontuacao(rdrService.buscarRDRPontuacaoPorRodada(rdrRodadaSA));
+					}
+				}
+			}			
+		}
+		
+		if(listaRDRRodadasAperturaSerieB != null && !listaRDRRodadasAperturaSerieB.isEmpty()) {
+									
+			for (RDRRodada rdrRodada : listaRDRRodadasAperturaSerieB) {				
+				rodadaEmAndamentoSerieBApertura = null;				
+				if("EA".equals(rdrRodada.getStatusRodada())) {					
+					rodadaEmAndamentoSerieBApertura = rdrRodada;
+					rodadaEmAndamentoSerieBApertura.setListaRDRPontuacao(rdrRodada.getListaRDRPontuacao());										
+					break;
+				}
+			}	
+			
+			listaRDRRodadasAperturaSerieB = new ArrayList<RDRRodada>();
+			listaRDRRodadasAperturaSerieB.add(rodadaEmAndamentoSerieBApertura);
+			listaRDRRodadasAperturaSerieB.addAll(rdrService.buscarRDRRodadas("A", "SB"));			
+			
+			if(listaRDRRodadasAperturaSerieB != null && !listaRDRRodadasAperturaSerieB.isEmpty()) {				
+				for (RDRRodada rdrRodadaSB : listaRDRRodadasAperturaSerieB) {
+					rdrRodadaSB.setListaRDRPontuacao(rdrService.buscarRDRPontuacaoPorRodada(rdrRodadaSB));
+				}
+			}			
+		}
 		
 	}
 	
@@ -695,6 +747,57 @@ public class RDRControl extends BaseControl {
 			}
 		}
 		/** CLAUSURA **/
+		
+		if(listaRDRRodadasClausuraSerieA != null && !listaRDRRodadasClausuraSerieA.isEmpty()) {
+			
+			for (RDRRodada rdrRodada : listaRDRRodadasClausuraSerieA) {
+				rodadaEmAndamentoSerieAClausura = null;
+				if("EA".equals(rdrRodada.getStatusRodada())) {
+					rodadaEmAndamentoSerieAClausura = rdrRodada;
+					rodadaEmAndamentoSerieAClausura.setListaRDRPontuacao(rdrRodada.getListaRDRPontuacao());
+					break;
+				}
+			}
+			
+			if(rodadaEmAndamentoSerieAClausura != null) {
+				
+				listaRDRRodadasClausuraSerieA = new ArrayList<RDRRodada>();	
+				listaRDRRodadasClausuraSerieA.add(rodadaEmAndamentoSerieAClausura);
+				listaRDRRodadasClausuraSerieA.addAll(rdrService.buscarRDRRodadas("C", "SA"));
+				
+				if(listaRDRRodadasClausuraSerieA != null && !listaRDRRodadasClausuraSerieA.isEmpty()) {
+					for (RDRRodada rdrRodadaSA : listaRDRRodadasClausuraSerieA) {
+						rdrRodadaSA.setListaRDRPontuacao(rdrService.buscarRDRPontuacaoPorRodada(rdrRodadaSA));
+					}
+				}			
+
+			}			
+		}
+		
+		if(listaRDRRodadasClausuraSerieB != null && !listaRDRRodadasClausuraSerieB.isEmpty()) {
+			
+			for (RDRRodada rdrRodada : listaRDRRodadasClausuraSerieB) {
+				rodadaEmAndamentoSerieBClausura = null;
+				if("EA".equals(rdrRodada.getStatusRodada())) {
+					rodadaEmAndamentoSerieBClausura = rdrRodada;
+					rodadaEmAndamentoSerieBClausura.setListaRDRPontuacao(rdrRodada.getListaRDRPontuacao());
+					break;
+				}
+			}
+			
+			if(rodadaEmAndamentoSerieBClausura != null){
+								
+				listaRDRRodadasClausuraSerieB = new ArrayList<RDRRodada>();
+				listaRDRRodadasClausuraSerieB.add(rodadaEmAndamentoSerieBClausura);				
+				listaRDRRodadasClausuraSerieB.addAll(rdrService.buscarRDRRodadas("C", "SB"));		
+				
+				if(listaRDRRodadasClausuraSerieB != null && !listaRDRRodadasClausuraSerieB.isEmpty()) {				
+					for (RDRRodada rdrRodadaSB : listaRDRRodadasClausuraSerieB) {
+						rdrRodadaSB.setListaRDRPontuacao(rdrService.buscarRDRPontuacaoPorRodada(rdrRodadaSB));
+					}
+				}
+			}
+		}
 		
 	}
 	
@@ -1853,6 +1956,38 @@ public class RDRControl extends BaseControl {
 
 	public void setListaRDRParticipantesCopa(List<RDRParticipante> listaRDRParticipantesCopa) {
 		this.listaRDRParticipantesCopa = listaRDRParticipantesCopa;
+	}
+
+	public RDRRodada getRodadaEmAndamentoSerieAApertura() {
+		return rodadaEmAndamentoSerieAApertura;
+	}
+
+	public void setRodadaEmAndamentoSerieAApertura(RDRRodada rodadaEmAndamentoSerieAApertura) {
+		this.rodadaEmAndamentoSerieAApertura = rodadaEmAndamentoSerieAApertura;
+	}
+
+	public RDRRodada getRodadaEmAndamentoSerieBApertura() {
+		return rodadaEmAndamentoSerieBApertura;
+	}
+
+	public void setRodadaEmAndamentoSerieBApertura(RDRRodada rodadaEmAndamentoSerieBApertura) {
+		this.rodadaEmAndamentoSerieBApertura = rodadaEmAndamentoSerieBApertura;
+	}
+
+	public RDRRodada getRodadaEmAndamentoSerieAClausura() {
+		return rodadaEmAndamentoSerieAClausura;
+	}
+
+	public void setRodadaEmAndamentoSerieAClausura(RDRRodada rodadaEmAndamentoSerieAClausura) {
+		this.rodadaEmAndamentoSerieAClausura = rodadaEmAndamentoSerieAClausura;
+	}
+
+	public RDRRodada getRodadaEmAndamentoSerieBClausura() {
+		return rodadaEmAndamentoSerieBClausura;
+	}
+
+	public void setRodadaEmAndamentoSerieBClausura(RDRRodada rodadaEmAndamentoSerieBClausura) {
+		this.rodadaEmAndamentoSerieBClausura = rodadaEmAndamentoSerieBClausura;
 	}	
 	
 	

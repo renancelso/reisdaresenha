@@ -282,7 +282,12 @@
 									
 								<p:repeat var="rdrRodada" value="#{rdrControl.listaRDRRodadasClausuraSerieA}">	 	
 						 		  						          		
-						 		  	<br/>
+						 		  	<h:panelGroup rendered="#{'EA'.equals(rdrRodada.statusRodada)}">
+										<h:outputText value="RODADA ATUAL" style="font-weight: bold; font-size: 12px;"/>   
+							 		  						          		
+							 		  	<br/>
+							 		  	<br/>
+							 		</h:panelGroup>
 						 		  	
 						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada (SA) | (#{rdrRodada.nrRodadaCartola}ª rodada CARTOLA FC)" 
 						 		  				  style=" font-weight: bold;color: red; font-size: 11px; font-weight: bold; background-color: #D3E6FF; 
@@ -405,7 +410,12 @@
 							
 								<p:repeat var="rdrRodada" value="#{rdrControl.listaRDRRodadasClausuraSerieB}">	 	
 						 		  	
-						 		  	<br/>
+						 		  	<h:panelGroup rendered="#{'EA'.equals(rdrRodada.statusRodada)}">
+										<h:outputText value="RODADA ATUAL" style="font-weight: bold; font-size: 12px;"/>   
+							 		  						          		
+							 		  	<br/>
+							 		  	<br/>
+							 		</h:panelGroup>
 						 		  	
 						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada (SB) | (#{rdrRodada.nrRodadaCartola}ª rodada CARTOLA FC)" 
 						 		  				  style=" font-weight: bold;color: red; font-size: 11px; font-weight: bold; background-color: #D3E6FF; 
@@ -527,11 +537,16 @@
 							<p:panel header="Tabela de Jogos Serie A - Apertura" >
 									
 								<p:repeat var="rdrRodada" value="#{rdrControl.listaRDRRodadasAperturaSerieA}">	 	
-						 		  						          		
-						 		  	<br/>
-						 		  	
+								
+									<h:panelGroup rendered="#{'EA'.equals(rdrRodada.statusRodada)}">
+										<h:outputText value="RODADA ATUAL" style="font-weight: bold; font-size: 12px;"/>   
+							 		  						          		
+							 		  	<br/>
+							 		  	<br/>
+							 		</h:panelGroup>  	
+							 		
 						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada (SA) | (#{rdrRodada.nrRodadaCartola}ª rodada CARTOLA FC)" 
-								 		  		  style=" font-weight: bold;color: red; font-size: 11px; font-weight: bold; background-color: #D3E6FF; 
+								 		  		  style="font-weight: bold;color: red; font-size: 11px; font-weight: bold; background-color: #D3E6FF; 
 											    	     border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
 									
 <!-- 									<h:outputText value="#{'FT'.equals(rdrRodada.statusRodada) ? ' FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? ' EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? ' PASSADA' : ''}" -->
@@ -650,7 +665,12 @@
 								
 								<p:repeat var="rdrRodada" value="#{rdrControl.listaRDRRodadasAperturaSerieB}">	 	
 						 		  	
-						 		  	<br/>
+						 		  	<h:panelGroup rendered="#{'EA'.equals(rdrRodada.statusRodada)}">
+										<h:outputText value="RODADA ATUAL" style="font-weight: bold; font-size: 12px;"/>   
+							 		  						          		
+							 		  	<br/>
+							 		  	<br/>
+							 		</h:panelGroup>
 						 		  	
 						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada (SB) | (#{rdrRodada.nrRodadaCartola}ª rodada CARTOLA FC)" 
 						 		  				  style=" font-weight: bold;color: red; font-size: 11px; font-weight: bold; background-color: #D3E6FF; 
