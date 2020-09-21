@@ -52,7 +52,7 @@
 		</div> 
 			 				
 		<!-- Form -->
-		<h:form id="signin-form_id" style="font-size: 12px;">				
+		<h:form id="signin-form_id" style="font-size: 11px;">				
 								
 			<p:messages id="messages1" closable="true" showDetail="false" />
 			
@@ -70,7 +70,12 @@
 			    </p:column>	
 			   
 			    <p:column headerText="Time" style="width: 50%">
-			        <img src="#{item.escudoTime}" alt="" style="width: 20px;"/> <h:outputText value="#{item.time}" />
+			        <img src="#{item.escudoTime}" alt="" style="width: 15px;"/> <h:outputText value="#{item.time}" />
+			        <br/>	
+			        <h:outputText value=" (A) " title="Série A" rendered="#{item.serieA}" style="color: green; font-weight: bold;"/>
+			        <h:outputText value=" (B) " title="Série B" rendered="#{item.serieB}" style="color: blue; font-weight: bold;"/>
+			        <h:outputText value=" (S) " title="O Sobrevivente" rendered="#{item.sobrevivente}" style="color: navy; font-weight: bold;"/>
+			        <h:outputText value=" (SS) " title="Sem série" rendered="#{!item.serieA and !item.serieB}"  style="color: red; font-weight: bold;"/>			       
 			    </p:column>	
 			    
 			    <p:column headerText="J" style="text-align: center; width: 50px;" sortBy="#{item.jogos}">

@@ -15,6 +15,12 @@ public class ClassificacaoLigaPrincipalDTO {
 	private Double pontuacao;
 	
 	private Long idTimeCartola;
+	
+	private boolean serieA;
+	
+	private boolean serieB;
+	
+	private boolean sobrevivente;
 
 	public String getTime() {
 		return time;
@@ -63,7 +69,30 @@ public class ClassificacaoLigaPrincipalDTO {
 	public void setEscudoTime(String escudoTime) {
 		this.escudoTime = escudoTime;
 	}
+	
+	public boolean isSerieA() {
+		return serieA;
+	}
 
+	public void setSerieA(boolean serieA) {
+		this.serieA = serieA;
+	}
+
+	public boolean isSerieB() {
+		return serieB;
+	}
+
+	public void setSerieB(boolean serieB) {
+		this.serieB = serieB;
+	}
+
+	public boolean isSobrevivente() {
+		return sobrevivente;
+	}
+
+	public void setSobrevivente(boolean sobrevivente) {
+		this.sobrevivente = sobrevivente;
+	}
 
 	@Override
 	public int hashCode() {

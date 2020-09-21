@@ -15,9 +15,11 @@ import br.com.reisdaresenha.model.Liga;
 import br.com.reisdaresenha.model.OSBPontuacao;
 import br.com.reisdaresenha.model.OSBRodada;
 import br.com.reisdaresenha.model.Premiacao;
+import br.com.reisdaresenha.model.RDRParticipante;
 import br.com.reisdaresenha.model.Time;
 import br.com.reisdaresenha.padrao.BaseControl;
 import br.com.reisdaresenha.service.InicioServiceLocal;
+import br.com.reisdaresenha.service.RDRServiceLocal;
 import br.com.reisdaresenha.service.RodadaServiceLocal;
 import br.com.reisdaresenha.view.ClassificacaoLigaPrincipalDTO;
 
@@ -50,7 +52,9 @@ public class InicioControl extends BaseControl {
 	// O Sobrevivente	
 	private Liga ligaOSobrevivente;
 	private List<OSBRodada> listaOsbRodadas;
-		
+	
+	@EJB
+	private RDRServiceLocal rdrService;		
 	
 	private String strTimesCopaDoBrasilCartolaBelem;	
 		
@@ -81,9 +85,82 @@ public class InicioControl extends BaseControl {
 	}
 	
 	public void listarClassificacaoLigaPrincipal() {		
+		
 		listaClassificacaoLigaPrincipalDTO = new ArrayList<>();
 		Integer anoAtual = 2020;//Calendar.getInstance().get(Calendar.YEAR);			
-		listaClassificacaoLigaPrincipalDTO = inicioService.buscarClassificacaoLigaPrincipal(anoAtual);		
+		listaClassificacaoLigaPrincipalDTO = inicioService.buscarClassificacaoLigaPrincipal(anoAtual);	
+		
+		try {
+		
+			//Apertura
+			List<RDRParticipante> listaParticipantesAperturaSerieA = new ArrayList<RDRParticipante>();
+			listaParticipantesAperturaSerieA = rdrService.buscarRDRParticipantes("A", "SA");		
+			List<RDRParticipante> listaParticipantesAperturaSerieB = new ArrayList<RDRParticipante>();
+			listaParticipantesAperturaSerieB = rdrService.buscarRDRParticipantes("A", "SB");
+					
+			//Clausura
+			List<RDRParticipante> listaParticipantesClausuraSerieA = new ArrayList<RDRParticipante>();
+			listaParticipantesClausuraSerieA = rdrService.buscarRDRParticipantes("C", "SA");		
+			List<RDRParticipante> listaParticipantesClausuraSerieB = new ArrayList<RDRParticipante>();
+			listaParticipantesClausuraSerieB = rdrService.buscarRDRParticipantes("C", "SB");
+							
+			for (ClassificacaoLigaPrincipalDTO classificacao : listaClassificacaoLigaPrincipalDTO) {
+				
+				if(classificacao.getJogos() < 20) {				
+					for (RDRParticipante rdrParticipante : listaParticipantesAperturaSerieA) {
+						if(classificacao.getIdTimeCartola().equals(rdrParticipante.getIdTimeCartola())) {
+							classificacao.setSerieA(true);	
+							classificacao.setSerieB(false);	
+							break;
+						}
+					}
+					
+					for (RDRParticipante rdrParticipante : listaParticipantesAperturaSerieB) {
+						if(classificacao.getIdTimeCartola().equals(rdrParticipante.getIdTimeCartola())) {
+							classificacao.setSerieA(false);	
+							classificacao.setSerieB(true);	
+							break;
+						}					
+					}
+					
+				} else {
+					
+					for (RDRParticipante rdrParticipante : listaParticipantesClausuraSerieA) {
+						if(classificacao.getIdTimeCartola().equals(rdrParticipante.getIdTimeCartola())) {
+							classificacao.setSerieA(true);	
+							classificacao.setSerieB(false);	
+							break;
+						}
+					}
+					
+					for (RDRParticipante rdrParticipante : listaParticipantesClausuraSerieB) {
+						if(classificacao.getIdTimeCartola().equals(rdrParticipante.getIdTimeCartola())) {
+							classificacao.setSerieA(false);	
+							classificacao.setSerieB(true);	
+							break;
+						}					
+					}
+					
+				}
+				
+			}
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT distinct(nome_time) FROM osbpontuacao o where o.situacao_final_rodada = 'CLASSIFICADO' and o.nome_time not in(select nome_time from OSBPontuacao o where o.situacao_Final_Rodada = 'ELIMINADO')");
+			
+			List<String> listaOSB = (List<String>) inicioService.consultarPorQueryNativa(sql.toString(), 0, 0);
+			
+			for (ClassificacaoLigaPrincipalDTO classificacao : listaClassificacaoLigaPrincipalDTO) {
+				for (String str : listaOSB) {				
+					if(classificacao.getTime().equalsIgnoreCase(str)) {
+						classificacao.setSobrevivente(true);
+					}				
+				}
+			}	
+		
+		} catch (Exception e) {
+			log.error(e);
+		}		
 	}
 
 	private void listarPremiacoes() {		

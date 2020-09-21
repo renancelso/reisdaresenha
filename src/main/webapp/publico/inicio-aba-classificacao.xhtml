@@ -747,7 +747,12 @@
 			    </p:column>	
 			   
 			    <p:column headerText="Time" style="width: 130px;">
-			        <img src="#{item.escudoTime}" alt="" style="width: 20px;"/> <h:outputText value="#{item.time}" />
+			        <img src="#{item.escudoTime}" alt="" style="width: 15px;"/> <h:outputText value="#{item.time}" />
+			       	<br/>
+			        <h:outputText value=" (A) " title="Série A" rendered="#{item.serieA}" style="color: green; font-weight: bold;"/>
+			        <h:outputText value=" (B) " title="Série B" rendered="#{item.serieB}" style="color: blue; font-weight: bold;"/>
+			        <h:outputText value=" (OS) " title="O Sobrevivente" rendered="#{item.sobrevivente}" style="color: navy; font-weight: bold;"/>
+			        <h:outputText value=" (SS) " title="Sem série" rendered="#{!item.serieA and !item.serieB}"  style="color: red; font-weight: bold;"/>			       
 			    </p:column>	
 			    
 			    <p:column headerText="J" style="text-align: center; width: 40px;" sortBy="#{item.jogos}">
