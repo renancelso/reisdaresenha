@@ -146,7 +146,7 @@ public class InicioControl extends BaseControl {
 			}
 			
 			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT distinct(nome_time) FROM osbpontuacao o where o.situacao_final_rodada = 'CLASSIFICADO' and o.nome_time not in (select nome_time from osbpontuacao o where o.situacao_Final_Rodada = 'ELIMINADO')");
+			sql.append("SELECT distinct(nome_time) FROM osbpontuacao o where o.situacao_final_rodada = 'CLASSIFICADO' and o.nome_time not in (select nome_time from osbpontuacao o where o.situacao_final_rodada = 'ELIMINADO')");
 			
 			List<String> listaOSB = (List<String>) inicioService.consultarPorQueryNativa(sql.toString(), 0, 0);
 			

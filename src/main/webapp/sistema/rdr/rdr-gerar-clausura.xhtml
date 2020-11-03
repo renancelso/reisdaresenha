@@ -345,6 +345,175 @@
 							
 				        </p:tab>
 				        
+				        <p:tab title="Série C">
+				        
+					       <p:panel rendered="#{rdrControl.listaParticipantesClausuraSerieC == null}"  
+          		    		 		style="min-width: 250px; border: 0px;">      		
+	          			
+			          			<p:commandButton value="GERAR PARTICIPANTES SÉRIE C CLAUSURA" 			    					
+				               					 onstart="PF('dialogProcessando').show();" 
+				               					 onclick="PF('dialogProcessando').show();"                					 
+				               					 oncomplete="PF('dialogProcessando').hide();"									
+											     onsuccess="PF('dialogProcessando').hide();"
+										 		 onerror="PF('dialogProcessando').hide();"
+										 		 update="@form" id="btnGerarClausura"
+										 		 action="#{rdrControl.btnGerarParticipantesSerieCClausura}"/>														
+								
+							</p:panel> 	
+							
+							<p:panel rendered="#{rdrControl.listaParticipantesClausuraSerieC != null 													
+													and (rdrControl.listaClassificacaoClausuraSerieC == null  														
+														 or rdrControl.listaRDRRodadasClausuraSerieC == null)}" 
+									 style="min-width: 250px; border: 0px;">      		
+			          			
+			          			<p:commandButton value="GERAR CLASSIFICAÇÃO E TABELA SÉRIE C CLAUSURA" 			    					
+				               					 onstart="PF('dialogProcessando').show();" 
+				               					 onclick="PF('dialogProcessando').show();"                					 
+				               					 oncomplete="PF('dialogProcessando').hide();"									
+											     onsuccess="PF('dialogProcessando').hide();"
+										 		 onerror="PF('dialogProcessando').hide();"
+										 		 update="@form" id="btnGerarClassificacaoETabelaClausura"
+										 		 action="#{rdrControl.btnGerarClassificacaoETabelaSerieCClausura}"/>														
+								
+							</p:panel>     
+							
+							
+							<h:panelGrid columns="2" rendered="#{rdrControl.listaParticipantesClausuraSerieC != null and rdrControl.listaClassificacaoClausuraSerieC == null}">
+	          			
+			          			<p:panel style="height: 700px;" header="Serie A">
+			          				<p:repeat var="item" value="#{rdrControl.listaParticipantesClausuraSerieC}" varStatus="var">	 	
+							 		  	<h:outputText value="#{var.index+1}. " style="font-weight: bold;"/> 
+							 		  	<img src="#{item.time.urlEscudoPng}" alt="" style="width: 20px;"/> 
+							 		  	<h:outputText value="#{item.time.nomeTime} (#{item.time.nomeDonoTime})"/>		
+						 		  		<br/>
+						 		  		<br/>
+				 		  			</p:repeat>	
+			          			</p:panel>
+			          		
+			          		</h:panelGrid>
+			          		
+			          		 <p:panel header="Classificacao Serie C" style="width: 700px;">
+								
+								<p:dataTable var="item" value="#{rdrControl.listaClassificacaoClausuraSerieC}"
+					      			 		 emptyMessage="Não existem dados" rowIndexVar="rowIndex" style="width: 670px;">
+					      			 					     		    			 					 
+					  			 	<p:column headerText="#" style="text-align: center; width: 30px;#{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}" >
+							        	<h:outputText value="#{rowIndex+1} " style="font-weight: bold;"/> 
+								    </p:column>	
+								    
+								    <p:column headerText="Time" style="#{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">
+								   		<img src="#{item.rdrParticipante.time.urlEscudoPng}" alt="" style="width: 20px;"/> 
+						 		  		<h:outputText value="#{item.rdrParticipante.nomeTime} "/>
+						 		  	</p:column>    
+						 		  	
+						 		  	<p:column headerText="PG" style="text-align: center; width: 50px; background-color: #ADD8E6; font-weight: bold;">								   		
+						 		  		<h:outputText value="#{item.vrPontos.intValue()}" title="Pontos"/>
+						 		  	</p:column>    
+						 		  	
+						 		  	<p:column headerText="J" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
+						 		  		<h:outputText value="#{item.qtdJogosDisputados}" title="Jogos"/>
+						 		  	</p:column>  
+						 		  	
+						 		  	
+						 		  	<p:column headerText="V" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
+						 		  		<h:outputText value="#{item.qtdVitorias}" title="Vitórias"/>
+						 		  	</p:column> 						 		  	
+						 		  	
+						 		  	<p:column headerText="E" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
+						 		  		<h:outputText value="#{item.qtdEmpates}" title="Empates"/>
+						 		  	</p:column> 
+						 		  							 		  	
+						 		  	<p:column headerText="D" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
+						 		  		<h:outputText value="#{item.qtdDerrotas}" title="Derrotas"/>
+						 		  	</p:column>  
+						 		  	
+						 		  	<p:column headerText="SG" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
+						 		  		<h:outputText value="#{item.vrGolsPro - item.vrGolsContra}" title="Saldo" converter="inteiro"/>
+						 		  	</p:column> 
+						 		  	
+						 		  	<p:column headerText="GP" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
+						 		  		<h:outputText value="#{item.vrGolsPro}" title="Gols Pró" converter="inteiro"/>
+						 		  	</p:column> 
+						 		  	
+						 		  	<p:column headerText="GC" style="text-align: center; width: 50px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
+						 		  		<h:outputText value="#{item.vrGolsContra}" title="Gols Contra" converter="inteiro"/>
+						 		  	</p:column> 
+						 		  	
+						 		  	<p:column headerText="C. Des." style="text-align: center; width: 80px; #{rowIndex+1 > 8 ? 'background-color: #FFB6C1;' : ''}">								   		
+						 		  		<h:outputText value="#{item.vrPontuacaoAtualLigaPrincipalCartola}" title="Pontuacao no Cartola FC para critério de desempate" converter="decimal"/>
+						 		  	</p:column> 
+								    								   
+								</p:dataTable>							
+							
+							</p:panel>
+			          		
+			          		
+			          		<p:panel header="Tabela de Jogos Serie C" style="width: 700px;">
+								<p:repeat var="rdrRodada" value="#{rdrControl.listaRDRRodadasClausuraSerieC}">	 	
+						 		  	
+						 		  	<br/>
+						 		  	
+						 		  	<h:outputText value="#{rdrRodada.nrRDRRodada}ª Rodada" 
+						 		  				  style="font-weight: bold;color: red; font-size: 12px; font-weight: bold; background-color: #D3E6FF; 
+									    	   			 border-left: 10px solid #D3E6FF; border-right: 10px solid #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF;"/>
+					 		  		
+					 		  		<h:outputText value="(#{'FT'.equals(rdrRodada.statusRodada) ? 'FUTURA' : 'EA'.equals(rdrRodada.statusRodada) ? 'EM ANDAMENTO' : 'PS'.equals(rdrRodada.statusRodada) ? 'PASSADA' : ''})"
+												  style="font-weight: bold; color: red; font-size: 12px; background-color: #D3E6FF; border-top: 5px solid #D3E6FF; border-bottom: 5px solid #D3E6FF; border-right: 5px solid #D3E6FF;"/>    
+												  
+									<h:outputText value=" | (#{rdrRodada.nrRodadaCartola}ª rodada no CARTOLA FC)" style="font-weight: bold;"/>				
+					 		  		
+					 		  		<p:commandButton value="Atualizar Pontuacao #{rdrRodada.nrRDRRodada}ª Rodada" 			    					
+				               					   onstart="PF('dialogProcessando').show();" 
+				               					   onclick="PF('dialogProcessando').show();"                					 
+				               					   oncomplete="PF('dialogProcessando').hide();"									
+											       onsuccess="PF('dialogProcessando').hide();"
+										 		   onerror="PF('dialogProcessando').hide();"
+										 		   update="@form"
+										 		   rendered="#{'FT'.equals(rdrRodada.statusRodada) or 'EA'.equals(rdrRodada.statusRodada)}"
+										 		   action="#{rdrControl.atualizarPontuacaoRodada(rdrRodada, rdrRodada.listaRDRPontuacao)}"
+										 		   style="float: right;"/>	
+					 		  		<br/>
+					 		  		<br/>					 		  		
+					 		  		
+					 		  		<p:repeat var="rdrPontuacao" value="#{rdrRodada.listaRDRPontuacao}">	
+					 		  				
+						 		  		<h:panelGrid columns="3">	
+							 		  			<p:panel style="width: 330px; text-align: right; border: 0px; 
+							 		  							#{rdrPontuacao.rdrParticipanteTimeVencedor.id.equals(rdrPontuacao.rdrParticipanteTimeCasa.id) ? 'background-color: #ADD8E6;' 
+							 		  							: rdrPontuacao.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
+							 		  							: 'background-color: #FFB6C1;'}">
+							 		  				<h:outputText value="(#{rdrPontuacao.vrPontuacaoTimeCasa}) " style="font-weight: bold;"/>	
+								 		  			<h:outputText value="#{rdrPontuacao.nomeTimeCasa}" style="font-weight: bold;"/> 
+								 		  			<img src="#{rdrPontuacao.rdrParticipanteTimeCasa.time.urlEscudoPng}" alt="" style="width: 20px;"/> 
+								 		  			<h:inputText value="#{rdrPontuacao.vrPontuacaoTimeCasaArredondada.intValue()}" style="width: 40px; text-align: center; font-weight: bold;" readonly="true"/>		
+								 		  		</p:panel>
+								 		  						 		  								 		  				
+							 		  			<b>x</b> 	
+							 		  			
+							 		  			<p:panel style="width: 330px; text-align: left; border: 0px; 
+							 		  							#{rdrPontuacao.rdrParticipanteTimeVencedor.id.equals(rdrPontuacao.rdrParticipanteTimeFora.id) ? 'background-color: #ADD8E6;' 
+							 		  							: rdrPontuacao.rdrParticipanteTimeVencedor.id == null ? 'background-color: #F0E68C;' 
+							 		  							: 'background-color: #FFB6C1;' }"
+							 		  				>					 		  			
+								 		  			<h:inputText value="#{rdrPontuacao.vrPontuacaoTimeForaArredondada.intValue()}" style="width: 40px; text-align: center; font-weight: bold;" readonly="true"/>			
+								 		  			<img src="#{rdrPontuacao.rdrParticipanteTimeFora.time.urlEscudoPng}" alt="" style="width: 20px;"/> 			 		  			
+								 		  			<h:outputText value="#{rdrPontuacao.nomeTimeFora}" style="font-weight: bold;"/>	
+								 		  			<h:outputText value=" (#{rdrPontuacao.vrPontuacaoTimeFora})"  style="font-weight: bold;"/>	
+							 		  			</p:panel>	
+						 		  		</h:panelGrid>				 		  					 		  			
+						 		  								 		  			
+						 		  		<br/>		
+					 		  						 		  				 		  							 		  		
+					 		  		</p:repeat>
+					 		  			 		  							 		  		
+					 		  		<hr/>
+					 		  		
+			 		  			</p:repeat>		
+			 		  										
+							</p:panel>
+				        
+				        </p:tab>
+				        
 				        <p:tab title="Participantes">
 							
 							<h:panelGrid columns="2">
