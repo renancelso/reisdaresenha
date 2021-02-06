@@ -165,7 +165,7 @@ public class RDRCopaPontuacao implements Serializable {
 	}
 
 	public Double getVrPontuacaoTimeCasaArredondada() {
-		return vrPontuacaoTimeCasaArredondada;
+		return vrPontuacaoTimeCasaArredondada != null ? vrPontuacaoTimeCasaArredondada : 0.0;
 	}
 
 	public void setVrPontuacaoTimeCasaArredondada(Double vrPontuacaoTimeCasaArredondada) {
@@ -205,7 +205,7 @@ public class RDRCopaPontuacao implements Serializable {
 	}
 
 	public Double getVrPontuacaoTimeForaArredondada() {
-		return vrPontuacaoTimeForaArredondada;
+		return vrPontuacaoTimeForaArredondada != null ? vrPontuacaoTimeForaArredondada : 0.0;
 	}
 
 	public void setVrPontuacaoTimeForaArredondada(Double vrPontuacaoTimeForaArredondada) {
