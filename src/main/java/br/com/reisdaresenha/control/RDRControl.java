@@ -732,6 +732,7 @@ public class RDRControl extends BaseControl {
 		/**Atualizar Saldo de gols*/
 		rdrService.atualizarSaldoDeGols("C", "SA", listaParticipantesClausuraSerieA);
 		rdrService.atualizarSaldoDeGols("C", "SB", listaParticipantesClausuraSerieB);
+		rdrService.atualizarSaldoDeGols("C", "SC", listaParticipantesClausuraSerieC);
 					
 		listaClassificacaoClausuraSerieA = new ArrayList<RDRClassificacao>();	
 		listaClassificacaoClausuraSerieA = rdrService.buscarRDRClassificacao("C", "SA");
