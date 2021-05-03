@@ -76,10 +76,10 @@ public class LigaControl extends BaseControl {
 			}	
 			
 			Ano anoAtual = new Ano();			
-			anoAtual =  (Ano) inicioService.consultarPorChavePrimaria(anoAtual, 2020/*new Long(Calendar.getInstance().get(Calendar.YEAR))*/);	
+			anoAtual =  (Ano) inicioService.consultarPorChavePrimaria(anoAtual, 2021/*new Long(Calendar.getInstance().get(Calendar.YEAR))*/);	
 			
 			if(anoAtual == null) {
-				addErrorMessage("É necessário efetuar o cadastro do ano atual ("+2020/*Calendar.getInstance().get(Calendar.YEAR)*/+") para cadastrar uma liga.");
+				addErrorMessage("É necessário efetuar o cadastro do ano atual ("+2021/*Calendar.getInstance().get(Calendar.YEAR)*/+") para cadastrar uma liga.");
 				return null;
 			}
 			
@@ -119,10 +119,10 @@ public class LigaControl extends BaseControl {
 			}	
 			
 			Ano anoAtual = new Ano();			
-			anoAtual =  (Ano) inicioService.consultarPorChavePrimaria(anoAtual, new Long(2020/*Calendar.getInstance().get(Calendar.YEAR)*/));	
+			anoAtual =  (Ano) inicioService.consultarPorChavePrimaria(anoAtual, new Long(2021/*Calendar.getInstance().get(Calendar.YEAR)*/));	
 			
 			if(anoAtual == null) {
-				addErrorMessage("É necessário efetuar o cadastro do ano atual ("+2020/*Calendar.getInstance().get(Calendar.YEAR)*/+") para cadastrar uma liga.");
+				addErrorMessage("É necessário efetuar o cadastro do ano atual ("+2021/*Calendar.getInstance().get(Calendar.YEAR)*/+") para cadastrar uma liga.");
 				return null;
 			}
 			

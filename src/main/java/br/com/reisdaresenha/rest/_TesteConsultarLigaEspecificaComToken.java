@@ -20,7 +20,7 @@ public class _TesteConsultarLigaEspecificaComToken {
 		
 		try {						
 			
-			String slugLiga = "rdr-2020";
+			String slugLiga = "rdr-2021";
 			
 			String endPoint = "https://api.cartolafc.globo.com/auth/liga/"+slugLiga;			
 			

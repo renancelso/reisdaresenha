@@ -87,7 +87,7 @@ public class InicioControl extends BaseControl {
 	public void listarClassificacaoLigaPrincipal() {		
 		
 		listaClassificacaoLigaPrincipalDTO = new ArrayList<>();
-		Integer anoAtual = 2020;//Calendar.getInstance().get(Calendar.YEAR);			
+		Integer anoAtual = 2021;//Calendar.getInstance().get(Calendar.YEAR);			
 		listaClassificacaoLigaPrincipalDTO = inicioService.buscarClassificacaoLigaPrincipal(anoAtual);	
 		
 		try {
@@ -165,7 +165,7 @@ public class InicioControl extends BaseControl {
 
 	private void listarPremiacoes() {		
 		
-		Integer anoAtual = 2020;//Calendar.getInstance().get(Calendar.YEAR);	
+		Integer anoAtual = 2021;//Calendar.getInstance().get(Calendar.YEAR);	
 		
 		listaLigas =  new ArrayList<>();
 		listaPremiacaoLigaPrincipal = new ArrayList<>();
@@ -197,7 +197,7 @@ public class InicioControl extends BaseControl {
 	}
 	
 	public Liga buscarLigaOSobrevivente() {		
-		Integer anoAtual = 2020;//Calendar.getInstance().get(Calendar.YEAR);	
+		Integer anoAtual = 2021;//Calendar.getInstance().get(Calendar.YEAR);	
 		List<Liga> listaLigas = inicioService.buscarLigas(anoAtual);		
 		if(listaLigas != null && !listaLigas.isEmpty()) {			
 			for (Liga liga : listaLigas) {	

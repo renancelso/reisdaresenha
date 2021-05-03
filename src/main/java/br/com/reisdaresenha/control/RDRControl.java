@@ -101,7 +101,7 @@ public class RDRControl extends BaseControl {
 		try {				
 			log.info("RDRControl --- INIT()");	
 			
-			Integer anoAtual = 2020; //Calendar.getInstance().get(Calendar.YEAR);			
+			Integer anoAtual = 2021; //Calendar.getInstance().get(Calendar.YEAR);			
 			HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);	
 			usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");						
 			
@@ -1050,7 +1050,7 @@ public class RDRControl extends BaseControl {
 			
 			List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO = new ArrayList<ClassificacaoLigaPrincipalDTO>();			
 			
-			Integer anoAtual = 2020; //Calendar.getInstance().get(Calendar.YEAR);				
+			Integer anoAtual = 2021; //Calendar.getInstance().get(Calendar.YEAR);				
 			
 			listaClassificacaoLigaPrincipalDTO = inicioService.buscarClassificacaoLigaPrincipalAteRodadaX(anoAtual,4);	
 			
@@ -1479,7 +1479,7 @@ public class RDRControl extends BaseControl {
 				
 		List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO = new ArrayList<ClassificacaoLigaPrincipalDTO>();
 		
-		Integer anoAtual = 2020; //Calendar.getInstance().get(Calendar.YEAR);	
+		Integer anoAtual = 2021; //Calendar.getInstance().get(Calendar.YEAR);	
 		
 		listaClassificacaoLigaPrincipalDTO = inicioService.buscarHistoricoClassificacaoRodadas(anoAtual, rdrRodadaAtualizarPontuacao.getNrRodadaCartola());	
 					
@@ -1580,7 +1580,7 @@ public class RDRControl extends BaseControl {
 		
 		List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO = new ArrayList<ClassificacaoLigaPrincipalDTO>();
 		
-		Integer anoAtual = 2020; //Calendar.getInstance().get(Calendar.YEAR);	
+		Integer anoAtual = 2021; //Calendar.getInstance().get(Calendar.YEAR);	
 		
 		listaClassificacaoLigaPrincipalDTO = inicioService.buscarHistoricoClassificacaoRodadas(anoAtual, rdrCopa.getNrRodadaCartola());	
 				
@@ -1685,7 +1685,7 @@ public class RDRControl extends BaseControl {
 			rdrCopaPontuacao.setRdrParticipanteTimeEmpateEmCasa(rdrCopaPontuacao.getRdrParticipanteTimeCasa());
 			rdrCopaPontuacao.setRdrParticipanteTimeEmpateFora(rdrCopaPontuacao.getRdrParticipanteTimeFora());		
 						
-			Integer anoAtual = 2020; // Calendar.getInstance().get(Calendar.YEAR);			
+			Integer anoAtual = 2021; // Calendar.getInstance().get(Calendar.YEAR);			
 			ClassificacaoLigaPrincipalDTO classificacaoPrincipalTimeCasa = new ClassificacaoLigaPrincipalDTO();						
 			classificacaoPrincipalTimeCasa = inicioService.buscarPontuacaoLigaPrincipalTime(anoAtual, rdrCopaPontuacao.getRdrParticipanteTimeCasa().getTime()).get(0);
 			
@@ -1801,7 +1801,7 @@ public class RDRControl extends BaseControl {
 				jogo9.setRdrParticipanteTimeFora(jogo6.getRdrParticipanteTimeFora());				
 			}
 			
-			Integer anoAtual = 2020; // Calendar.getInstance().get(Calendar.YEAR);	
+			Integer anoAtual = 2021; // Calendar.getInstance().get(Calendar.YEAR);	
 			
 			if(somaVencedorJogo1 == somaVencedorJogo2) {
 									
@@ -1911,7 +1911,7 @@ public class RDRControl extends BaseControl {
 			
 			rdrClassificacao.setNrRodadaAtual(nrRodadaAtual);
 			
-			Integer anoAtual = 2020; // Calendar.getInstance().get(Calendar.YEAR);
+			Integer anoAtual = 2021; // Calendar.getInstance().get(Calendar.YEAR);
 			
 			List<ClassificacaoLigaPrincipalDTO> listaClassificacaoPrincipalAteRodadaX = new ArrayList<ClassificacaoLigaPrincipalDTO>();
 			
@@ -1982,7 +1982,7 @@ public class RDRControl extends BaseControl {
 	
 
 	public Liga buscarLigaReisDaResenha() {		
-		Integer anoAtual = 2020; //Calendar.getInstance().get(Calendar.YEAR);	
+		Integer anoAtual = 2021; //Calendar.getInstance().get(Calendar.YEAR);	
 		List<Liga> listaLigas = inicioService.buscarLigas(anoAtual);		
 		if(listaLigas != null && !listaLigas.isEmpty()) {			
 			for (Liga liga : listaLigas) {	

@@ -190,7 +190,7 @@ public class OSBRodadaControl extends BaseControl {
 	public String btnAtualizarRodadaEmAndamento() {
 		try {
 			
-			Integer anoAtual = 2020; //Calendar.getInstance().get(Calendar.YEAR);
+			Integer anoAtual = 2021; //Calendar.getInstance().get(Calendar.YEAR);
 			
 			if(novaOsbRodada.getListaOsbPontuacao() == null || novaOsbRodada.getListaOsbPontuacao().isEmpty()) {				
 				criarListaParticipantesEGerarPontuacaoOSBRodada(anoAtual, novaOsbRodada.getNrRodada());
@@ -303,7 +303,7 @@ public class OSBRodadaControl extends BaseControl {
 																								
 					novaOsbRodada.setListaOsbPontuacao(new ArrayList<>());		
 					
-					Integer anoAtual = 2020;//Calendar.getInstance().get(Calendar.YEAR);
+					Integer anoAtual = 2021;//Calendar.getInstance().get(Calendar.YEAR);
 					
 					if(novaOsbRodada.getId() != null) {
 						
@@ -329,7 +329,7 @@ public class OSBRodadaControl extends BaseControl {
 																								
 					novaOsbRodada.setListaOsbPontuacao(new ArrayList<>());		
 					
-					Integer anoAtual = 2020;//Calendar.getInstance().get(Calendar.YEAR);
+					Integer anoAtual = 2021;//Calendar.getInstance().get(Calendar.YEAR);
 					
 					if(novaOsbRodada.getId() != null) {
 						
@@ -579,7 +579,7 @@ public class OSBRodadaControl extends BaseControl {
 	}
 
 	public Liga buscarLigaOSobrevivente() {		
-		Integer anoAtual = 2020;//Calendar.getInstance().get(Calendar.YEAR);	
+		Integer anoAtual = 2021;//Calendar.getInstance().get(Calendar.YEAR);	
 		List<Liga> listaLigas = inicioService.buscarLigas(anoAtual);		
 		if(listaLigas != null && !listaLigas.isEmpty()) {			
 			for (Liga liga : listaLigas) {	
@@ -592,7 +592,7 @@ public class OSBRodadaControl extends BaseControl {
 	}
 
 	public Liga buscarLigaPrincipal() {		
-		Integer anoAtual = 2020;//Calendar.getInstance().get(Calendar.YEAR);	
+		Integer anoAtual = 2021;//Calendar.getInstance().get(Calendar.YEAR);	
 		List<Liga> listaLigas = inicioService.buscarLigas(anoAtual);		
 		if(listaLigas != null && !listaLigas.isEmpty()) {			
 			for (Liga liga : listaLigas) {	

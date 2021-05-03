@@ -95,7 +95,7 @@ public class RestFulTestServicesControl  extends BaseControl {
 		try {		
 			List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTO = new ArrayList<ClassificacaoLigaPrincipalDTO>();
 			
-			Integer anoAtual = 2020;//Calendar.getInstance().get(Calendar.YEAR);	
+			Integer anoAtual = 2021;//Calendar.getInstance().get(Calendar.YEAR);	
 			
 			listaClassificacaoLigaPrincipalDTO = inicioService.buscarHistoricoClassificacaoRodadas(anoAtual, nrRodada);		
 			
