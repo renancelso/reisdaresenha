@@ -126,7 +126,7 @@ public class OSBRodadaControl extends BaseControl {
 					osbPontuacao = (OSBPontuacao) rodadaService.atualizar(osbPontuacao);	
 				}	
 				
-				if(novaOsbRodada.getNrRodada().intValue() > 31 && novaOsbRodada.getNrRodada().intValue() < 38) { //RODADAS 32 a 37: os DOIS times com a piores pontuações de cada rodada, considerando apenas os que ainda não foram eliminados, são eliminados.					
+				if(novaOsbRodada.getNrRodada().intValue() < 8) { // 3 ELIMINADOS					
 					
 					OSBPontuacao osbPontuacaoEliminadoUltimo = novaOsbRodada.getListaOsbPontuacao().get(novaOsbRodada.getListaOsbPontuacao().size()-1);			
 					osbPontuacaoEliminadoUltimo.setSituacaoFinalRodada("ELIMINADO");				
@@ -134,14 +134,28 @@ public class OSBRodadaControl extends BaseControl {
 					
 					OSBPontuacao osbPontuacaoEliminadoPenultimo = novaOsbRodada.getListaOsbPontuacao().get(novaOsbRodada.getListaOsbPontuacao().size()-2);			
 					osbPontuacaoEliminadoPenultimo.setSituacaoFinalRodada("ELIMINADO");				
-					osbPontuacaoEliminadoPenultimo = (OSBPontuacao) rodadaService.atualizar(osbPontuacaoEliminadoPenultimo);	
+					osbPontuacaoEliminadoPenultimo = (OSBPontuacao) rodadaService.atualizar(osbPontuacaoEliminadoPenultimo);
 					
-				} else { // APENAS 1 ELIMINADO
+					OSBPontuacao osbPontuacaoEliminadoAntePenultimo = novaOsbRodada.getListaOsbPontuacao().get(novaOsbRodada.getListaOsbPontuacao().size()-3);			
+					osbPontuacaoEliminadoAntePenultimo.setSituacaoFinalRodada("ELIMINADO");				
+					osbPontuacaoEliminadoAntePenultimo = (OSBPontuacao) rodadaService.atualizar(osbPontuacaoEliminadoAntePenultimo);
+											
+					
+				} else if(novaOsbRodada.getNrRodada().intValue() > 7 && novaOsbRodada.getNrRodada().intValue() < 16) { // 2 ELIMINADOS
 					
 					OSBPontuacao osbPontuacaoEliminadoUltimo = novaOsbRodada.getListaOsbPontuacao().get(novaOsbRodada.getListaOsbPontuacao().size()-1);			
 					osbPontuacaoEliminadoUltimo.setSituacaoFinalRodada("ELIMINADO");				
-					osbPontuacaoEliminadoUltimo = (OSBPontuacao) rodadaService.atualizar(osbPontuacaoEliminadoUltimo);			
+					osbPontuacaoEliminadoUltimo = (OSBPontuacao) rodadaService.atualizar(osbPontuacaoEliminadoUltimo);	
 					
+					OSBPontuacao osbPontuacaoEliminadoPenultimo = novaOsbRodada.getListaOsbPontuacao().get(novaOsbRodada.getListaOsbPontuacao().size()-2);			
+					osbPontuacaoEliminadoPenultimo.setSituacaoFinalRodada("ELIMINADO");				
+					osbPontuacaoEliminadoPenultimo = (OSBPontuacao) rodadaService.atualizar(osbPontuacaoEliminadoPenultimo);
+					
+					
+				} else {  // 1 ELIMINADO
+					OSBPontuacao osbPontuacaoEliminadoUltimo = novaOsbRodada.getListaOsbPontuacao().get(novaOsbRodada.getListaOsbPontuacao().size()-1);			
+					osbPontuacaoEliminadoUltimo.setSituacaoFinalRodada("ELIMINADO");				
+					osbPontuacaoEliminadoUltimo = (OSBPontuacao) rodadaService.atualizar(osbPontuacaoEliminadoUltimo);		
 				}
 			
 				novaOsbRodada.setStatusRodada("PS");				
@@ -154,23 +168,51 @@ public class OSBRodadaControl extends BaseControl {
 					osbPontuacao = (OSBPontuacao) rodadaService.atualizar(osbPontuacao);	
 				}	
 				
-				OSBPontuacao osbPontuacaoClassificadoRepescagem = novaOsbRodada.getListaOsbPontuacao().get(0);		
+				if(novaOsbRodada.getNrRodada().intValue() == 8) { // 1 VOLTA
 				
-				List<OSBPontuacao> pontuacaoEliminadosRodadasAnteriores = rodadaService.buscarEliminadosRodadasAnteriores(novaOsbRodada.getNrRodada());	
-				
-				for (OSBPontuacao osbPontuacao : pontuacaoEliminadosRodadasAnteriores) {
-					
-					if(osbPontuacao.getOsbRodadaTimeParticipante().getTime().getId().equals(osbPontuacaoClassificadoRepescagem.getOsbRodadaTimeParticipante().getTime().getId())) {
+					OSBPontuacao osbPontuacaoClassificadoRepescagem = novaOsbRodada.getListaOsbPontuacao().get(0);	
+					List<OSBPontuacao> pontuacaoEliminadosRodadasAnteriores = rodadaService.buscarEliminadosRodadasAnteriores(novaOsbRodada.getNrRodada());						
+					for (OSBPontuacao osbPontuacao : pontuacaoEliminadosRodadasAnteriores) {
 						
-						osbPontuacao.setSituacaoFinalRodada("CLASSIFICADO-RESPESCAGEM - Rodada "+novaOsbRodada.getNrRodada());
-						osbPontuacao = (OSBPontuacao) rodadaService.atualizar(osbPontuacao);	
-						break;
-						
+						if(osbPontuacao.getOsbRodadaTimeParticipante().getTime().getId().equals(osbPontuacaoClassificadoRepescagem.getOsbRodadaTimeParticipante().getTime().getId())) {							
+							osbPontuacao.setSituacaoFinalRodada("CLASSIFICADO-RESPESCAGEM - Rodada "+novaOsbRodada.getNrRodada());
+							osbPontuacao = (OSBPontuacao) rodadaService.atualizar(osbPontuacao);	
+							break;							
+						}
 					}
-				}
+					
+					osbPontuacaoClassificadoRepescagem.setSituacaoFinalRodada("CLASSIFICADO-RESPESCAGEM");				
+					osbPontuacaoClassificadoRepescagem = (OSBPontuacao) rodadaService.atualizar(osbPontuacaoClassificadoRepescagem);	
 				
-				osbPontuacaoClassificadoRepescagem.setSituacaoFinalRodada("CLASSIFICADO-RESPESCAGEM");				
-				osbPontuacaoClassificadoRepescagem = (OSBPontuacao) rodadaService.atualizar(osbPontuacaoClassificadoRepescagem);	
+				} else { // 2 VOLTAM
+					
+					OSBPontuacao osbPontuacaoClassificadoRepescagem1 = novaOsbRodada.getListaOsbPontuacao().get(0);		
+					List<OSBPontuacao> pontuacaoEliminadosRodadasAnteriores = rodadaService.buscarEliminadosRodadasAnteriores(novaOsbRodada.getNrRodada());						
+					for (OSBPontuacao osbPontuacao : pontuacaoEliminadosRodadasAnteriores) {						
+						if(osbPontuacao.getOsbRodadaTimeParticipante().getTime().getId().equals(osbPontuacaoClassificadoRepescagem1.getOsbRodadaTimeParticipante().getTime().getId())) {							
+							osbPontuacao.setSituacaoFinalRodada("CLASSIFICADO-RESPESCAGEM - Rodada "+novaOsbRodada.getNrRodada());
+							osbPontuacao = (OSBPontuacao) rodadaService.atualizar(osbPontuacao);	
+							break;							
+						}
+					}					
+					osbPontuacaoClassificadoRepescagem1.setSituacaoFinalRodada("CLASSIFICADO-RESPESCAGEM");				
+					osbPontuacaoClassificadoRepescagem1 = (OSBPontuacao) rodadaService.atualizar(osbPontuacaoClassificadoRepescagem1);	
+					
+					//--------------------------------------------------------------------------------------------------------------------//
+					
+					OSBPontuacao osbPontuacaoClassificadoRepescagem2 = novaOsbRodada.getListaOsbPontuacao().get(1);	
+					pontuacaoEliminadosRodadasAnteriores = rodadaService.buscarEliminadosRodadasAnteriores(novaOsbRodada.getNrRodada());	
+					for (OSBPontuacao osbPontuacao : pontuacaoEliminadosRodadasAnteriores) {						
+						if(osbPontuacao.getOsbRodadaTimeParticipante().getTime().getId().equals(osbPontuacaoClassificadoRepescagem2.getOsbRodadaTimeParticipante().getTime().getId())) {
+							osbPontuacao.setSituacaoFinalRodada("CLASSIFICADO-RESPESCAGEM - Rodada "+novaOsbRodada.getNrRodada());
+							osbPontuacao = (OSBPontuacao) rodadaService.atualizar(osbPontuacao);	
+							break;							
+						}
+					}					
+					osbPontuacaoClassificadoRepescagem2.setSituacaoFinalRodada("CLASSIFICADO-RESPESCAGEM");				
+					osbPontuacaoClassificadoRepescagem2 = (OSBPontuacao) rodadaService.atualizar(osbPontuacaoClassificadoRepescagem2);	
+										
+				}
 							
 				novaOsbRodada.setStatusRodada("PS");				
 				novaOsbRodada = (OSBRodada) rodadaService.atualizar(novaOsbRodada);	
