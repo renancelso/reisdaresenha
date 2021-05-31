@@ -229,51 +229,50 @@
 	                			           
        			 </p:tab>		
        			 
-       			 <p:tab title="O Sobrevivente">	
-      			 		<p:panel style="text-align: justify; text-justify: inter-word;">            
-	                	<f:facet name="header">	     
+       			  <p:tab title="O Sobrevivente">	
+      			 		<p:panel style="text-align: justify; text-justify: inter-word;">           
+	                		
+	                		<f:facet name="header">	     
       			 				<h:outputText value="Regras da Liga 'O Sobrevivente'"/>
       			 				<img src="publico/estilo/images/bola-em-chamas.png" style="height: 14px; float:right;"/> 
-      			 			</f:facet> 
-      			 			
+      			 			</f:facet>       			 			
       			 			<p>							
-							 <br/>							 
-							 <b style="font-weight: bold;font-size: 14px; color: green;">3 – TORNEIO “O SOBREVIVENTE”</b>								 
-							 
-							 <br/><br/>
-								- O torneio funciona nos moldes dos realities shows onde toda semana tem um eliminado. Neste caso, em cada rodada, o(s) time(s) com a pior pontuação, dentre os que sobreviveram à rodada anterior, é(são) eliminado(s).
-							 <br/>
-								- Para este torneio não importa a pontuação acumulada do time, o primeiro colocado no geral, pode ter uma rodada ruim e ser eliminado, enquanto times do meio da tabela podem permanecer por mais tempo.
-								 											 
-							 <p:panel style="margin-top: 0px; border: 0px;">
+							<br/>							 
+							<b style="font-weight: bold;font-size: 14px; color: green;">3 – TORNEIO “O SOBREVIVENTE”</b>								 
+							<br/><br/>
+								 - O torneio funciona nos moldes dos realities shows onde toda semana tem um eliminado. Neste caso, em cada rodada, o time com a pior pontuação, dentre os que sobreviveram à rodada anterior, é eliminado.
+							<br/>
+							 	- Para este torneio não importa a pontuação acumulada do time, o primeiro colocado no geral, pode ter uma rodada ruim e ser eliminado, enquanto times do meio da tabela podem permanecer por mais tempo.
+											 
+							<p:panel style="margin-top: 0px; border: 0px;">
 								<f:facet name="header">
-									<h:outputText style="color: red;" value="Para exemplificar, foi simulado um torneio com 48 participantes, mais dependendo da quantidade de times na liga, podem existir algumas variações nas regras de eliminação ou de repescagem:" />
+									<h:outputText style="color: red;" value="Para exemplificar, foi simulado um torneio com 40 participantes, mais dependendo da quantidade de times na liga, podem existir algumas variações nas regras de eliminação ou de repescagem:" />
 								</f:facet>						 	
-								
-								<br/>- RODADAS 1 a 7: os três times com as piores pontuações de cada rodada, considerando apenas os que ainda não foram eliminados, são eliminados.
-								<br/><br/>- RODADA 8 (Repescagem): Não tem eliminação, os times sobreviventes descansam. Participam da repescagem todos os eliminados até a rodada 7. Aquele time que fizer a melhor pontuação na rodada 8, retorna ao torneio. 
-								<br/><br/>- RODADAS 9 a 15: os dois times com as piores pontuações de cada rodada, considerando apenas os que ainda não foram eliminados, são eliminados.
-								<br/><br/>- RODADA 16 (Repescagem): Não tem eliminação, os times sobreviventes descansam. Dentre os times que já estão eliminados até a rodada 15, os dois que fizeram a melhor pontuação na rodada 16, retornam ao torneio.
+								<br/>- RODADAS 2 a 7: o time com a pior pontuação de cada rodada, considerando apenas os que ainda não foram eliminados, é eliminado.
+								<br/><br/>- RODADA 8 (Repescagem): Não tem eliminação, os times sobreviventes descansam. Dentre os times que já estão eliminados até a rodada 7, aquele que fizer a melhor pontuação na rodada 8, retorna ao torneio.
+								<br/><br/>- RODADAS 9 a 15: o time com a pior pontuação de cada rodada, considerando apenas os que ainda não foram eliminados, é eliminado.
+								<br/><br/>- RODADA 16 (Repescagem): Não tem eliminação, os times sobreviventes descansam. Dentre os times que já estão eliminados até a rodada 15, aquele que fizer a melhor pontuação na rodada 16, retorna ao torneio.
 								<br/><br/>- RODADAS 17 a 23: o time com a pior pontuação de cada rodada, considerando apenas os que ainda não foram eliminados, é eliminado.
-								<br/><br/>- RODADA 24 (Repescagem): Não tem eliminação, os times sobreviventes descansam. Dentre os times que já estão eliminados até a rodada 23, os dois que fizerem as melhores pontuações na rodada 24, retornam ao torneio.
-								<br/><br/>- RODADAS 25 a 33: o time com a pior pontuação de cada rodada, considerando apenas os que ainda não foram eliminados, é eliminado.
-								<br/><br/>- RODADA 34 (FINAL): restam apenas 02 times, são definidos o campeão e vice com base na pontuação destes 2 times na rodada 34.
-								<br/><br/>
-							 	
+								<br/><br/>- RODADA 24 (Repescagem): Não tem eliminação, os times sobreviventes descansam. Dentre os times que já estão eliminados até a rodada 23, aquele que fizer a melhor pontuação na rodada 24, retorna ao torneio.
+								<br/><br/>- RODADAS 25 a 30: o time com a pior pontuação de cada rodada, considerando apenas os que ainda não foram eliminados, é eliminado.
+								<br/><br/>- RODADAS 31 a 33: os DOIS times com a piores pontuações de cada rodada, considerando apenas os que ainda não foram eliminados, são eliminados.
+								<br/><br/>- RODADA 34 (FINAL): restam apenas 03 times, são definidos o campeão, vice e terceiro lugar com base na pontuação destes 3 times na rodada 34.							 							 		
+							 	<br/><br/>
 							 	<p:panel style="border: 0px; margin-top: 0px;">
 									 <f:facet name="header">
 		       			 				<h:outputText style="color: red;" value="Premiação:"></h:outputText>
 		       			 			 </f:facet> 
-								 	 - Campeão e vice-campeão.
+								 	 - Campeão e vice-campeão.	
 								 	 <br/><br/>
-								 	 Obs. O campeão e o vice também ganham vaga para a Super Copa. Caso um dos times já tenha obtido a vaga em outros torneios, a vaga é herdada pelo mais bem colocado que não tenha obtido vaga.
-			 				    </p:panel>							 
-							 </p:panel>					 
+								 	 Obs. O campeão e o vice também ganham vaga para a Super Copa. Caso um dos times já tenha obtido a vaga em outros torneios, a vaga é herdada pelo mais bem colocado que não tenha obtido vaga.				 				 
+								</p:panel>							 
+							</p:panel>					 
 						 </p>
       			 			
 	                </p:panel>	
 	                				           
-       			 </p:tab>	
+       			 </p:tab>       			 
+       				
        			 	       			 
        		</p:tabView>
 

@@ -78,47 +78,31 @@
 		 			 			<h:outputText value="Classificação da #{osbRodadaControl.novaOsbRodada.nrRodada}ª rodada (RODADA PADRÃO)"/>	 			 		 
 		 			 		</f:facet>    
 		      			 					 
-	     			 		<p:column headerText="#" style="text-align: center; width: 45px;">
+	     			 		<p:column headerText="#" style="text-align: center; width: 45px; #{rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size() or (rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-1 and osbRodadaControl.novaOsbRodada.nrRodada &gt; 30 and osbRodadaControl.novaOsbRodada.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
 						        <h:outputText value="#{rowIndex+1}" />
 						    </p:column>	
 						   
-						    <p:column headerText="Time" style="width: 50%;">
+						    <p:column headerText="Time" style="width: 50%; #{rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size() or (rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-1 and osbRodadaControl.novaOsbRodada.nrRodada &gt; 30 and osbRodadaControl.novaOsbRodada.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
 						        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoPng}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
 						    </p:column>							    						
 						    
-						    <p:column headerText="PG" style="text-align: center; width: 80px;">
+						    <p:column headerText="PG" style="text-align: center; width: 80px; #{rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size() or (rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-1 and osbRodadaControl.novaOsbRodada.nrRodada &gt; 30 and osbRodadaControl.novaOsbRodada.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
 						        <h:outputText value="#{item.vrPontuacao}" converter="decimal"/>						        
 						    </p:column>						
 						    
 						    <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
-						    		  rendered="#{(osbRodadaControl.novaOsbRodada.nrRodada &lt; 8 and (rowIndex+1 &lt; osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-2))}">
-						       <h:outputText value="CLASSIFICADO"/>			
+						    		  rendered="#{(rowIndex+1 &lt; osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size() and osbRodadaControl.novaOsbRodada.nrRodada &lt; 31) or (rowIndex+1 &lt; osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-1 and osbRodadaControl.novaOsbRodada.nrRodada &gt; 30 and osbRodadaControl.novaOsbRodada.nrRodada &lt; 39)}">
+						       	<h:outputText value="CAMPEÃO" rendered="#{osbRodadaControl.novaOsbRodada.nrRodada == 34}"/>	
+								<h:outputText value="CLASSIFICADO" rendered="#{osbRodadaControl.novaOsbRodada.nrRodada &lt; 34}"/>
 						    </p:column>		
 						    
 						    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
-						   			  rendered="#{(osbRodadaControl.novaOsbRodada.nrRodada &lt; 8 and (rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size() or rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-1 or rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-2))}">
-						       <h:outputText value="ELIMINADO"/>
-						    </p:column>			
+						   			  rendered="#{rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size() or (rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-1 and osbRodadaControl.novaOsbRodada.nrRodada &gt; 30 and osbRodadaControl.novaOsbRodada.nrRodada &lt; 39)}">
+						      
+						       <h:outputText value="ELIMINADO" rendered="#{osbRodadaControl.novaOsbRodada.nrRodada &lt; 34 or (osbRodadaControl.novaOsbRodada.nrRodada == 34 and rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size())}"/>							       
+						       <h:outputText value="VICE-CAMPEÃO" rendered="#{osbRodadaControl.novaOsbRodada.nrRodada == 34 and rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-1}"/>
 						    
-						    <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
-						    		  rendered="#{(osbRodadaControl.novaOsbRodada.nrRodada &gt; 7 and osbRodadaControl.novaOsbRodada.nrRodada &lt; 16 and (rowIndex+1 &lt; osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-1))}">
-						       <h:outputText value="CLASSIFICADO"/>			
-						    </p:column>		
-						    
-						    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
-						   			  rendered="#{(osbRodadaControl.novaOsbRodada.nrRodada &gt; 7 and osbRodadaControl.novaOsbRodada.nrRodada &lt; 16 and (rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size() or rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()-1))}">
-						       <h:outputText value="ELIMINADO"/>
-						    </p:column>		
-						    						    
-						    <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
-						    		  rendered="#{(osbRodadaControl.novaOsbRodada.nrRodada &gt; 16 and (rowIndex+1 &lt; osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()))}">
-						       <h:outputText value="CLASSIFICADO"/>			
-						    </p:column>		
-						    
-						    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
-						   			  rendered="#{(osbRodadaControl.novaOsbRodada.nrRodada &gt; 16 and (rowIndex+1 == osbRodadaControl.novaOsbRodada.listaOsbPontuacao.size()))}">
-						       <h:outputText value="ELIMINADO"/>
-						    </p:column>								    						   			    
+						    </p:column>							   			    
 						    								   
 						</p:dataTable> 
 								          			
@@ -135,37 +119,27 @@
 		 			 			<h:outputText value="Classificação da #{osbRodadaControl.novaOsbRodada.nrRodada}ª rodada (REPESCAGEM)"/>	 			 		 
 		 			 		</f:facet>    
 		      			 					 
-	     			 		<p:column headerText="#" style="text-align: center; width: 45px;">
+	     			 		<p:column headerText="#" style="text-align: center; width: 45px; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">
 						        <h:outputText value="#{rowIndex+1}" />
 						    </p:column>	
 						   
-						    <p:column headerText="Time" style="width: 50%;">
+						    <p:column headerText="Time" style="width: 50%; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">
 						        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoPng}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
 						    </p:column>							    						
 						    
-						    <p:column headerText="PG" style="text-align: center; width: 80px;">
+						    <p:column headerText="PG" style="text-align: center; width: 80px; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">
 						        <h:outputText value="#{item.vrPontuacao}" converter="decimal"/>
-						    </p:column>	
-						    						    
-						    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
-							   			  rendered="#{osbRodadaControl.novaOsbRodada.nrRodada &lt; 9 and rowIndex+1 &gt; 1}">
-						       <h:outputText value="ELIMINADO" />	
 						    </p:column>	
 						    
 						    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
-						   			  rendered="#{osbRodadaControl.novaOsbRodada.nrRodada &gt; 9 and rowIndex+1 &gt; 2}">
+						   			  rendered="#{rowIndex+1 &gt; 1}">
 						       <h:outputText value="ELIMINADO" />	
 						    </p:column>							
 						    
 						    <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
-						    		  rendered="#{osbRodadaControl.novaOsbRodada.nrRodada &lt; 9 and rowIndex+1 == 1}">
+						    		  rendered="#{rowIndex+1 == 1}">
 						        <h:outputText value="CLASSIFICADO" />	
-						    </p:column>	
-						    
-						    <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
-						    		  rendered="#{osbRodadaControl.novaOsbRodada.nrRodada &gt; 9 and (rowIndex+1 == 1 or rowIndex+1 == 2)}">
-						        <h:outputText value="CLASSIFICADO" />	
-						    </p:column>				   					   			    
+						    </p:column>							   					   			    
 						    								   
 						</p:dataTable> 																		
 						          			
@@ -222,48 +196,29 @@
 									<h:outputText value="Classificação da #{var.nrRodada}ª rodada (PADRÃO)"/>	 			 		 
 								</f:facet>    						  
 			      			 					 
-		     			 		<p:column headerText="#" style="text-align: center; width: 45px;">
+		     			 		<p:column headerText="#" style="text-align: center; width: 45px; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 30 and var.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
 							        <h:outputText value="#{rowIndex+1}" />
 							    </p:column>	
 							   
-							    <p:column headerText="Time" style="width: 50%;">
+							    <p:column headerText="Time" style="width: 50%; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 30 and var.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
 							        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoPng}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
 							    </p:column>							    						
 							    
-							    <p:column headerText="PG" style="text-align: center; width: 80px;">
+							    <p:column headerText="PG" style="text-align: center; width: 80px; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 30 and var.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
 							        <h:outputText value="#{item.vrPontuacao}" converter="decimal"/>
-							    </p:column>	
+							    </p:column>						
 							    
 							    <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
-						    		  rendered="#{(var.nrRodada &lt; 8 and (rowIndex+1 &lt; var.listaOsbPontuacao.size()-2))}">
-							       <h:outputText value="CLASSIFICADO"/>			
-							    </p:column>		
-						    
-							    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
-							   			  rendered="#{(var.nrRodada &lt; 8 and (rowIndex+1 == var.listaOsbPontuacao.size() or rowIndex+1 == var.listaOsbPontuacao.size()-1 or rowIndex+1 == var.listaOsbPontuacao.size()-2))}">
-							       <h:outputText value="ELIMINADO"/>
-							    </p:column>			
-							    
-							    <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
-							    		  rendered="#{(var.nrRodada &gt; 7 and var.nrRodada &lt; 16 and (rowIndex+1 &lt; var.listaOsbPontuacao.size()-1))}">
-							       <h:outputText value="CLASSIFICADO"/>			
+							    		  rendered="#{(rowIndex+1 &lt; var.listaOsbPontuacao.size() and var.nrRodada &lt; 31) or (rowIndex+1 &lt; var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 30 and var.nrRodada &lt; 39)}">
+							        <h:outputText value="CAMPEÃO" rendered="#{var.nrRodada == 34}"/>	
+							        <h:outputText value="CLASSIFICADO" rendered="#{var.nrRodada &lt; 34}"/>
 							    </p:column>		
 							    
 							    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
-							   			  rendered="#{(var.nrRodada &gt; 7 and var.nrRodada &lt; 16 and (rowIndex+1 == var.listaOsbPontuacao.size() or rowIndex+1 == var.listaOsbPontuacao.size()-1))}">
-							       <h:outputText value="ELIMINADO"/>
-							    </p:column>	
-							    
-							     <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
-						    		  rendered="#{(var.nrRodada &gt; 16 and (rowIndex+1 &lt; var.listaOsbPontuacao.size()))}">
-							       <h:outputText value="CLASSIFICADO"/>			
-							    </p:column>		
-							    
-							    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
-							   			  rendered="#{(var.nrRodada &gt; 16 and (rowIndex+1 == var.listaOsbPontuacao.size()))}">
-							       <h:outputText value="ELIMINADO"/>
-							    </p:column>	
-							    			 				    
+							   			  rendered="#{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 30 and var.nrRodada &lt; 39)}">
+							       <h:outputText value="ELIMINADO" rendered="#{var.nrRodada &lt; 34 or (var.nrRodada == 34 and rowIndex+1 == var.listaOsbPontuacao.size())}"/>	
+							       <h:outputText value="VICE-CAMPEÃO" rendered="#{var.nrRodada == 34 and rowIndex+1 == var.listaOsbPontuacao.size()-1}"/>	
+							    </p:column>					 				    
 																   
 							</p:dataTable> 
 						</p:panel>
@@ -277,37 +232,27 @@
 			 			 			<h:outputText value="Classificação da #{var.nrRodada}ª rodada (REPESCAGEM)"/>				 		 
 			 			 		</f:facet>    
 			      			 					 
-		     			 		<p:column headerText="#" style="text-align: center; width: 45px;">
+		     			 		<p:column headerText="#" style="text-align: center; width: 45px; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">
 							        <h:outputText value="#{rowIndex+1}" />
 							    </p:column>	
 							   
-							    <p:column headerText="Time" style="width: 50%;">
+							    <p:column headerText="Time" style="width: 50%; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">
 							        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoPng}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
 							    </p:column>							    						
 							    
-							    <p:column headerText="PG" style="text-align: center; width: 80px;">
+							    <p:column headerText="PG" style="text-align: center; width: 80px; #{rowIndex+1 &gt; 1 ? 'background-color: #FFC0CB; color: black;' : ''}">
 							        <h:outputText value="#{item.vrPontuacao}" converter="decimal"/>
 							    </p:column>	
 							    
 							    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
-							   			  rendered="#{var.nrRodada &lt; 9 and rowIndex+1 &gt; 1}">
-							       <h:outputText value="ELIMINADO" />	
-							    </p:column>	
-							    
-							    <p:column headerText="Situacao" style="text-align: center; width: 120px; background-color: #FFC0CB; color: black;"
-							   			  rendered="#{var.nrRodada &gt; 9 and rowIndex+1 &gt; 2}">
+							   			  rendered="#{rowIndex+1 &gt; 1}">
 							       <h:outputText value="ELIMINADO" />	
 							    </p:column>							
 							    
 							    <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
-							    		  rendered="#{var.nrRodada &lt; 9 and rowIndex+1 == 1}">
+							    		  rendered="#{rowIndex+1 == 1}">
 							        <h:outputText value="CLASSIFICADO" />	
-							    </p:column>	
-							    
-							     <p:column headerText="Situacao" style="text-align: center; width: 120px;" 
-							    		  rendered="#{var.nrRodada &gt; 9 and (rowIndex+1 == 1 or rowIndex+1 == 2)}">
-							        <h:outputText value="CLASSIFICADO" />	
-							    </p:column>						   					   			    
+							    </p:column>							   					   			    
 							    								   
 							</p:dataTable> 
 							
