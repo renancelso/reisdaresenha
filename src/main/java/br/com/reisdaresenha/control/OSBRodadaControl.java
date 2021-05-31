@@ -126,7 +126,7 @@ public class OSBRodadaControl extends BaseControl {
 					osbPontuacao = (OSBPontuacao) rodadaService.atualizar(osbPontuacao);	
 				}	
 				
-				if(novaOsbRodada.getNrRodada().intValue() > 30 && novaOsbRodada.getNrRodada().intValue() < 38) { //RODADAS 31 a 37: os DOIS times com a piores pontuações de cada rodada, considerando apenas os que ainda não foram eliminados, são eliminados.					
+				if(novaOsbRodada.getNrRodada().intValue() > 29 && novaOsbRodada.getNrRodada().intValue() < 38) { //RODADAS 31 a 37: os DOIS times com a piores pontuações de cada rodada, considerando apenas os que ainda não foram eliminados, são eliminados.					
 					
 					OSBPontuacao osbPontuacaoEliminadoUltimo = novaOsbRodada.getListaOsbPontuacao().get(novaOsbRodada.getListaOsbPontuacao().size()-1);			
 					osbPontuacaoEliminadoUltimo.setSituacaoFinalRodada("ELIMINADO");				
@@ -223,6 +223,12 @@ public class OSBRodadaControl extends BaseControl {
 		}
 		
 		init();
+		
+		return null;
+	}
+	
+	public String btnOsbGerarDisputa3Lugar() {	
+		
 		
 		return null;
 	}

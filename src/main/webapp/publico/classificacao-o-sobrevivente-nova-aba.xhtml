@@ -73,28 +73,28 @@
 								<h:outputText value="#{var.nrRodada}ª rodada (#{'N'.equals(var.tipoRodada) ? 'PADRAO' : 'REPESCAGEM'}) #{'EA'.equals(var.statusRodada) ? 'EM ANDAMENTO' : ''}"/>	 			 		 
 							</f:facet>    						  
 		      			 					 
-		    			 	<p:column headerText="#" style="text-align: center; width: 45px; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 30 and var.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
+		    			 	<p:column headerText="#" style="text-align: center; width: 45px; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 29 and var.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
 						        <h:outputText value="#{rowIndex+1}" />
 						    </p:column>	
 						   
-						    <p:column headerText="Time" style="width: 150px; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 30 and var.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
+						    <p:column headerText="Time" style="width: 150px; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 29 and var.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
 						        <img src="#{item.osbRodadaTimeParticipante.time.urlEscudoPng}" alt="" style="width: 20px;"/> <h:outputText value="#{item.nomeTime}" />
 						    </p:column>							    						
 						    
-						    <p:column headerText="PG" style="text-align: center; width: 60px; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 30 and var.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
+						    <p:column headerText="PG" style="text-align: center; width: 60px; #{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 29 and var.nrRodada &lt; 39) ? 'background-color: #FFC0CB; color: black;' : ''}">
 						        <h:outputText value="#{item.vrPontuacao}" converter="decimal"/>
 						    </p:column>						
 						    
 						    <p:column headerText="Sit" style="text-align: center; width: 50px;" 
-						    		  rendered="#{(rowIndex+1 &lt; var.listaOsbPontuacao.size() and var.nrRodada &lt; 31) or (rowIndex+1 &lt; var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 30 and var.nrRodada &lt; 39)}">
+						    		  rendered="#{(rowIndex+1 &lt; var.listaOsbPontuacao.size() and var.nrRodada &lt; 30) or (rowIndex+1 &lt; var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 29 and var.nrRodada &lt; 39)}">
 						        <h:outputText value="C" rendered="#{var.nrRodada == 34}" title="Campeão"/>	
 						        <h:outputText value="C" rendered="#{var.nrRodada &lt; 34}" title="Classificado"/>
 						    </p:column>		
 						    
 						    <p:column headerText="Sit" style="text-align: center; width: 50px; background-color: #FFC0CB; color: black;"
-						   			  rendered="#{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 30 and var.nrRodada &lt; 39)}">
-						       <h:outputText value="E" rendered="#{var.nrRodada &lt; 34 or (var.nrRodada == 34 and rowIndex+1 == var.listaOsbPontuacao.size())}" title="Eliminado"/>	
-						       <h:outputText value="VC" rendered="#{var.nrRodada == 34 and rowIndex+1 == var.listaOsbPontuacao.size()-1}" title="Vice-Campeão"/>	
+						   			  rendered="#{rowIndex+1 == var.listaOsbPontuacao.size() or (rowIndex+1 == var.listaOsbPontuacao.size()-1 and var.nrRodada &gt; 29 and var.nrRodada &lt; 39)}">
+						       <h:outputText value="#{var.nrRodada == 34 ? 'VC' : 'E'}" rendered="#{var.nrRodada &lt; 34 or (var.nrRodada == 34 and rowIndex+1 == var.listaOsbPontuacao.size())}" title="Eliminado"/>	
+						       <h:outputText value="#{var.nrRodada == 34 ? 'C' : 'VC'}" rendered="#{var.nrRodada == 34 and rowIndex+1 == var.listaOsbPontuacao.size()-1}" title="Vice-Campeão"/>	
 						    </p:column>					 				    
 															   
 						</p:dataTable> 
