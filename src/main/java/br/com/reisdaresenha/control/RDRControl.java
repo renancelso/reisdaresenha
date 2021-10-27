@@ -616,7 +616,11 @@ public class RDRControl extends BaseControl {
 					}	
 				}
 			}
-		}
+		}				
+		
+		//Nesse ponto, já terá Campeões e Vices de cada série na Apertura e na Clausura. 
+		//Tem que definir mais 8 participantes da super copa a partir daqui.
+		
 		
 		listaRDRParticipantesCopa = rdrService.buscarRDRParticipantes("COPA", "COPA");
 	}
@@ -978,6 +982,7 @@ public class RDRControl extends BaseControl {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public String btnGerarParticipantesSerieCClausura() {
 		try {
 			

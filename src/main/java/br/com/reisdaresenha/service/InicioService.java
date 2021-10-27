@@ -367,5 +367,26 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     		return null;
     	}
 	}	
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+    public List<OSBPontuacao> buscarHistoricoClassificacaoOsbRodadasPorId(OSBRodada osbRodada) {		
+		try {
+			
+			StringBuilder sql = new StringBuilder();			
+			sql.append("select o from ").append(OSBPontuacao.class.getSimpleName()).append(" o where 1 = 1 ");
+			sql.append(" and o.osbRodada.id =" ).append(osbRodada.getId());		
+			sql.append(" order by o.id ");		
+			
+			List<OSBPontuacao> listaOSBPontuacao = new ArrayList<>();		
+			listaOSBPontuacao = (List<OSBPontuacao>) consultarPorQuery(sql.toString(), 0, 0);
+			
+			return listaOSBPontuacao;
+		} catch(Exception e) {
+    		log.error(e);
+    		return null;
+    	}
+	}	
 
 }

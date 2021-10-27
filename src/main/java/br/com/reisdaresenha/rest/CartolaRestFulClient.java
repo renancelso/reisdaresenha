@@ -2,6 +2,7 @@ package br.com.reisdaresenha.rest;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -100,6 +101,8 @@ public class CartolaRestFulClient {
 			endPoint = "https://api.cartolafc.globo.com/time/id/"+time.getIdCartola();
 		}
 		
+		JSONObject jsonAtletas = buscarPontuacaoRodadaAtual(nrRodada);
+		
 		HttpClient client = new HttpClient();		
 		GetMethod method = new GetMethod(endPoint);
 		
@@ -194,13 +197,43 @@ public class CartolaRestFulClient {
 					
 				timeRodadaDTO.setIdAtletasEscalados(new ArrayList<Long>());
 				
+				List<Long> listaPosicoesReservas = new ArrayList<Long>();
+				
 				if(jsonArray != null && !jsonArray.isEmpty()) {						
 					for (int i = 0; i < jsonArray.size(); i++) {					
 						JSONObject json = (JSONObject) jsonArray.get(i);						
-						Long idAtleta = (Long) json.get("atleta_id");					
-						timeRodadaDTO.getIdAtletasEscalados().add(idAtleta);
+						Long idAtleta = (Long) json.get("atleta_id");	
+												
+						if(jsonAtletas.containsKey(String.valueOf(idAtleta))) {							
+							timeRodadaDTO.getIdAtletasEscalados().add(idAtleta);
+						} else {	
+							if(!listaPosicoesReservas.contains(new Long(String.valueOf(json.get("posicao_id"))))) {
+								listaPosicoesReservas.add(new Long(String.valueOf(json.get("posicao_id"))));			
+							}
+						}
+						
+						
 					}			
 				}
+				
+				jsonArray = (JSONArray) jsonObject.get("reservas");
+				
+				if(jsonArray != null && !jsonArray.isEmpty()) {						
+					for (int i = 0; i < jsonArray.size(); i++) {					
+						
+						JSONObject json = (JSONObject) jsonArray.get(i);						
+						
+						Long idAtleta = (Long) json.get("atleta_id");
+						
+						Long posicao = new Long(String.valueOf(json.get("posicao_id")));
+						
+						if(listaPosicoesReservas.contains(posicao)) {
+							timeRodadaDTO.getIdAtletasEscalados().add(idAtleta);
+						}	
+						
+					}			
+				}
+				
 			}
 			
 			return timeRodadaDTO;		

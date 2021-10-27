@@ -52,6 +52,10 @@ public class OSBRodadaControl extends BaseControl {
 	private OSBRodada novaOsbRodada;
 	
 	private List<OSBRodadaTimeParticipante> listaOSBRodadaTimeParticipante;
+	
+	private OSBRodada osbRodada33;	
+	OSBRodadaTimeParticipante participante3Rodada34;	
+	OSBRodadaTimeParticipante participante4Rodada34;
 		
 	@PostConstruct
 	public void init() {			
@@ -74,7 +78,16 @@ public class OSBRodadaControl extends BaseControl {
 			for (OSBRodada osbRodada : listaOsbRodadas) {
 				osbRodada.setListaOsbPontuacao(new ArrayList<OSBPontuacao>());	
 				osbRodada.setListaOsbPontuacao(listarClassificacaoHistoricoOsbRodadas(osbRodada));
+				if(osbRodada.getNrRodada() == 34) {
+					osbRodada.setListaOsbPontuacao(inicioService.buscarHistoricoClassificacaoOsbRodadasPorId(osbRodada));
+				}
 			}		
+			
+			if(novaOsbRodada.getNrRodada() == 34) {
+				osbRodada33 = listaOsbRodadas.get(0);
+				osbRodada33.setListaOsbPontuacao(listarClassificacaoHistoricoOsbRodadas(osbRodada33));		
+				novaOsbRodada.setListaOsbPontuacao(inicioService.buscarHistoricoClassificacaoOsbRodadasPorId(novaOsbRodada));
+			}				
 			
 		} catch (Exception e) {
 			log.error("Erro no método init "+e.getMessage());			
@@ -229,7 +242,39 @@ public class OSBRodadaControl extends BaseControl {
 	
 	public String btnOsbGerarDisputa3Lugar() {	
 		
+		OSBPontuacao osbPontuacao3 =  osbRodada33.getListaOsbPontuacao().get(2);
+		OSBPontuacao osbPontuacao4 =  osbRodada33.getListaOsbPontuacao().get(3);
+				
+		participante3Rodada34 = new OSBRodadaTimeParticipante();		
+		participante3Rodada34.setTime(osbPontuacao3.getOsbRodadaTimeParticipante().getTime());
+		participante3Rodada34.setIdTimeCartola(osbPontuacao3.getOsbRodadaTimeParticipante().getIdTimeCartola());
+		participante3Rodada34.setNomeTime(osbPontuacao3.getOsbRodadaTimeParticipante().getNomeTime());
+		participante3Rodada34.setOsbRodada(novaOsbRodada);	
+		participante3Rodada34 = (OSBRodadaTimeParticipante) timeService.atualizar(participante3Rodada34);
+				
+		OSBPontuacao pontuacao = new OSBPontuacao();	
+		pontuacao.setOsbRodadaTimeParticipante(participante3Rodada34);
+		pontuacao.setNomeTime(participante3Rodada34.getNomeTime());
+		pontuacao.setOsbRodada(novaOsbRodada);							
+		pontuacao.setVrPontuacao(0d);		
+		pontuacao = (OSBPontuacao) timeService.atualizar(pontuacao);
+
+		participante4Rodada34 = new OSBRodadaTimeParticipante();		
+		participante4Rodada34.setTime(osbPontuacao4.getOsbRodadaTimeParticipante().getTime());
+		participante4Rodada34.setIdTimeCartola(osbPontuacao4.getOsbRodadaTimeParticipante().getIdTimeCartola());
+		participante4Rodada34.setNomeTime(osbPontuacao4.getOsbRodadaTimeParticipante().getNomeTime());
+		participante4Rodada34.setOsbRodada(novaOsbRodada);	
+		participante4Rodada34 = (OSBRodadaTimeParticipante) timeService.atualizar(participante4Rodada34);
 		
+		pontuacao = new OSBPontuacao();	
+		pontuacao.setOsbRodadaTimeParticipante(participante4Rodada34);
+		pontuacao.setNomeTime(participante4Rodada34.getNomeTime());
+		pontuacao.setOsbRodada(novaOsbRodada);							
+		pontuacao.setVrPontuacao(0d);		
+		pontuacao = (OSBPontuacao) timeService.atualizar(pontuacao);
+		
+		init();
+						
 		return null;
 	}
 	
@@ -674,6 +719,30 @@ public class OSBRodadaControl extends BaseControl {
 
 	public void setListaRodadasLigaPrincipal(List<Rodada> listaRodadasLigaPrincipal) {
 		this.listaRodadasLigaPrincipal = listaRodadasLigaPrincipal;
-	}		
+	}
+
+	public OSBRodada getOsbRodada33() {
+		return osbRodada33;
+	}
+
+	public void setOsbRodada33(OSBRodada osbRodada33) {
+		this.osbRodada33 = osbRodada33;
+	}
+
+	public OSBRodadaTimeParticipante getParticipante3Rodada34() {
+		return participante3Rodada34;
+	}
+
+	public void setParticipante3Rodada34(OSBRodadaTimeParticipante participante3Rodada34) {
+		this.participante3Rodada34 = participante3Rodada34;
+	}
+
+	public OSBRodadaTimeParticipante getParticipante4Rodada34() {
+		return participante4Rodada34;
+	}
+
+	public void setParticipante4Rodada34(OSBRodadaTimeParticipante participante4Rodada34) {
+		this.participante4Rodada34 = participante4Rodada34;
+	}
 
 }

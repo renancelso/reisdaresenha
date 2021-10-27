@@ -75,6 +75,10 @@ public class InicioControl extends BaseControl {
 			for (OSBRodada osbRodada : listaOsbRodadas) {
 				osbRodada.setListaOsbPontuacao(new ArrayList<OSBPontuacao>());	
 				osbRodada.setListaOsbPontuacao(inicioService.buscarHistoricoClassificacaoOsbRodadas(osbRodada));
+				
+				if(osbRodada.getNrRodada() == 34) {
+					osbRodada.setListaOsbPontuacao(inicioService.buscarHistoricoClassificacaoOsbRodadasPorId(osbRodada));
+				}
 			}	
 			
 			strTimesCopaDoBrasilCartolaBelem = "";
@@ -84,6 +88,7 @@ public class InicioControl extends BaseControl {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void listarClassificacaoLigaPrincipal() {		
 		
 		listaClassificacaoLigaPrincipalDTO = new ArrayList<>();

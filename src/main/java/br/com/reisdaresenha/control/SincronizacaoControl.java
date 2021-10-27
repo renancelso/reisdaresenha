@@ -58,6 +58,7 @@ public class SincronizacaoControl extends BaseControl {
 	
 	private List<Time> listaTimesQueEstaoNoSistemaENaoEstaoNaLigaNoCartola;
 	
+	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {
 		
