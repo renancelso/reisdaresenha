@@ -368,7 +368,6 @@ public class RDRControl extends BaseControl {
 						
 						rdrCopaPontuacao = (RDRCopaPontuacao) rdrService.atualizar(rdrCopaPontuacao);
 						
-						atualizarPontuacaoRodadaCopa(rdrCopaPontuacao);
 					}
 				
 				}
