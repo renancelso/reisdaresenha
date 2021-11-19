@@ -25,10 +25,10 @@
           			          		         								
 					<p:repeat var="rdrCopa" value="#{rdrControl.listaRDRCopa}">
 					
-						<h:panelGroup rendered="#{rdrCopa.nrJogoCopa == 1 or rdrCopa.nrJogoCopa == 5 or rdrCopa.nrJogoCopa == 7 or rdrCopa.nrJogoCopa == 9}">
-							<h:outputText value="#{'QF'.equals(rdrCopa.fase) ? 'QUARTAS DE FINAL' 
-												 								: 'SFI'.equals(rdrCopa.fase) ? 'SEMI-FINAL - IDA'
-												 								: 'SFV'.equals(rdrCopa.fase) ? 'SEMI-FINAL - VOLTA'
+						<h:panelGroup rendered="#{rdrCopa.nrJogoCopa == 1 or rdrCopa.nrJogoCopa == 9 or rdrCopa.nrJogoCopa == 13 or rdrCopa.nrJogoCopa == 15}">
+							<h:outputText value="#{'OF'.equals(rdrCopa.fase) ? 'OITAVAS DE FINAL' 
+																				: 'QF'.equals(rdrCopa.fase) ? 'QUARTAS DE FINAL' 
+												 								: 'SF'.equals(rdrCopa.fase) ? 'SEMI-FINAL'
 																				: 'F'.equals(rdrCopa.fase) ? 'FINAL': ''} " 
 							 		  	  style="font-weight: bold; font-size: 16px; font-weight: bold;"/>
 										    	 
@@ -61,7 +61,7 @@
 			 		  				<h:outputText value="(#{rdrCopa.vrPontuacaoTimeCasa}) " style="font-weight: bold;"/>	
 				 		  			<h:outputText value="#{rdrCopa.nomeTimeCasa}" style="font-weight: bold;"/> 
 				 		  			<img src="#{rdrCopa.rdrParticipanteTimeCasa.time.urlEscudoPng}" alt="" style="width: 20px;"/> 
-				 		  			<h:inputText value="#{rdrCopa.vrPontuacaoTimeCasaArredondada.intValue()}" style="width: 40px; text-align: center; font-weight: bold;" readonly="true"/>		
+				 		  			<h:inputText value="#{rdrCopa.vrPontuacaoTimeCasaArredondada}" style="width: 50px; text-align: center; font-weight: bold;" readonly="true"/>		
 			 		  			</h:panelGroup>
 			 		  			
 			 		  			<h:panelGroup rendered="#{rdrCopa.rdrParticipanteTimeCasa == null}">
@@ -82,7 +82,7 @@
 			 		  			</h:panelGroup>	
 		 		  							
 		 		  				<h:panelGroup rendered="#{rdrCopa.rdrParticipanteTimeFora != null}">				 		  			
-				 		  			<h:inputText value="#{rdrCopa.vrPontuacaoTimeForaArredondada.intValue()}" style="width: 40px; text-align: center; font-weight: bold;" readonly="true"/>			
+				 		  			<h:inputText value="#{rdrCopa.vrPontuacaoTimeForaArredondada}" style="width: 50px; text-align: center; font-weight: bold;" readonly="true"/>			
 				 		  			<img src="#{rdrCopa.rdrParticipanteTimeFora.time.urlEscudoPng}" alt="" style="width: 20px;"/> 			 		  			
 				 		  			<h:outputText value="#{rdrCopa.nomeTimeFora}" style="font-weight: bold;"/>	
 				 		  			<h:outputText value=" (#{rdrCopa.vrPontuacaoTimeFora})"  style="font-weight: bold;"/>	
@@ -94,11 +94,13 @@
 	 		  								 		  			
 	 		  			<br/>	
 	 		  			
-	 		  			<h:panelGroup rendered="#{rdrCopa.nrJogoCopa == 4 or rdrCopa.nrJogoCopa == 6 or rdrCopa.nrJogoCopa == 8}">
+	 		  			
+	 		  			<h:panelGroup rendered="#{rdrCopa.nrJogoCopa == 8 or rdrCopa.nrJogoCopa == 14 or rdrCopa.nrJogoCopa == 16}">
 	 		  				<hr/>
 	 		  				<hr/>	 		
 	 		  				<hr/>  			
 	 		  			</h:panelGroup>
+	 		  			
 	 		  				 		  		
 	 		  						 		  				 		  							 		  		
 	 		  		</p:repeat>

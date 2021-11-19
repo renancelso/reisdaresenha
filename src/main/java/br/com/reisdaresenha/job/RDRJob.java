@@ -651,7 +651,7 @@ public class RDRJob implements Job {
 		
 		listaClassificacaoLigaPrincipalDTO = inicioService.buscarHistoricoClassificacaoRodadas(anoAtual, rdrCopa.getNrRodadaCartola());	
 				
-		if(rdrCopa.getNrJogoCopa() < 9) {
+		if(rdrCopa.getNrJogoCopa() < 15) {
 		
 			if(listaClassificacaoLigaPrincipalDTO != null && !listaClassificacaoLigaPrincipalDTO.isEmpty()) {			
 				
@@ -663,18 +663,14 @@ public class RDRJob implements Job {
 						
 						rdrCopa.setVrPontuacaoTimeCasa(classificacaoPrincipalRodadaDTO.getPontuacao());					
 						
-						rdrCopa.setVrPontuacaoTimeCasaArredondada(
-								arredondarValorDonoDaCasa(classificacaoPrincipalRodadaDTO.getPontuacao()) //ARREDONDAMENTO DENTRO DE CASA
-								);					
+						rdrCopa.setVrPontuacaoTimeCasaArredondada(classificacaoPrincipalRodadaDTO.getPontuacao());					
 					}
 					
 					if(rdrCopa.getRdrParticipanteTimeFora().getTime().getId().equals(time.getId())) {
 						
 						rdrCopa.setVrPontuacaoTimeFora(classificacaoPrincipalRodadaDTO.getPontuacao());				
 						
-						rdrCopa.setVrPontuacaoTimeForaArredondada(
-								arredondarValorVisitante(classificacaoPrincipalRodadaDTO.getPontuacao()) //ARREDONDAMENTO FORA DE CASA
-								);					
+						rdrCopa.setVrPontuacaoTimeForaArredondada(classificacaoPrincipalRodadaDTO.getPontuacao());					
 					}					
 									
 					rdrCopa = (RDRCopaPontuacao) rdrService.atualizar(rdrCopa);		
@@ -688,7 +684,7 @@ public class RDRJob implements Job {
 				log.error(rdrCopa.getNrRodadaCartola()+"ª Rodada Principal do Cartola FC ainda nao está em andamento");			
 			}
 		
-		} else if(rdrCopa.getNrJogoCopa().intValue() == 9 && rdrCopa.getNrRodadaCartola().intValue() == 38) {
+		} else if(rdrCopa.getNrJogoCopa().intValue() == 15 && rdrCopa.getNrRodadaCartola().intValue() == 38) {
 				
 			if(listaClassificacaoLigaPrincipalDTO != null && !listaClassificacaoLigaPrincipalDTO.isEmpty()) {			
 				

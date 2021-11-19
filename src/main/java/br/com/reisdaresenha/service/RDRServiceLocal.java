@@ -47,5 +47,7 @@ public interface RDRServiceLocal extends GenericServiceInterface {
 	public List<RDRRodada> buscarRDRRodadaPorRodadaDaLigaPrincipal(Long nrRodadaLigaPrincipal);		
 	
 	public String buscarTodasAsPontuacoesNoServicoCartolaFC(RodadaServiceLocal rodadaService, ParametroServiceLocal parametroService, CartolaRestFulClient servicoCartola, Rodada rodadaEmAndamento, List<Pontuacao> listaPontuacao);
+
+	public RDRParticipante buscarRDRParticipantePorIdCartola(Long idTimeCartola);
 		
 }

@@ -78,6 +78,27 @@ public class InicioControl extends BaseControl {
 				
 				if(osbRodada.getNrRodada() == 34) {
 					osbRodada.setListaOsbPontuacao(inicioService.buscarHistoricoClassificacaoOsbRodadasPorId(osbRodada));
+					
+					OSBPontuacao colocado1 = osbRodada.getListaOsbPontuacao().get(0);
+					OSBPontuacao colocado2 = osbRodada.getListaOsbPontuacao().get(1);
+					OSBPontuacao colocado3 = osbRodada.getListaOsbPontuacao().get(2);
+					OSBPontuacao colocado4 = osbRodada.getListaOsbPontuacao().get(3);
+					
+					if(colocado2.getVrPontuacao() > colocado1.getVrPontuacao()) {
+						osbRodada.getListaOsbPontuacao().set(0, colocado2);
+						osbRodada.getListaOsbPontuacao().set(1, colocado1);
+					} else {
+						osbRodada.getListaOsbPontuacao().set(0, colocado1);
+						osbRodada.getListaOsbPontuacao().set(1, colocado2);
+					}				
+
+					if(colocado4.getVrPontuacao() > colocado3.getVrPontuacao()) {
+						osbRodada.getListaOsbPontuacao().set(2, colocado4);
+						osbRodada.getListaOsbPontuacao().set(3, colocado3);
+					} else {
+						osbRodada.getListaOsbPontuacao().set(2, colocado3);
+						osbRodada.getListaOsbPontuacao().set(3, colocado4);
+					}
 				}
 			}	
 			

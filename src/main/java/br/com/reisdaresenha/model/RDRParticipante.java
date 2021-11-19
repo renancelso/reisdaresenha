@@ -90,7 +90,11 @@ public class RDRParticipante implements Serializable {
 	}
 
 	public String getNomeTime() {
-		return nomeTime;
+		if(nomeTime != null)
+			return nomeTime;
+		else 
+			return null;
+		
 	}
 
 	public void setNomeTime(String nomeTime) {

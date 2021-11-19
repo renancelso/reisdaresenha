@@ -78,8 +78,29 @@ public class OSBRodadaControl extends BaseControl {
 			for (OSBRodada osbRodada : listaOsbRodadas) {
 				osbRodada.setListaOsbPontuacao(new ArrayList<OSBPontuacao>());	
 				osbRodada.setListaOsbPontuacao(listarClassificacaoHistoricoOsbRodadas(osbRodada));
-				if(osbRodada.getNrRodada() == 34) {
+				if(osbRodada.getNrRodada() >= 34) {
 					osbRodada.setListaOsbPontuacao(inicioService.buscarHistoricoClassificacaoOsbRodadasPorId(osbRodada));
+					
+					OSBPontuacao colocado1 = osbRodada.getListaOsbPontuacao().get(0);
+					OSBPontuacao colocado2 = osbRodada.getListaOsbPontuacao().get(1);
+					OSBPontuacao colocado3 = osbRodada.getListaOsbPontuacao().get(2);
+					OSBPontuacao colocado4 = osbRodada.getListaOsbPontuacao().get(3);
+					
+					if(colocado2.getVrPontuacao() > colocado1.getVrPontuacao()) {
+						osbRodada.getListaOsbPontuacao().set(0, colocado2);
+						osbRodada.getListaOsbPontuacao().set(1, colocado1);
+					} else {
+						osbRodada.getListaOsbPontuacao().set(0, colocado1);
+						osbRodada.getListaOsbPontuacao().set(1, colocado2);
+					}				
+
+					if(colocado4.getVrPontuacao() > colocado3.getVrPontuacao()) {
+						osbRodada.getListaOsbPontuacao().set(2, colocado4);
+						osbRodada.getListaOsbPontuacao().set(3, colocado3);
+					} else {
+						osbRodada.getListaOsbPontuacao().set(2, colocado3);
+						osbRodada.getListaOsbPontuacao().set(3, colocado4);
+					}
 				}
 			}		
 			
@@ -87,6 +108,28 @@ public class OSBRodadaControl extends BaseControl {
 				osbRodada33 = listaOsbRodadas.get(0);
 				osbRodada33.setListaOsbPontuacao(listarClassificacaoHistoricoOsbRodadas(osbRodada33));		
 				novaOsbRodada.setListaOsbPontuacao(inicioService.buscarHistoricoClassificacaoOsbRodadasPorId(novaOsbRodada));
+								
+				OSBPontuacao colocado1 = novaOsbRodada.getListaOsbPontuacao().get(0);
+				OSBPontuacao colocado2 = novaOsbRodada.getListaOsbPontuacao().get(1);
+				OSBPontuacao colocado3 = novaOsbRodada.getListaOsbPontuacao().get(2);
+				OSBPontuacao colocado4 = novaOsbRodada.getListaOsbPontuacao().get(3);
+				
+				if(colocado2.getVrPontuacao() > colocado1.getVrPontuacao()) {
+					novaOsbRodada.getListaOsbPontuacao().set(0, colocado2);
+					novaOsbRodada.getListaOsbPontuacao().set(1, colocado1);
+				} else {
+					novaOsbRodada.getListaOsbPontuacao().set(0, colocado1);
+					novaOsbRodada.getListaOsbPontuacao().set(1, colocado2);
+				}				
+
+				if(colocado4.getVrPontuacao() > colocado3.getVrPontuacao()) {
+					novaOsbRodada.getListaOsbPontuacao().set(2, colocado4);
+					novaOsbRodada.getListaOsbPontuacao().set(3, colocado3);
+				} else {
+					novaOsbRodada.getListaOsbPontuacao().set(2, colocado3);
+					novaOsbRodada.getListaOsbPontuacao().set(3, colocado4);
+				}
+				
 			}				
 			
 		} catch (Exception e) {
@@ -222,7 +265,7 @@ public class OSBRodadaControl extends BaseControl {
 			}
 			
 			Collections.sort(novaOsbRodada.getListaOsbPontuacao());
-			
+									
 			addInfoMessage("Pontuacao da "+novaOsbRodada.getNrRodada()+"ª rodada atualizada com sucesso");
 			
 			init();

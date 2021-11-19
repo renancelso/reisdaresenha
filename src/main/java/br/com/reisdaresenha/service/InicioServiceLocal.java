@@ -35,5 +35,9 @@ public interface InicioServiceLocal extends GenericServiceInterface{
 	public List<ClassificacaoLigaPrincipalDTO> buscarPontuacaoLigaPrincipalTimeAteRodadaX(Integer ano, Time time, Integer nrRodada);
 
 	public List<OSBPontuacao> buscarHistoricoClassificacaoOsbRodadasPorId(OSBRodada osbRodada);
+
+	public List<ClassificacaoLigaPrincipalDTO> buscarClassificacaoLigaPrincipalSemOsClassificadosDaCopa(Integer ano);
+
+	public List<ClassificacaoLigaPrincipalDTO> buscarClassificacaoLigaPrincipalSoCopa(Integer ano);
 	
 }

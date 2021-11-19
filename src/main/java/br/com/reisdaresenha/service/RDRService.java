@@ -54,6 +54,29 @@ public class RDRService extends GenericService implements RDRServiceLocal {
 	
 	@SuppressWarnings("unchecked")
 	@Override
+	public RDRParticipante buscarRDRParticipantePorIdCartola(Long idTimeCartola) {		
+		
+		try {
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("select o from ").append(RDRParticipante.class.getSimpleName()).append(" o where 1=1 ");
+			sql.append(" and o.idTimeCartola = ").append(idTimeCartola);  
+			
+			List<RDRParticipante> listaRDRParticipantes = (List<RDRParticipante>) consultarPorQuery(sql.toString(), 0, 0);
+					
+			if(listaRDRParticipantes != null && !listaRDRParticipantes.isEmpty()) {
+				return listaRDRParticipantes.get(0); 	 
+			}
+			
+			return null;
+			
+		} catch (Exception e) {			
+			return null;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
 	public RDRParticipante buscarRDRParticipantesCopaPorClassificacaoFinal(String fase, String serie, String classFinal) {		
 		
 		try {
