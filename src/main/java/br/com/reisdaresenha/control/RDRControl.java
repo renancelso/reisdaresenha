@@ -272,7 +272,7 @@ public class RDRControl extends BaseControl {
 				List<ClassificacaoLigaPrincipalDTO> listaClassificados = new ArrayList<ClassificacaoLigaPrincipalDTO>();
 				listaClassificados = inicioService.buscarClassificacaoLigaPrincipalSoCopa(anoAtual);
 				
-				if(listaClassificados.get(0).getJogos().equals(34)) {
+				if(listaClassificados.get(0).getJogos().intValue() >= 34) {
 				
 					for (int i = 0; i < listaRDRCopa.size(); i++) {
 						
@@ -412,7 +412,7 @@ public class RDRControl extends BaseControl {
 					}
 				}
 					
-				if(campeaoOSobrevivente != null) {
+				if(campeaoOSobrevivente == null) {
 					//Buscar Participantes da Liga O Sobrevivente
 					List<OSBRodada> listaOsbRodada = new ArrayList<OSBRodada>();				
 					listaOsbRodada = rodadaService.listarTODASOsbRodadasDesc(buscarLigaOSobrevivente());				
@@ -505,34 +505,33 @@ public class RDRControl extends BaseControl {
 							
 							lista.add(rdrParticipante);
 						}
-					
-					
-					}				
-					List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTOSemOsClassificadosDaCopa = new ArrayList<ClassificacaoLigaPrincipalDTO>();		
-					
-					Integer anoAtual = 2021;//Calendar.getInstance().get(Calendar.YEAR);
-					listaClassificacaoLigaPrincipalDTOSemOsClassificadosDaCopa = (inicioService.buscarClassificacaoLigaPrincipalSemOsClassificadosDaCopa(anoAtual));	
 						
-					if(listaClassificacaoLigaPrincipalDTOSemOsClassificadosDaCopa.get(0).getJogos().equals(34)) {
-						int qtdVagasRestantes =  16 - lista.size();
+						List<ClassificacaoLigaPrincipalDTO> listaClassificacaoLigaPrincipalDTOSemOsClassificadosDaCopa = new ArrayList<ClassificacaoLigaPrincipalDTO>();		
 						
-						for (int i = 0; i < qtdVagasRestantes; i++) {
+						Integer anoAtual = 2021;//Calendar.getInstance().get(Calendar.YEAR);
+						listaClassificacaoLigaPrincipalDTOSemOsClassificadosDaCopa = (inicioService.buscarClassificacaoLigaPrincipalSemOsClassificadosDaCopa(anoAtual));	
 							
-							RDRParticipante rdrParticipante = new RDRParticipante();
+						if(listaClassificacaoLigaPrincipalDTOSemOsClassificadosDaCopa.get(0).getJogos().intValue() >= 34) {
+							int qtdVagasRestantes =  16 - lista.size();
 							
-							rdrParticipante.setEstaNaCopa(true);
-							rdrParticipante.setFaseLiga("COPA");
-							rdrParticipante.setIdTimeCartola(listaClassificacaoLigaPrincipalDTOSemOsClassificadosDaCopa.get(i).getIdTimeCartola());
-							rdrParticipante.setNomeTime(listaClassificacaoLigaPrincipalDTOSemOsClassificadosDaCopa.get(i).getTime());
-							rdrParticipante.setSerieParticipante("COPA");
-							rdrParticipante.setTime(timeService.buscarTimePorIdCartola(listaClassificacaoLigaPrincipalDTOSemOsClassificadosDaCopa.get(i).getIdTimeCartola()));			
-							rdrParticipante.setClassificacaoFinalParaCopa((i+1)+"-GERAL");
-							
-							rdrService.atualizar(rdrParticipante);
-							
-							lista.add(rdrParticipante);
-						}					
-					}	
+							for (int i = 0; i < qtdVagasRestantes; i++) {
+								
+								RDRParticipante rdrParticipante = new RDRParticipante();
+								
+								rdrParticipante.setEstaNaCopa(true);
+								rdrParticipante.setFaseLiga("COPA");
+								rdrParticipante.setIdTimeCartola(listaClassificacaoLigaPrincipalDTOSemOsClassificadosDaCopa.get(i).getIdTimeCartola());
+								rdrParticipante.setNomeTime(listaClassificacaoLigaPrincipalDTOSemOsClassificadosDaCopa.get(i).getTime());
+								rdrParticipante.setSerieParticipante("COPA");
+								rdrParticipante.setTime(timeService.buscarTimePorIdCartola(listaClassificacaoLigaPrincipalDTOSemOsClassificadosDaCopa.get(i).getIdTimeCartola()));			
+								rdrParticipante.setClassificacaoFinalParaCopa((i+1)+"-GERAL");
+								
+								rdrService.atualizar(rdrParticipante);
+								
+								lista.add(rdrParticipante);
+							}					
+						}	
+					}
 				}
 			}			
 		}
