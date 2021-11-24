@@ -411,6 +411,7 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     		sql.append(" inner join rodada r on p.rodada = r.id ");
     		sql.append(" where l.ano = ").append(ano);
     		sql.append(" AND t.id_cartola not in (SELECT id_time_cartola FROM rdrparticipante r where fase_liga = 'COPA') ");
+    		sql.append(" and r.nr_rodada <= 34 ");  
     		sql.append(" group by t.nome_time ");
     		sql.append(" order by sum(vr_pontuacao) desc ");
     		    		
@@ -464,6 +465,7 @@ public class InicioService extends GenericService implements InicioServiceLocal 
     		sql.append(" inner join rodada r on p.rodada = r.id ");
     		sql.append(" where l.ano = ").append(ano);
     		sql.append(" AND t.id_cartola in (SELECT id_time_cartola FROM rdrparticipante r where fase_liga = 'COPA') ");
+    		sql.append(" and r.nr_rodada <= 34 ");  
     		sql.append(" group by t.nome_time ");
     		sql.append(" order by sum(vr_pontuacao) desc ");
     		    		
